@@ -1,0 +1,11 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Hardware}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Accessing HPC-Batch}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{Installing PyORBIT on HPC-Batch}{}% 4
+\BOOKMARK [1][-]{section.3}{Job Submission}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Slurm Commands}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Slurm Script Commands}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Scripts}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{HPC-Batch Custom Environment}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.2}{PyORBIT Installation}{section.4}% 10
+\BOOKMARK [1][-]{section.5}{Run Times}{}% 11
