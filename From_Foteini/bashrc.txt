@@ -1,0 +1,53 @@
+# .bashrc
+ 
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+. /etc/bashrc
+fi
+ 
+PATH=$PATH:/afs/cern.ch/group/si/slap/bin/
+#export DISPLAY=localhost:0.0
+ 
+# User specific aliases and functions
+ 
+alias matlab='source /afs/cern.ch/project/parc/matlabr2015b/cern/matlab.sh'
+alias madx1='/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64'
+ 
+# export ORBIT_ROOT=/afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit/
+# export ORBIT_ROOT=/afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_SLC5_rev1191_2014_04_21_dev/
+# export ORBIT_ROOT=/afs/cern.ch/user/s/spsspch/pyOrbit/py-orbit_revison1231_withSliceBySlice2D_and_FrozenSC/
+#export ORBIT_ROOT=/afs/cern.ch/user/s/spsspch/pyOrbit/py-orbit_dev/
+export ORBIT_ROOT=/afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC
+export ORBIT_ARCH=LINUX
+#export PYTHON_VERSION=2.6.6
+#export PYTHON_ROOT_LIB=/usr/lib64/libpython2.6.so
+#export PYTHON_ROOT_INC=/usr/include/python2.6/
+export PYTHON_VERSION=2.7.13
+export PYTHON_ROOT_LIB=/afs/cern.ch/user/n/nkarast2/work/public/miniconda2/lib/libpython2.7.so
+export PYTHON_ROOT_INC=/afs/cern.ch/user/n/nkarast2/work/public/miniconda2/include/python2.7/
+ 
+ 
+export FFTW3_ROOT=/usr/lib64
+export MPI_CPP=/afs/cern.ch/project/lhcnap/public/public_html/Source/space_charge/Codes/mpich2-1.4.1p1/bin/mpicc
+ 
+ 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ORBIT_ROOT}lib:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013_sp1.2.144/compiler/lib/intel64
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/afs/cern.ch/project/lhcnap/public/public_html/Source/space_charge/Codes/mpich-3.0/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/afs/cern.ch/project/lhcnap/public/public_html/Source/space_charge/Codes/mpich2-1.4.1p1/bin/mpicc
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/afs/cern.ch/project/lhcnap/public/public_html/Source/space_charge/Codes/mpich-3.0/lib:${ORBIT_ROOT}lib:/afs/cern.ch/sw/IntelSoftware/linux/x86_64/xe2013/composer_xe_2013_sp1.2.144/compiler/lib/intel64:/usr/lib64/mpich/lib/
+ 
+export PYTHONPATH=${PYTHONPATH}:${ORBIT_ROOT}/py:${ORBIT_ROOT}/lib
+ 
+export PATH=$PATH:${ORBIT_ROOT}bin
+ 
+ 
+. /afs/cern.ch/work/k/kli/public/venv_py26_slc5/bin/activate
+. /afs/cern.ch/work/k/kli/public/venv_py27_slc6/bin/activate
+alias py27='source /afs/cern.ch/sw/lcg/external/gcc/4.8.4/x86_64-slc6-gcc48-opt/setup.sh & export LD_LIBRARY_PATH=/afs/cern.ch/sw/lcg/contrib/gcc/4.8.1/x86_64-slc6-gcc48-opt/lib64 & source /afs/cern.ch/user/n/nkarast2/work/public/virtualenvs/py27/bin/activate'
+ 
+export PATH='/afs/cern.ch/user/p/pyhdtl/public/anaconda/bin':$PATH
+export LD_LIBRARY_PATH='/afs/cern.ch/work/k/kli/public/local/lib':$LD_LIBRARY_PATH
+export PYTHONPATH='/afs/cern.ch/user/p/pyhdtl/public/lib/':$PYTHONPATH
+# source /afs/cern.ch/sw/IntelSoftware/linux/setup.sh
+# source /afs/cern.ch/sw/IntelSoftware/linux/x86_64/Compiler/11.0/083/bin/ifortvars.sh intel64
+# source /afs/cern.ch/sw/IntelSoftware/linux/x86_64/Compiler/11.1/072/bin/iccvars.sh intel64
