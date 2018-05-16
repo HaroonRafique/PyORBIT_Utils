@@ -1,3 +1,8 @@
+# Plots the poincare sections in 5 phase spaces
+# x-y x-xp y-yp xp-yp z-dE
+# Over many turns.
+# Uses all files in a directory with a .mat extension
+
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
@@ -38,7 +43,7 @@ for subdir, dirs, files in os.walk(rootdir):
     for file in files:
         ext = os.path.splitext(file)[-1].lower()
         if ext in extensions:
-            # ~ print (os.path.join(subdir, file))        # full path to file
+            print (os.path.join(subdir, file))        # full path to file
             filename = file.replace('_','.')            # replace _ with a .
             fileno = int(filename.split('.')[1])        # use turn number as a key
             iterators.append(fileno)
@@ -99,7 +104,7 @@ fig1.subplots_adjust(wspace=0.3, hspace=0.3, left=0.1, right=0.99, top=0.95, bot
 # Use iterators so that if turns recorded are not continuous
 # integers, we still go through every file in the directory
 no_input_files = len(iterators)
-points_per_file = len(d[0]['particles']['x'][0][0][0])
+points_per_file = len(d[1]['particles']['x'][0][0][0])
 points_per_plot = no_input_files * points_per_file
 total_points = 5 * points_per_plot
 print '\nPlotting xy, please be patient.\nRemember we\'re plotting ',points_per_file,' points, for ',no_input_files,' files!\nThats ',points_per_plot,' points in total for each of the 5 plots.\nThat\'s a grand total of ', total_points,'!!!'
