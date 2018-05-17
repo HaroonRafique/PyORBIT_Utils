@@ -149,7 +149,7 @@ saveBunchAsMatfile(bunch, "output/mainbunch_-000001")
 ## EXIT ##
 ##########
 
-# ~ sys.exit()
+sys.exit()
 
 lostbunch = Bunch()
 bunch.copyEmptyBunchTo(lostbunch)
