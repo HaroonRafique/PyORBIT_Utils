@@ -202,7 +202,7 @@ save,file='./SIS18/SIS18.seq';
 
 use, sequence=SIS18;
 select, flag=twiss, column=NAME, KEYWORD, S, L, X, Y, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY, DPX, DPY;
-twiss,  sequence=SIS18, file=twiss_SIS18.tfs; save;
+!twiss,  sequence=SIS18, file=twiss_SIS18.tfs; save;
 
 
 value, pc, beam->pc, beam->energy;
@@ -254,5 +254,5 @@ ptc_end;
 
 use, sequence=SIS18;
 select, flag=twiss, column=NAME, KEYWORD, S, L, X, Y, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY, DPX, DPY;
-twiss,  sequence=SIS18, file=twiss_SIS18_matched.tfs; save;
+!twiss,  sequence=SIS18, file=twiss_SIS18_matched.tfs; save;
 
