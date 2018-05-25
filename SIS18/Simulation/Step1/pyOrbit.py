@@ -145,7 +145,7 @@ paramsDict["bunch"]= bunch
 # Add space charge nodes
 #----------------------------------------------------
 if space_charge_on:
-        print '\nAdding space charge nodes ...'
+        print '\nAdding space charge nodes ... '
         # Make a SC solver
         sizeX = 32
         sizeY = 32
