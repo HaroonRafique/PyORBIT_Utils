@@ -156,7 +156,7 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 
 	return output_file
 
-def generate_initial_poincare_distribution(parameters, Lattice,output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+def generate_initial_poincare_distribution(n_sigma, parameters, Lattice,output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
 	parameters['alphax0'] = Lattice.alphax0
 	parameters['betax0']  = Lattice.betax0
 	parameters['alphay0'] = Lattice.alphay0
@@ -203,16 +203,18 @@ def generate_initial_poincare_distribution(parameters, Lattice,output_file = 'In
 			for i in range(parameters['n_macroparticles']):
 				(phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
 				# ~ (x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
-				(x[i], xp[i]) = Transverse_distribution.getCoordinates()
-				x[i] += closedOrbitx['x0']
-				xp[i] += closedOrbitx['xp0']
-				y[i] += closedOrbity['y0']
-				yp[i] += closedOrbity['yp0']
-				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
-				x[i] += dpp * dispersionx['etax0']
-				xp[i] += dpp * dispersionx['etapx0']	
-				y[i] += dpp * dispersiony['etay0']
-				yp[i] += dpp * dispersiony['etapy0']	
+				# ~ (x[i], xp[i]) = Transverse_distribution.getCoordinates()
+                                # x = 0 - 4 sigma (sqrt(beta*epsilon))
+                                x[i] = random.uniform(0., n_sigma) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
+				# ~ x[i] += closedOrbitx['x0']
+				# ~ xp[i] += closedOrbitx['xp0']
+				# ~ y[i] += closedOrbity['y0']
+				# ~ yp[i] += closedOrbity['yp0']
+				# ~ dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
+				# ~ x[i] += dpp * dispersionx['etax0']
+				# ~ xp[i] += dpp * dispersionx['etapx0']	
+				# ~ y[i] += dpp * dispersiony['etay0']
+				# ~ yp[i] += dpp * dispersiony['etapy0']	
 				
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.

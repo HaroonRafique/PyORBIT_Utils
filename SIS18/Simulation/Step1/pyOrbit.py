@@ -61,6 +61,7 @@ rank = orbit_mpi.MPI_Comm_rank(comm)
 from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('input')
 mpi_mkdir_p('output')
+mpi_mkdir_p('lost')
 
 
 #----------------------------------------------
@@ -122,7 +123,7 @@ p['beta']            = bunch.getSyncParticle().beta()
 p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
 p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 kin_Energy = bunch.getSyncParticle().kinEnergy()
-Particle_distribution_file = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+Particle_distribution_file = generate_initial_poincare_distribution(10., p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 # ~ Particle_distribution_file = generate_initial_distribution_y02(p, Lattice,  output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 
@@ -216,7 +217,7 @@ for turn in range(p['turns_max']):
 	bunch.addParticlesTo(bunch_tmp)	
 
 	saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
-	saveBunchAsMatfile(lostbunch, "output/lostbunch_%s"%(str(turn).zfill(6)))
-	output.save_to_matfile('output/output')
+	saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
+	output.save_to_matfile('output')
 
 	output.update()

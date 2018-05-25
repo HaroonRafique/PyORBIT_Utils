@@ -117,4 +117,4 @@ ax6.legend(handles=legend_elements, loc='center')
 
 # ~ plt.show();
 # ~ fig1.savefig('Emittance_y.png', transparent=True);
-fig1.savefig('Distribution_Turn_1000.png');
+fig1.savefig('Distribution_Turn_0_1500_no_CO_D.png');
