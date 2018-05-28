@@ -102,6 +102,34 @@ if(plot_runtimes):
     fig.tight_layout();
     plt.savefig(plot_name, dpi = 800);
 
+####################
+# Runtime per turn #
+####################
+if(plot_runtimes):
+    fig, ax1 = plt.subplots();
+
+    plt.title("Wall-clock runtimes for PyORBIT on HPC-Batch");
+
+    plot_name = 'Runtimes_PerTurn'    
+    for i in iterators:
+        labelin = str(i)
+        ax1.plot(d[i]['node'], d[i]['sperturn'], label=i);
+        plot_name = plot_name + '_cf_' + i
+
+    plot_name = plot_name + '.png'
+
+    ax1.set_xlabel("Nodes [-]");
+    ax1.set_ylabel("Time [s]", color='b');
+    ax1.tick_params('y', colors='b');
+
+    ax1.xaxis.grid(color='k', linestyle=':', linewidth=0.5)
+    ax1.yaxis.grid(color='k', linestyle=':', linewidth=0.5)
+
+    ax1.legend(loc = 1);
+
+    fig.tight_layout();
+    plt.savefig(plot_name, dpi = 800);
+
 ################
 # Runtimes log #
 ################
@@ -178,8 +206,7 @@ if (plot_speedup_cf_1node):
     ax2.legend(loc = 1);
 
     fig.tight_layout();
-    #~ plt.show();
-    plt.savefig('Speedup_per_node.png', dpi = 800);
+    plt.savefig(plot_name, dpi = 800);
 
     
 sys.exit()
