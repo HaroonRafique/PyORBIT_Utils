@@ -15,15 +15,18 @@ PFR    := 7.3 * RADDEG;
 RB: SBEND,TYPE=B1,L= LL,ANGLE= ALPHA,E1= PFR,E2=PFR,HGAP= 0.035;
 
 ! ------------------- horizontal quadrupole ----------------------------
-QS1F:  QUADRUPOLE, TYPE= QD1, L= 1.0400000,  K1=  0.311872401;
-QS2D:  QUADRUPOLE, TYPE= QD2, L= 1.0400000,  K1= -0.496504354;
-QS3T:  QUADRUPOLE, TYPE= QD3, L= 0.4804000,  K1=  0.62221964;
+iqf=0.311872401;
+iqd=-0.496504354;
+QS1F:  QUADRUPOLE, TYPE= QD1, L= 1.0400000,  K1:= iqf;
+QS2D:  QUADRUPOLE, TYPE= QD2, L= 1.0400000,  K1:= iqd;
+QS3T:  QUADRUPOLE, TYPE= QD3, L= 0.4804000,  K1:= 2*iqf;
 
 ! ------------------- normal sextupole ---------------------------------
 !S:     MULTIPOLE, K2L = 0.2;
 !ms:multipole, knl:={0, 0, k2l}; New format
 
 S:     MULTIPOLE, knl:= {0.0, 0.0, 0.2};
+!S:     SEXTUPOLE, K2=10.0;
 !S:     MULTIPOLE, knl:={0.0, 0.0, 0.0};
 
 ! ---------------------------  LINE DEFINITION -------------------------
@@ -191,13 +194,13 @@ use, sequence=SIS18;
   
 !PR.BWSH65     :  MONITOR  , L = 0.0; 
 
-seqedit, sequence=SIS18;
-  flatten;
+!seqedit, sequence=SIS18;
+  !flatten;
   !install, element=PR.BWSH65, at=0.0, from=PS65$START;
   !cycle , start=PR.BWSH65;
   !flatten;
-  endedit;
-save,file='./SIS18/SIS18.seq';
+  !endedit;
+!save,file='./SIS18/SIS18.seq';
 
 
 use, sequence=SIS18;
@@ -214,7 +217,7 @@ ptc_twiss_tune_macro_false_split: macro={
   ptc_create_universe;
   ptc_create_layout, time=true, model=2, exact=true, method=6, nst=3;
   !ptc_script, file="resplit.ptc";
-  ptc_twiss, closed_orbit, table=ptc_twiss,icase=56,no=2,summary_table=ptc_twiss_summary;
+  ptc_twiss, closed_orbit, table=ptc_twiss, file=ptc_twiss_unmatched.tfs, icase=56,no=2,summary_table=ptc_twiss_summary;
   qx0=table(ptc_twiss_summary,Q1);
   qy0=table(ptc_twiss_summary,Q2);
   value, qx0, qy0;
@@ -223,11 +226,11 @@ ptc_twiss_tune_macro_false_split: macro={
 
 use, sequence=SIS18;
 match, use_macro;
-  vary,   name=iqf, step=1.0E-6 ;
-  vary,   name=iqd, step=1.0E-6 ;
+  vary,   name=iqf, step=1.0E-6;
+  vary,   name=iqd, step=1.0E-6;
   USE_MACRO, name=ptc_twiss_tune_macro_false_split;
-  CONSTRAINT, expr=  table(ptc_twiss_summary,Q1)= 4.338;
-  CONSTRAINT, expr=  table(ptc_twiss_summary,Q2)= 3.2;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q1)= 0.338;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q2)= 0.2;
   JACOBIAN,calls=10000,bisec=3,TOLERANCE=1.0E-21;
 ENDMATCH;
 value, IQF, IQD;
@@ -241,18 +244,12 @@ ptc_create_universe;
 ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
 ptc_script, file="./SIS18/resplit.ptc";
 ptc_script, file="./print_flat_file.ptc"; 
-ptc_end;
-
-
-
-ptc_create_universe;
-ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
 select, flag=ptc_twiss, clear;
 select, flag=ptc_twiss, column=name, s, betx, bety, Dx, Dy, px, py, disp3, disp3p, disp1, disp1p;
-ptc_twiss, icase=5, no=4, deltap_dependency, closed_orbit, file, table=ptc_twiss;
+ptc_twiss, icase=5, no=4, deltap_dependency, closed_orbit, file=ptc_twiss_matched.tfs, table=ptc_twiss_matched;
 ptc_end;
 
 use, sequence=SIS18;
-select, flag=twiss, column=NAME, KEYWORD, S, L, X, Y, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY, DPX, DPY;
-!twiss,  sequence=SIS18, file=twiss_SIS18_matched.tfs; save;
+!select, flag=twiss, column=NAME, KEYWORD, S, L, X, Y, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY, DPX, DPY;
+twiss,  sequence=SIS18, file=twiss_SIS18_matched.tfs; save;
 

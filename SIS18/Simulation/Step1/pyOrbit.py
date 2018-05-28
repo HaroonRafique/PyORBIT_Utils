@@ -123,7 +123,7 @@ p['beta']            = bunch.getSyncParticle().beta()
 p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
 p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 kin_Energy = bunch.getSyncParticle().kinEnergy()
-Particle_distribution_file = generate_initial_poincare_distribution(20., p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+Particle_distribution_file = generate_initial_poincare_distribution(10., p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 # ~ Particle_distribution_file = generate_initial_distribution_y02(p, Lattice,  output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 
@@ -145,7 +145,7 @@ paramsDict["bunch"]= bunch
 # Add space charge nodes
 #----------------------------------------------------
 if space_charge_on:
-        print '\nAdding space charge nodes ... '
+        print '\nAdding space charge nodes ...'
         # Make a SC solver
         sizeX = 32
         sizeY = 32
@@ -199,8 +199,6 @@ output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
 
-
-
 #----------------------------------------------------
 # Do some turns and dump particle information
 #----------------------------------------------------
@@ -214,7 +212,7 @@ for turn in range(p['turns_max']):
 	map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
 					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
 
-	bunch.addParticlesTo(bunch_tmp)	
+	# ~ bunch.addParticlesTo(bunch_tmp)
 
 	saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
 	saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
