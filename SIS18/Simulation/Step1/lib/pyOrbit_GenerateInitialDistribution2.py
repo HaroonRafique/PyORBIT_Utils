@@ -205,7 +205,10 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice,output_f
 				# ~ (x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
 				# ~ (x[i], xp[i]) = Transverse_distribution.getCoordinates()
                                 # x = 0 - 4 sigma (sqrt(beta*epsilon))
-                                x[i] = random.uniform(0., n_sigma) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
+                                # RANDOM UNIFORM
+                                # ~ x[i] = random.uniform(0., n_sigma) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
+                                # EQUAL STEPS                       
+                                x[i] = i * (n_sigma/parameters['n_macroparticles']) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
 				# ~ x[i] += closedOrbitx['x0']
 				# ~ xp[i] += closedOrbitx['xp0']
 				# ~ y[i] += closedOrbity['y0']
