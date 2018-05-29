@@ -1,0 +1,474 @@
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1502    1.441    0.001  211.753    0.141 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccLattice.py:153(trackActions)
+     1500    0.036    0.000  211.671    0.141 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:111(trackBunch)
+12112073/757008  101.364    0.000  210.311    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:181(trackActions)
+ 36336219   39.378    0.000   92.290    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccActionsContainer.py:49(performActions)
+     4501    0.132    0.000   53.383    0.012 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio.py:136(savemat)
+ 12103500   20.260    0.000   52.883    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:119(track)
+     3001    0.336    0.000   38.170    0.013 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/save_bunch_as_matfile.py:11(saveBunchAsMatfile)
+     4509   23.882    0.005   23.882    0.005 {method 'close' of 'file' objects}
+     4501    0.270    0.000   17.162    0.004 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:834(put_variables)
+     1500    0.037    0.000   16.737    0.011 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/output_dictionary.py:42(save_to_matfile)
+    28502    0.104    0.000   15.735    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:604(write_top)
+78017/28502    0.775    0.000   15.630    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:624(write)
+   756000    2.524    0.000   15.434    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/ext/ptc_orbit/ptc_orbit.py:112(track)
+     4505   12.220    0.003   12.220    0.003 {open}
+        1   10.423   10.423   10.423   10.423 {posix.system}
+  2268000    4.055    0.000    9.548    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/aperture/TeapotApertureNode.py:40(track)
+   756000    9.417    0.000    9.417    0.000 {libptc_orbit.ptc_trackBunch}
+ 12135218    9.215    0.000    9.215    0.000 {range}
+     6002    0.056    0.000    8.639    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:757(write_struct)
+ 12869096    8.091    0.000    8.091    0.000 {method 'has_key' of 'dict' objects}
+     6002    0.365    0.000    7.910    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:762(_write_items)
+    72015    0.469    0.000    7.706    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:662(write_numeric)
+    78017    1.727    0.000    5.914    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:550(write_header)
+  2268000    5.492    0.000    5.492    0.000 {method 'checkBunch' of 'Aperture' objects}
+   190538    0.683    0.000    3.778    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:517(write_element)
+  4539000    3.746    0.000    3.746    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:1276(track)
+  4539000    3.699    0.000    3.699    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:1253(track)
+   756000    1.562    0.000    3.493    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/ParamsDictObject.py:43(getParam)
+    78017    0.665    0.000    3.459    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:399(to_writeable)
+   653915    1.571    0.000    3.063    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:511(write_bytes)
+   252095    2.974    0.000    2.974    0.000 {numpy.core.multiarray.array}
+   179811    0.902    0.000    2.935    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:538(write_regular_element)
+    78017    0.160    0.000    2.287    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numeric.py:462(asanyarray)
+   756000    1.304    0.000    1.931    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/ParamsDictObject.py:68(hasParam)
+    48012    0.330    0.000    1.409    0.000 {map}
+    78017    0.452    0.000    1.340    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:593(update_matrix_tag)
+        1    0.095    0.095    1.177    1.177 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/__init__.py:106(<module>)
+        1    0.004    0.004    0.830    0.830 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/add_newdocs.py:10(<module>)
+        1    0.068    0.068    0.812    0.812 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/__init__.py:1(<module>)
+    60242    0.408    0.000    0.759    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:530(write_smalldata_element)
+   235526    0.684    0.000    0.684    0.000 {method 'write' of 'file' objects}
+   241369    0.321    0.000    0.675    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/save_bunch_as_matfile.py:39(<lambda>)
+   724660    0.661    0.000    0.661    0.000 {method 'tostring' of 'numpy.ndarray' objects}
+     1500    0.023    0.000    0.580    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/output_dictionary.py:27(update)
+     6002    0.559    0.000    0.559    0.000 {zlib.compress}
+        1    0.003    0.003    0.552    0.552 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/ext/ptc_orbit/ptc_orbit.py:39(readPTC)
+        1    0.042    0.042    0.545    0.545 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/__init__.py:81(<module>)
+        1    0.494    0.494    0.494    0.494 {libptc_orbit.ptc_init_}
+        1    0.003    0.003    0.485    0.485 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/__init__.py:9(<module>)
+        1    0.024    0.024    0.482    0.482 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio.py:3(<module>)
+    78017    0.146    0.000    0.477    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numeric.py:392(asarray)
+     4501    0.257    0.000    0.452    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:823(write_file_header)
+        1    0.011    0.011    0.449    0.449 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/type_check.py:3(<module>)
+        1    0.217    0.217    0.439    0.439 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/__init__.py:1(<module>)
+    78017    0.231    0.000    0.398    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/miobase.py:239(matdims)
+    72001    0.390    0.000    0.390    0.000 {method 'tell' of 'file' objects}
+   322591    0.366    0.000    0.366    0.000 {numpy.core.multiarray.zeros}
+   244067    0.366    0.000    0.366    0.000 {method 'partAttrValue' of 'Bunch' objects}
+   376123    0.337    0.000    0.337    0.000 {isinstance}
+   463433    0.330    0.000    0.330    0.000 {method 'write' of '_bytesio._BytesIO' objects}
+55517/6002    0.261    0.000    0.320    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/_internal.py:87(_array_descr)
+        1    0.009    0.009    0.304    0.304 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio4.py:2(<module>)
+        1    0.060    0.060    0.295    0.295 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/__init__.py:197(<module>)
+    22500    0.079    0.000    0.283    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/output_dictionary.py:30(<lambda>)
+     1500    0.090    0.000    0.245    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/output_dictionary.py:36(print_last)
+    78017    0.134    0.000    0.220    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/base.py:702(isspmatrix)
+   162046    0.215    0.000    0.215    0.000 {hasattr}
+     1500    0.020    0.000    0.196    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/diagnostics/TeapotDiagnosticsNode.py:194(track)
+    45000    0.190    0.000    0.190    0.000 {method 'seek' of 'file' objects}
+     1500    0.173    0.000    0.173    0.000 {method 'analyzeBunch' of 'BunchTuneAnalysis' objects}
+        2    0.002    0.001    0.160    0.080 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:96(initialize)
+        2    0.004    0.002    0.156    0.078 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccLattice.py:36(initialize)
+        1    0.010    0.010    0.155    0.155 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/csr.py:1(<module>)
+        1    0.000    0.000    0.145    0.145 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/diagnostics/diagnosticsLatticeModifications.py:62(addTeapotDiagnosticsNodeAsChild)
+        1    0.034    0.034    0.139    0.139 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numeric.py:1(<module>)
+        1    0.034    0.034    0.136    0.136 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/__init__.py:2(<module>)
+     6002    0.091    0.000    0.132    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/shape_base.py:60(atleast_2d)
+        1    0.048    0.048    0.130    0.130 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/__init__.py:15(<module>)
+   191728    0.125    0.000    0.125    0.000 {method 'append' of 'list' objects}
+        1    0.004    0.004    0.124    0.124 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/polynomial.py:4(<module>)
+        1    0.015    0.015    0.119    0.119 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/linalg/__init__.py:44(<module>)
+181890/181868    0.115    0.000    0.115    0.000 {len}
+        1    0.011    0.011    0.114    0.114 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/miobase.py:7(<module>)
+        1    0.104    0.104    0.105    0.105 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/linalg/linalg.py:10(<module>)
+        1    0.042    0.042    0.102    0.102 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/__init__.py:38(<module>)
+   166551    0.101    0.000    0.101    0.000 {method 'tell' of '_bytesio._BytesIO' objects}
+    22500    0.081    0.000    0.099    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/output_dictionary.py:37(<lambda>)
+     4501    0.092    0.000    0.092    0.000 {time.asctime}
+        1    0.004    0.004    0.092    0.092 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/diagnostics/__init__.py:6(<module>)
+        1    0.049    0.049    0.090    0.090 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/arrayprint.py:5(<module>)
+        1    0.034    0.034    0.087    0.087 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/npyio.py:1(<module>)
+        1    0.011    0.011    0.087    0.087 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/diagnostics/diagnosticsLatticeModifications.py:3(<module>)
+      504    0.002    0.000    0.086    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/aperture/TeapotApertureNode.py:30(__init__)
+    57010    0.086    0.000    0.086    0.000 {reduce}
+   111034    0.085    0.000    0.085    0.000 {method 'seek' of '_bytesio._BytesIO' objects}
+      505    0.002    0.000    0.084    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:588(__init__)
+        1    0.038    0.038    0.082    0.082 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/index_tricks.py:1(<module>)
+      507    0.011    0.000    0.082    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:467(__init__)
+        6    0.073    0.012    0.073    0.012 {imp.load_module}
+        1    0.043    0.043    0.068    0.068 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/csgraph/__init__.py:119(<module>)
+        1    0.016    0.016    0.067    0.067 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/__init__.py:65(<module>)
+     1500    0.004    0.000    0.067    0.000 pyOrbit.py:204(<lambda>)
+     3039    0.035    0.000    0.064    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:26(__init__)
+     1500    0.059    0.000    0.063    0.000 pyOrbit.py:187(<lambda>)
+        1    0.024    0.024    0.060    0.060 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/pilutil.py:7(<module>)
+        1    0.008    0.008    0.059    0.059 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/diagnostics/TeapotDiagnosticsNode.py:3(<module>)
+     6002    0.055    0.000    0.055    0.000 {method 'flatten' of 'numpy.ndarray' objects}
+        1    0.024    0.024    0.054    0.054 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/polynomial.py:55(<module>)
+        1    0.015    0.015    0.051    0.051 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/__init__.py:6(<module>)
+        1    0.014    0.014    0.051    0.051 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/__init__.py:3(<module>)
+     1500    0.045    0.000    0.045    0.000 {method 'analyzeBunch' of 'BunchTwissAnalysis' objects}
+     7507    0.045    0.000    0.045    0.000 {orbit_mpi.MPI_Barrier}
+        1    0.014    0.014    0.042    0.042 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/pyOrbit_GenerateInitialDistribution2.py:159(generate_initial_poincare_distribution)
+        1    0.036    0.036    0.041    0.041 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/testing/__init__.py:7(<module>)
+     1725    0.012    0.000    0.040    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/fromnumeric.py:2048(amax)
+        1    0.039    0.039    0.040    0.040 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/random/__init__.py:88(<module>)
+        1    0.038    0.038    0.039    0.039 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/function_base.py:1(<module>)
+        1    0.031    0.031    0.038    0.038 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:8(<module>)
+        1    0.009    0.009    0.037    0.037 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/pyOrbit_GenerateInitialDistribution2.py:1(<module>)
+        1    0.030    0.030    0.037    0.037 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/tempfile.py:18(<module>)
+        1    0.009    0.009    0.034    0.034 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/format.py:136(<module>)
+     1500    0.004    0.000    0.033    0.000 pyOrbit.py:205(<lambda>)
+    21004    0.032    0.000    0.032    0.000 {method 'getPartAttrSize' of 'Bunch' objects}
+     1011    0.003    0.000    0.031    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:459(__init__)
+        1    0.016    0.016    0.031    0.031 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/compat.py:3(<module>)
+        1    0.000    0.000    0.031    0.031 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/csc.py:9(<module>)
+        1    0.000    0.000    0.031    0.031 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/csc.py:11(swig_import_helper)
+     6002    0.022    0.000    0.030    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/io.py:387(__del__)
+     8573    0.017    0.000    0.029    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccLattice.py:62(accNodeExitAction)
+     1500    0.029    0.000    0.029    0.000 {time.strftime}
+     1500    0.021    0.000    0.028    0.000 pyOrbit.py:186(<lambda>)
+     1725    0.004    0.000    0.028    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/_methods.py:15(_amax)
+        1    0.023    0.023    0.028    0.028 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/__init__.py:38(<module>)
+        1    0.014    0.014    0.028    0.028 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/polytemplate.py:11(<module>)
+        1    0.020    0.020    0.027    0.027 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/fft/__init__.py:1(<module>)
+     1011    0.003    0.000    0.027    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNodeBunchTracker.py:8(__init__)
+     3002    0.027    0.000    0.027    0.000 {orbit_mpi.MPI_Allreduce}
+     1014    0.006    0.000    0.026    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:1266(__init__)
+        1    0.026    0.026    0.026    0.026 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/fromnumeric.py:3(<module>)
+        1    0.006    0.006    0.026    0.026 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ctypeslib.py:51(<module>)
+     4501    0.025    0.000    0.025    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:794(__init__)
+        1    0.023    0.023    0.025    0.025 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/io.py:35(<module>)
+     1014    0.003    0.000    0.025    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:1233(__init__)
+        1    0.000    0.000    0.025    0.025 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/csr.py:9(<module>)
+        1    0.000    0.000    0.025    0.025 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/csr.py:11(swig_import_helper)
+        1    0.024    0.024    0.024    0.024 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/timeit.py:53(<module>)
+        1    0.024    0.024    0.024    0.024 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/csgraph/_validation.py:1(<module>)
+     3546    0.017    0.000    0.024    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:115(_setPartsLengthEvenly)
+     1725    0.024    0.000    0.024    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+    10547    0.023    0.000    0.023    0.000 {method 'items' of 'dict' objects}
+        1    0.008    0.008    0.022    0.022 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/_internal.py:6(<module>)
+     1329    0.010    0.000    0.021    0.000 pyOrbit.py:217(<lambda>)
+     1500    0.005    0.000    0.021    0.000 pyOrbit.py:203(<lambda>)
+        1    0.020    0.020    0.020    0.020 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/__init__.py:12(<module>)
+        1    0.015    0.015    0.020    0.020 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/ctypes/__init__.py:4(<module>)
+      504    0.002    0.000    0.020    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/ext/ptc_orbit/ptc_orbit.py:84(__init__)
+        1    0.007    0.007    0.019    0.019 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:4(<module>)
+        1    0.017    0.017    0.019    0.019 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:82(<module>)
+        1    0.019    0.019    0.019    0.019 {method 'dumpBunch' of 'Bunch' objects}
+    22516    0.018    0.000    0.018    0.000 {method 'ljust' of 'str' objects}
+        1    0.000    0.000    0.018    0.018 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/bsr.py:9(<module>)
+        1    0.000    0.000    0.018    0.018 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/bsr.py:11(swig_import_helper)
+      504    0.007    0.000    0.017    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/ext/ptc_orbit/ptc_orbit.py:91(setparams)
+     1502    0.014    0.000    0.017    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccActionsContainer.py:20(__init__)
+        1    0.007    0.007    0.017    0.017 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot_matrix_lattice.py:7(<module>)
+        1    0.016    0.016    0.017    0.017 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/__init__.py:10(<module>)
+     4501    0.017    0.000    0.017    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:502(__init__)
+     1500    0.013    0.000    0.016    0.000 pyOrbit.py:188(<lambda>)
+        1    0.000    0.000    0.016    0.016 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/coo.py:9(<module>)
+        1    0.000    0.000    0.016    0.016 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/coo.py:11(swig_import_helper)
+     3001    0.015    0.000    0.015    0.000 {method 'getPartAttrNames' of 'Bunch' objects}
+        1    0.015    0.015    0.015    0.015 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/functools.py:2(<module>)
+        1    0.014    0.014    0.014    0.014 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/collections.py:1(<module>)
+        1    0.011    0.011    0.014    0.014 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/string.py:20(<module>)
+        1    0.006    0.006    0.014    0.014 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/_datasource.py:33(<module>)
+        1    0.009    0.009    0.014    0.014 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/injection/__init__.py:9(<module>)
+      273    0.011    0.000    0.014    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/function_base.py:2945(add_newdoc)
+    19511    0.014    0.000    0.014    0.000 {method 'getSyncParticle' of 'Bunch' objects}
+        1    0.011    0.011    0.012    0.012 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/parsers/__init__.py:8(<module>)
+      132    0.000    0.000    0.012    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/re.py:229(_compile)
+       13    0.000    0.000    0.012    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:501(compile)
+     6008    0.011    0.000    0.011    0.000 {orbit_mpi.MPI_Comm_rank}
+     1500    0.007    0.000    0.011    0.000 pyOrbit.py:194(<lambda>)
+       14    0.000    0.000    0.011    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/re.py:188(compile)
+     1500    0.007    0.000    0.011    0.000 pyOrbit.py:192(<lambda>)
+        1    0.004    0.004    0.011    0.011 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/harwell_boeing/__init__.py:1(<module>)
+     6023    0.011    0.000    0.011    0.000 {numpy.core.multiarray.empty}
+        1    0.010    0.010    0.010    0.010 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/space_charge/__init__.py:7(<module>)
+     6006    0.010    0.000    0.010    0.000 {max}
+        1    0.010    0.010    0.010    0.010 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/orbit_mpi_utils/__init__.py:17(<module>)
+        1    0.010    0.010    0.010    0.010 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/aperture/__init__.py:7(<module>)
+        1    0.009    0.009    0.010    0.010 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/pickle.py:25(<module>)
+        1    0.010    0.010    0.010    0.010 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/__init__.py:10(<module>)
+        1    0.005    0.005    0.010    0.010 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/matrix_lattice/__init__.py:5(<module>)
+     9000    0.009    0.000    0.009    0.000 {method 'getAverage' of 'BunchTwissAnalysis' objects}
+        1    0.009    0.009    0.009    0.009 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/compressed.py:1(<module>)
+        1    0.009    0.009    0.009    0.009 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/bunch_generators/__init__.py:18(<module>)
+        1    0.008    0.008    0.009    0.009 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/laguerre.py:59(<module>)
+     3541    0.006    0.000    0.009    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:156(addChildNode)
+     6002    0.008    0.000    0.008    0.000 {method 'close' of '_bytesio._BytesIO' objects}
+     1500    0.006    0.000    0.008    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccActionsContainer.py:35(removeAction)
+        1    0.008    0.008    0.008    0.008 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/shutil.py:5(<module>)
+     6002    0.007    0.000    0.007    0.000 {method 'getvalue' of '_bytesio._BytesIO' objects}
+        1    0.007    0.007    0.007    0.007 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/fft/fftpack.py:32(<module>)
+        1    0.003    0.003    0.007    0.007 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/lil.py:2(<module>)
+        1    0.007    0.007    0.007    0.007 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/harwell_boeing/hb.py:11(<module>)
+        1    0.000    0.000    0.007    0.007 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/dia.py:9(<module>)
+        1    0.000    0.000    0.007    0.007 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/dia.py:11(swig_import_helper)
+        1    0.007    0.007    0.007    0.007 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/random.py:40(<module>)
+     1500    0.004    0.000    0.007    0.000 pyOrbit.py:195(<lambda>)
+        1    0.007    0.007    0.007    0.007 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/netcdf.py:13(<module>)
+       13    0.000    0.000    0.006    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:669(parse)
+        1    0.006    0.006    0.006    0.006 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/space_charge/sc2p5d/__init__.py:7(<module>)
+        1    0.000    0.000    0.006    0.006 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5_params.py:6(<module>)
+    24/13    0.000    0.000    0.006    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:307(_parse_sub)
+    27/13    0.002    0.000    0.006    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:385(_parse)
+        2    0.000    0.000    0.006    0.003 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5_params.py:166(_convert_codecs)
+        6    0.000    0.000    0.006    0.001 {method 'encode' of 'str' objects}
+        3    0.000    0.000    0.006    0.002 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/encodings/__init__.py:71(search_function)
+        1    0.000    0.000    0.006    0.006 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/csgraph.py:9(<module>)
+        6    0.000    0.000    0.006    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/string.py:148(substitute)
+        1    0.000    0.000    0.006    0.006 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/sparsetools/csgraph.py:11(swig_import_helper)
+     1500    0.003    0.000    0.006    0.000 pyOrbit.py:201(<lambda>)
+        6    0.004    0.001    0.006    0.001 {built-in method sub}
+        1    0.005    0.005    0.006    0.006 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/matrixlib/__init__.py:3(<module>)
+     7067    0.006    0.000    0.006    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/ParamsDictObject.py:18(addParam)
+     1627    0.006    0.000    0.006    0.000 {method 'join' of 'str' objects}
+        6    0.005    0.001    0.006    0.001 {__import__}
+     7503    0.005    0.000    0.005    0.000 {method 'beta' of 'SyncParticle' objects}
+     4542    0.005    0.000    0.005    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/NamedObject.py:6(__init__)
+      505    0.002    0.000    0.005    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:79(setLength)
+     1502    0.004    0.000    0.005    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccActionsContainer.py:28(addAction)
+        1    0.004    0.004    0.005    0.005 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/chebyshev.py:87(<module>)
+     1500    0.004    0.000    0.005    0.000 pyOrbit.py:193(<lambda>)
+     6003    0.005    0.000    0.005    0.000 {method 'gamma' of 'SyncParticle' objects}
+        1    0.005    0.005    0.005    0.005 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/weakref.py:6(<module>)
+     3001    0.005    0.000    0.005    0.000 {method 'momentum' of 'SyncParticle' objects}
+     3000    0.005    0.000    0.005    0.000 {method 'zfill' of 'str' objects}
+        1    0.004    0.004    0.005    0.005 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/legendre.py:83(<module>)
+       13    0.000    0.000    0.005    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:486(_code)
+        1    0.005    0.005    0.005    0.005 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/struct.py:1(<module>)
+        1    0.004    0.004    0.005    0.005 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/hermite_e.py:59(<module>)
+     1500    0.003    0.000    0.005    0.000 pyOrbit.py:200(<lambda>)
+        1    0.004    0.004    0.004    0.004 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/base.py:1(<module>)
+        1    0.004    0.004    0.004    0.004 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/matrix_lattice/MATRIX_Lattice.py:9(<module>)
+        1    0.004    0.004    0.004    0.004 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/csv.py:4(<module>)
+        1    0.004    0.004    0.004    0.004 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/injection/InjectionLatticeModifications.py:3(<module>)
+     4503    0.004    0.000    0.004    0.000 {method 'mass' of 'Bunch' objects}
+     3001    0.004    0.000    0.004    0.000 {method 'classicalRadius' of 'Bunch' objects}
+     1500    0.003    0.000    0.004    0.000 pyOrbit.py:198(<lambda>)
+     3002    0.004    0.000    0.004    0.000 {method 'getMPIComm' of 'Bunch' objects}
+        6    0.004    0.001    0.004    0.001 {imp.find_module}
+        1    0.003    0.003    0.004    0.004 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/hermite.py:59(<module>)
+        1    0.001    0.001    0.004    0.004 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:21(<module>)
+     4504    0.004    0.000    0.004    0.000 {method 'getSize' of 'Bunch' objects}
+     1500    0.003    0.000    0.004    0.000 pyOrbit.py:197(<lambda>)
+     1500    0.003    0.000    0.004    0.000 pyOrbit.py:202(<lambda>)
+     1500    0.003    0.000    0.004    0.000 pyOrbit.py:199(<lambda>)
+     1500    0.003    0.000    0.004    0.000 pyOrbit.py:196(<lambda>)
+     3000    0.004    0.000    0.004    0.000 {method 'getEmittanceNormalized' of 'BunchTwissAnalysis' objects}
+        1    0.004    0.004    0.004    0.004 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/bisect.py:1(<module>)
+     1500    0.004    0.000    0.004    0.000 {method 'getGlobalMacrosize' of 'BunchTwissAnalysis' objects}
+     3039    0.004    0.000    0.004    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/ParamsDictObject.py:12(__init__)
+        1    0.003    0.003    0.004    0.004 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/testing/utils.py:4(<module>)
+        1    0.003    0.003    0.003    0.003 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/functions.py:3(<module>)
+        1    0.003    0.003    0.003    0.003 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/misc.py:3(<module>)
+        1    0.000    0.000    0.003    0.003 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/string.py:112(__init__)
+     3003    0.003    0.000    0.003    0.000 {orbit_mpi.MPI_Comm_size}
+     3012    0.003    0.000    0.003    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:92(getLength)
+        1    0.003    0.003    0.003    0.003 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/ext/ptc_orbit/__init__.py:5(<module>)
+     3000    0.003    0.000    0.003    0.000 {method 'getCorrelation' of 'BunchTwissAnalysis' objects}
+     4558    0.003    0.000    0.003    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/TypedObject.py:12(setType)
+    48/13    0.001    0.000    0.003    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:38(_compile)
+     3001    0.003    0.000    0.003    0.000 {method 'time' of 'SyncParticle' objects}
+     3018    0.003    0.000    0.003    0.000 {method 'keys' of 'dict' objects}
+     1510    0.003    0.000    0.003    0.000 {method 'remove' of 'list' objects}
+      543    0.001    0.000    0.003    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:207(get)
+     3002    0.003    0.000    0.003    0.000 {method 'charge' of 'Bunch' objects}
+      504    0.001    0.000    0.002    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccLattice.py:88(addNode)
+        1    0.002    0.002    0.002    0.002 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/bunch_utils/__init__.py:8(<module>)
+        4    0.000    0.000    0.002    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/warnings.py:45(filterwarnings)
+      617    0.002    0.000    0.002    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:188(__next)
+     1500    0.002    0.000    0.002    0.000 pyOrbit.py:191(<lambda>)
+        8    0.000    0.000    0.002    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/doccer.py:173(decorate)
+        8    0.001    0.000    0.002    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/doccer.py:12(docformat)
+     3040    0.002    0.000    0.002    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/TypedObject.py:6(__init__)
+       13    0.000    0.000    0.002    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:367(_compile_info)
+      666    0.001    0.000    0.002    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/string.py:158(convert)
+        1    0.000    0.000    0.002    0.002 {_warnings.warn}
+        1    0.001    0.001    0.002    0.002 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/lib/six.py:1(<module>)
+        1    0.000    0.000    0.002    0.002 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/warnings.py:24(_show_warning)
+        1    0.000    0.000    0.002    0.002 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/warnings.py:36(formatwarning)
+        1    0.000    0.000    0.002    0.002 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/linecache.py:13(getline)
+        1    0.000    0.000    0.002    0.002 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/linecache.py:33(getlines)
+        1    0.000    0.000    0.002    0.002 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/linecache.py:68(updatecache)
+      581    0.002    0.000    0.002    0.000 {getattr}
+       40    0.000    0.000    0.002    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:109(get_object_signature)
+     1500    0.002    0.000    0.002    0.000 {method 'getEmittance' of 'BunchTwissAnalysis' objects}
+        1    0.002    0.002    0.002    0.002 {method 'readlines' of 'file' objects}
+     2029    0.001    0.000    0.001    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/NamedObject.py:12(setName)
+       18    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:184(_compile_charset)
+      118    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/re.py:134(match)
+       18    0.001    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:213(_optimize_charset)
+        1    0.000    0.000    0.001    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/threading.py:1(<module>)
+     1500    0.001    0.000    0.001    0.000 {method 'getGlobalCount' of 'BunchTwissAnalysis' objects}
+       23    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:5992(__init__)
+     2016    0.001    0.000    0.001    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/TypedObject.py:18(getType)
+       23    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:5997(getdoc)
+     1500    0.001    0.000    0.001    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:101(getActivePartIndex)
+        1    0.000    0.000    0.001    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/utils.py:1(<module>)
+       14    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/abc.py:83(__new__)
+      504    0.001    0.000    0.001    0.000 {libptc_orbit.ptc_get_twiss_for_node_}
+       17    0.001    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/doccer.py:128(indentcount_lines)
+       27    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:822(__init__)
+       20    0.000    0.000    0.001    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/pyOrbit_GenerateInitialDistribution2.py:75(getCoordinates)
+     1513    0.001    0.000    0.001    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:126(initialize)
+       31    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/testing/nosetester.py:140(__init__)
+        1    0.001    0.001    0.001    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/copy.py:49(<module>)
+        1    0.001    0.001    0.001    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/unittest.py:45(<module>)
+        1    0.001    0.001    0.001    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/matrixlib/defmatrix.py:1(<module>)
+       31    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/_inspect.py:159(formatargspec)
+     1014    0.001    0.000    0.001    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/ParamsDictObject.py:30(setParamsDict)
+       40    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/_inspect.py:120(getargspec)
+        1    0.000    0.000    0.001    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/extras.py:10(<module>)
+        3    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numeric.py:346(extend_all)
+     1015    0.001    0.000    0.001    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/ParamsDictObject.py:62(getParamsDict)
+        1    0.000    0.000    0.001    0.001 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/orbit_mpi_utils/bunch_orbit_to_pyorbit.py:9(bunch_orbit_to_pyorbit)
+      906    0.001    0.000    0.001    0.000 {built-in method group}
+        1    0.000    0.000    0.001    0.001 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:304(_add_aliases)
+        1    0.001    0.001    0.001    0.001 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/diagnostics/diagnostics.py:5(<module>)
+    68/33    0.000    0.000    0.001    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:146(getwidth)
+        1    0.001    0.001    0.001    0.001 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/injection/injectparticles.py:5(<module>)
+        9    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/extras.py:241(__init__)
+        9    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/extras.py:245(getdoc)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/bunch_generators/distribution_generators.py:5(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/data.py:7(<module>)
+       37    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/posixpath.py:117(dirname)
+      163    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:136(__getitem__)
+       20    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/pyOrbit_GenerateInitialDistribution2.py:35(getCoordinates)
+        2    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:1091(__init__)
+      165    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:201(match)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/space_charge/analytical/scAccNodes.py:3(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/parsers/mad_parser.py:1(<module>)
+      507    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:1247(getTiltAngle)
+       17    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x7f2ed269f320}
+       14    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/abc.py:86(<genexpr>)
+      312    0.000    0.000    0.000    0.000 {method 'strip' of 'str' objects}
+      270    0.000    0.000    0.000    0.000 {numpy.lib._compiled_base.add_docstring}
+       20    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/pyOrbit_GenerateInitialDistribution2.py:71(is_inside_limiting_countour)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/scimath.py:17(<module>)
+        7    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:264(_mk_bitmap)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio4.py:303(MatFile4Reader)
+       31    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/_inspect.py:61(getargs)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/space_charge/scAccNodes.py:3(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/aperture/TeapotApertureNode.py:3(<module>)
+      512    0.000    0.000    0.000    0.000 {chr}
+      505    0.000    0.000    0.000    0.000 {math.fabs}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/bunch_utils/particleidnumber.py:4(<module>)
+        8    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:7199(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/doccer.py:153(filldoc)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/doccer.py:179(unindent_dict)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/getlimits.py:3(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/precision.py:8(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/polynomial/polyutils.py:33(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/orbit_mpi_utils/bunch_orbit_to_pyorbit.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/_iotools.py:3(<module>)
+        9    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/misc/doccer.py:187(unindent_string)
+        8    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:7204(getdoc)
+      144    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:144(append)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/diagnostics/TeapotDiagnosticsNode.py:183(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/pyOrbit_GenerateInitialDistribution2.py:48(__init__)
+       20    0.000    0.000    0.000    0.000 {method 'writerow' of '_csv.writer' objects}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/output_dictionary.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:2572(MaskedArray)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/space_charge/sc2p5d/scAccNodes.py:3(<module>)
+       26    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:232(bitname)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/ext/ptc_orbit/ptc_orbit.py:4(<module>)
+       35    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/pyOrbit_GenerateInitialDistribution2.py:232(<lambda>)
+        4    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/miobase.py:137(convert_dtypes)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/ext/ptc_orbit/ptc_orbit.py:36(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:110(MatFile5Reader)
+        5    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/utils.py:152(deprecate)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccActionsContainer.py:1(<module>)
+      274    0.000    0.000    0.000    0.000 {min}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/bunch_utils/particleidnumber.py:19(addParticleIdNumbers)
+       21    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/bunch_generators/distribution_generators.py:20(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:288(_add_types)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:458(_set_array_types)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/records.py:36(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/twodim_base.py:3(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/harwell_boeing/_fortran_format_parser.py:8(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:791(MatFile5Writer)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/lib/six.py:322(exec_)
+       89    0.000    0.000    0.000    0.000 {method 'expandtabs' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/defchararray.py:17(<module>)
+      227    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/ctypes/_endian.py:4(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/precision.py:26(_fill_table)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/getlimits.py:194(iinfo)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/injection/TeapotInjectionNode.py:3(<module>)
+       84    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:132(__len__)
+       89    0.000    0.000    0.000    0.000 {method 'splitlines' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/encodings/utf_16.py:8(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/parsers/sad_parser.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/arraypad.py:5(<module>)
+        5    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/precision.py:20(_get_precisions)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/mmio.py:3(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/miobase.py:330(MatFileReader)
+       18    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/ma/core.py:902(__init__)
+       21    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/bunch_generators/distribution_generators.py:27(__initialize)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/idl.py:29(<module>)
+       72    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:130(english_lower)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/netcdf.py:81(netcdf_file)
+      207    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+        3    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/mpi_helpers.py:6(call)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/linalg/linalg.py:76(_determine_error_states)
+      120    0.000    0.000    0.000    0.000 {_sre.getlower}
+        5    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/utils.py:108(__call__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccNode.py:1(<module>)
+        5    0.000    0.000    0.000    0.000 {method 'addPartAttr' of 'Bunch' objects}
+       13    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:184(__init__)
+       20    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:360(_simple)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot/teapot.py:42(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/mpi_helpers.py:1(<module>)
+        3    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/ctypes/__init__.py:78(CFUNCTYPE)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/space_charge/scLatticeModifications.py:3(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/parsers/field_parser.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/teapot_base/__init__.py:5(<module>)
+      202    0.000    0.000    0.000    0.000 {method 'lstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/io.py:789(_BytesIO)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:787(_construct_lookups)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/random.py:90(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/dok.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/h/harafiqu/PyORBIT_Git/SIS18/Simulation/Step1/lib/output_dictionary.py:39(print_header)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/testing/nosetester.py:6(<module>)
+       30    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/numerictypes.py:450(_add_array_type)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/random.py:99(seed)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/dia.py:1(<module>)
+      167    0.000    0.000    0.000    0.000 {ord}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/space_charge/sc2p5d/scLatticeModifications.py:3(<module>)
+       43    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/_inspect.py:163(<lambda>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/core/machar.py:7(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/coo.py:1(<module>)
+        8    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_parse.py:222(isname)
+       34    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/lib/six.py:93(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/_import_tools.py:1(<module>)
+       14    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/ctypes/__init__.py:147(_check_size)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/lattice/AccLattice.py:25(__init__)
+      118    0.000    0.000    0.000    0.000 {built-in method match}
+       40    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/_inspect.py:15(ismethod)
+       13    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/functions.py:63(zeros)
+        1    0.000    0.000    0.000    0.000 <string>:7(Legendre)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/threading.py:744(__init__)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC/py/orbit/utils/ParamsDictObject.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/csc.py:1(<module>)
+       56    0.000    0.000    0.000    0.000 {method 'newbyteorder' of 'numpy.dtype' objects}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/matlab/mio5.py:497(VarWriter5)
+       31    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/sre_compile.py:57(fixup)
+       40    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/_inspect.py:26(isfunction)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/sparse/bsr.py:1(<module>)
+       20    0.000    0.000    0.000    0.000 {pow}
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/io/_fortran.py:6(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/encodings/utf_32.py:3(<module>)
+        1    0.000    0.000    0.000    0.000 <string>:2(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/oldnumeric/typeconv.py:1(<module>)
+        3    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/lib/six.py:83(__get__)
+      115    0.000    0.000    0.000    0.000 {method 'translate' of 'str' objects}
+       74    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/compat/_inspect.py:152(strseq)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/numpy/lib/arrayterator.py:9(<module>)
+        1    0.000    0.000    0.000    0.000 /afs/cern.ch/work/k/kli/public/venv_py26_slc5/lib/python2.6/site-packages/scipy/lib/__init__.py:10(<module>)
+        1    0.000
