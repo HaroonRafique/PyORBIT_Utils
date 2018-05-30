@@ -157,13 +157,13 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 	return output_file
 
 def generate_initial_poincare_distributionH(n_sigma, parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
-        generate_initial_poincare_distribution(1, n_sigma, parameters, Lattice, output_file, summary_file, outputFormat)
+        return generate_initial_poincare_distribution(n_sigma, parameters, Lattice, 1, output_file, summary_file, outputFormat)
 
 def generate_initial_poincare_distributionV(n_sigma, parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
-        generate_initial_poincare_distribution(0, n_sigma, parameters, Lattice, output_file, summary_file, outputFormat)
+        return generate_initial_poincare_distribution(n_sigma, parameters, Lattice, 0, output_file, summary_file, outputFormat)
 
-def generate_initial_poincare_distribution(horizontal = 1, n_sigma, parameters, Lattice,output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
-	parameters['alphax0'] = Lattice.alphax0
+def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizontal = 1,  output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+        parameters['alphax0'] = Lattice.alphax0
 	parameters['betax0']  = Lattice.betax0
 	parameters['alphay0'] = Lattice.alphay0
 	parameters['betay0']  = Lattice.betay0
@@ -207,7 +207,7 @@ def generate_initial_poincare_distribution(horizontal = 1, n_sigma, parameters, 
 
 
 			for i in range(parameters['n_macroparticles']):
-				(phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
+				# ~ (phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
 				# ~ (x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
 				# ~ (x[i], xp[i]) = Transverse_distribution.getCoordinates()
                                 # x = 0 - 4 sigma (sqrt(beta*epsilon))

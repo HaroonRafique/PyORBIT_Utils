@@ -152,8 +152,8 @@ if space_charge_on:
         print '\nAdding space charge nodes ...'
         # Make a SC solver
         sizeX = 32
-        sizeY = 32
-        sizeZ = 32  # Number of longitudinal slices in the 2.5D solver
+        sizeY = 4
+        sizeZ = 4  # Number of longitudinal slices in the 2.5D solver
         calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
         sc_path_length_min = 0.00000001
         # Add the space charge solver to the lattice as child nodes
@@ -217,11 +217,11 @@ for turn in range(p['turns_max']):
 					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
 
 	# ~ bunch.addParticlesTo(bunch_tmp)
+        if turn%parameters['turnsprint']==0:
+                saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
+                saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
 
-	saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
-	saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
-	output.save_to_matfile('output')
-
+        output.save_to_matfile('output')
 	output.update()
         
 pr.disable()
