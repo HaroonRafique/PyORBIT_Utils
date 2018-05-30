@@ -12,8 +12,8 @@ import os
 import sys
 
 plt.rcParams['figure.figsize'] = [8.0, 6.0]
-plt.rcParams['figure.dpi'] = 300
-plt.rcParams['savefig.dpi'] = 300
+plt.rcParams['figure.dpi'] = 600
+plt.rcParams['savefig.dpi'] = 600
 
 plt.rcParams['font.size'] = 6
 plt.rcParams['legend.fontsize'] = 'large'
@@ -128,10 +128,12 @@ ax2.grid(True);
 
 print '\nPlotting x xp, we apologise for any inconvenience...'
 for i in iterators:
-        ax3.scatter(d[i]['particles']['x'][0][0][0], d[i]['particles']['xp'][0][0][0], color='m', label='2.6 eVs');
+        ax3.scatter(d[i]['particles']['x'][0][0][0], d[i]['particles']['xp'][0][0][0], color='m', label='2.6 eVs', marker=',');
 
 ax3.set_xlabel('x [m]');
 ax3.set_ylabel('xp []');
+# ~ ax3.set_xlim();
+# ~ ax3.set_ylim();
 ax3.set_title('Particle Distribution: Horizontal phase space');
 ax3.grid(True);
 
@@ -167,7 +169,7 @@ legend_elements = [Line2D([0], [0], marker='o', color='w', label='2.6 eVs', mark
 
 ax6.legend(handles=legend_elements, loc='center')
 
-savename = str('Poincare_Dist.png')
+savename = str('Poincare_Dist_0-4p5sig_Multipole_0p2_Matched.png')
 # ~ fig1.savefig('Emittance_y.png', transparent=True);
 print '\nJust saving this bad boy, in case you forgot the filename is: '
 print savename
