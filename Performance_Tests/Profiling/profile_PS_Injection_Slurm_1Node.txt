@@ -1,0 +1,263 @@
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       13    0.061    0.005  451.770   34.752 /py/orbit/lattice/AccLattice.py:220(trackActions)
+296015/18772    3.039    0.000  451.709    0.024 /py/orbit/lattice/AccNode.py:194(trackActions)
+       10    0.001    0.000  451.175   45.117 /py/orbit/teapot/teapot.py:118(trackBunch)
+   888045    0.611    0.000  448.311    0.001 /py/orbit/lattice/AccActionsContainer.py:49(performActions)
+   245480    0.338    0.000  447.626    0.002 /py/orbit/teapot/teapot.py:126(track)
+    14440    0.117    0.000  256.353    0.018 /py/ext/ptc_orbit/ptc_orbit.py:112(track)
+    14440  256.159    0.018  256.159    0.018 {libptc_orbit.ptc_trackBunch}
+    14390    0.088    0.000  186.735    0.013 /py/orbit/space_charge/sc2p5d/scAccNodes.py:42(track)
+    14390  186.647    0.013  186.647    0.013 {method 'trackBunch' of 'SpaceChargeCalcSliceBySlice2D' objects}
+        1  128.106  128.106  128.106  128.106 {posix.system}
+        1  121.444  121.444  121.444  121.444 {method 'dumpBunch' of 'Bunch' objects}
+        1    0.005    0.005  116.174  116.174 /py/ext/ptc_orbit/ptc_orbit.py:39(readPTC)
+        1  116.065  116.065  116.065  116.065 {libptc_orbit.ptc_init_}
+       20    7.288    0.364   76.613    3.831 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/save_bunch_as_matfile.py:11(saveBunchAsMatfile)
+       30    0.001    0.000   61.712    2.057 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio.py:152(savemat)
+       30    0.017    0.001   61.206    2.040 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:808(put_variables)
+       40   39.176    0.979   39.176    0.979 {zlib.compress}
+        1    7.931    7.931   36.595   36.595 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:85(generate_initial_distribution)
+     5985    0.010    0.000   12.560    0.002 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/numeric.py:495(asanyarray)
+     7148   12.556    0.002   12.556    0.002 {numpy.core.multiarray.array}
+     1595   11.291    0.007   11.291    0.007 {method 'write' of 'file' objects}
+      190    0.001    0.000   10.518    0.055 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:569(write_top)
+  520/190    0.005    0.000   10.518    0.055 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:589(write)
+   500000    1.186    0.000   10.289    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:75(getCoordinates)
+       40    0.001    0.000    9.962    0.249 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:732(write_struct)
+       40    0.018    0.000    9.957    0.249 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:737(_write_items)
+   500000    0.776    0.000    9.379    0.000 /py/orbit/bunch_generators/distribution_generators.py:290(getCoordinates)
+      520    0.004    0.000    9.134    0.018 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:407(to_writeable)
+   500000    8.971    0.000    8.971    0.000 {method 'writerow' of '_csv.writer' objects}
+  1000000    2.729    0.000    8.604    0.000 /py/orbit/bunch_generators/distribution_generators.py:264(getCoordinates)
+        1    4.862    4.862    7.442    7.442 /py/orbit/utils/orbit_mpi_utils/bunch_orbit_to_pyorbit.py:9(bunch_orbit_to_pyorbit)
+   528520    6.470    0.000    6.681    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:71(is_inside_limiting_countour)
+  2000004    4.042    0.000    5.244    0.000 /lib/python2.7/random.py:562(gauss)
+    43320    0.087    0.000    3.772    0.000 /py/orbit/aperture/TeapotApertureNode.py:41(track)
+    43320    3.685    0.000    3.685    0.000 {method 'checkBunch' of 'Aperture' objects}
+     5460    0.019    0.000    3.457    0.001 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/shape_base.py:11(atleast_1d)
+    12870    2.634    0.000    2.634    0.000 {orbit_mpi.MPI_Recv}
+   528520    1.756    0.000    2.423    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:35(getCoordinates)
+      327    0.622    0.002    2.136    0.007 {map}
+       56    1.870    0.033    1.870    0.033 {orbit_mpi.MPI_Barrier}
+        2    0.000    0.000    1.819    0.909 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/mpi_helpers.py:6(call)
+  1000000    0.531    0.000    1.493    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/save_bunch_as_matfile.py:39(<lambda>)
+  1025000    0.984    0.000    0.984    0.000 {method 'partAttrValue' of 'Bunch' objects}
+   500001    0.829    0.000    0.829    0.000 {orbit_mpi.MPI_Bcast}
+      480    0.004    0.000    0.813    0.002 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:629(write_numeric)
+     4255    0.006    0.000    0.756    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:476(write_bytes)
+     1270    0.005    0.000    0.750    0.001 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:482(write_element)
+     1095    0.004    0.000    0.743    0.001 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:503(write_regular_element)
+        3    0.006    0.002    0.637    0.212 /py/orbit/teapot/teapot.py:101(initialize)
+  1000000    0.631    0.000    0.631    0.000 /py/orbit/bunch_generators/distribution_generators.py:55(getU_UP)
+        3    0.018    0.006    0.628    0.209 /py/orbit/lattice/AccLattice.py:36(initialize)
+       10    0.000    0.000    0.608    0.061 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:42(save_to_matfile)
+      520    0.004    0.000    0.537    0.001 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:558(update_matrix_tag)
+      300    0.531    0.002    0.531    0.002 {method 'seek' of 'file' objects}
+   500001    0.518    0.000    0.518    0.000 {method 'readline' of 'file' objects}
+   487500    0.515    0.000    0.515    0.000 {orbit_mpi.MPI_Send}
+  3057044    0.485    0.000    0.485    0.000 {method 'random' of '_random.Random' objects}
+   500000    0.434    0.000    0.434    0.000 {method 'split' of 'str' objects}
+        1    0.002    0.002    0.419    0.419 /py/orbit/space_charge/sc2p5d/scLatticeModifications.py:17(setSC2p5DAccNodes)
+       31    0.400    0.013    0.400    0.013 {method 'close' of 'file' objects}
+     4830    0.382    0.000    0.382    0.000 {method 'tostring' of 'numpy.ndarray' objects}
+     3000    0.366    0.000    0.366    0.000 {method 'write' of '_io.BytesIO' objects}
+       10    0.000    0.000    0.333    0.033 /py/orbit/diagnostics/TeapotDiagnosticsNode.py:196(track)
+       10    0.333    0.033    0.333    0.033 {method 'analyzeBunch' of 'BunchTuneAnalysis' objects}
+  1000002    0.323    0.000    0.323    0.000 {math.log}
+  1528522    0.306    0.000    0.306    0.000 {math.sin}
+  1528522    0.304    0.000    0.304    0.000 {math.cos}
+        1    0.000    0.000    0.298    0.298 /py/orbit/diagnostics/diagnosticsLatticeModifications.py:62(addTeapotDiagnosticsNodeAsChild)
+  1528530    0.273    0.000    0.273    0.000 {math.sqrt}
+    10123    0.076    0.000    0.211    0.000 /py/orbit/lattice/AccNode.py:26(__init__)
+  1057040    0.210    0.000    0.210    0.000 {abs}
+  1000001    0.205    0.000    0.205    0.000 {method 'strip' of 'str' objects}
+       40    0.203    0.005    0.203    0.005 {method 'getvalue' of '_io.BytesIO' objects}
+     1444    0.006    0.000    0.181    0.000 /py/orbit/aperture/TeapotApertureNode.py:30(__init__)
+   528520    0.178    0.000    0.178    0.000 {pow}
+     1445    0.003    0.000    0.174    0.000 /py/orbit/teapot/teapot.py:622(__init__)
+     1448    0.023    0.000    0.172    0.000 /py/orbit/teapot/teapot.py:501(__init__)
+   309171    0.171    0.000    0.171    0.000 {range}
+     4331    0.005    0.000    0.123    0.000 /py/orbit/lattice/AccNodeBunchTracker.py:8(__init__)
+   321952    0.120    0.000    0.120    0.000 /py/orbit/lattice/AccNode.py:92(getLength)
+        1    0.025    0.025    0.116    0.116 /py/orbit/space_charge/scLatticeModifications.py:11(setSC_General_AccNodes)
+   610830    0.116    0.000    0.116    0.000 {method 'has_key' of 'dict' objects}
+       34    0.115    0.003    0.115    0.003 {open}
+       10    0.111    0.011    0.111    0.011 {method 'addParticlesTo' of 'Bunch' objects}
+     1439    0.003    0.000    0.085    0.000 /py/orbit/space_charge/sc2p5d/scAccNodes.py:22(__init__)
+     1439    0.003    0.000    0.082    0.000 /py/orbit/space_charge/scAccNodes.py:19(__init__)
+    14440    0.042    0.000    0.076    0.000 /py/orbit/utils/ParamsDictObject.py:50(getParam)
+    50535    0.055    0.000    0.075    0.000 /py/orbit/lattice/AccLattice.py:62(accNodeExitAction)
+    11571    0.058    0.000    0.068    0.000 /py/orbit/lattice/AccNode.py:115(_setPartsLengthEvenly)
+   506505    0.066    0.000    0.066    0.000 {len}
+     2896    0.006    0.000    0.063    0.000 /py/orbit/teapot/teapot.py:1313(__init__)
+    10137    0.061    0.000    0.061    0.000 /py/orbit/utils/NamedObject.py:6(__init__)
+        1    0.000    0.000    0.059    0.059 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/write_ptc_table.py:4(write_RFtable)
+     2892    0.006    0.000    0.051    0.000 /py/orbit/teapot/teapot.py:493(__init__)
+     2896    0.011    0.000    0.051    0.000 /py/orbit/teapot/teapot.py:1346(__init__)
+    86660    0.049    0.000    0.049    0.000 /py/orbit/teapot/teapot.py:1356(track)
+    86660    0.046    0.000    0.046    0.000 /py/orbit/teapot/teapot.py:1333(track)
+      520    0.010    0.000    0.043    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:515(write_header)
+    14440    0.024    0.000    0.034    0.000 /py/orbit/utils/ParamsDictObject.py:75(hasParam)
+      520    0.002    0.000    0.031    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/miobase.py:244(matdims)
+     1444    0.015    0.000    0.031    0.000 /py/ext/ptc_orbit/ptc_orbit.py:91(setparams)
+     1444    0.003    0.000    0.029    0.000 /py/ext/ptc_orbit/ptc_orbit.py:84(__init__)
+      115    0.001    0.000    0.028    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/fromnumeric.py:2222(amax)
+      115    0.000    0.000    0.027    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/_methods.py:25(_amax)
+      115    0.027    0.000    0.027    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+        1    0.025    0.025    0.025    0.025 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/mpi_helpers.py:1(<module>)
+    54419    0.021    0.000    0.021    0.000 {isinstance}
+        1    0.006    0.006    0.020    0.020 /py/orbit/bunch_utils/particleidnumber.py:19(addParticleIdNumbers)
+    12500    0.008    0.000    0.018    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:146(<lambda>)
+    11564    0.010    0.000    0.014    0.000 /py/orbit/lattice/AccNode.py:156(addChildNode)
+    45740    0.014    0.000    0.014    0.000 {method 'append' of 'list' objects}
+    12500    0.012    0.000    0.012    0.000 {method 'addParticle' of 'Bunch' objects}
+        3    0.000    0.000    0.011    0.004 /py/ext/ptc_orbit/ptc_orbit.py:152(readScriptPTC)
+        3    0.011    0.004    0.011    0.004 {libptc_orbit.ptc_script_}
+        2    0.000    0.000    0.011    0.006 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/mpi_helpers.py:17(mpi_mkdir_p)
+       10    0.010    0.001    0.010    0.001 {method 'analyzeBunch' of 'BunchTwissAnalysis' objects}
+       30    0.002    0.000    0.010    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:797(write_file_header)
+     1445    0.003    0.000    0.009    0.000 /py/orbit/lattice/AccNode.py:79(setLength)
+        2    0.000    0.000    0.008    0.004 /virtualenvs/py2.7/lib/python2.7/os.py:136(makedirs)
+        2    0.008    0.004    0.008    0.004 {posix.mkdir}
+       21    0.008    0.000    0.008    0.000 {orbit_mpi.MPI_Allreduce}
+    20232    0.008    0.000    0.008    0.000 /py/orbit/utils/ParamsDictObject.py:18(addParam)
+    10123    0.008    0.000    0.008    0.000 /py/orbit/utils/ParamsDictObject.py:12(__init__)
+    17347    0.005    0.000    0.005    0.000 /py/orbit/utils/TypedObject.py:12(setType)
+     2156    0.004    0.000    0.004    0.000 {numpy.core.multiarray.zeros}
+      505    0.002    0.000    0.004    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:495(write_smalldata_element)
+       10    0.000    0.000    0.004    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:27(update)
+        5    0.003    0.001    0.003    0.001 {method 'addPartAttr' of 'Bunch' objects}
+        2    0.000    0.000    0.003    0.002 /virtualenvs/py2.7/lib/python2.7/genericpath.py:23(exists)
+    10124    0.003    0.000    0.003    0.000 /py/orbit/utils/TypedObject.py:6(__init__)
+        2    0.003    0.001    0.003    0.001 {posix.stat}
+     1444    0.002    0.000    0.003    0.000 /py/orbit/lattice/AccLattice.py:88(addNode)
+      520    0.001    0.000    0.003    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/numeric.py:424(asarray)
+     1310    0.002    0.000    0.002    0.000 {method 'getPartAttrSize' of 'Bunch' objects}
+     7232    0.002    0.000    0.002    0.000 /py/orbit/utils/NamedObject.py:12(setName)
+     8664    0.002    0.000    0.002    0.000 /py/orbit/utils/TypedObject.py:18(getType)
+       10    0.000    0.000    0.002    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:36(print_last)
+     1444    0.002    0.000    0.002    0.000 {libptc_orbit.ptc_get_twiss_for_node_}
+   370/40    0.002    0.000    0.002    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/_internal.py:88(_array_descr)
+     1110    0.002    0.000    0.002    0.000 {hasattr}
+      150    0.001    0.000    0.002    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:30(<lambda>)
+      800    0.001    0.000    0.001    0.000 {method 'getPartAttrNames' of 'Bunch' objects}
+      520    0.001    0.000    0.001    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/sparse/base.py:1202(isspmatrix)
+     2896    0.001    0.000    0.001    0.000 /py/orbit/utils/ParamsDictObject.py:37(setParamsDict)
+     5777    0.001    0.000    0.001    0.000 /py/orbit/lattice/AccNode.py:126(initialize)
+     2897    0.001    0.000    0.001    0.000 /py/orbit/utils/ParamsDictObject.py:69(getParamsDict)
+      150    0.001    0.000    0.001    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:37(<lambda>)
+       30    0.001    0.000    0.001    0.000 {time.asctime}
+      380    0.001    0.000    0.001    0.000 {reduce}
+       41    0.001    0.000    0.001    0.000 {method 'flatten' of 'numpy.ndarray' objects}
+     2878    0.001    0.000    0.001    0.000 /py/orbit/utils/NamedObject.py:18(getName)
+      740    0.001    0.000    0.001    0.000 {method 'seek' of '_io.BytesIO' objects}
+       43    0.000    0.000    0.001    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/shape_base.py:63(atleast_2d)
+        3    0.000    0.000    0.001    0.000 /py/orbit/teapot/teapot.py:1168(__init__)
+     1448    0.000    0.000    0.000    0.000 /py/orbit/teapot/teapot.py:1327(getTiltAngle)
+     1447    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccNode.py:73(getnParts)
+     1110    0.000    0.000    0.000    0.000 {method 'tell' of '_io.BytesIO' objects}
+     1445    0.000    0.000    0.000    0.000 {math.fabs}
+     1439    0.000    0.000    0.000    0.000 /py/orbit/space_charge/scAccNodes.py:35(setLengthOfSC)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:213(<lambda>)
+      480    0.000    0.000    0.000    0.000 {method 'tell' of 'file' objects}
+       35    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:151(<lambda>)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:196(<lambda>)
+       10    0.000    0.000    0.000    0.000 {time.strftime}
+     1439    0.000    0.000    0.000    0.000 /py/orbit/space_charge/sc2p5d/scAccNodes.py:30(setBoundary)
+       30    0.000    0.000    0.000    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:768(__init__)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:214(<lambda>)
+       13    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccActionsContainer.py:20(__init__)
+       70    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:195(<lambda>)
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/simulation_parameters.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 /py/orbit/diagnostics/TeapotDiagnosticsNode.py:185(__init__)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:212(<lambda>)
+       40    0.000    0.000    0.000    0.000 {numpy.core.multiarray.empty}
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:197(<lambda>)
+       30    0.000    0.000    0.000    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/scipy/io/matlab/mio5.py:467(__init__)
+       10    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccActionsContainer.py:35(removeAction)
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:48(__init__)
+        2    0.000    0.000    0.000    0.000 {method 'copyEmptyBunchTo' of 'Bunch' objects}
+      166    0.000    0.000    0.000    0.000 {method 'ljust' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /py/ext/ptc_orbit/ptc_orbit.py:36(__init__)
+        1    0.000    0.000    0.000    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/lib/shape_base.py:371(dstack)
+       20    0.000    0.000    0.000    0.000 {method 'zfill' of 'str' objects}
+       40    0.000    0.000    0.000    0.000 {max}
+       46    0.000    0.000    0.000    0.000 {orbit_mpi.MPI_Comm_rank}
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:39(print_header)
+       15    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 /py/orbit/teapot/teapot.py:47(__init__)
+       30    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:203(<lambda>)
+        3    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccNode.py:53(setnParts)
+       13    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccActionsContainer.py:28(addAction)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:201(<lambda>)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:210(<lambda>)
+        2    0.000    0.000    0.000    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/shape_base.py:115(atleast_3d)
+        1    0.000    0.000    0.000    0.000 /py/ext/ptc_orbit/ptc_orbit.py:132(setBunchParamsPTC)
+      137    0.000    0.000    0.000    0.000 {method 'getSyncParticle' of 'Bunch' objects}
+        1    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccLattice.py:25(__init__)
+       22    0.000    0.000    0.000    0.000 {orbit_mpi.MPI_Comm_size}
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:204(<lambda>)
+        1    0.000    0.000    0.000    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/numeric.py:193(ones_like)
+       15    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:18(addParameter)
+        1    0.000    0.000    0.000    0.000 /virtualenvs/py2.7/lib/python2.7/site-packages/numpy/core/shape_base.py:182(vstack)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:205(<lambda>)
+       60    0.000    0.000    0.000    0.000 {method 'getAverage' of 'BunchTwissAnalysis' objects}
+       20    0.000    0.000    0.000    0.000 {method 'getEmittanceNormalized' of 'BunchTwissAnalysis' objects}
+       33    0.000    0.000    0.000    0.000 {method 'getSize' of 'Bunch' objects}
+       20    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 /virtualenvs/py2.7/lib/python2.7/posixpath.py:82(split)
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/write_ptc_table.py:1(<module>)
+       15    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:40(<lambda>)
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/output_dictionary.py:9(__init__)
+        2    0.000    0.000    0.000    0.000 /py/orbit/bunch_generators/distribution_generators.py:20(__init__)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:202(<lambda>)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:208(<lambda>)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:209(<lambda>)
+       20    0.000    0.000    0.000    0.000 {method 'getCorrelation' of 'BunchTwissAnalysis' objects}
+       21    0.000    0.000    0.000    0.000 {method 'getMPIComm' of 'Bunch' objects}
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:211(<lambda>)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:200(<lambda>)
+        2    0.000    0.000    0.000    0.000 {numpy.core.multiarray.concatenate}
+       21    0.000    0.000    0.000    0.000 {method 'charge' of 'Bunch' objects}
+       52    0.000    0.000    0.000    0.000 {method 'beta' of 'SyncParticle' objects}
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:207(<lambda>)
+        3    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccNode.py:144(getNumberOfBodyChildren)
+       10    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/pyOrbit.py:206(<lambda>)
+       42    0.000    0.000    0.000    0.000 {method 'gamma' of 'SyncParticle' objects}
+       10    0.000    0.000    0.000    0.000 {method 'remove' of 'list' objects}
+       12    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/write_ptc_table.py:15(<lambda>)
+        2    0.000    0.000    0.000    0.000 /py/orbit/bunch_generators/distribution_generators.py:27(__initialize)
+       32    0.000    0.000    0.000    0.000 {method 'mass' of 'Bunch' objects}
+       20    0.000    0.000    0.000    0.000 {method 'classicalRadius' of 'Bunch' objects}
+        1    0.000    0.000    0.000    0.000 {_csv.writer}
+        1    0.000    0.000    0.000    0.000 {libptc_orbit.ptc_get_twiss_init_}
+        3    0.000    0.000    0.000    0.000 /py/orbit/teapot/teapot.py:1194(initialize)
+       20    0.000    0.000    0.000    0.000 {method 'momentum' of 'SyncParticle' objects}
+       10    0.000    0.000    0.000    0.000 {method 'getGlobalMacrosize' of 'BunchTwissAnalysis' objects}
+       20    0.000    0.000    0.000    0.000 {method 'time' of 'SyncParticle' objects}
+        1    0.000    0.000    0.000    0.000 {numpy.core.multiarray.copyto}
+        3    0.000    0.000    0.000    0.000 {method 'kinEnergy' of 'SyncParticle' objects}
+        1    0.000    0.000    0.000    0.000 /py/orbit/diagnostics/TeapotDiagnosticsNode.py:210(assignTwiss)
+        7    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccLattice.py:101(getNodes)
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:20(__init__)
+        1    0.000    0.000    0.000    0.000 /py/orbit/bunch_generators/distribution_generators.py:282(__init__)
+        1    0.000    0.000    0.000    0.000 {numpy.core.multiarray.empty_like}
+        3    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccLattice.py:190(getLength)
+       10    0.000    0.000    0.000    0.000 {method 'getEmittance' of 'BunchTwissAnalysis' objects}
+       10    0.000    0.000    0.000    0.000 {method 'getGlobalCount' of 'BunchTwissAnalysis' objects}
+        2    0.000    0.000    0.000    0.000 {method 'rfind' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {libptc_orbit.ptc_get_syncpart_}
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/pyOrbit_GenerateInitialDistribution2.py:29(__initialize)
+       10    0.000    0.000    0.000    0.000 /py/orbit/lattice/AccNode.py:101(getActivePartIndex)
+        1    0.000    0.000    0.000    0.000 {method 'insert' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'assignTwiss' of 'BunchTuneAnalysis' objects}
+        2    0.000    0.000    0.000    0.000 /py/orbit/bunch_generators/distribution_generators.py:258(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/mpi_helpers.py:5(only_main_rank)
+        1    0.000    0.000    0.000    0.000 /hpcscratch/user/harafiqu/PS_Injection/Test_node/lib/write_ptc_table.py:13(<lambda>)
+        1    0.000    0.000    0.000    0.000 {method 'hasPartAttr' of 'Bunch' objects}
+        1    0.000    0.000    0.000    0.000 {orbit_mpi.MPI_Initialized}
+        1    0.000    0.000    0.000    0.000 {libptc_orbit.ptc_get_ini_params_}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
