@@ -3,6 +3,16 @@ pr = cProfile.Profile()
 pr.enable()
 # ... do something ...
 
+
+#----------------------------------------------
+# Simulation Switches
+#----------------------------------------------
+slicebyslice = 0
+frozen = 1
+if frozen:
+        slicebyslice=0
+
+
 import math
 import sys
 import time
@@ -36,25 +46,24 @@ from ext.ptc_orbit.ptc_orbit import trackBunchThroughLatticePTC, trackBunchInRan
 from orbit.aperture import TeapotApertureNode
 
 # transverse space charge
-from orbit.space_charge.analytical import scAccNodes, scLatticeModifications
-from spacecharge import SpaceChargeCalcAnalyticGaussian
-# from spacecharge import GaussianLineDensityProfile
-from spacecharge import InterpolatedLineDensityProfile
-#PIC
-from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
-from spacecharge import SpaceChargeCalc2p5D, Boundary2D
-from spacecharge import SpaceChargeCalcSliceBySlice2D
+if frozen:
+        from orbit.space_charge.analytical import scAccNodes, scLatticeModifications
+        from spacecharge import SpaceChargeCalcAnalyticGaussian
+        from spacecharge import GaussianLineDensityProfile
+        #from spacecharge import InterpolatedLineDensityProfile
+if slicebyslice:
+        #PIC
+        from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
+        # ~ from spacecharge import SpaceChargeCalc2p5D, Boundary2D
+        # ~ from spacecharge import SpaceChargeCalcSliceBySlice2D
+        from spacecharge import SpaceChargeCalcAnalyticGaussian
+        from spacecharge import InterpolatedLineDensityProfile
 
 
 from lib.output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution2 import *
 # ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 from lib.save_bunch_as_matfile import *
-
-#----------------------------------------------
-# Simulation Switches
-#----------------------------------------------
-space_charge_on = 1
 
 print "Start ..."
 comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
@@ -145,10 +154,30 @@ lostbunch.addPartAttr("LostParticleAttributes")
 paramsDict["lostbunch"]=lostbunch
 paramsDict["bunch"]= bunch
 
+
 #----------------------------------------------------
-# Add space charge nodes
+# Add space charge nodes - FROZEN
 #----------------------------------------------------
-if space_charge_on:
+if frozen:
+        print '\nSetting up the space charge calculations ...'
+        # Make a SC solver using frozen potential
+        # ~ density=np.loadtxt('density_2.dat', dtype=float)
+        sc_path_length_min = 0.00000001
+        #ld_profile = p['linedensity_profile']
+        # ~ LineDensity=InterpolatedLineDensityProfile(-12.5,12.5,density.tolist())
+        LineDensity=GaussianLineDensityProfile(p['blength_rms'])
+        sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms'], 'LineDensity': LineDensity}
+        space_charge_solver1 = SpaceChargeCalcAnalyticGaussian(*[sc_params1[k] for k in ['intensity','epsn_x','epsn_y','dpp_rms','LineDensity']])
+        print dir(scLatticeModifications)
+        sc_nodes1 = scLatticeModifications.setSCanalyticalAccNodes(Lattice, sc_path_length_min, space_charge_solver1)
+        print '  Installed %i space charge nodes'%(len(sc_nodes1))
+
+
+
+#----------------------------------------------------
+# Add space charge nodes - SliceBySlice
+#----------------------------------------------------
+if slicebyslice:
         print '\nAdding space charge nodes ...'
         # Make a SC solver
         sizeX = 32
@@ -167,9 +196,14 @@ parentnode_number = 97
 parentnode = Lattice.getNodes()[parentnode_number]
 Twiss_at_parentnode_entrance = Lattice.getNodes()[parentnode_number-1].getParamsDict()
 tunes = TeapotTuneAnalysisNode("tune_analysis")
-tunes.assignTwiss(Twiss_at_parentnode_entrance['betax'], Twiss_at_parentnode_entrance['alphax'], Twiss_at_parentnode_entrance['etax'], Twiss_at_parentnode_entrance['etapx'], Twiss_at_parentnode_entrance['betay'], Twiss_at_parentnode_entrance['alphay'])
-addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
 
+if slicebyslice:
+        tunes.assignTwiss(Twiss_at_parentnode_entrance['betax'], Twiss_at_parentnode_entrance['alphax'], Twiss_at_parentnode_entrance['etax'], Twiss_at_parentnode_entrance['etapx'], Twiss_at_parentnode_entrance['betay'], Twiss_at_parentnode_entrance['alphay'])
+        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
+if frozen:
+        tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
+        tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
+        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
 
 #----------------------------------------------------
 # Prepare a bunch object to store particle coordinates
@@ -202,11 +236,17 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
+output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
+output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
+output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
+output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 
 #----------------------------------------------------
 # Do some turns and dump particle information
 #----------------------------------------------------
 print '\nnow start tracking...'
+
+print p['turns_print']
 
 for turn in range(p['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
@@ -216,8 +256,7 @@ for turn in range(p['turns_max']):
 	map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
 					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
 
-	# ~ bunch.addParticlesTo(bunch_tmp)
-        if turn%parameters['turnsprint']==0:
+        if turn in p['turns_print']:
                 saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
                 saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
 
