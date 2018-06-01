@@ -1,26 +1,23 @@
 import numpy as np
 
-#z_max = 0.77
+#z_max = 0.77                   #???
 m = 1.2
-intensity =4e+10        #Ions?
-epsn_x=(12.57e-6)/2. 
-epsn_y=(9.30e-6)/2. 
+intensity=2e+11                 # DeltaQ = 0.1  Z=40.3m t=3472.7ns
+# ~ intensity=3e+10             # DeltaQ = 0.1  Z=2.69m t=231.51ns
+epsn_x=(12.57e-6)/4             # 3.1425e-6
+epsn_y=(9.30e-6)/4              # 2.325e-6
 TransverseCut = 5
-n_macroparticles = int(20)
-# ~ n_macroparticles = int(3e3)
+n_macroparticles = int(100)
 macrosize = intensity/float(n_macroparticles)
-#~ blength_rms = 5.96
-# ~ blength_rms = (0.91*299792458*210e-9)/4.
 blength_rms = (0.15448*299792458*3472.7e-9)/4. # = 40.206868
-# ~ blength_rms = 40.35
-#~ dpp_rms = 0.573e-3*0.91
+# ~ blength_rms = (0.15448*299792458*231.51e-9)/4. # = 40.206868
 dpp_rms = (2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
 
-turns_max = 1500
+turns_max = 1024
 turns_update = range(-1, turns_max, 100)
-turns_print = turns_update[::100]
+turns_print = range(-1, turns_max, 1)
 
 parameters = {
 	'LongitudinalJohoParameter': m,

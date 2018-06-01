@@ -246,7 +246,7 @@ output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 #----------------------------------------------------
 print '\nnow start tracking...'
 
-print p['turns_print']
+# ~ print p['turns_print']
 
 for turn in range(p['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)

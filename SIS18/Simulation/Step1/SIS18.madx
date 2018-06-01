@@ -25,7 +25,7 @@ QS3T:  QUADRUPOLE, TYPE= QD3, L= 0.4804000,  K1:= 2*iqf;
 !S:     MULTIPOLE, K2L = 0.2;
 !ms:multipole, knl:={0, 0, k2l}; New format
 
-S:     MULTIPOLE, knl:= {0.0, 0.0, 0.2};
+S:     MULTIPOLE, knl:= {0.0, 0.0, 0.0};
 !S:     SEXTUPOLE, K2=10.0;
 !S:     MULTIPOLE, knl:={0.0, 0.0, 0.0};
 
@@ -180,13 +180,19 @@ ENDSEQUENCE;
 /******************************************************************************
  * BEAM and USE
  ******************************************************************************/
+speedc = 299792458;
+En_k = 11.4e-3;
+beta_rel = 0.15448;
+gamma_rel =1.0122;
+m_p = 938.27208e-3; !GeV/c^2
+En = m_p + En_k;
+pce = sqrt( (En*En) - (m_p*m_p) ); ! =146.501e-3
 
-pce=11.4e-3;
 !dpp=2.5e-4;
 dpp=0;
-bunch_length=868.175;
+bunch_length=(0.15448*299792458*3472.7e-9)/4.; !40.206868
 
-beam, particle=proton, pc=pce, sige=dpp, sigt=bunch_length, ex=5e-3, ey=5e-3, et=40.35;
+beam, particle=proton, pc=pce, sige=dpp, sigt=bunch_length, exn=3.1425e-6, eyn=2.32e-6, et=40.206868;
 !beam, particle=proton, pc=pce, sige=dpp;
 
 !stop;
