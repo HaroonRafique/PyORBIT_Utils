@@ -9,9 +9,15 @@ emit_x = 12.57e-6 / 4.
 emit_y = 9.3e-6 / 4.
 
 q = 1
+
+n_part = 2.2e11
+blength = 3472.7
+
+'''
+Step2+
 n_part = 2e11
 blength = 3472.7
-'''
+Step5+
 n_part = 1.3e10
 blength = 231
 '''
