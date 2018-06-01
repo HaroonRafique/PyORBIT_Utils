@@ -7,7 +7,7 @@ intensity=2e+11                 # DeltaQ = 0.1  Z=40.3m t=3472.7ns
 epsn_x=(12.57e-6)/4             # 3.1425e-6
 epsn_y=(9.30e-6)/4              # 2.325e-6
 TransverseCut = 5
-n_macroparticles = int(100)
+n_macroparticles = int(20)
 macrosize = intensity/float(n_macroparticles)
 blength_rms = (0.15448*299792458*3472.7e-9)/4. # = 40.206868
 # ~ blength_rms = (0.15448*299792458*231.51e-9)/4. # = 40.206868
@@ -15,7 +15,7 @@ dpp_rms = (2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
 
-turns_max = 15000
+turns_max = 1500
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
 
