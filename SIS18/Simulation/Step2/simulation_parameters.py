@@ -16,6 +16,7 @@ circumference= 216.7199935
 rf_voltage=0.0
 
 turns_max = 1024
+
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
 
