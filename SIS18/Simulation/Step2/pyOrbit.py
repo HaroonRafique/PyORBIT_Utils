@@ -170,9 +170,7 @@ if frozen:
         space_charge_solver1 = SpaceChargeCalcAnalyticGaussian(*[sc_params1[k] for k in ['intensity','epsn_x','epsn_y','dpp_rms','LineDensity']])
         print dir(scLatticeModifications)
         sc_nodes1 = scLatticeModifications.setSCanalyticalAccNodes(Lattice, sc_path_length_min, space_charge_solver1)
-        print '  Installed %i space charge nodes'%(len(sc_nodes1))
-
-
+        print 'Installed %i space charge nodes'%(len(sc_nodes1))
 
 #----------------------------------------------------
 # Add space charge nodes - SliceBySlice

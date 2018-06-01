@@ -207,33 +207,20 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
 
 
 			for i in range(parameters['n_macroparticles']):
-				# ~ (phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
-				# ~ (x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
-				# ~ (x[i], xp[i]) = Transverse_distribution.getCoordinates()
-                                # x = 0 - 4 sigma (sqrt(beta*epsilon))
                                 # RANDOM UNIFORM
                                 # ~ x[i] = random.uniform(0., n_sigma) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
                                 # EQUAL STEPS
                                 if horizontal:                                       
                                         x[i] = i * (n_sigma/parameters['n_macroparticles']) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
-                                else:
+                                elif not horizontal:
                                         y[i] = i * (n_sigma/parameters['n_macroparticles']) * np.sqrt(parameters['betay0'] * parameters['epsn_y'])
-				# ~ x[i] += closedOrbitx['x0']
-				# ~ xp[i] += closedOrbitx['xp0']
-				# ~ y[i] += closedOrbity['y0']
-				# ~ yp[i] += closedOrbity['yp0']
-				# ~ dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
-				# ~ x[i] += dpp * dispersionx['etax0']
-				# ~ xp[i] += dpp * dispersionx['etapx0']	
-				# ~ y[i] += dpp * dispersiony['etay0']
-				# ~ yp[i] += dpp * dispersiony['etapy0']	
-				
+
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.
 					xp[i] *= 1000.
 					y[i] *= 1000.
 					yp[i] *= 1000.
-					dE[i] /= 1.e9		
+					dE[i] /= 1.e9
 					csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 				#csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
 		if summary_file:
