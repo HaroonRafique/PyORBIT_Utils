@@ -137,7 +137,7 @@ p['beta']            = bunch.getSyncParticle().beta()
 p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
 p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 kin_Energy = bunch.getSyncParticle().kinEnergy()
-Particle_distribution_file = generate_initial_poincare_distributionH(4.6, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+Particle_distribution_file = generate_initial_poincare_distributionH(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 # ~ Particle_distribution_file = generate_initial_poincare_distributionV(4.6, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
