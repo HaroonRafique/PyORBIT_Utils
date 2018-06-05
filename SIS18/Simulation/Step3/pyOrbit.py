@@ -7,11 +7,12 @@ pr.enable()
 #----------------------------------------------
 # Simulation Switches
 #----------------------------------------------
-slicebyslice = 0
-frozen = 1
+slicebyslice = 0        # 2.5D space charge
+frozen = 1              # Frozen space charge
 if frozen:
         slicebyslice=0
 
+horizontal = 1          # Horizontal Poincare Distn
 
 import math
 import sys
@@ -138,8 +139,10 @@ p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
 p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 kin_Energy = bunch.getSyncParticle().kinEnergy()
 
-Particle_distribution_file = generate_initial_poincare_distributionH(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-# ~ Particle_distribution_file = generate_initial_poincare_distributionV(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+if horizontal:
+        Particle_distribution_file = generate_initial_poincare_distributionH(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+else:
+        Particle_distribution_file = generate_initial_poincare_distributionV(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 bunch.addPartAttr("macrosize")
@@ -162,10 +165,7 @@ paramsDict["bunch"]= bunch
 if frozen:
         print '\nSetting up the space charge calculations ...'
         # Make a SC solver using frozen potential
-        # ~ density=np.loadtxt('density_2.dat', dtype=float)
         sc_path_length_min = 0.00000001
-        #ld_profile = p['linedensity_profile']
-        # ~ LineDensity=InterpolatedLineDensityProfile(-12.5,12.5,density.tolist())
         LineDensity=GaussianLineDensityProfile(p['blength_rms'])
         sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms'], 'LineDensity': LineDensity}
         space_charge_solver1 = SpaceChargeCalcAnalyticGaussian(*[sc_params1[k] for k in ['intensity','epsn_x','epsn_y','dpp_rms','LineDensity']])

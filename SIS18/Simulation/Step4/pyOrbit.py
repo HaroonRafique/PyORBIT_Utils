@@ -3,6 +3,17 @@ pr = cProfile.Profile()
 pr.enable()
 # ... do something ...
 
+
+#----------------------------------------------
+# Simulation Switches
+#----------------------------------------------
+slicebyslice = 0        # 2.5D space charge
+frozen = 1              # Frozen space charge
+if frozen:
+        slicebyslice=0
+
+horizontal = 1          # Horizontal Poincare Distn
+
 import math
 import sys
 import time
@@ -36,25 +47,24 @@ from ext.ptc_orbit.ptc_orbit import trackBunchThroughLatticePTC, trackBunchInRan
 from orbit.aperture import TeapotApertureNode
 
 # transverse space charge
-from orbit.space_charge.analytical import scAccNodes, scLatticeModifications
-from spacecharge import SpaceChargeCalcAnalyticGaussian
-# from spacecharge import GaussianLineDensityProfile
-from spacecharge import InterpolatedLineDensityProfile
-#PIC
-from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
-from spacecharge import SpaceChargeCalc2p5D, Boundary2D
-from spacecharge import SpaceChargeCalcSliceBySlice2D
+if frozen:
+        from orbit.space_charge.analytical import scAccNodes, scLatticeModifications
+        from spacecharge import SpaceChargeCalcAnalyticGaussian
+        from spacecharge import GaussianLineDensityProfile
+        #from spacecharge import InterpolatedLineDensityProfile
+if slicebyslice:
+        #PIC
+        from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
+        # ~ from spacecharge import SpaceChargeCalc2p5D, Boundary2D
+        # ~ from spacecharge import SpaceChargeCalcSliceBySlice2D
+        from spacecharge import SpaceChargeCalcAnalyticGaussian
+        from spacecharge import InterpolatedLineDensityProfile
 
 
 from lib.output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution2 import *
 # ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 from lib.save_bunch_as_matfile import *
-
-#----------------------------------------------
-# Simulation Switches
-#----------------------------------------------
-space_charge_on = 1
 
 print "Start ..."
 comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
@@ -128,9 +138,11 @@ p['beta']            = bunch.getSyncParticle().beta()
 p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
 p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 kin_Energy = bunch.getSyncParticle().kinEnergy()
-Particle_distribution_file = generate_initial_poincare_distribution(4.6, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-# ~ Particle_distribution_file = generate_initial_distribution_y02(p, Lattice,  output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
+if horizontal:
+        Particle_distribution_file = generate_initial_poincare_distributionH(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+else:
+        Particle_distribution_file = generate_initial_poincare_distributionV(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 bunch.addPartAttr("macrosize")
@@ -146,15 +158,30 @@ lostbunch.addPartAttr("LostParticleAttributes")
 paramsDict["lostbunch"]=lostbunch
 paramsDict["bunch"]= bunch
 
+
 #----------------------------------------------------
-# Add space charge nodes
+# Add space charge nodes - FROZEN
 #----------------------------------------------------
-if space_charge_on:
+if frozen:
+        print '\nSetting up the space charge calculations ...'
+        # Make a SC solver using frozen potential
+        sc_path_length_min = 0.00000001
+        LineDensity=GaussianLineDensityProfile(p['blength_rms'])
+        sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms'], 'LineDensity': LineDensity}
+        space_charge_solver1 = SpaceChargeCalcAnalyticGaussian(*[sc_params1[k] for k in ['intensity','epsn_x','epsn_y','dpp_rms','LineDensity']])
+        print dir(scLatticeModifications)
+        sc_nodes1 = scLatticeModifications.setSCanalyticalAccNodes(Lattice, sc_path_length_min, space_charge_solver1)
+        print 'Installed %i space charge nodes'%(len(sc_nodes1))
+
+#----------------------------------------------------
+# Add space charge nodes - SliceBySlice
+#----------------------------------------------------
+if slicebyslice:
         print '\nAdding space charge nodes ...'
         # Make a SC solver
         sizeX = 32
-        sizeY = 32
-        sizeZ = 32  # Number of longitudinal slices in the 2.5D solver
+        sizeY = 4
+        sizeZ = 4  # Number of longitudinal slices in the 2.5D solver
         calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
         sc_path_length_min = 0.00000001
         # Add the space charge solver to the lattice as child nodes
@@ -168,9 +195,14 @@ parentnode_number = 97
 parentnode = Lattice.getNodes()[parentnode_number]
 Twiss_at_parentnode_entrance = Lattice.getNodes()[parentnode_number-1].getParamsDict()
 tunes = TeapotTuneAnalysisNode("tune_analysis")
-tunes.assignTwiss(Twiss_at_parentnode_entrance['betax'], Twiss_at_parentnode_entrance['alphax'], Twiss_at_parentnode_entrance['etax'], Twiss_at_parentnode_entrance['etapx'], Twiss_at_parentnode_entrance['betay'], Twiss_at_parentnode_entrance['alphay'])
-addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
 
+if slicebyslice:
+        tunes.assignTwiss(Twiss_at_parentnode_entrance['betax'], Twiss_at_parentnode_entrance['alphax'], Twiss_at_parentnode_entrance['etax'], Twiss_at_parentnode_entrance['etapx'], Twiss_at_parentnode_entrance['betay'], Twiss_at_parentnode_entrance['alphay'])
+        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
+if frozen:
+        tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
+        tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
+        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
 
 #----------------------------------------------------
 # Prepare a bunch object to store particle coordinates
@@ -203,11 +235,17 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
+output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
+output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
+output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
+output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 
 #----------------------------------------------------
 # Do some turns and dump particle information
 #----------------------------------------------------
 print '\nnow start tracking...'
+
+# ~ print p['turns_print']
 
 for turn in range(p['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
@@ -217,17 +255,17 @@ for turn in range(p['turns_max']):
 	map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
 					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
 
-	# ~ bunch.addParticlesTo(bunch_tmp)
+        if turn in p['turns_print']:
+                saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
+                saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
 
-	saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
-	saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
-	output.save_to_matfile('output')
-
+        output.save_to_matfile('output')
 	output.update()
         
 pr.disable()
 s = StringIO.StringIO()
 sortby = 'cumulative'
 ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-ps.print_stats()
-print s.getvalue()
+pr.dump_stats('profile.txt')
+# ~ ps.print_stats()
+# ~ print s.getvalue()
