@@ -2,7 +2,7 @@ import numpy as np
 
 #z_max = 0.77                   #???
 m = 1.2
-intensity=2e+11                 # DeltaQ = 0.1  Z=40.3m t=3472.7ns
+intensity=1.8e+11                 # DeltaQ = 0.1  Z=40.3m t=3472.7ns
 # ~ intensity=3e+10             # DeltaQ = 0.1  Z=2.69m t=231.51ns
 epsn_x=(12.57e-6)/4             # 3.1425e-6
 epsn_y=(9.30e-6)/4              # 2.325e-6
@@ -16,6 +16,7 @@ circumference= 216.7199935
 rf_voltage=0.0
 
 turns_max = 1024
+
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
 
