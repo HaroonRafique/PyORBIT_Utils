@@ -10,7 +10,7 @@ emit_y = 9.3e-6 / 4.
 
 q = 1
 
-n_part = 2.2e11
+n_part = 1.9e11
 blength = 3472.7
 
 '''
