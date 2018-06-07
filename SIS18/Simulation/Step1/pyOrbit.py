@@ -129,7 +129,7 @@ p['beta']            = bunch.getSyncParticle().beta()
 p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
 p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 kin_Energy = bunch.getSyncParticle().kinEnergy()
-Particle_distribution_file = generate_initial_poincare_distribution(4.6, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+Particle_distribution_file = generate_initial_poincare_distributionH(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 # ~ Particle_distribution_file = generate_initial_distribution_y02(p, Lattice,  output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 
