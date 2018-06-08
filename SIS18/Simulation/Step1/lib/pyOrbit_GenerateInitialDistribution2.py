@@ -218,7 +218,7 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
                                         # ~ print '\ti = ', i, ', betay0 = ',  parameters['betay0'], ', epsn_y = ', parameters['epsn_y'], ', macroparticles = ',  parameters['n_macroparticles']
                                         # ~ print '\tsqrt(bet*eps) = ', np.sqrt(parameters['betay0'] * parameters['epsn_y'])
                                         # ~ print '\tn_sigma/macro = ', float(n_sigma/float(parameters['n_macroparticles']))
-                                        y[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(parameters['betay0'] * parameters['epsn_y'])
+                                        y[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(float(parameters['betay0']) * ( parameters['epsn_y'] / (parameters['beta'] * parameters['gamma'])))
 
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.
