@@ -5,13 +5,16 @@ beta = np.sqrt(gamma**2-1)/gamma
 
 deltap = 2.5e-4/3.
 
-emit_x = 12.57e-6 / 4.
-emit_y = 9.3e-6 / 4.
+emit_x = (beta*gamma)*12.57e-6 / 4.
+emit_y = (beta*gamma)*9.3e-6 / 4.
 
 q = 1
 
-n_part = 1.9e11
-blength = 3472.7
+# ~ n_part = 0.3e11
+# ~ blength = 3472.7
+
+n_part = 2e9
+blength = 231.51
 
 '''
 Step2+
