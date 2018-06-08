@@ -210,15 +210,16 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
                                 # RANDOM UNIFORM
                                 # ~ x[i] = random.uniform(0., n_sigma) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
                                 # EQUAL STEPS
-                                if horizontal:                                       
-                                        x[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
+                                if horizontal:
+                                        # ~ print 'beta = ',parameters['beta'], ' gamma = ', parameters['gamma']
+                                        x[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(float(parameters['betax0']) * ( parameters['epsn_x'] / (parameters['beta'] * parameters['gamma'])))
                                 elif not horizontal:
                                         # ~ print '\nVERTICAL BUNCH: n_sigma = ',n_sigma, ', sigma = ',  (np.sqrt(parameters['betay0'] * parameters['epsn_y']))
                                         # ~ print '\ty =', i * (n_sigma/parameters['n_macroparticles']) * np.sqrt(parameters['betay0'] * parameters['epsn_y'])
                                         # ~ print '\ti = ', i, ', betay0 = ',  parameters['betay0'], ', epsn_y = ', parameters['epsn_y'], ', macroparticles = ',  parameters['n_macroparticles']
                                         # ~ print '\tsqrt(bet*eps) = ', np.sqrt(parameters['betay0'] * parameters['epsn_y'])
                                         # ~ print '\tn_sigma/macro = ', float(n_sigma/float(parameters['n_macroparticles']))
-                                        y[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(parameters['betay0'] * parameters['epsn_y'])
+                                        y[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(float(parameters['betay0']) * ( parameters['epsn_y'] / (parameters['beta'] * parameters['gamma'])))
 
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.

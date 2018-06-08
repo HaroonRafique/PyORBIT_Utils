@@ -210,7 +210,8 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
                                 # RANDOM UNIFORM
                                 # ~ x[i] = random.uniform(0., n_sigma) * np.sqrt(parameters['betax0'] * parameters['epsn_x'])
                                 # EQUAL STEPS
-                                if horizontal:                           
+                                if horizontal:
+                                        # ~ print 'beta = ',parameters['beta'], ' gamma = ', parameters['gamma']
                                         x[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(float(parameters['betax0']) * ( parameters['epsn_x'] / (parameters['beta'] * parameters['gamma'])))
                                 elif not horizontal:
                                         # ~ print '\nVERTICAL BUNCH: n_sigma = ',n_sigma, ', sigma = ',  (np.sqrt(parameters['betay0'] * parameters['epsn_y']))
