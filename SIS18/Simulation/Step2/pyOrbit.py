@@ -154,7 +154,7 @@ bunch.addPartAttr("macrosize")
 map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
 ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 bunch.dumpBunch("input/mainbunch_start.dat")
-saveBunchAsMatfile(bunch, "input/mainbunch")
+saveBunchAsMatfile(bunch, "output/mainbunch_-000001")
 
 lostbunch = Bunch()
 bunch.copyEmptyBunchTo(lostbunch)
@@ -241,10 +241,12 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
-output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
-output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
-output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
-output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
+
+if frozen or slicebyslice:
+        output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
+        output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
+        output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
+        output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 
 #----------------------------------------------------
 # Do some turns and dump particle information

@@ -4,11 +4,11 @@ import numpy as np
 beta = 0.15448
 gamma = 1.012149995
 m = 1.2
-intensity=1.9e+11               # DeltaQ = 0.1  Z=40.3m t=3472.7ns
-# ~ intensity=3e+10             # DeltaQ = 0.1  Z=2.69m t=231.51ns
+intensity=3e+10            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
+# ~ intensity=2e+9             # DeltaQ = 0.1  Z=2.69m t=231.51ns
 # Assume Geometric epsn_x = (beta*gamma)*epsn_g_x
-epsn_x=(beta*gamma)*(12.57e-6)/4            # 3.1425e-6
-epsn_y=(beta*gamma)*(9.30e-6)/4              # 2.325e-6
+epsn_x=(beta*gamma)*(12.57e-6)/4           # beta*gamma*e_g/4 = 4.91E-7
+epsn_y=(beta*gamma)*(9.30e-6)/4              # beta*gamma*e_g/4 = 3.635E-7
 TransverseCut = 5
 n_macroparticles = int(100)
 macrosize = intensity/float(n_macroparticles)
