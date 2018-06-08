@@ -222,6 +222,7 @@ value, pc, beam->pc, beam->energy;
 ptc_twiss_tune_macro_false_split: macro={
   ptc_create_universe;
   ptc_create_layout, time=true, model=2, exact=true, method=6, nst=3;
+  !ptc_create_layout, time=false, model=2, exact=true, method=6, nst=3;
   !ptc_script, file="resplit.ptc";
   ptc_twiss, closed_orbit, table=ptc_twiss, file=ptc_twiss_unmatched.tfs, icase=56,no=2,summary_table=ptc_twiss_summary;
   qx0=table(ptc_twiss_summary,Q1);
