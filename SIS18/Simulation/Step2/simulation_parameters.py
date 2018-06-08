@@ -10,7 +10,7 @@ intensity=1.9e+11               # DeltaQ = 0.1  Z=40.3m t=3472.7ns
 epsn_x=(beta*gamma)*(12.57e-6)/4            # 3.1425e-6
 epsn_y=(beta*gamma)*(9.30e-6)/4              # 2.325e-6
 TransverseCut = 5
-n_macroparticles = int(40)
+n_macroparticles = int(100)
 macrosize = intensity/float(n_macroparticles)
 blength_rms = (beta*299792458*3472.7e-9)/4. # = 40.206868
 dpp_rms = (beta*2.5e-4)/3.
