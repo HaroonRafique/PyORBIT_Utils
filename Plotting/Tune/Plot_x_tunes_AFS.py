@@ -92,7 +92,7 @@ for i in xrange(min_particle,n_part):
 
 # ~ xn = max_amps_x/sig_x
 # ~ xn = max_amps_x*const
-xn = max_amps_x
+# ~ xn = max_amps_x
 
 print len(xn)
 print len(tunes)
