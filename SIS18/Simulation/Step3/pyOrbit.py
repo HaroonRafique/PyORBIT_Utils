@@ -7,12 +7,15 @@ pr.enable()
 #----------------------------------------------
 # Simulation Switches
 #----------------------------------------------
-slicebyslice = 0        # 2.5D space charge
-frozen = 1              # Frozen space charge
+from simulation_parameters import switches as s
+
+
+slicebyslice = s['SliceBySlice']        # 2.5D space charge
+frozen = s['Frozen']                    # Frozen space charge
 if frozen:
         slicebyslice=0
 
-horizontal = 1          # Horizontal Poincare Distn
+horizontal = s['Horizontal']            # Horizontal Poincare Distn
 
 import math
 import sys
@@ -138,6 +141,8 @@ p['beta']            = bunch.getSyncParticle().beta()
 p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
 p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 kin_Energy = bunch.getSyncParticle().kinEnergy()
+print 'Energy of particle = ', p['energy']
+print 'Kinetic Energy of particle = ', kin_Energy
 
 if horizontal:
         Particle_distribution_file = generate_initial_poincare_distributionH(4, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
@@ -149,7 +154,7 @@ bunch.addPartAttr("macrosize")
 map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
 ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 bunch.dumpBunch("input/mainbunch_start.dat")
-saveBunchAsMatfile(bunch, "input/mainbunch")
+saveBunchAsMatfile(bunch, "output/mainbunch_-000001")
 
 lostbunch = Bunch()
 bunch.copyEmptyBunchTo(lostbunch)
@@ -165,7 +170,8 @@ paramsDict["bunch"]= bunch
 if frozen:
         print '\nSetting up the space charge calculations ...'
         # Make a SC solver using frozen potential
-        sc_path_length_min = 0.00000001
+        # ~ sc_path_length_min = 1E-8
+        sc_path_length_min = s['MinPathLength']
         LineDensity=GaussianLineDensityProfile(p['blength_rms'])
         sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms'], 'LineDensity': LineDensity}
         space_charge_solver1 = SpaceChargeCalcAnalyticGaussian(*[sc_params1[k] for k in ['intensity','epsn_x','epsn_y','dpp_rms','LineDensity']])
@@ -235,10 +241,12 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
-output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
-output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
-output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
-output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
+
+if frozen or slicebyslice:
+        output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
+        output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
+        output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
+        output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 
 #----------------------------------------------------
 # Do some turns and dump particle information
