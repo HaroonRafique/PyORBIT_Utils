@@ -213,6 +213,11 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
                                 if horizontal:
                                         # ~ print 'beta = ',parameters['beta'], ' gamma = ', parameters['gamma']
                                         x[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(float(parameters['betax0']) * ( parameters['epsn_x'] / (parameters['beta'] * parameters['gamma'])))
+                                        # ~ x[i] = i * float(n_sigma/float(parameters['n_macroparticles']))
+                                        # ~ print 'Generate Poincare Distn: maximum sigma = ', n_sigma, ', current particle = ', i * float(n_sigma/float(parameters['n_macroparticles'])), ' sigma'
+                                        # ~ print 'eps_geo_x = ', ( parameters['epsn_x'] / (parameters['beta'] * parameters['gamma']))
+                                        # ~ print 'beta_x0 = ', float(parameters['betax0'])  
+                                        # ~ print 'sigma_x = ', np.sqrt(float(parameters['betax0']) * ( parameters['epsn_x'] / (parameters['beta'] * parameters['gamma'])))
                                 elif not horizontal:
                                         # ~ print '\nVERTICAL BUNCH: n_sigma = ',n_sigma, ', sigma = ',  (np.sqrt(parameters['betay0'] * parameters['epsn_y']))
                                         # ~ print '\ty =', i * (n_sigma/parameters['n_macroparticles']) * np.sqrt(parameters['betay0'] * parameters['epsn_y'])

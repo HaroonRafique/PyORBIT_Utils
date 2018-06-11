@@ -42,7 +42,7 @@ parameters = {
 }
 
 switches = {
-        'Horizontal': 0,
+        'Horizontal': 1,
         'SliceBySlice': 0,
         'Frozen': 1,
         'MinPathLength': 1E-8
