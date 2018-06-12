@@ -18,7 +18,7 @@ circumference= 216.7199935
 rf_voltage=0.0
 gamma_transition=5
 
-turns_max = 1000
+turns_max = 15000
 # ~ turns_max = 150
 
 turns_update = range(-1, turns_max, 100)
