@@ -240,7 +240,29 @@ def generate_initial_5mm_distributionV(half_range, parameters, Lattice, output_f
         return generate_initial_5mm_distribution(half_range, parameters, Lattice, 0, output_file, summary_file, outputFormat)
 
 def generate_initial_5mm_distribution(half_range, parameters, Lattice, horizontal = 1,  output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
-
+	parameters['alphax0'] = Lattice.alphax0
+	parameters['betax0']  = Lattice.betax0
+	parameters['alphay0'] = Lattice.alphay0
+	parameters['betay0']  = Lattice.betay0
+	parameters['etax0']   = Lattice.etax0
+	parameters['etapx0']  = Lattice.etapx0
+	parameters['etay0']   = Lattice.etay0
+	parameters['etapy0']  = Lattice.etapy0
+	parameters['x0']      = Lattice.orbitx0
+	parameters['xp0']     = Lattice.orbitpx0
+	parameters['y0']      = Lattice.orbity0
+	parameters['yp0']     = Lattice.orbitpy0
+	parameters['gamma_transition'] = Lattice.gammaT
+	parameters['circumference']    = Lattice.getLength()
+	parameters['length'] = Lattice.getLength()/Lattice.nHarm
+	# twiss containers
+	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
+	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
+	dispersionx = {'etax0': parameters['beta']*parameters['etax0'], 'etapx0': parameters['beta']*parameters['etapx0']}
+	dispersiony = {'etay0': parameters['beta']*parameters['etay0'], 'etapy0': parameters['beta']*parameters['etapy0']}
+	closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
+	closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']}
+        
 	# initialize particle arrays
 	x = np.zeros(parameters['n_macroparticles'])
 	xp = np.zeros(parameters['n_macroparticles'])
@@ -249,20 +271,28 @@ def generate_initial_5mm_distribution(half_range, parameters, Lattice, horizonta
 	phi = np.zeros(parameters['n_macroparticles'])
 	dE = np.zeros(parameters['n_macroparticles'])
 
+        Longitudinal_distribution = LongitudinalJohoDistributionSingleHarmonic(parameters, parameters['LongitudinalJohoParameter'])
+
 	# only the main CPU is actually writing its distribution to a file ...
 	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
 	if orbit_mpi.MPI_Comm_rank(comm) == 0:
 		with open(output_file,"w") as fid:
 			csv_writer = csv.writer(fid, delimiter=' ')
 
-			for i in range(parameters['n_macroparticles']):
+			for i in range(parameters['n_macroparticles']):                                
+				# ~ (phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
                                 # EQUAL STEPS
                                 if horizontal:
                                         # ~ x[i] = i * float(n_sigma/float(parameters['n_macroparticles'])) * np.sqrt(float(parameters['betax0']) * ( parameters['epsn_x'] / (parameters['beta'] * parameters['gamma'])))
-                                        x[i] = (5E-3 - half_range) + ( (i + (2*half_range))/float(parameters['n_macroparticles']) )
-                                        print x[i]
+                                        x[i] = (5E-3 - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
+                                        phi[i] =  2.5 * parameters['sig_z'] * np.pi * -2
+                                        # ~ phi[i] = -2.5 * parameters['sig_z']
+                                        # ~ phi[i] = -5.61199095E-6
+                                        # ~ dE[i] = parameters['dpp_rms']                                        
+                                        print x[i], phi[i]
+                                        
                                 elif not horizontal:
-                                        y[i] = (5E-3 - half_range) + ( (i + (2*half_range))/float(parameters['n_macroparticles']) )
+                                        y[i] = (5E-3 - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
                                         print y[i]
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.

@@ -145,9 +145,9 @@ print 'Energy of particle = ', p['energy']
 print 'Kinetic Energy of particle = ', kin_Energy
 
 if horizontal:
-        Particle_distribution_file = generate_initial_5mm_distributionH(0.5E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 else:
-        Particle_distribution_file = generate_initial_5mm_distributionV(0.5E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionV(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 bunch.addPartAttr("macrosize")
@@ -257,6 +257,7 @@ print '\nnow start tracking...'
 
 for turn in range(p['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
+        
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	
 	# subtract circumference each turn in order to reconstruct the turn number from loss position

@@ -16,8 +16,11 @@ blength_rms = (beta*299792458*3472.7e-9)/4. # = 40.206868
 dpp_rms = (beta*2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
+gamma_transition=5
+sig_z = (3472.7e-9)/4.
 
-turns_max = 15000
+turns_max = 5000
+# ~ turns_max = 150
 
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
@@ -38,7 +41,8 @@ parameters = {
 	'turns_update': turns_update,
 	'turns_print': turns_print,
         'rf_voltage': rf_voltage,
-        'circumference':circumference
+        'circumference':circumference,
+        'sig_z':sig_z
 }
 
 switches = {
