@@ -10,11 +10,11 @@ emit_y = (beta*gamma)*9.3e-6 / 4.
 
 q = 1
 
-# ~ n_part = 0.3e11
-# ~ blength = 3472.7
+n_part = 0.305564e11
+blength = 3472.7
 
-n_part = 2e9
-blength = 231.51
+# ~ n_part = 2.03706e9
+# ~ blength = 231.51
 
 '''
 Step2+
