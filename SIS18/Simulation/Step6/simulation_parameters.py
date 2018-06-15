@@ -4,23 +4,22 @@ import numpy as np
 beta = 0.15448
 gamma = 1.012149995
 m = 1.2
-intensity=3e+10            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
-# ~ intensity=2e+9             # DeltaQ = 0.1  Z=2.69m t=231.51ns
+intensity=0.305564e11            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
+# ~ intensity=2.03e+9             # DeltaQ = 0.1  Z=2.69m t=231.51ns
 # Assume Geometric epsn_x = (beta*gamma)*epsn_g_x
 epsn_x=(beta*gamma)*(12.57e-6)/4           # beta*gamma*e_g/4 = 4.91E-7
 epsn_y=(beta*gamma)*(9.30e-6)/4              # beta*gamma*e_g/4 = 3.635E-7
 TransverseCut = 5
-n_macroparticles = int(11)
+n_macroparticles = int(1)
 macrosize = intensity/float(n_macroparticles)
-blength_rms = (beta*299792458*3472.7e-9)/4. # = 40.206868
+blength_rms = (beta*299792458*231.51e-9)/4. # = 40.206868
 dpp_rms = (beta*2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
 gamma_transition=5
 sig_z = (3472.7e-9)/4.
 
-turns_max = 5000
-# ~ turns_max = 150
+turns_max = 15000
 
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
@@ -49,7 +48,8 @@ switches = {
         'Horizontal': 1,
         'SliceBySlice': 0,
         'Frozen': 1,
-        'MinPathLength': 1E-8
+        'MinPathLength': 1E-8,
+        'RestoringForce':-1.951E-11
 }
 
 # these are the parameters for the PTC RF table

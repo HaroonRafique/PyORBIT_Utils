@@ -4,7 +4,7 @@ import numpy as np
 beta = 0.15448
 gamma = 1.012149995
 m = 1.2
-intensity=3e+10            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
+intensity=0.305564e11            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
 # ~ intensity=2e+9             # DeltaQ = 0.1  Z=2.69m t=231.51ns
 # Assume Geometric epsn_x = (beta*gamma)*epsn_g_x
 epsn_x=(beta*gamma)*(12.57e-6)/4           # beta*gamma*e_g/4 = 4.91E-7
@@ -17,7 +17,7 @@ dpp_rms = (beta*2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
 
-turns_max = 1500
+turns_max = 1024
 
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
