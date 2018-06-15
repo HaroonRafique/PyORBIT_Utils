@@ -106,7 +106,7 @@ PTC_File = "SIS_18_BENCHMARK.flt"
 Lattice = PTC_Lattice("MACHINE")
 Lattice.readPTC(PTC_File)
 # ~ readScriptPTC('Input/fringe.txt')
-# ~ readScriptPTC('Input/time.ptc')
+readScriptPTC('time.ptc')
 # ~ readScriptPTC('Input/chrom.ptc')
 
 paramsDict = {}
