@@ -50,7 +50,7 @@ switches = {
         'SliceBySlice': 0,
         'Frozen': 1,
         'MinPathLength': 1E-8,
-        'RestoringForce':-4.4096738E-9
+        'RestoringForce':-4.40967395E-9
 }
 
 # these are the parameters for the PTC RF table
