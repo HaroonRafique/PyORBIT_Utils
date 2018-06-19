@@ -340,7 +340,9 @@ for f in force_range:
 	print '\t\tz_diff_mid = ', z_diff_mid
 	print '\t\tz_diff_end = ', z_diff_end 
 	
-	fileout.write( f + "\t" + z_diff_mid + "\t" + z_diff_m)
+	# ~ print "He's got %s eyes and %s hair." % (my_eyes, my_hair)
+	
+	fileout.write( "%f\t%f\t%f" % (f, z_diff_mid, z_diff_end))
 	
 	if (z_diff_end < end_tolerance) and (z_diff_mid < mid_tolerance):
 		print 'Convergence found - Force = ',f
