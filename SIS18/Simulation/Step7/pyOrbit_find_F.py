@@ -298,9 +298,9 @@ def LinearRestoringForce(b, force):
 
 # Create the range of forces to be iterated
 # ~ force_range=[]
-f_start= -4.5E-11
+f_start= -4.0E-11
 f_int = 1E-13
-f_stop = (-4.3E-11 + f_int)
+f_stop = (-0.1E-11 + f_int)
 force_range =  np.arange(f_start, f_stop, f_int, dtype=float)
 force_iterator=int(0)
 
@@ -312,10 +312,15 @@ initial_z = bunch.z(0)
 end_tolerance = 0.1 * (initial_z / 100) #0.1%
 mid_tolerance = 1 * (initial_z / 100) #1%
 
+fileout = open("Force.txt","w+")
+fileout.write("#Force\tz_diff_mid\tz_diff_end")
+
 print '\nnow start tracking...'
 for f in force_range:
+	initial_z = bunch.z(0)
+	print 'initial z = ', initial_z
 	for turn in range(p['turns_max']):
-		print 'turn =', turn
+		# ~ print 'turn =', turn
 		Lattice.trackBunch(bunch, paramsDict)
 		LinearRestoringForce(bunch, f)
 			
@@ -327,7 +332,7 @@ for f in force_range:
 		
 		if turn == (p['turns_max']/2):
 			# ~ z_diff_mid = ( (-1*initial_z - bunch.z(0)) / -1*initial_z ) * 100
-			z_diff_mid = (-1*initial_z - bunch.z(0))
+			z_diff_mid = (initial_z - bunch.z(0))
 	# ~ z_diff_end = ( (-1*initial_z - bunch.z(0)) / -1*initial_z ) * 100
 	z_diff_end = initial_z - bunch.z(0)
 	
@@ -335,10 +340,28 @@ for f in force_range:
 	print '\t\tz_diff_mid = ', z_diff_mid
 	print '\t\tz_diff_end = ', z_diff_end 
 	
+	fileout.write( f + "\t" + z_diff_mid + "\t" + z_diff_m)
+	
 	if (z_diff_end < end_tolerance) and (z_diff_mid < mid_tolerance):
 		print 'Convergence found - Force = ',f
 		break
 		
+	# Have to redo the bunch	
+	bunch = Bunch()
+	if horizontal:
+        # ~ Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		Particle_distribution_file = generate_initial_5mm_distributionH(0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	else:
+		Particle_distribution_file = generate_initial_5mm_distributionV(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+
+	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+	bunch.addPartAttr("macrosize")
+	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
+	
+	paramsDict["bunch"]= bunch
+
+fileout.close()
+
 pr.disable()
 s = StringIO.StringIO()
 sortby = 'cumulative'
