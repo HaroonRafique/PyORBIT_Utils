@@ -19,7 +19,7 @@ rf_voltage=0.0
 gamma_transition=5
 sig_z = (3472.7e-9)/4.
 
-turns_max = 2000
+turns_max = 1000
 # ~ turns_max = 150
 
 turns_update = range(-1, turns_max, 100)
@@ -48,9 +48,9 @@ parameters = {
 switches = {
         'Horizontal': 1,
         'SliceBySlice': 0,
-        'Frozen': 1,
+        'Frozen': 0,
         'MinPathLength': 1E-8,
-        'RestoringForce':-4.40967395E-9
+        'RestoringForce':-4.409673951E-9
 }
 
 # these are the parameters for the PTC RF table
