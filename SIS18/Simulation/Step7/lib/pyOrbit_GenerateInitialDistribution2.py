@@ -283,7 +283,7 @@ def generate_initial_5mm_distribution(half_range, parameters, Lattice, horizonta
 				# ~ (phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
                                 # EQUAL STEPS
                                 if horizontal:
-                                        x[i] = (5E-3 - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
+                                        x[i] = (5.5E-3 - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
                                         # z = (-phi*L)/(2*pi)
                                         # phi = (-2*pi*z)/L
                                         phi[i] =  (-2*np.pi*2.5*parameters['blength_rms'])/parameters["length"]
