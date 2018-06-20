@@ -339,14 +339,14 @@ for f in force_range:
 			z_diff_mid = (initial_z - bunch.z(0))
 	# ~ z_diff_end = ( (-1*initial_z - bunch.z(0)) / -1*initial_z ) * 100
 	z_diff_end = initial_z - bunch.z(0)
-	
-	print '\n\n\n\t\tForce = ', f
-	print '\t\tz_diff_mid = ', z_diff_mid
-	print '\t\tz_diff_end = ', z_diff_end 		
-	fileout = open("Force.txt","a+")
-	# ~ fo = float(f)
-	fileout.write( "\n%e\t%f\t%f" % (float(f), z_diff_mid, z_diff_end))
-	fileout.close()
+	if not rank:
+		print '\n\n\n\t\tForce = ', f
+		print '\t\tz_diff_mid = ', z_diff_mid
+		print '\t\tz_diff_end = ', z_diff_end 		
+		fileout = open("Force.txt","a+")
+		# ~ fo = float(f)
+		fileout.write( "\n%e\t%f\t%f" % (float(f), z_diff_mid, z_diff_end))
+		fileout.close()
 	
 	# ~ print "He's got %s eyes and %s hair." % (my_eyes, my_hair)
 	
