@@ -298,7 +298,7 @@ def LinearRestoringForce(b, force):
 
 # Create the range of forces to be iterated
 # ~ force_range=[]
-f_start= -4.0E-11
+f_start= -2.0E-11
 f_int = 1E-13
 f_stop = (-0.1E-11 + f_int)
 force_range =  np.arange(f_start, f_stop, f_int, dtype=float)
@@ -314,13 +314,17 @@ mid_tolerance = 1 * (initial_z / 100) #1%
 
 fileout = open("Force.txt","w+")
 fileout.write("#Force\tz_diff_mid\tz_diff_end")
+fileout.close()
+# ~ fileout.write( "\n%f\t%f\t%f" % (1, z_diff_mid, z_diff_end))
+
+# ~ sys.exit()
 
 print '\nnow start tracking...'
 for f in force_range:
 	initial_z = bunch.z(0)
 	print 'initial z = ', initial_z
-	for turn in range(p['turns_max']):
-		# ~ print 'turn =', turn
+	for turn in range(p['turns_max']):		
+	# ~ print 'turn =', turn
 		Lattice.trackBunch(bunch, paramsDict)
 		LinearRestoringForce(bunch, f)
 			
@@ -338,11 +342,14 @@ for f in force_range:
 	
 	print '\n\n\n\t\tForce = ', f
 	print '\t\tz_diff_mid = ', z_diff_mid
-	print '\t\tz_diff_end = ', z_diff_end 
+	print '\t\tz_diff_end = ', z_diff_end 		
+	fileout = open("Force.txt","a+")
+	# ~ fo = float(f)
+	fileout.write( "\n%e\t%f\t%f" % (float(f), z_diff_mid, z_diff_end))
+	fileout.close()
 	
 	# ~ print "He's got %s eyes and %s hair." % (my_eyes, my_hair)
 	
-	fileout.write( "%f\t%f\t%f" % (f, z_diff_mid, z_diff_end))
 	
 	if (z_diff_end < end_tolerance) and (z_diff_mid < mid_tolerance):
 		print 'Convergence found - Force = ',f
@@ -362,7 +369,7 @@ for f in force_range:
 	
 	paramsDict["bunch"]= bunch
 
-fileout.close()
+# ~ fileout.close()
 
 pr.disable()
 s = StringIO.StringIO()
