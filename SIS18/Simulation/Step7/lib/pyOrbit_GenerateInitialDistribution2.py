@@ -233,13 +233,13 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
 
 	return output_file
 
-def generate_initial_5mm_distributionH(half_range, parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
-        return generate_initial_5mm_distribution(half_range, parameters, Lattice, 1, output_file, summary_file, outputFormat)
+def generate_initial_5mm_distributionH(start, half_range, parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+        return generate_initial_5mm_distribution(start, half_range, parameters, Lattice, 1, output_file, summary_file, outputFormat)
 
-def generate_initial_5mm_distributionV(half_range, parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
-        return generate_initial_5mm_distribution(half_range, parameters, Lattice, 0, output_file, summary_file, outputFormat)
+def generate_initial_5mm_distributionV(start, half_range, parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+        return generate_initial_5mm_distribution(start, half_range, parameters, Lattice, 0, output_file, summary_file, outputFormat)
 
-def generate_initial_5mm_distribution(half_range, parameters, Lattice, horizontal = 1,  output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+def generate_initial_5mm_distribution(start, half_range, parameters, Lattice, horizontal = 1,  output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
 	parameters['alphax0'] = Lattice.alphax0
 	parameters['betax0']  = Lattice.betax0
 	parameters['alphay0'] = Lattice.alphay0
@@ -283,7 +283,7 @@ def generate_initial_5mm_distribution(half_range, parameters, Lattice, horizonta
 				# ~ (phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
                                 # EQUAL STEPS
                                 if horizontal:
-                                        x[i] = (5E-3 - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
+                                        x[i] = (start - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
                                         # z = (-phi*L)/(2*pi)
                                         # phi = (-2*pi*z)/L
                                         phi[i] =  (-2*np.pi*2.5*parameters['blength_rms'])/parameters["length"]
@@ -291,7 +291,7 @@ def generate_initial_5mm_distribution(half_range, parameters, Lattice, horizonta
                                         print x[i], phi[i]
                                         
                                 elif not horizontal:
-                                        y[i] = (5E-3 - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
+                                        y[i] = (start - half_range) + ( (i * (2*half_range))/float(parameters['n_macroparticles']) )
                                         print y[i]
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.
