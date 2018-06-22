@@ -80,7 +80,7 @@ from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('input')
 mpi_mkdir_p('output')
 mpi_mkdir_p('lost')
-
+mpi_mkdir_p('emittance')
 
 #----------------------------------------------
 # Generate Lattice (MADX + PTC)
@@ -313,14 +313,14 @@ def SingleParticleEmittance(b):
 #----------------------------------------------------
 
 # Create the range of x positions to be iterated
-x_start= 4.5E-3
-x_int = 1E-4
-x_stop = (5.5E-3 + x_int)
+x_start= 4E-3
+x_int = 1E-5
+x_stop = (5E-3 + x_int)
 x_range =  np.arange(x_start, x_stop, x_int, dtype=float)
 
 
 
-fileout = open("x.txt","w+")
+fileout = open("emittance/x.txt","w+")
 fileout.write("#x\tEmit_x_max\tEmit_x_min")
 fileout.close()
 
@@ -344,7 +344,7 @@ for x in x_range:
 	print 'initial x = ', initial_x
 	
 	# Create a new file to store emittances for each x
-	x_emit_file = 'x=' + str(x) + '_single_particle_emittance.txt'
+	x_emit_file = 'emittance/x=' + str(x) + '_single_particle_emittance.txt'
 	
 	emitfile = open(x_emit_file,"w+")
 	emitfile.write("#Turn\tEmit_x")	
@@ -381,7 +381,7 @@ for x in x_range:
 		elif spe > emit_x_max:
 			emit_x_max = spe
 		
-	fileout = open("x.txt","a+")
+	fileout = open("emittance/x.txt","a+")
 	fileout.write( "\n%f\t%e\t%e" % (x, (emit_x_max/spe_initial), (emit_x_min/spe_initial)) ) 
 	fileout.close()		
         
