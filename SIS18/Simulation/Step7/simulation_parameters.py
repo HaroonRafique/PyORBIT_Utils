@@ -48,9 +48,11 @@ parameters = {
 switches = {
         'Horizontal': 1,
         'SliceBySlice': 0,
-        'Frozen': 0,
+        'Frozen': 1,
         'MinPathLength': 1E-8,
-        'RestoringForce':-4.409673951E-9
+        # ~ 'RestoringForce':-4.409673951E-9
+        'RestoringForce':-4.403800e-09,
+        'InitialParticleTransversePosition':5E-3
 }
 
 # these are the parameters for the PTC RF table

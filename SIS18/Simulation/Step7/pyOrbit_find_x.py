@@ -145,9 +145,9 @@ print 'Kinetic Energy of particle = ', kin_Energy
 
 if horizontal:
         # ~ Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-        Particle_distribution_file = generate_initial_5mm_distributionH(p['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionH(s['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 else:
-        Particle_distribution_file = generate_initial_5mm_distributionV(p['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionV(s['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 bunch.addPartAttr("macrosize")
@@ -256,58 +256,134 @@ names = bunch.getPossiblePartAttrNames()
 print names
 
 def LinearRestoringForce(b, force):
-
-		rank = 0
-		numprocs = 1
-		
-		mpi_init = orbit_mpi.MPI_Initialized()
-		comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
-		
-		if(mpi_init):
-			rank = orbit_mpi.MPI_Comm_rank(comm)
-			numprocs = orbit_mpi.MPI_Comm_size(comm)
-		
-		nparts_arr_local = []
-		for i in range(numprocs):
-			nparts_arr_local.append(0)
-				
-		nparts_arr_local[rank] = b.getSize()
-		data_type = mpi_datatype.MPI_INT
-		op = mpi_op.MPI_SUM
+	rank = 0
+	numprocs = 1
 	
-		nparts_arr = orbit_mpi.MPI_Allreduce(nparts_arr_local,data_type,op,comm)
+	mpi_init = orbit_mpi.MPI_Initialized()
+	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+	
+	if(mpi_init):
+		rank = orbit_mpi.MPI_Comm_rank(comm)
+		numprocs = orbit_mpi.MPI_Comm_size(comm)
+	
+	nparts_arr_local = []
+	for i in range(numprocs):
+		nparts_arr_local.append(0)
+			
+	nparts_arr_local[rank] = b.getSize()
+	data_type = mpi_datatype.MPI_INT
+	op = mpi_op.MPI_SUM
 
-                for i in range(b.getSize()):
-                        en = b.dE(i)
+	nparts_arr = orbit_mpi.MPI_Allreduce(nparts_arr_local,data_type,op,comm)
 
-                        en = en + b.z(i) * force
+	for i in range(b.getSize()):
+			en = b.dE(i)
+
+			en = en + b.z(i) * force
+			
+			b.dE(i,en)
                         
-                        b.dE(i,en)
-                        
+def SingleParticleEmittance(b):
+	rank = 0
+	numprocs = 1
+	
+	mpi_init = orbit_mpi.MPI_Initialized()
+	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+	
+	if(mpi_init):
+		rank = orbit_mpi.MPI_Comm_rank(comm)
+		numprocs = orbit_mpi.MPI_Comm_size(comm)
+		
+	betx0=12.79426135
+	alfx0=1.283306757 
+	gamx0 = (1+alfx0*alfx0)/betx0
+	
+	
+	
+	# ~ for i in range(b.getSize()):
+	if (b.getSize() > 1):
+		print 'WARNING: In SingleParticleEmittance(bunch): Bunch size is greater than one particle, this function will only return the single particle emittance of the first particle in the bunch'
 
+	spe = betx0 * b.xp(0) * b.xp(0)  + 2 * alfx0 * b.x(0) * b.xp(0) + gamx0 * b.x(0) * b.x(0)
+	
+	return spe
+		
 #----------------------------------------------------
 # Do some turns and dump particle information
 #----------------------------------------------------
+
+# Create the range of x positions to be iterated
+x_start= 4.5E-3
+x_int = 1E-4
+x_stop = (5.5E-3 + x_int)
+x_range =  np.arange(x_start, x_stop, x_int, dtype=float)
+
+
+
+fileout = open("x.txt","w+")
+fileout.write("#x\tEmit_x_max\tEmit_x_min")
+fileout.close()
+
 print '\nnow start tracking...'
+for x in x_range:
+	# Have to redo the bunch	
+	bunch = Bunch()
+	if horizontal:
+        # ~ Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		Particle_distribution_file = generate_initial_5mm_distributionH(x, 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	else:
+		Particle_distribution_file = generate_initial_5mm_distributionV(x, 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-# ~ print p['turns_print']
-
-for turn in range(p['turns_max']):
-	Lattice.trackBunch(bunch, paramsDict)
-        LinearRestoringForce(bunch, s['RestoringForce'])
-        
-	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
+	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+	bunch.addPartAttr("macrosize")
+	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))	
+	paramsDict["bunch"]= bunch
 	
-	# subtract circumference each turn in order to reconstruct the turn number from loss position
-	map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
-					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
-
-        if turn in p['turns_print']:
-                saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
-                saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
-
-        output.save_to_matfile('output')
-	output.update()
+	initial_x = bunch.x(0)
+	spe_initial = float(SingleParticleEmittance(bunch))
+	print 'initial x = ', initial_x
+	
+	# Create a new file to store emittances for each x
+	x_emit_file = 'x=' + str(x) + '_single_particle_emittance.txt'
+	
+	emitfile = open(x_emit_file,"w+")
+	emitfile.write("#Turn\tEmit_x")	
+	emitfile.close()
+	
+	emit_x_max = 0.
+	emit_x_min = float(1E6)
+	
+	for turn in range(p['turns_max']):		
+		if(turn == 0):
+			spe = float(SingleParticleEmittance(bunch))
+			emitfile = open(x_emit_file,"a+")
+			emitfile.write("\n%i\t%e" % (int(-1), spe))
+			emitfile.close()
+		
+		Lattice.trackBunch(bunch, paramsDict)
+		LinearRestoringForce(bunch, s['RestoringForce'])
+			
+		bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
+		
+		# subtract circumference each turn in order to reconstruct the turn number from loss position
+		# ~ map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
+		
+		# Calculate single particle emittance and append to file
+		spe = float(SingleParticleEmittance(bunch))
+		
+		emitfile = open(x_emit_file,"a+")
+		emitfile.write("\n%i\t%e" % (int(turn), spe))
+		emitfile.close()
+		
+		# check for minimum and maximum single particle emittance
+		if spe < emit_x_min:
+			emit_x_min = spe
+		elif spe > emit_x_max:
+			emit_x_max = spe
+		
+	fileout = open("x.txt","a+")
+	fileout.write( "\n%f\t%e\t%e" % (x, (emit_x_max/spe_initial), (emit_x_min/spe_initial)) ) 
+	fileout.close()		
         
 pr.disable()
 s = StringIO.StringIO()
