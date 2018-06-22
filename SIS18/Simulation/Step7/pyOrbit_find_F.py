@@ -298,9 +298,10 @@ def LinearRestoringForce(b, force):
 
 # Create the range of forces to be iterated
 # ~ force_range=[]
-f_start= -2.0E-11
+# ~ -4.409673951E-9
+f_start= -4.406E-9
 f_int = 1E-13
-f_stop = (-0.1E-11 + f_int)
+f_stop = (-4.004E-9 + f_int)
 force_range =  np.arange(f_start, f_stop, f_int, dtype=float)
 force_iterator=int(0)
 
@@ -309,8 +310,8 @@ z_diff_mid	=	100
 
 initial_z = bunch.z(0)
 
-end_tolerance = 0.1 * (initial_z / 100) #0.1%
-mid_tolerance = 1 * (initial_z / 100) #1%
+end_tolerance = 0.01 * (initial_z / 100) #0.1%
+mid_tolerance = 0.1 * (initial_z / 100) #1%
 
 fileout = open("Force.txt","w+")
 fileout.write("#Force\tz_diff_mid\tz_diff_end")
@@ -336,7 +337,7 @@ for f in force_range:
 		
 		if turn == (p['turns_max']/2):
 			# ~ z_diff_mid = ( (-1*initial_z - bunch.z(0)) / -1*initial_z ) * 100
-			z_diff_mid = (initial_z - bunch.z(0))
+			z_diff_mid = (initial_z + bunch.z(0))
 	# ~ z_diff_end = ( (-1*initial_z - bunch.z(0)) / -1*initial_z ) * 100
 	z_diff_end = initial_z - bunch.z(0)
 	if not rank:
@@ -344,7 +345,6 @@ for f in force_range:
 		print '\t\tz_diff_mid = ', z_diff_mid
 		print '\t\tz_diff_end = ', z_diff_end 		
 		fileout = open("Force.txt","a+")
-		# ~ fo = float(f)
 		fileout.write( "\n%e\t%f\t%f" % (float(f), z_diff_mid, z_diff_end))
 		fileout.close()
 	
@@ -353,6 +353,9 @@ for f in force_range:
 	
 	if (z_diff_end < end_tolerance) and (z_diff_mid < mid_tolerance):
 		print 'Convergence found - Force = ',f
+		fileout = open("Force.txt","a+")
+		fileout.write( "\nConvergence criteria reached")
+		fileout.close()
 		break
 		
 	# Have to redo the bunch	
