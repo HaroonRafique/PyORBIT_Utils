@@ -299,11 +299,12 @@ def LinearRestoringForce(b, force):
 # Create the range of forces to be iterated
 # ~ force_range=[]
 # ~ -4.409673951E-9
-f_start= -1.955E-11
-f_int = 1E-14
-f_stop = (-1.959E-11 + f_int)
+f_start= -1.959E-11
+f_int = 1E-15
+f_stop = (-1.955E-11 + f_int)
 force_range =  np.arange(f_start, f_stop, f_int, dtype=float)
-force_iterator=int(0)
+print force_range
+# ~ sys.exit()
 
 z_diff_end	=	100
 z_diff_mid	=	100
@@ -325,7 +326,7 @@ for f in force_range:
 	initial_z = bunch.z(0)
 	print 'initial z = ', initial_z
 	for turn in range(p['turns_max']):		
-	# ~ print 'turn =', turn
+		print 'turn =', turn
 		Lattice.trackBunch(bunch, paramsDict)
 		LinearRestoringForce(bunch, f)
 			
