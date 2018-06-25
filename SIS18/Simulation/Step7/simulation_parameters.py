@@ -48,7 +48,7 @@ parameters = {
 switches = {
         'Horizontal': 1,
         'SliceBySlice': 0,
-        'Frozen': 1,
+        'Frozen': 0,
         'MinPathLength': 1E-8,
         # ~ 'RestoringForce':-4.409673951E-9
         'RestoringForce':-4.403800e-09,
