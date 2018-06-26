@@ -15,8 +15,8 @@ blength_rms = (0.91*299792458*210e-9)/4.
 dpp_rms = 1.63e-03*0.91
 circumference= 2*np.pi*100
 rf_voltage=0.0553e6
-# ~ turns_max = 5000	#
-turns_max = 2			# Tune Footprint
+turns_max = int(1E4)	#
+# ~ turns_max = 2			# Tune Footprint
 turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
 
@@ -47,6 +47,7 @@ switches = {
 
 # these are the paramters for the PTC RF table
 harmonic_factors = [1] #this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
+#time = np.array([0,10,20])
 time = np.array([0,1,2])
 ones = np.ones_like(time)
 Ekin_GeV = 1.4*ones
@@ -60,4 +61,3 @@ RFparameters = {
 	'voltage_MV': RF_voltage_MV,
 	'phase': RF_phase
 }
-
