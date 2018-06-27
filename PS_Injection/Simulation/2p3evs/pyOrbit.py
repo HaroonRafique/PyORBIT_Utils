@@ -68,6 +68,7 @@ print 'Start on MPI process: ', rank
 print '\nmkdir on MPI process: ', rank
 from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('input')
+mpi_mkdir_p('bunch_output')
 mpi_mkdir_p('output')
 mpi_mkdir_p('lost')
 
@@ -152,7 +153,7 @@ bunch.addPartAttr("macrosize")
 map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
 ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 bunch.dumpBunch("input/mainbunch_start.dat")
-saveBunchAsMatfile(bunch, "output/mainbunch_-000001")
+saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
 
 lostbunch = Bunch()
 bunch.copyEmptyBunchTo(lostbunch)
@@ -199,13 +200,9 @@ parentnode = Lattice.getNodes()[parentnode_number]
 Twiss_at_parentnode_entrance = Lattice.getNodes()[parentnode_number-1].getParamsDict()
 tunes = TeapotTuneAnalysisNode("tune_analysis")
 
-if slicebyslice:
-        tunes.assignTwiss(Twiss_at_parentnode_entrance['betax'], Twiss_at_parentnode_entrance['alphax'], Twiss_at_parentnode_entrance['etax'], Twiss_at_parentnode_entrance['etapx'], Twiss_at_parentnode_entrance['betay'], Twiss_at_parentnode_entrance['alphay'])
-        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
-if frozen:
-        tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
-        tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
-        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
+tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
+tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
+addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
 
 #----------------------------------------------------
 # Prepare a bunch object to store particle coordinates
@@ -262,9 +259,9 @@ for turn in range(p['turns_max']):
 
 	# ~ bunch.addParticlesTo(bunch_tmp)
 	
-	if ((turn==0) or (turn == (turns_max-1)) or ((turn+1)%10 == 0)):
-        saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
-        saveBunchAsMatfile(lostbunch, "output/lostbunch_%s"%(str(turn).zfill(6)))
+	if turn in p['turns_print']:
+		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
+		saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
         
 	output.save_to_matfile('output/output')
 
