@@ -101,8 +101,10 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 	# twiss containers
 	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
 	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
-	dispersionx = {'etax0': parameters['beta']*parameters['etax0'], 'etapx0': parameters['beta']*parameters['etapx0']}
-	dispersiony = {'etay0': parameters['beta']*parameters['etay0'], 'etapy0': parameters['beta']*parameters['etapy0']}
+	# ~ dispersionx = {'etax0': parameters['beta']*parameters['etax0'], 'etapx0': parameters['beta']*parameters['etapx0']}
+	# ~ dispersiony = {'etay0': parameters['beta']*parameters['etay0'], 'etapy0': parameters['beta']*parameters['etapy0']}
+	dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
+	dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
 	closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
 	closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']} 
 
