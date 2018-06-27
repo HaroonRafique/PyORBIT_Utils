@@ -200,13 +200,9 @@ parentnode = Lattice.getNodes()[parentnode_number]
 Twiss_at_parentnode_entrance = Lattice.getNodes()[parentnode_number-1].getParamsDict()
 tunes = TeapotTuneAnalysisNode("tune_analysis")
 
-if slicebyslice:
-        tunes.assignTwiss(Twiss_at_parentnode_entrance['betax'], Twiss_at_parentnode_entrance['alphax'], Twiss_at_parentnode_entrance['etax'], Twiss_at_parentnode_entrance['etapx'], Twiss_at_parentnode_entrance['betay'], Twiss_at_parentnode_entrance['alphay'])
-        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
-if frozen:
-        tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
-        tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
-        addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
+tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
+tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
+addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
 
 #----------------------------------------------------
 # Prepare a bunch object to store particle coordinates
