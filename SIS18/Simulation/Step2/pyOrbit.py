@@ -107,7 +107,7 @@ Lattice = PTC_Lattice("MACHINE")
 Lattice.readPTC(PTC_File)
 # ~ readScriptPTC('Input/fringe.txt')
 readScriptPTC('time.ptc')
-# ~ readScriptPTC('Input/chrom.ptc')
+readScriptPTC('chrom.ptc')
 
 paramsDict = {}
 paramsDict["length"]=Lattice.getLength()/Lattice.nHarm
