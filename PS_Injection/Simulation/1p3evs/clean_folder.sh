@@ -1,7 +1,6 @@
 #!/bin/bash
 rm flat.dat
 rm -r input
-rm -r output
 rm -r bunch_output/mainbunch*
 rm Negative_node.OUT
 rm ptc_twiss
