@@ -1,0 +1,6 @@
+*.pyc
+*logfile*
+*.flt
+Maxwellian_bend_for_ptc.txt
+junk.txt
+output_*.0.txt
