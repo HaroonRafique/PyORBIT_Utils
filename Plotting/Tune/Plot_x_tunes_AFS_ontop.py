@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # PARAMETERS
 horizontal = 0
 
-intensity = 'I=0.3e11'
+intensity = 'I=0.295e11'
 step = '2'
 plane =''
 if horizontal:
@@ -125,11 +125,13 @@ plot_title=''
 if horizontal:
 	plot_title = 'SIS18_'+ plane +'_Distn Qx = ' + str(Qx) + '_' + case
 	ax.set(xlabel='x [sigma_x]', ylabel='Qx', title=plot_title)
-	plot_name = 'SIS18_' + case + '_Qy.png'
-	ax.set_xlim(0,5)
-	ax.set_ylim(0.2325, 0.3375)
+	plot_name = 'SIS18_' + case + '_Qx.png'
+	# ~ ax.set_xlim(0,5)
+	# ~ ax.set_ylim(0.2325, 0.3375)
 	img = plt.imread("step2_x.png")
-	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.2325, 0.3375])
+	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.2325, 0.3375]) #Step 2
+	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 7.0, 0.2325, 0.345]) #Step 3
+	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 6.0, 0.2325, 0.3505]) #Step 4
 
 else:
 	plot_title = 'SIS18_'+ plane +'_Distn Qy = ' + str(Qy) + '_' + case
@@ -138,7 +140,9 @@ else:
 	ax.set_xlim(0,5)
 	ax.set_ylim(0.05, 0.20625)		
 	img = plt.imread("step2_y.png")
-	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.05, 0.20625])
+	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.2325, 0.3375]) #Step 2
+	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 7.0, 0.2325, 0.345]) #Step 3
+	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 6.0, 0.2325, 0.3505]) #Step 4
 
 ax.grid()
 ax.scatter(z, tunes, marker='.', zorder=1, color='m', label='PTC PyORBIT')
