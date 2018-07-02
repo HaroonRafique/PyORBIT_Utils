@@ -25,7 +25,7 @@ QS3T:  QUADRUPOLE, TYPE= QD3, L= 0.4804000,  K1:= 2*iqf;
 !S:     MULTIPOLE, K2L = 0.2;
 !ms:multipole, knl:={0, 0, k2l}; New format
 
-S:     MULTIPOLE, knl:= {0.0, 0.0, 0.2};
+S:     MULTIPOLE, knl:= {0.0, 0.0, 0.0};
 !S:     SEXTUPOLE, K2=10.0;
 !S:     MULTIPOLE, knl:={0.0, 0.0, 0.0};
 

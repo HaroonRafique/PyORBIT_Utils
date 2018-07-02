@@ -326,7 +326,7 @@ for f in force_range:
 	initial_z = bunch.z(0)
 	print 'initial z = ', initial_z
 	for turn in range(p['turns_max']):		
-		print 'turn =', turn
+		# ~ print 'turn =', turn
 		Lattice.trackBunch(bunch, paramsDict)
 		LinearRestoringForce(bunch, f)
 			
@@ -365,7 +365,7 @@ for f in force_range:
         # ~ Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 		Particle_distribution_file = generate_initial_5mm_distributionH(0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 	else:
-		Particle_distribution_file = generate_initial_5mm_distributionV(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		Particle_distribution_file = generate_initial_5mm_distributionV(0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 	bunch.addPartAttr("macrosize")
