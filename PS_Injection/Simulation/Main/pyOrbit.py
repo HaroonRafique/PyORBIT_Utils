@@ -51,7 +51,7 @@ if slicebyslice:
         #PIC
         from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
         # ~ from spacecharge import SpaceChargeCalc2p5D, Boundary2D
-        # ~ from spacecharge import SpaceChargeCalcSliceBySlice2D
+        from spacecharge import SpaceChargeCalcSliceBySlice2D
         from spacecharge import SpaceChargeCalcAnalyticGaussian
         from spacecharge import InterpolatedLineDensityProfile
 
@@ -154,7 +154,7 @@ if sts['turn'] < 0:
 	print '\ngenerate_initial_distribution on MPI process: ', rank
 	Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-	orbit_mpi.MPI_Barrier(comm)
+	# ~ orbit_mpi.MPI_Barrier(comm)
 
 	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
@@ -178,15 +178,13 @@ if sts['turn'] < 0:
 	lostbunch.addPartAttr('ParticlePhaseAttributes')
 	lostbunch.addPartAttr("LostParticleAttributes")	
 	saveBunchAsMatfile(lostbunch, "input/lostbunch")
-	paramsDict["lostbunch"]=lostbunch
-	paramsDict["bunch"]= bunch
+	sts['lostbunch_file'] = "input/lostbunch"
 
 # Add items to pickle parameters
 #-----------------------------------------------------------------------
 	sts['turns_max'] = p['turns_max']
 	sts['turns_update'] = p['turns_update']
 	sts['turns_print'] = p['turns_print']
-	sts['lostbunch_file'] = "input/lostbunch"
 	sts['circumference'] = p['circumference']
 	sts['sc_params1'] = {'intensity': p['intensity'],
 											 'epsn_x':    p['epsn_x'],
@@ -227,6 +225,7 @@ if slicebyslice:
 	sizeX = 32
 	sizeY = 32
 	sizeZ = 32  # Number of longitudinal slices in the 2.5D solver
+	sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
 	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
 	sc_path_length_min = 1E-8
 	# Add the space charge solver to the lattice as child nodes
@@ -280,13 +279,13 @@ output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissana
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
 
 if frozen or slicebyslice:
-        output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
-        output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
-        output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
-        output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
+	output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
+	output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
+	output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
+	output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 
 if os.path.exists(output_file):
-        output.import_from_matfile(output_file)
+	output.import_from_matfile(output_file)
 
 # Track
 #-----------------------------------------------------------------------
@@ -299,9 +298,13 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	# subtract circumference each turn in order to reconstruct the turn number from loss position
 	if frozen:
 		map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
-					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
+			lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
+		bunch.addParticlesTo(bunch_tmp)
+					
+	if turn in sts['turns_update']:
+		sts['turn'] = turn
 
-	# ~ bunch.addParticlesTo(bunch_tmp)
+	output.update()
 	
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
@@ -310,8 +313,4 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
-				
-	if turn in sts['turns_update']:
-		sts['turn'] = turn
 
-	output.update()
