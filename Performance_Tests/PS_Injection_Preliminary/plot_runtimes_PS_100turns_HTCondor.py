@@ -3,8 +3,10 @@ import numpy as np
 import sys
 
 plot_runtimes=1
-plot_runtimes_per_thread=0
-plot_runtimes_per_node=0
+plot_runtimes_per_turn=1
+plot_runtimes_per_core=1
+plot_runtimes_per_coreturn=1
+plot_speedup_cf_1core=1
 
 # Open File
 loss_file='runtimes.txt'
@@ -17,16 +19,27 @@ sec_No_SC = []
 sec_SC = []
 sec_No_SC_turn = []
 sec_SC_turn = []
+sec_No_SC_core = []
+sec_SC_core = []
+sec_No_SC_turn_core = []
+sec_SC_turn_core = []
 
 Nturns = 100.
 
 # Read Data
 for l in fin:  
-    cores.append(float(l.split()[0]))
+    cores.append(int(l.split()[0]))
     sec_No_SC.append(abs(float(l.split()[1])))
     sec_SC.append(abs(float(l.split()[2])))
+    
     sec_No_SC_turn.append(abs(float(l.split()[1]))/100)
     sec_SC_turn.append(abs(float(l.split()[2]))/100)
+    
+    sec_No_SC_core.append(abs(float(l.split()[1]))/float(l.split()[0]))
+    sec_SC_core.append(abs(float(l.split()[2]))/float(l.split()[0]))
+    
+    sec_No_SC_turn_core.append(abs(float(l.split()[1]))/(100*float(l.split()[0])))
+    sec_SC_turn_core.append(abs(float(l.split()[2]))/(100*float(l.split()[0])))
 
 print '\ncores = ', cores;
 print '\nsec_No_SC = ', sec_No_SC;
@@ -44,34 +57,19 @@ if(plot_runtimes):
 
     ax1.set_xlabel("Cores [-]");
     ax1.set_ylabel("Time [s]", color='b');
-    # Make the y-axis label, ticks and tick labels match the line color.
     ax1.tick_params('y', colors='b');
     #~ ax1.set_yscale('log')
 
-    # ~ plt.xlim(100,300);
-    #~ ax1.set_xlim(0,220);
-    # ~ ax1.set_ylim(1.8E4, 2.8E4);
     ax1.xaxis.grid(color='k', linestyle=':', linewidth=0.5)
     ax1.yaxis.grid(color='k', linestyle=':', linewidth=0.5)
 
-    # ~ ax2 = ax1.twinx();
-    # ~ ax2.plot(cores, spernode, 'r-', label='Per CPU');
-    # ~ ax2.set_ylabel('Time [s]', color='r');
-    # ~ ax2.tick_params('y', colors='r');
-    #~ ax2.set_yscale('log')
-
-    # ~ ax2.set_ylim(50,300);
-
-
     ax1.legend(loc = 2);
-    # ~ ax2.legend(loc = 1);
 
     fig.tight_layout();
-    #~ plt.show();
     plt.savefig('Runtimes.png', dpi = 800);
     
 ############
-if(plot_runtimes):
+if(plot_runtimes_per_turn):
     fig, ax1 = plt.subplots();
 
     plt.title("Wall-clock runtimes for PyORBIT on HTCondor 1 turn 5E4 particles");
@@ -80,71 +78,52 @@ if(plot_runtimes):
 
     ax1.set_xlabel("Cores [-]");
     ax1.set_ylabel("Time [s]", color='b');
-    # Make the y-axis label, ticks and tick labels match the line color.
     ax1.tick_params('y', colors='b');
     #~ ax1.set_yscale('log')
 
-    # ~ plt.xlim(100,300);
-    #~ ax1.set_xlim(0,220);
-    # ~ ax1.set_ylim(1.8E4, 2.8E4);
     ax1.xaxis.grid(color='k', linestyle=':', linewidth=0.5)
     ax1.yaxis.grid(color='k', linestyle=':', linewidth=0.5)
 
-    # ~ ax2 = ax1.twinx();
-    # ~ ax2.plot(cores, spernode, 'r-', label='Per CPU');
-    # ~ ax2.set_ylabel('Time [s]', color='r');
-    # ~ ax2.tick_params('y', colors='r');
-    #~ ax2.set_yscale('log')
-
-    # ~ ax2.set_ylim(50,300);
-
-
     ax1.legend(loc = 2);
-    # ~ ax2.legend(loc = 1);
 
     fig.tight_layout();
-    #~ plt.show();
     plt.savefig('Runtimes_perturn.png', dpi = 800);
    
-sys.exit()
+   
 #################
-# time / thread #
+# time / core   #
 #################
-if (plot_runtimes_per_thread):
+if (plot_runtimes_per_core):
 
-    fig, ax2 = plt.subplots();
-
-    plt.title("Wall-clock runtimes per thread for PyORBIT on HPC-Batch");
-
-    #~ ax2 = ax1.twinx();
-    ax2.plot(threads, sperthread, 'r-', label='Per thread');
-    ax2.set_xlabel("Threads [-]", color='k');
-    ax2.set_ylabel("Time [s]", color='k');
-    #~ ax2.tick_params('y', colors='r');
-    #~ ax2.set_yscale('log')
-
-    # ~ ax1.set_ylim(1.8E4, 2.8E4);
-    #~ ax2.yaxis.grid(color='r', which='minor', linestyle=':', linewidth=0.5)
-    ax2.xaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='minor', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-
-    fig.tight_layout();
-    #~ plt.show();
-    plt.savefig('Runtimes_time_per_thread.png', dpi = 800);
-
-
-#################
-# time / node #
-#################
-if (plot_runtimes_per_node):
     fig, ax1 = plt.subplots();
 
-    plt.title("Wall-clock runtimes per Node for PyORBIT on HPC-Batch");
+    plt.title("Wall-clock runtimes per core for PyORBIT on HTCondor 1E2 turns 5E4 particles");
+    ax1.plot(cores, sec_No_SC_core, 'b-', label='No Space Charge');
+    ax1.plot(cores, sec_SC_core, 'r-', label='2.5D Space Charge');
+    
+    ax1.set_xlabel("Cores [-]", color='k');
+    ax1.set_ylabel("Time [s]", color='k');
+    
+    # ~ ax1.set_ylim(1.8E4, 2.8E4);
+    #~ ax2.yaxis.grid(color='r', which='minor', linestyle=':', linewidth=0.5)
+    # ~ ax1.xaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
+    # ~ ax1.yaxis.grid(color='k', which='minor', linestyle=':', linewidth=0.5)
+    # ~ ax1.yaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
 
-    #~ ax2 = ax1.twinx();
-    ax1.plot(cores, spernode, 'r-', label='Per node');
-    ax1.set_xlabel("cores [-]", color='k');
+    fig.tight_layout();
+    plt.savefig('Runtimes_time_per_core.png', dpi = 800);
+
+
+#####################
+# time / core /turn #
+#####################
+if (plot_runtimes_per_coreturn):
+    fig, ax1 = plt.subplots();
+
+    plt.title("Wall-clock runtimes per Node for PyORBIT on HTCondor 1 turn 5E4 particles");
+    ax1.plot(cores, sec_No_SC_turn_core, 'b-', label='No Space Charge');
+    ax1.plot(cores, sec_SC_turn_core, 'r-', label='2.5D Space Charge');
+    ax1.set_xlabel("Cores [-]", color='k');
     ax1.set_ylabel("Time [s]", color='k');
     #~ ax2.tick_params('y', colors='r');
     #~ ax2.set_yscale('log')
@@ -159,109 +138,48 @@ if (plot_runtimes_per_node):
     #~ plt.show();
     plt.savefig('Runtimes_time_per_node.png', dpi = 800);
 
-    fig, ax2 = plt.subplots();
-
-    plt.title("Wall-clock runtimes per CPU for PyORBIT on HPC-Batch");
-
-    #~ ax2 = ax1.twinx();
-    ax2.plot(cpus_H, spercpu_H, 'r-', label='Per CPU');
-    ax2.set_xlabel("CPUs [-]", color='k');
-    ax2.set_ylabel("Time [s]", color='k');
-    #~ ax2.tick_params('y', colors='r');
-    #~ ax2.set_yscale('log')
-
-    # ~ ax1.set_ylim(1.8E4, 2.8E4);
-    #~ ax2.yaxis.grid(color='r', which='minor', linestyle=':', linewidth=0.5)
-    ax2.xaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='minor', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-
-    fig.tight_layout();
-    #~ plt.show();
-    plt.savefig('Runtimes_time_per_CPU.png', dpi = 800);
-
 # ~ sys.exit()
-
-###################
-# time / node log #
-###################
-if (plot_runtimes_per_node_log):
-
-    fig, ax2 = plt.subplots();
-
-    plt.title("Wall-clock runtimes per CPU for PyORBIT on HPC-Batch");
-
-    ax2.plot(cores, spernode, 'r-', label='Per node');
-    ax2.set_xlabel("cores [-]", color='k');
-    ax2.set_ylabel("Time [s]", color='k');
-    ax2.set_yscale('log')
-
-    ax2.xaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='minor', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-
-    fig.tight_layout();
-    plt.savefig('Runtimes_time_per_node_log.png', dpi = 800);
-
-
-#####################
-# time / thread log #
-#####################
-if (plot_runtimes_per_thread_log):
-
-    fig, ax2 = plt.subplots();
-
-    plt.title("Wall-clock runtimes per CPU for PyORBIT on HPC-Batch");
-
-    #~ ax2 = ax1.twinx();
-    ax2.plot(threads, sperthread, 'r-', label='Per thread');
-    ax2.set_xlabel("Threads [-]", color='k');
-    ax2.set_ylabel("Time [s]", color='k');
-    ax2.set_yscale('log')
-    
-    # ~ ax1.set_ylim(1.8E4, 2.8E4);
-    #~ ax2.yaxis.grid(color='r', which='minor', linestyle=':', linewidth=0.5)
-    ax2.xaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='minor', linestyle=':', linewidth=0.5)
-    ax2.yaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
-
-    fig.tight_layout();
-    #~ plt.show();
-    plt.savefig('Runtimes_time_per_thread_log.png', dpi = 800);
 
 ####################
 # speedup per node #
 ####################
-if (plot_speedup_cf_1node):
+if (plot_speedup_cf_1core):
 
-    one_node = sec_No_SC[0]
-    print '\none node = ', one_node
+    one_core_time = sec_No_SC[0]
+    one_core_time_sc = sec_SC[0]
+    print '\One core no space charge = ', one_core_time
+    print '\One core with space charge = ', one_core_time_sc
     speedup = []
+    speedup_sc = []
     x=[]
     y=[]
-    j=cores[0]
-    for i in sec_No_SC:
-        speedup.append(one_node/i)
+    j=0
+    
+    for i in range(0, int(cores[-1]), 1):		
         x.append(j)
         y.append(j)
         j += 1
+    
+    for i in sec_No_SC:
+        speedup.append(one_core_time/i)
+        
+    for i in sec_SC:
+        speedup_sc.append(one_core_time_sc/i)
 
-    # ~ print '\nSpeedup per node = ', speedup
+    print '\nSpeedup per core no space charte = ', speedup
+    print '\nSpeedup per core with space charge = ', speedup_sc
         
     fig, ax2 = plt.subplots();
     
-    plt.title("Speedup factor per node \n(w.r.t. %i node = %1.2f s) \nfor PyORBIT on HPC-Batch" % (cores[0], one_node));
-    # ~ plt.title("Speedup factor per node (w.r.t. 1 node) for PyORBIT on HPC-Batch");
+    plt.title("Speedup factor per node \n(w.r.t. %i core = %1.2f s no space charge) \n(w.r.t. %i core = %1.2f s with space charge) \nfor PyORBIT on HTCondor" % (cores[0], one_core_time, cores[0], one_core_time_sc));
 
-    #~ ax2 = ax1.twinx();
-    ax2.plot(cores, speedup, 'r-', label='Per CPU');
+    ax2.plot(cores, speedup, 'b-', label='No Space Charge');
+    ax2.plot(cores, speedup_sc, 'r-', label='2.5D Space Charge');
     ax2.plot(x, y, 'b:', label='Ideal');
-    ax2.set_xlabel("cores [-]", color='k');
+    ax2.set_xlabel("Cores [-]", color='k');
     ax2.set_ylabel("Speedup Factor [-]", color='k');
-    #~ ax2.tick_params('y', colors='r');
-    #~ ax2.set_yscale('log')
-
-    ax2.set_ylim(0,10);
+    
+    # ~ ax2.set_ylim(0,10);
     #~ ax2.yaxis.grid(color='r', which='minor', linestyle=':', linewidth=0.5)
     ax2.xaxis.grid(color='k', which='major', linestyle=':', linewidth=0.5)
     ax2.yaxis.grid(color='k', which='minor', linestyle=':', linewidth=0.5)
@@ -270,9 +188,9 @@ if (plot_speedup_cf_1node):
     ax2.legend(loc = 1);
 
     fig.tight_layout();
-    #~ plt.show();
-    plt.savefig('Speedup_per_node.png', dpi = 800);
+    plt.savefig('Speedup_per_core.png', dpi = 800);
     
+sys.exit()
 ####################
 # speedup per CPU  #
 ####################
