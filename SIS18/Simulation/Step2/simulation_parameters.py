@@ -46,7 +46,7 @@ switches = {
         'Horizontal': 1,
         'SliceBySlice': 0,
         'Frozen': 1,
-        'MinPathLength': 1E-8
+        'MinPathLength': 1E-8,
         'RestoringForce':-1.951E-11
 }
 
