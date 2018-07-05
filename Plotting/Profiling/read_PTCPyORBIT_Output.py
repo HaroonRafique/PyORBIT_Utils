@@ -11,12 +11,21 @@ import numpy as np
 import os
 import sys
 
-def second_convertor(raw_time):
+def convert_hh_mm_ss_to_seconds(raw_time):
 	hour = int(raw_time.split(':')[0])
 	minute = int(raw_time.split(':')[1])
 	second = int(raw_time.split(':')[2])
 	
 	return int((hour*3600) + (minute*60) + (second))
+	
+def convert_seconds_to_hh_mm_ss(time_in_s):
+	hours_remainder = (time_in_s % 3600)
+	hours = (time_in_s- hours_remainder)/3600
+	minutes_remainder = (hours_remainder % 60)
+	minutes = (hours_remainder - minutes_remainder)/60
+	seconds = minutes_remainder
+	
+	return str(str(hours)+':'+str(minutes)+':'+str(seconds))
 	
 def calculate_time_steps(raw_time, raw_date):
 	
@@ -26,21 +35,21 @@ def calculate_time_steps(raw_time, raw_date):
 	
 	start_time = raw_time[0]
 	start_date = raw_date[0]
-	start_time_seconds = second_convertor(start_time)
+	start_time_seconds = convert_hh_mm_ss_to_seconds(start_time)
 	turn_time_s=[]
 	
-	print '\ncalculate_time_steps: simulation started at %s %s\nwhich is %i seconds' % (start_date, start_time, start_time_seconds)
+	print '\n\tcalculate_time_steps: simulation started at %s %s\nwhich is %i seconds' % (start_date, start_time, start_time_seconds)
 	
-	# ~ for i in range(0, len(raw_time), 1):
 	for i in range(len(raw_time)-1):
 		# Check that we haven't gone past midnight
 		if i == 0:
-			turn_time_s.append( int( start_time_seconds - second_convertor(raw_time[i]) ) )		
+			turn_time_s.append( int( convert_hh_mm_ss_to_seconds(raw_time[i+1]) - start_time_seconds ) )		
 		elif i != len(raw_time):
 			if raw_date[i+1] != raw_date[i]: # Changed days
-				turn_time_s.append( int( (86400 - second_convertor(raw_time[i])) + second_convertor(raw_time[i+1]) ) )
+				turn_time_s.append( int( (86400 - convert_hh_mm_ss_to_seconds(raw_time[i])) + convert_hh_mm_ss_to_seconds(raw_time[i+1]) ) )
 			else:	# Haven't changed days
-				turn_time_s.append( int( second_convertor(raw_time[i+1]) - second_convertor(raw_time[i]) ) )
+				turn_time_s.append( int( convert_hh_mm_ss_to_seconds(raw_time[i+1]) - convert_hh_mm_ss_to_seconds(raw_time[i]) ) )
+	turn_time_s.append(int(0))	# Add extra value so that the list is the same length as the others
 	return turn_time_s			
 	
 		
@@ -48,7 +57,10 @@ def calculate_time_steps(raw_time, raw_date):
 # Parse arguments from command line
 from argparse import ArgumentParser
 parser = ArgumentParser()
-parser.add_argument("-f", "--file", dest="filename",
+parser.add_argument("-f", "--file", dest="input_filename",
+					help="Input filename, this is the raw output from a PTC-PyORBIT run, note that Hannes Bartosik's output dictionary is required, as well as a turn by turn output.update()", metavar="FILE")
+
+parser.add_argument("-o", "--output", dest="output_filename",
 					help="Input filename, this is the raw output from a PTC-PyORBIT run, note that Hannes Bartosik's output dictionary is required, as well as a turn by turn output.update()", metavar="FILE")
 
 parser.add_argument("-c", "--cores", dest="cores", metavar="CORES", type=int,
@@ -65,11 +77,26 @@ parser.add_argument("-tpn", "--threadspernode", dest="threads_per_node", metavar
 
 args = parser.parse_args()
 
-if args.filename:
-	filename = str(args.filename)
-	print 'filename = ', filename
+output_flag = 0
+
+if args.input_filename:
+	input_filename = str(args.input_filename)
+	print 'input_filename = ', input_filename
+
+if not args.input_filename:
+	print 'ERROR: Input filename not specified (use -f or --file). EXITING'
+	sys.exit()
 	
-if args.cores:
+if args.output_filename:
+	output_filename = str(args.output_filename)
+	print 'output_filename = ', output_filename
+	output_flag = 1
+
+if not args.output_filename:
+	print 'WARNING: Output filename not specified (use -o or --output). No output file will be created'
+	sys.exit()
+	
+if args.cores: # obsolete at the moment
 	cores = int(args.cores)
 	print 'Cores = ', cores
 	
@@ -110,11 +137,11 @@ raw_time = []
 raw_date = []
 turn_time = []
 
-with open(filename) as fp:
+with open(input_filename) as fp:
     for line in fp:		
 		if start_line:
 			# Record the data we need			
-			turn.append(line.split()[0])
+			turn.append(int(line.split()[0])+1)
 			raw_time.append(line.split()[-1])
 			raw_date.append(line.split()[-2])
 		# ~ if 'turn' and 'intensity' and 'n_mp' and 'gamma' and 'mean_x' and 'mean_xp' and 'mean_y' and 'mean_yp' and 'mean_z' in line:
@@ -125,16 +152,31 @@ with open(filename) as fp:
 			# ~ print line
 
 i = 0
-print 'turn ', turn[0], ', raw date ', raw_date[0], ', raw time ', raw_time[0]
-print 'turn ', turn[-1], ', raw date ', raw_date[-1], ', raw time ', raw_time[-1]
+print '\tSimulation start: turn ', turn[0], ', raw date ', raw_date[0], ', raw time ', raw_time[0]
+print '\tSimulation end: turn ', turn[-1], ', raw date ', raw_date[-1], ', raw time ', raw_time[-1]
 
 # Calculate total time and time per turn; first, last, average etc
 turn_time = calculate_time_steps(raw_time, raw_date)
 tot_time = sum(turn_time)
 average_turn_time = float(np.mean(turn_time))
 
-print 'Simulation on %i threads:' % (total_threads)
-print 'Total simulation time in seconds = %i' % (tot_time)
-print 'Total simulation time in minutes = %f' % (float(tot_time)/60)
-print 'Total simulation time in hours = %f' % (float(tot_time)/3600)
+print 'Simulation on %i nodes, each containing %i threads, giving a total of %i threads:' % (nodes, threads_per_node, total_threads)
+print 'Total simulation time in hh:mm:ss = %s' % (convert_seconds_to_hh_mm_ss(tot_time))
 print 'Mean simulation time per turn in seconds = %i' % (average_turn_time)
+
+# make output file
+if output_flag:
+	# remove last turn as we don't know how long it took
+	turn = turn[:-1]
+	raw_date = raw_date[:-1]
+	raw_time = raw_time[:-1]
+	turn_time = turn_time[:-1]
+	f = open(output_filename, "w+")
+	f.write('#Simulation on %i node(s), each containing %i thread(s), giving a total of %i thread(s):' % (nodes, threads_per_node, total_threads))
+	f.write('\n#Total simulation time in s = %s' % (tot_time))
+	f.write('\n#Total simulation time in hh:mm:ss = %s' % (convert_seconds_to_hh_mm_ss(tot_time)))
+	f.write('\n#Mean simulation time per turn in seconds = %i' % (average_turn_time))
+	f.write('\n#Turn\tDate\tTime\tTurn_Time[s]')
+	for i in range(len(turn)):
+		f.write('\n%i\t%s\t%s\t%i' % (turn[i], raw_date[i], raw_time[i], turn_time[i]))
+
