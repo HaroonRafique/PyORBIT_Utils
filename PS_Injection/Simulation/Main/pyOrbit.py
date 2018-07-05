@@ -186,7 +186,8 @@ if sts['turn'] < 0:
 	sts['turns_update'] = p['turns_update']
 	sts['turns_print'] = p['turns_print']
 	sts['circumference'] = p['circumference']
-	sts['sc_params1'] = {'intensity': p['intensity'],
+	if frozen:
+		sts['sc_params1'] = {'intensity': p['intensity'],
 											 'epsn_x':    p['epsn_x'],
 											 'epsn_y':    p['epsn_y'],
 											 'dpp_rms':   p['dpp_rms']}
@@ -225,7 +226,7 @@ if slicebyslice:
 	sizeX = 32
 	sizeY = 32
 	sizeZ = 32  # Number of longitudinal slices in the 2.5D solver
-	sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
+	# ~ sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
 	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
 	sc_path_length_min = 1E-8
 	# Add the space charge solver to the lattice as child nodes
