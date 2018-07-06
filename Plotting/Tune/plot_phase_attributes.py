@@ -1,6 +1,7 @@
 # Plots the particle distributions in 5 phase spaces
 # x-y x-xp y-yp xp-yp z-dE
 # Comparing them at two turns
+# Note that this won't work for the initial distribution
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch

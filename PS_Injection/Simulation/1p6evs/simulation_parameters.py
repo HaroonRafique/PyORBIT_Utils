@@ -7,7 +7,7 @@ epsn_x=2.26e-6
 epsn_y=2.134e-6 
 TransverseCut = 5
 # ~ n_macroparticles = int(500e3)
-n_macroparticles = int(50e3)
+n_macroparticles = int(5e5)
 macrosize = intensity/float(n_macroparticles)
 #~ blength_rms = 5.96
 blength_rms = (0.91*299792458*210e-9)/4.
@@ -41,7 +41,7 @@ parameters = {
 
 switches = {
 	'Horizontal': 1,
-	'SliceBySlice': 0,
+	'SliceBySlice': 1,
 	'Frozen': 0
 }
 
