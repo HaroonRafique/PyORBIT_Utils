@@ -9,3 +9,13 @@ cp Main/pyOrbit.py SC_1p6evs/
 cp Main/pyOrbit.py SC_1p9evs/
 cp Main/pyOrbit.py SC_2p3evs/
 cp Main/pyOrbit.py SC_2p6evs/
+cp Main/clean_folder.sh 1p3evs/
+cp Main/clean_folder.sh 1p6evs/
+cp Main/clean_folder.sh 1p9evs/
+cp Main/clean_folder.sh 2p3evs/
+cp Main/clean_folder.sh 2p6evs/
+cp Main/clean_folder.sh SC_1p3evs/
+cp Main/clean_folder.sh SC_1p6evs/
+cp Main/clean_folder.sh SC_1p9evs/
+cp Main/clean_folder.sh SC_2p3evs/
+cp Main/clean_folder.sh SC_2p6evs/
