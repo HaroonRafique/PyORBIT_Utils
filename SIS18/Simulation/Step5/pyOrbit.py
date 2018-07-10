@@ -249,6 +249,41 @@ if frozen or slicebyslice:
         output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 
 #----------------------------------------------------
+# Function for restoring forxe
+#----------------------------------------------------
+# ~ names = bunch.getPossiblePartAttrNames()
+# ~ print names
+
+def LinearRestoringForce(b, force):
+
+		rank = 0
+		numprocs = 1
+		
+		mpi_init = orbit_mpi.MPI_Initialized()
+		comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+		
+		if(mpi_init):
+			rank = orbit_mpi.MPI_Comm_rank(comm)
+			numprocs = orbit_mpi.MPI_Comm_size(comm)
+		
+		nparts_arr_local = []
+		for i in range(numprocs):
+			nparts_arr_local.append(0)
+				
+		nparts_arr_local[rank] = b.getSize()
+		data_type = mpi_datatype.MPI_INT
+		op = mpi_op.MPI_SUM
+	
+		nparts_arr = orbit_mpi.MPI_Allreduce(nparts_arr_local,data_type,op,comm)
+
+                for i in range(b.getSize()):
+                        en = b.dE(i)
+
+                        en = en + b.z(i) * force
+                        
+                        b.dE(i,en)
+
+#----------------------------------------------------
 # Do some turns and dump particle information
 #----------------------------------------------------
 print '\nnow start tracking...'
@@ -257,6 +292,7 @@ print '\nnow start tracking...'
 
 for turn in range(p['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
+	LinearRestoringForce(bunch, s['RestoringForce'])
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	
 	# subtract circumference each turn in order to reconstruct the turn number from loss position

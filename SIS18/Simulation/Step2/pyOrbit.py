@@ -252,10 +252,8 @@ if frozen or slicebyslice:
 #----------------------------------------------------
 # Function for restoring forxe
 #----------------------------------------------------
-
-names = bunch.getPossiblePartAttrNames()
-
-print names
+# ~ names = bunch.getPossiblePartAttrNames()
+# ~ print names
 
 def LinearRestoringForce(b, force):
 
