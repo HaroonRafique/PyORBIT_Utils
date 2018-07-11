@@ -77,7 +77,7 @@ mpi_mkdir_p('lost')
 
 # Dictionary for simulation status
 #-----------------------------------------------------------------------
-import pickle
+import pickle # HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
 status_file = 'input/simulation_status.pkl'
 if not os.path.exists(status_file):
         sts = {'turn': -1}
@@ -278,8 +278,10 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
+# ~ output.addParameter('turn_date', lambda: time.strftime("%Y-%m-%d"))
+# ~ output.addParameter('turn_time', lambda: time.strftime("%H:%M:%S"))
 
-if frozen or slicebyslice:
+if frozen:
 	output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
 	output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
 	output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
@@ -291,8 +293,19 @@ if os.path.exists(output_file):
 # Track
 #-----------------------------------------------------------------------
 print '\nTracking on MPI process: ', rank
+start_time = time.time()
+last_time = time.time()
 
 for turn in range(sts['turn']+1, sts['turns_max']):
+	if not rank:
+		last_time = time.time()
+	if turn == 0:		
+		output.addParameter('turn_time', lambda: time.strftime("%H:%M:%S"))
+		output.addParameter('turn_duration', lambda: (time.time() - last_time))
+		output.addParameter('cumulative_time', lambda: (time.time() - start_time))
+		start_time = time.time()
+		print 'start time = ', start_time
+		
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	
@@ -314,4 +327,3 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
-

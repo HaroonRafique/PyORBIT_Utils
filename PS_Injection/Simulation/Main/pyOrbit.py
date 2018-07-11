@@ -281,7 +281,7 @@ output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
 # ~ output.addParameter('turn_date', lambda: time.strftime("%Y-%m-%d"))
 # ~ output.addParameter('turn_time', lambda: time.strftime("%H:%M:%S"))
 
-if frozen or slicebyslice:
+if frozen:
 	output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
 	output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
 	output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
