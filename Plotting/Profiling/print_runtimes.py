@@ -7,9 +7,20 @@ import matplotlib.pyplot as plt
 # ~ from matplotlib.ticker import FormatStrFormatter
 # ~ from matplotlib.lines import Line2D
 import numpy as np
-# ~ import scipy.io as sio 
+import scipy.io as sio 
 import os
 import sys
+
+plt.rcParams['figure.figsize'] = [8.0, 6.0]
+plt.rcParams['figure.dpi'] = 300
+plt.rcParams['savefig.dpi'] = 300
+
+plt.rcParams['font.size'] = 6
+plt.rcParams['legend.fontsize'] = 'small'
+# ~ plt.rcParams['figure.titlesize'] = 'medium'
+
+plt.rcParams['lines.linewidth'] = 0.5
+
 
 def convert_hh_mm_ss_to_seconds(raw_time):
 	hour = int(raw_time.split(':')[0])
@@ -115,11 +126,15 @@ if not args.nodes:
 	print 'Number of nodes not specified (use -n), assuming 1 node'
 	nodes = 1
 	
-if not args.total_threads or args.threads_per_node:
+if 'threads_per_node' not in locals():
+	print 'Number of threads per node not given (use -tpn), looking for total threads'
+# ~ elif not args.total_threads:
+
+if 'total_threads' or 'threads_per_node' not in locals():
 	print 'Number of threads not given (use -t for total, -tpn for threads per node), assuming 40 threads per node'
 	threads_per_node = 40
 	total_threads = nodes * threads_per_node
-	
+		
 if args.nodes and args.threads_per_node and args.total_threads:
 	tpn = total_threads / nodes
 	if tpn != threads_per_node:
@@ -129,53 +144,45 @@ if args.nodes and args.threads_per_node and args.total_threads:
 		print '\tThreads per node given as %i' % (threads_per_node)
 		print '\tThreads per node set to %i, to override this please don\'t specify the threads per node'
 
-# Open file and find the line 'turn intensity n_mp etc'
-start_line = 0
-turn = []
-raw_time = []
-raw_date = []
-turn_time = []
+# READ OUTPUT
+input_file = 'output.mat'
+particles = dict()
+sio.loadmat(input_file, mdict=particles)
 
-with open(input_filename) as fp:
-    for line in fp:		
-		if start_line:
-			# Record the data we need			
-			turn.append(int(line.split()[0])+1)
-			raw_time.append(line.split()[-1])
-			raw_date.append(line.split()[-2])
-		# ~ if 'turn' and 'intensity' and 'n_mp' and 'gamma' and 'mean_x' and 'mean_xp' and 'mean_y' and 'mean_yp' and 'mean_z' in line:
-		if 'execution time' in line:
-			print 'found line:\n',line
-			start_line = 1
-		# ~ if not start_line:
-			# ~ print line
+# Parameters
+# ~ output.addParameter('turn', lambda: turn)
+# ~ output.addParameter('intensity', lambda: bunchtwissanalysis.getGlobalMacrosize())
+# ~ output.addParameter('n_mp', lambda: bunchtwissanalysis.getGlobalCount())
+# ~ output.addParameter('gamma', lambda: bunch.getSyncParticle().gamma())
+# ~ output.addParameter('mean_x', lambda: bunchtwissanalysis.getAverage(0))
+# ~ output.addParameter('mean_xp', lambda: bunchtwissanalysis.getAverage(1))
+# ~ output.addParameter('mean_y', lambda: bunchtwissanalysis.getAverage(2))
+# ~ output.addParameter('mean_yp', lambda: bunchtwissanalysis.getAverage(3))
+# ~ output.addParameter('mean_z', lambda: bunchtwissanalysis.getAverage(4))
+# ~ output.addParameter('mean_dE', lambda: bunchtwissanalysis.getAverage(5))
+# ~ output.addParameter('epsn_x', lambda: bunchtwissanalysis.getEmittanceNormalized(0))
+# ~ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(1))
+# ~ output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
+# ~ output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
+# ~ output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
 
-i = 0
-print '\tSimulation start: turn ', turn[0], ', raw date ', raw_date[0], ', raw time ', raw_time[0]
-print '\tSimulation end: turn ', turn[-1], ', raw date ', raw_date[-1], ', raw time ', raw_time[-1]
+fig1=plt.figure(figsize=(4,9))
+fig1.subplots_adjust(wspace=0.1, hspace=0.3, left=0.1, right=0.99, top=0.9, bottom=0.1)
 
-# Calculate total time and time per turn; first, last, average etc
-turn_time = calculate_time_steps(raw_time, raw_date)
-tot_time = sum(turn_time)
-average_turn_time = float(np.mean(turn_time))
+# Turn vs turn_duration
+ax1 = fig1.add_subplot(211) 
+ax1.plot(particles['turn'][0], particles['turn_duration'][0], 'g');
+ax1.set_xlabel('Turn [-]');
+ax1.set_ylabel('Time for each turn [s]');
+ax1.set_title('PS Injection HPC-Batch test: N = 5E3, 16x16x16, turn duration');
+ax1.grid(True);
 
-print 'Simulation on %i nodes, each containing %i threads, giving a total of %i threads:' % (nodes, threads_per_node, total_threads)
-print 'Total simulation time in hh:mm:ss = %s' % (convert_seconds_to_hh_mm_ss(tot_time))
-print 'Mean simulation time per turn in seconds = %i' % (average_turn_time)
+# Turn vs cumulative_time
+ax2 = fig1.add_subplot(212)
+ax2.plot(particles['turn'][0], particles['cumulative_time'][0], 'g');
+ax2.set_xlabel('Turn [-]');
+ax2.set_ylabel('Cumulative time [s]');
+ax2.set_title('PS Injection HPC-Batch test: N = 5E3, 16x16x16, cumulative time');
+ax2.grid(True);
 
-# make output file
-if output_flag:
-	# remove last turn as we don't know how long it took
-	turn = turn[:-1]
-	raw_date = raw_date[:-1]
-	raw_time = raw_time[:-1]
-	turn_time = turn_time[:-1]
-	f = open(output_filename, "w+")
-	f.write('#Simulation on %i node(s), each containing %i thread(s), giving a total of %i thread(s):' % (nodes, threads_per_node, total_threads))
-	f.write('\n#Total simulation time in s = %s' % (tot_time))
-	f.write('\n#Total simulation time in hh:mm:ss = %s' % (convert_seconds_to_hh_mm_ss(tot_time)))
-	f.write('\n#Mean simulation time per turn in seconds = %i' % (average_turn_time))
-	f.write('\n#Turn\tDate\tTime\tTurn_Time[s]')
-	for i in range(len(turn)):
-		f.write('\n%i\t%s\t%s\t%i' % (turn[i], raw_date[i], raw_time[i], turn_time[i]))
-
+fig1.savefig('Cumulative_and_Turn_Time.png');
