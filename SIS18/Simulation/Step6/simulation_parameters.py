@@ -29,7 +29,7 @@ parameters = {
 	'LongitudinalJohoParameter': m,
 	'LongitudinalCut': 2.4,
 	#'LongitudinalDistribution_z_max': z_max,
-        'blength_rms': blength_rms,
+	'blength_rms': blength_rms,
 	'n_macroparticles': n_macroparticles,
 	'intensity': intensity,
 	'epsn_x': epsn_x,
@@ -40,17 +40,17 @@ parameters = {
 	'turns_max': turns_max,
 	'turns_update': turns_update,
 	'turns_print': turns_print,
-        'rf_voltage': rf_voltage,
-        'circumference':circumference,
-        'sig_z':sig_z
+	'rf_voltage': rf_voltage,
+	'circumference':circumference,
+	'sig_z':sig_z
 }
 
 switches = {
-        'Horizontal': 1,
-        'SliceBySlice': 0,
-        'Frozen': 0,
-        'MinPathLength': 1E-8,
-        'RestoringForce':-1.951E-11
+	'Horizontal': 1,
+	'SliceBySlice': 0,
+	'Frozen': 1,
+	'MinPathLength': 1E-8,
+	'RestoringForce':-1.951E-11
 }
 
 # these are the parameters for the PTC RF table
