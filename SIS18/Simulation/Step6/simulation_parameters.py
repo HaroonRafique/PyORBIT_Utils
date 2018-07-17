@@ -4,7 +4,8 @@ import numpy as np
 beta = 0.15448
 gamma = 1.012149995
 m = 1.2
-intensity=0.305564e11            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
+# ~ intensity=0.305564e11            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
+intensity=0.295E11            # DeltaQ = 0.1  Z=40.3m t=3472.7ns
 # ~ intensity=2.03e+9             # DeltaQ = 0.1  Z=2.69m t=231.51ns
 # Assume Geometric epsn_x = (beta*gamma)*epsn_g_x
 epsn_x=(beta*gamma)*(12.57e-6)/4           # beta*gamma*e_g/4 = 4.91E-7
@@ -28,7 +29,7 @@ parameters = {
 	'LongitudinalJohoParameter': m,
 	'LongitudinalCut': 2.4,
 	#'LongitudinalDistribution_z_max': z_max,
-        'blength_rms': blength_rms,
+	'blength_rms': blength_rms,
 	'n_macroparticles': n_macroparticles,
 	'intensity': intensity,
 	'epsn_x': epsn_x,
@@ -39,17 +40,17 @@ parameters = {
 	'turns_max': turns_max,
 	'turns_update': turns_update,
 	'turns_print': turns_print,
-        'rf_voltage': rf_voltage,
-        'circumference':circumference,
-        'sig_z':sig_z
+	'rf_voltage': rf_voltage,
+	'circumference':circumference,
+	'sig_z':sig_z
 }
 
 switches = {
-        'Horizontal': 1,
-        'SliceBySlice': 0,
-        'Frozen': 0,
-        'MinPathLength': 1E-8,
-        'RestoringForce':-1.951E-11
+	'Horizontal': 1,
+	'SliceBySlice': 0,
+	'Frozen': 1,
+	'MinPathLength': 1E-8,
+	'RestoringForce':-1.951E-11
 }
 
 # these are the parameters for the PTC RF table
