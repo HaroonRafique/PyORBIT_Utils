@@ -13,7 +13,7 @@ epsn_y=(beta*gamma)*(9.30e-6)/4              # beta*gamma*e_g/4 = 3.635E-7
 TransverseCut = 5
 n_macroparticles = int(1)
 macrosize = intensity/float(n_macroparticles)
-blength_rms = (beta*299792458*231.51e-9)/4. # = 40.206868
+blength_rms = (beta*299792458*3472.7e-9)/4. # = 40.206868
 dpp_rms = (beta*2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0

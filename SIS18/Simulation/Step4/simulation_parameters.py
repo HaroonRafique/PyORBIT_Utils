@@ -14,7 +14,7 @@ TransverseCut = 5
 n_macroparticles = int(100)
 macrosize = intensity/float(n_macroparticles)
 blength_rms = (beta*299792458*3472.7e-9)/4. # = 40.206868
-dpp_rms = (beta*2.5e-4)/3.
+dpp_rms = (2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
 
