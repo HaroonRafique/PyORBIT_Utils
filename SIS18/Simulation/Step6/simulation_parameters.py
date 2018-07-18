@@ -20,7 +20,7 @@ rf_voltage=0.0
 gamma_transition=5
 sig_z = (3472.7e-9)/4.
 
-turns_max = 45000
+turns_max = 15000
 
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
