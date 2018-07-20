@@ -69,9 +69,9 @@ class LongitudinalJohoDistributionSingleHarmonic():
 		self.distribution = JohoNormalized2D(Joho_order)
 		
 	def is_inside_limiting_countour(self, phi, dE):
-		print '\n### Generate Initial Dsitribution 2: Entered LongitudinalJohoDistributionSingleHarmonic::is_inside_limiting_contour'
-		# ~ H = abs(self.harmonic_number * self.slip_factor / (2*self.beta**2 * self.energy) * dE**2 + self.rf_voltage/(2*pi)*(np.cos(phi) - np.cos(self.phi_s) + (phi-self.phi_s)*np.sin(self.phi_s))) 
-		H = abs(self.harmonic_number * self.slip_factor * dE**2 / 2  + self.rf_voltage/(2*pi * self.beta**2 * self.energy) * (np.cos(phi) - np.cos(self.phi_s) + (phi-self.phi_s)*np.sin(self.phi_s))) 
+		# ~ print '\n### Generate Initial Dsitribution 2: Entered LongitudinalJohoDistributionSingleHarmonic::is_inside_limiting_contour'
+		H = abs(self.harmonic_number * self.slip_factor / (2*self.beta**2 * self.energy) * dE**2 + self.rf_voltage/(2*pi)*(np.cos(phi) - np.cos(self.phi_s) + (phi-self.phi_s)*np.sin(self.phi_s))) 
+		# ~ H = abs(self.harmonic_number * self.slip_factor * dE**2 / 2  + self.rf_voltage/(2*pi * self.beta**2 * self.energy) * (np.cos(phi) - np.cos(self.phi_s) + (phi-self.phi_s)*np.sin(self.phi_s))) 
 		return H <= abs(self.H_max)
 
 	def getCoordinates(self):
@@ -79,9 +79,9 @@ class LongitudinalJohoDistributionSingleHarmonic():
 			phi, dE = self.distribution.getCoordinates()
 			phi *= self.sigma_dphi
 			dE *= self.sigma_dE
-			print '\n### Generate Initial Dsitribution 2: Calling LongitudinalJohoDistributionSingleHarmonic::is_inside_limiting_contour'
+			# ~ print '\n### Generate Initial Dsitribution 2: Calling LongitudinalJohoDistributionSingleHarmonic::is_inside_limiting_contour'
 			if self.is_inside_limiting_countour(phi, dE): 
-				print '\n### Generate Initial Dsitribution 2: Returned LongitudinalJohoDistributionSingleHarmonic::is_inside_limiting_contour'
+				# ~ print '\n### Generate Initial Dsitribution 2: Returned LongitudinalJohoDistributionSingleHarmonic::is_inside_limiting_contour'
 				break
 		return phi, dE
 		
