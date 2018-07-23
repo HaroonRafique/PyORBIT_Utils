@@ -16,11 +16,11 @@ plt.rcParams['figure.titlesize'] = 'medium'
 plt.rcParams['lines.linewidth'] = 0.5
 
 # Open File
-file_1p3='1.3.mat'
-file_1p6='1.6.mat'
-file_1p9='1.9.mat'
-file_2p3='2.3.mat'
-file_2p6='2.6.mat'
+file_1p3='output.mat'
+file_1p6='../../1p6evs/output/output.mat'
+file_1p9='../../1p9evs/output/output.mat'
+file_2p3='../../2p3evs/output/output.mat'
+file_2p6='../../2p6evs/output/output.mat'
 
 particles_1p3=dict()
 particles_1p6=dict()
@@ -116,7 +116,73 @@ ax3.grid(True);
 # ~ plt.show();
 # ~ fig1.savefig('Emittance_y.png', dpi = 1600, transparent=True);
 # ~ fig1.savefig('Emittances.png', dpi = 800);
-fig1.savefig('Emittances.png');
+fig1.savefig('Emittances_percentage_no_disp_or_dpp_beta.png');
+
+#####################
+#   Emittances 2      #
+#####################
+
+# ~ fig1=plt.figure(figsize=(6,10),constrained_layout=True)
+fig1=plt.figure(figsize=(4,9))
+ax1 = fig1.add_subplot(311) 
+ax2 = fig1.add_subplot(312)
+ax3 = fig1.add_subplot(313)
+
+# ~ fig2.subplots_adjust(wspace=0.1, hspace=0.3, left=0.15, right=0.99, top=0.95, bottom=0.1)
+fig1.subplots_adjust(wspace=0.1, hspace=0.3, left=0.15, right=0.99, top=0.9, bottom=0.1)
+#fig.tight_layout()                            
+
+# Plot raw
+# ~ ax1.plot(particles_1p3['turn'][0], particles_1p3['epsn_x'][0], 'g', label='1.3 eVs');
+# Plot change
+# ~ ax1.plot(particles_1p3['turn'][0], (particles_1p3['epsn_x'][0]/particles_1p3['epsn_x'][0][0])*100, 'g', label='1.3 eVs');
+# Plot percentage change
+ax1.plot(particles_1p3['turn'][0], particles_1p3['epsn_x'][0], 'g', label='1.3 eVs');
+ax1.plot(particles_1p6['turn'][0], particles_1p6['epsn_x'][0], 'b', label='1.6 eVs');
+ax1.plot(particles_1p9['turn'][0], particles_1p9['epsn_x'][0], 'c', label='1.9 eVs');
+ax1.plot(particles_2p3['turn'][0], particles_2p3['epsn_x'][0], 'k', label='2.3 eVs');
+ax1.plot(particles_2p6['turn'][0], particles_2p6['epsn_x'][0], 'm', label='2.6 eVs');
+
+ax1.legend();
+
+# ~ ax1.set(title='PS Emittance Horizontal', ylabel='Emittance_x [mm mrad]', xlabel='Turn [-]');
+ax1.set_xlabel('Turn [-]');
+ax1.set_ylabel('Horizontal Emittance [mm mrad]');
+ax1.set_title('PS Emittance Horizontal');
+ax1.grid(True);
+
+# ~ plt.show();
+# ~ plt.savefig('Emittance_x.png', dpi = 1600);
+
+
+ax2.plot(particles_1p3['turn'][0], particles_1p3['epsn_y'][0], 'g', label='1.3 eVs');
+ax2.plot(particles_1p6['turn'][0], particles_1p6['epsn_y'][0], 'b', label='1.6 eVs');
+ax2.plot(particles_1p9['turn'][0], particles_1p9['epsn_y'][0], 'c', label='1.9 eVs');
+ax2.plot(particles_2p3['turn'][0], particles_2p3['epsn_y'][0], 'k', label='2.3 eVs');
+ax2.plot(particles_2p6['turn'][0], particles_2p6['epsn_y'][0], 'm', label='2.6 eVs');
+
+ax2.legend();
+ax2.set_xlabel('Turn [-]');
+ax2.set_ylabel('Vertical Emittance [mm mrad]');
+ax2.set_title('PS Emittance Vertical');
+ax2.grid(True);
+
+ax3.plot(particles_1p3['turn'][0], particles_1p3['eps_z'][0], 'g', label='1.3 eVs');
+ax3.plot(particles_1p6['turn'][0], particles_1p6['eps_z'][0], 'b', label='1.6 eVs');
+ax3.plot(particles_1p9['turn'][0], particles_1p9['eps_z'][0], 'c', label='1.9 eVs');
+ax3.plot(particles_2p3['turn'][0], particles_2p3['eps_z'][0], 'k', label='2.3 eVs');
+ax3.plot(particles_2p6['turn'][0], particles_2p6['eps_z'][0], 'm', label='2.6 eVs');
+
+ax3.legend();
+ax3.set_xlabel('Turn [-]');
+ax3.set_ylabel('Longitudinal Emittance [eVs]');
+ax3.set_title('PS Emittance Vertical');
+ax3.grid(True);
+
+# ~ plt.show();
+# ~ fig1.savefig('Emittance_y.png', dpi = 1600, transparent=True);
+# ~ fig1.savefig('Emittances.png', dpi = 800);
+fig1.savefig('Emittances_no_disp_or_dpp_beta.png');
 
 #####################
 #   MEAN X and Y    #
@@ -189,4 +255,4 @@ ax5.set_title('PS Mean Position Longitudinal');
 ax5.grid(True);
 # ~ plt.show();
 # ~ fig1.savefig('Emittance_y.png', dpi = 1600, transparent=True);
-fig2.savefig('Means.png');
+fig2.savefig('Means_percentage_no_disp_or_dpp_beta.png');
