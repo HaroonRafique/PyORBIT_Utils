@@ -225,9 +225,9 @@ if frozen:
 if slicebyslice:
 	print '\nAdding space charge nodes on MPI process: ', rank
 	# Make a SC solver
-	sizeX = 8
-	sizeY = 8
-	sizeZ = 8  # Number of longitudinal slices in the 2.5D solver
+	sizeX = s['GridSizeX']
+	sizeY = s['GridSizeY']
+	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
 	# ~ sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
 	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
 	sc_path_length_min = 1E-8
@@ -330,5 +330,3 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
-	if (turn%10 == 100):
-		sys.exit()

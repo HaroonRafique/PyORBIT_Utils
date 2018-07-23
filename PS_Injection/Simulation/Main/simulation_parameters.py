@@ -42,7 +42,10 @@ parameters = {
 switches = {
 	'Horizontal': 1,
 	'SliceBySlice': 0,
-	'Frozen': 0
+	'Frozen': 0,
+	'GridSizeX': 64,
+	'GridSizeY': 64,
+	'GridSizeZ': 64
 }
 
 # these are the paramters for the PTC RF table
