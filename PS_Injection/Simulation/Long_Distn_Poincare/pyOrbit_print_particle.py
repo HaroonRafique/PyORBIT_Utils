@@ -291,33 +291,41 @@ if frozen:
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
 
-# Make a dict object that looks like: particle_n {"x,y,xp,yp,z, or dE": { "turn": "value x[n]"}}
+# Make a dict object that looks like: {"particle": {"n": {"x,y,xp,yp,z, or dE": { "turn": "value x[n]"}}}}
 def create_particle_dict(n):
 
-	particle_index = str(n)
+	# Make sure not to overwrite
+	if n == 0:
+		# ~ particle_index = str(n)
+		particles={}	# Top level dictionary : N : All data	
+		print 'create_particle_dict: Created initial particle data dictionary \'particles\'\n \tprinting for particle ', str(n)
+		particls[str(n)]
+		
+	# Append the new particle 		
+	particles[str(n)] = {} # First level in : N-1 : Particle Index
 	
-	particles={}
+	# Add zero turn
+	particles[str(n)]['0'] = {}	# Second level : N-2 : Turn
 	
-	particle_0 = {}
-	particle_0['x'] = {}
-	# particle_n['x']['turn'] = bunch.x(n)
-	particle_0['x']['0'] = bunch.x(0)
-	particle_0['xp']['0'] = bunch.x(0)
-	particle_0['y']['0'] = bunch.x(0)
-	particle_0['yp']['0'] = bunch.x(0)
-	particle_0['z']['0'] = bunch.x(0)
-	particle_0['dE']['0'] = bunch.x(0)
-	print 'Created particle dictionary'
-	particle_0
+	# Add each co-ordinate and set initial values
+	particles[str(n)]['0']['x'] = bunch.x(0)	# Third level : N-3 : x
+	particles[str(n)]['0']['px'] = bunch.x(0)	# Third level : N-3 : px
+	particles[str(n)]['0']['y'] = bunch.x(0)	# Third level : N-3 : y
+	particles[str(n)]['0']['py'] = bunch.x(0)	# Third level : N-3 : py
+	particles[str(n)]['0']['z'] = bunch.x(0)	# Third level : N-3 : z
+	particles[str(n)]['0']['dE'] = bunch.x(0)	# Third level : N-3 : dE
+	
+	print 'create_particle_dict::particles: added particle ', str(n)
+	particles[str(n)]
 
-
+create_particle_dict(0)
 
 # Function takes an int n, and stores 
 # Python passes addresses so we don't need to worry about manipulating the stored data
 def store_and_print_particle_n(dictionary, n, filename, finalise):
 	
 	
-
+sys.exit()
 
 # ~ x =np.zeros((tmax ,input_params['n_macroparticles']))
 
