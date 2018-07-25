@@ -54,10 +54,16 @@ if slicebyslice:
         from spacecharge import SpaceChargeCalcSliceBySlice2D
         from spacecharge import SpaceChargeCalcAnalyticGaussian
         from spacecharge import InterpolatedLineDensityProfile
+        
+# Generate initial distribution from tomo data
+#----------------------------------------------
+if s['ImportFromTomo']:
+	from lib.generate_distribution_from_Tomoscope import *
+else:
+	from lib.pyOrbit_GenerateInitialDistribution2 import *
+# ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 
 from lib.output_dictionary import *
-from lib.pyOrbit_GenerateInitialDistribution2 import *
-# ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 from lib.save_bunch_as_matfile import *
 
 # MPI stuff

@@ -1,5 +1,6 @@
 import numpy as np
 
+tomo_matfile = 'tomoscope_file/tomo_data_singleRF_EKP_297.mat'
 #z_max = 0.77
 m = 1.2
 intensity =2e+12
@@ -21,6 +22,7 @@ turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
 
 parameters = {
+	'tomo_matfile': tomo_matfile,
 	'LongitudinalJohoParameter': m,
 	'LongitudinalCut': 2.4,
 	#'LongitudinalDistribution_z_max': z_max,
@@ -41,6 +43,7 @@ parameters = {
 
 switches = {
 	'Horizontal': 1,
+	'ImportFromTomo': 1,
 	'SliceBySlice': 0,
 	'Frozen': 0,
 	'GridSizeX': 64,
