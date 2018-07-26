@@ -48,11 +48,7 @@ class Particle_output_dictionary(object):
 				
 				# Append to list of indices
 				self.particle_list.append(n)
-				
-				print "Particle_output_dictionary::AddNewParticle: Added particle "
-				print n
-				print "Dictionary now:"
-				print self.particles
+			
 		
 	def update(self, bunch, turn):
 		self.update_flag = 1
@@ -61,8 +57,8 @@ class Particle_output_dictionary(object):
 		if not rank:
 						
 			for n in self.particle_list:
-				# Create the particle and turn dictionaries
-				self.particles[str(n)] = {} # First level in : N-1 : Particle Index
+				
+				# Create the turn dictionary
 				self.particles[str(n)][str(turn)] = {}	# Second level : N-2 : Turn
 			
 				# self.particles[index][turn]['x'] = bunch.x(index)
@@ -74,6 +70,10 @@ class Particle_output_dictionary(object):
 				self.particles[str(n)][str(turn)]['dE'] = bunch.dE(n)
 				
 		self.turn_list.append(turn)
+		
+		# ~ print "Particle_output_dictionary::update: Added turn %i" % (turn)
+		# ~ print "Dictionary now:"
+		# ~ print self.particles
 				
 	# Function to print 6D co-ordinates for a particle for 1 given turn
 	def print_particle_for_turn(self, turn, n, filename=None):
@@ -93,7 +93,7 @@ class Particle_output_dictionary(object):
 				# if file doesn't exist create and add header
 				else:
 					f = open(filename,"w+")
-					f.write("#ParticleID\tTurn\tx\txp\ty\typ\tz\tdE")
+					f.write("#ParticleID\tTurn\tx[m]\txp\ty[m]\typ\tz[m]\tdE[GeV]")
 				
 				f.write("\n%i\t%i\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
 					n, turn, 										\
@@ -123,7 +123,7 @@ class Particle_output_dictionary(object):
 				# if file doesn't exist create and add header
 				else:
 					f = open(filename,"w+")
-					f.write("#ParticleID\tTurn\tx\txp\ty\typ\tz\tdE")
+					f.write("#ParticleID\tTurn\tx[m]\txp\ty[m]\typ\tz[m]\tdE[GeV]")
 				
 				for t in self.turn_list:				
 					f.write("\n%i\t%i\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
@@ -151,7 +151,7 @@ class Particle_output_dictionary(object):
 			# if file doesn't exist create and add header
 			else:
 				f = open(filename,"w+")
-				f.write("#ParticleID\tTurn\tx\txp\ty\typ\tz\tdE")
+				f.write("#ParticleID\tTurn\tx[m]\txp\ty[m]\typ\tz[m]\tdE[GeV]")
 			
 			for n in self.particle_list:	
 				for t in self.turn_list:			
@@ -164,9 +164,60 @@ class Particle_output_dictionary(object):
 						self.particles[str(n)][str(t)]['z'],		\
 						self.particles[str(n)][str(t)]['dE']		))
 			f.close()
-			print self.particle_list
-			print self.turn_list
+			# ~ print self.particle_list
+			# ~ print self.turn_list
 				
+	# Function takes two strings defining a coordinate phase space
+	# and plots a poincare section for all particles and turns
+	# Won't work because the virtual python environment doesn't include matplotlib
+	# ~ def plot_poincare(self, coordinate1, coordinate2, filename=None):
+		# ~ if filename is None:	
+			# ~ name = 'Poincare_Section_'+coordinate1+'_'+coordinate2+'.png'			
+			# ~ filename = name
+			
+		# ~ import matplotlib.pyplot as plt
+		# ~ from matplotlib.patches import Patch
+		# ~ from matplotlib.lines import Line2D
+		# ~ import numpy as np
+		# ~ import sys
+		
+		# ~ plt.rcParams['figure.figsize'] = [8.0, 6.0]
+		# ~ plt.rcParams['figure.dpi'] = 600
+		# ~ plt.rcParams['savefig.dpi'] = 600
+
+		# ~ plt.rcParams['font.size'] = 6
+		# ~ plt.rcParams['legend.fontsize'] = 'large'
+		# ~ plt.rcParams['legend.handlelength'] = 5
+
+		# ~ plt.rcParams['lines.linewidth'] = 0.5
+		# ~ plt.rcParams['lines.markersize'] = 0.25
+	
+		# ~ fig, ax = plt.subplots();
+		# ~ for n in self.particle_list:	
+			# ~ for t in self.turn_list:		
+				# ~ ax.scatter(self.particles[str(n)][str(t)][coordinate1], self.particles[str(n)][str(t)][coordinate2])
+	
+		# ~ if coordinate1 == 'x': ax.set_xlabel('x [m]');
+		# ~ elif coordinate1 == 'xp': ax.set_xlabel('xp [rad]');
+		# ~ elif coordinate1 == 'y': ax.set_xlabel('y [m]');
+		# ~ elif coordinate1 == 'yp': ax.set_xlabel('yp [rad]');
+		# ~ elif coordinate1 == 'z': ax.set_xlabel('z [m]');
+		# ~ elif coordinate1 == 'dE': ax.set_xlabel('dE [GeV]');
+		
+		# ~ if coordinate2 == 'x': ax.set_ylabel('x [m]');
+		# ~ elif coordinate2 == 'xp': ax.set_ylabel('xp [rad]');
+		# ~ elif coordinate2 == 'y': ax.set_ylabel('y [m]');
+		# ~ elif coordinate2 == 'yp': ax.set_ylabel('yp [rad]');
+		# ~ elif coordinate2 == 'z': ax.set_ylabel('z [m]');
+		# ~ elif coordinate2 == 'dE': ax.set_ylabel('dE [GeV]');
+		
+		# ~ title = 'Poincare Distribution: '++coordinate1+' - '+coordinate2
+		# ~ ax.set_title(title);
+		# ~ ax.grid(True);
+		
+		# ~ fig.savefig(filename);
+	
+	
 			
 	# ~ def save_to_matfile(self, filename):
 		# ~ rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)

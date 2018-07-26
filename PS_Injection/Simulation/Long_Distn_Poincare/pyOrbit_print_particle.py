@@ -292,25 +292,21 @@ if frozen:
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
 
+
+# Define particle output dictionary
+#-----------------------------------------------------------------------
 particle_output = Particle_output_dictionary()
+
+# Automatically adds particle 0, lets add the rest
+for i in range(1, p['n_macroparticles']):
+	particle_output.AddNewParticle(i)
+	
+
+
+# ~ particle_output.AddNewParticle(1)
+# Update for turn -1 (pre tracking)
 particle_output.update(bunch, -1)
 particle_output.print_particle_for_turn(-1,0)
-# ~ particle_output.AddNewParticle(1)
-
-# ~ sys.exit()
-
-# ~ x =np.zeros((tmax ,input_params['n_macroparticles']))
-
-# ~ and then filling it in the tracking with:
-
-# ~ x[turn,i]=bunch.x(i) #(i the number of macroparticle)
-
-# ~ and after the tracking was finished I could simply save it in any format:
-
-# ~ np.savetxt('x_track.dat', x)
-
-# ~ In the bunch you can have all the (bunch.)x,xp,y,yp,z,dE
-
 
 # Track
 #-----------------------------------------------------------------------
@@ -341,7 +337,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		sts['turn'] = turn
 
 	output.update()
-	particle_output.update(bunch, (turn+1))
+	particle_output.update(bunch, turn)
 	
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
@@ -351,7 +347,16 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
-	
+				
+	# For last turn output particle dictionary and/or make plots
 	if turn == (sts['turns_max']-1):
-		particle_output.print_particle(0)
+		for i in range(0, p['n_macroparticles']):
+			particle_output.print_particle(i)
+			
+		particle_output.plot_poincare('x','y')
+		particle_output.plot_poincare('xp','yp')
+		particle_output.plot_poincare('x','xp')
+		particle_output.plot_poincare('y','yp')
+		particle_output.plot_poincare('z','dE')
+					
 		particle_output.print_all_particles()

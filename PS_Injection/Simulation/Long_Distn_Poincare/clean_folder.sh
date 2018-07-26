@@ -21,3 +21,4 @@ rm simulation_parameters.pyc
 rm -r input/
 rm -r bunch_output/mainbunch*
 rm output/output.mat
+rm Particle*
