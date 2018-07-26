@@ -12,7 +12,7 @@ blength_rms = (beta*299792458*210e-9)/4.
 dpp_rms = 9.08e-04
 circumference= 2*np.pi*100
 rf_voltage = 0.0175e6
-turns_max = int(3000)
+turns_max = int(10)
 turns_update = range(-1, turns_max, 1E0)
 turns_print =  range(-1, turns_max, 1E0)
 

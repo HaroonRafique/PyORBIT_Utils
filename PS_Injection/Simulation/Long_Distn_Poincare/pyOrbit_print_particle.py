@@ -55,6 +55,7 @@ if slicebyslice:
         from spacecharge import SpaceChargeCalcAnalyticGaussian
         from spacecharge import InterpolatedLineDensityProfile
 
+from lib.particle_output_dictionary import *
 from lib.output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution2 import *
 # ~ from lib.pyOrbit_GenerateMatchedDistribution import *
@@ -291,41 +292,12 @@ if frozen:
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
 
-# Make a dict object that looks like: {"particle": {"n": {"x,y,xp,yp,z, or dE": { "turn": "value x[n]"}}}}
-def create_particle_dict(n):
+particle_output = Particle_output_dictionary()
+particle_output.update(bunch, -1)
+particle_output.print_particle_for_turn(-1,0)
+# ~ particle_output.AddNewParticle(1)
 
-	# Make sure not to overwrite
-	if n == 0:
-		# ~ particle_index = str(n)
-		particles={}	# Top level dictionary : N : All data	
-		print 'create_particle_dict: Created initial particle data dictionary \'particles\'\n \tprinting for particle ', str(n)
-		particls[str(n)]
-		
-	# Append the new particle 		
-	particles[str(n)] = {} # First level in : N-1 : Particle Index
-	
-	# Add zero turn
-	particles[str(n)]['0'] = {}	# Second level : N-2 : Turn
-	
-	# Add each co-ordinate and set initial values
-	particles[str(n)]['0']['x'] = bunch.x(0)	# Third level : N-3 : x
-	particles[str(n)]['0']['px'] = bunch.x(0)	# Third level : N-3 : px
-	particles[str(n)]['0']['y'] = bunch.x(0)	# Third level : N-3 : y
-	particles[str(n)]['0']['py'] = bunch.x(0)	# Third level : N-3 : py
-	particles[str(n)]['0']['z'] = bunch.x(0)	# Third level : N-3 : z
-	particles[str(n)]['0']['dE'] = bunch.x(0)	# Third level : N-3 : dE
-	
-	print 'create_particle_dict::particles: added particle ', str(n)
-	particles[str(n)]
-
-create_particle_dict(0)
-
-# Function takes an int n, and stores 
-# Python passes addresses so we don't need to worry about manipulating the stored data
-def store_and_print_particle_n(dictionary, n, filename, finalise):
-	
-	
-sys.exit()
+# ~ sys.exit()
 
 # ~ x =np.zeros((tmax ,input_params['n_macroparticles']))
 
@@ -369,6 +341,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		sts['turn'] = turn
 
 	output.update()
+	particle_output.update(bunch, (turn+1))
 	
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
@@ -378,3 +351,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
+	
+	if turn == (sts['turns_max']-1):
+		particle_output.print_particle(0)
+		particle_output.print_all_particles()
