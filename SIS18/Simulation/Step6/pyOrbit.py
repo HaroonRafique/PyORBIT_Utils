@@ -65,6 +65,7 @@ if slicebyslice:
 
 
 from lib.output_dictionary import *
+from lib.particle_output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution2 import *
 # ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 from lib.save_bunch_as_matfile import *
@@ -285,6 +286,19 @@ def LinearRestoringForce(b, force):
                         b.dE(i,en)
                         
 
+# Define particle output dictionary
+#-----------------------------------------------------------------------
+particle_output = Particle_output_dictionary()
+
+# Automatically adds particle 0, lets add the rest
+# ~ for i in range(1, p['n_macroparticles']):
+	# ~ particle_output.AddNewParticle(i)
+	
+# ~ particle_output.AddNewParticle(1)
+# Update for turn -1 (pre tracking)
+particle_output.update(bunch, -1)
+# ~ particle_output.print_particle_for_turn(-1,0)
+
 #----------------------------------------------------
 # Do some turns and dump particle information
 #----------------------------------------------------
@@ -308,6 +322,15 @@ for turn in range(p['turns_max']):
 
         output.save_to_matfile('output')
 	output.update()
+	particle_output.update(bunch, turn)
+	
+	# For last turn output particle dictionary and/or make plots
+	if turn == (p['turns_max']-1):
+		for i in range(0, p['n_macroparticles']):
+			particle_output.print_particle(i)
+					
+		particle_output.print_all_particles()
+
         
 pr.disable()
 s = StringIO.StringIO()

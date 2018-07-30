@@ -23,7 +23,7 @@ sig_z = (3472.7e-9)/4.
 turns_max = 15000
 
 turns_update = range(-1, turns_max, 100)
-turns_print = range(-1, turns_max, 1)
+turns_print = range(-1, turns_max, 100)
 
 parameters = {
 	'LongitudinalJohoParameter': m,
