@@ -13,13 +13,13 @@ TransverseCut = 5
 n_macroparticles = int(1)
 macrosize = intensity/float(n_macroparticles)
 blength_rms = (beta*299792458*231.51e-9)/4. # = 40.206868
-dpp_rms = (beta*2.5e-4)/3.
+dpp_rms = (2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
 gamma_transition=5
 sig_z = (3472.7e-9)/4.
 
-turns_max = 1000
+turns_max = 2000
 # ~ turns_max = 150
 
 turns_update = range(-1, turns_max, 100)
@@ -40,19 +40,19 @@ parameters = {
 	'turns_max': turns_max,
 	'turns_update': turns_update,
 	'turns_print': turns_print,
-        'rf_voltage': rf_voltage,
-        'circumference':circumference,
-        'sig_z':sig_z
+    'rf_voltage': rf_voltage,
+    'circumference':circumference,
+     'sig_z':sig_z
 }
 
 switches = {
-        'Horizontal': 1,
-        'SliceBySlice': 0,
-        'Frozen': 0,
-        'MinPathLength': 1E-8,
-        # ~ 'RestoringForce':-4.409673951E-9
-        'RestoringForce':-4.403800e-09,
-        'InitialParticleTransversePosition':5E-3
+	'Horizontal': 1,
+	'SliceBySlice': 0,
+	'Frozen': 0,
+	'MinPathLength': 1E-8,
+	# ~ 'RestoringForce':-4.403800e-09,
+	'RestoringForce':-4.38975e-09,
+	'InitialParticleTransversePosition':0
 }
 
 # these are the parameters for the PTC RF table

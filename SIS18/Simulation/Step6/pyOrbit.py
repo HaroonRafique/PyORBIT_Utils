@@ -146,9 +146,9 @@ print 'Kinetic Energy of particle = ', kin_Energy
 
 if horizontal:
         # ~ Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-        Particle_distribution_file = generate_initial_5mm_distributionH(0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionH(p['InitialParticleTransversePosition'], p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 else:
-        Particle_distribution_file = generate_initial_5mm_distributionV(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionV(p['InitialParticleTransversePosition'], p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 bunch.addPartAttr("macrosize")
@@ -316,11 +316,11 @@ for turn in range(p['turns_max']):
 	map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
 					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
 
-        if turn in p['turns_print']:
-                saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
-                saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
+	if turn in p['turns_print']:
+		saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
+		saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
 
-        output.save_to_matfile('output')
+	output.save_to_matfile('output')
 	output.update()
 	particle_output.update(bunch, turn)
 	
