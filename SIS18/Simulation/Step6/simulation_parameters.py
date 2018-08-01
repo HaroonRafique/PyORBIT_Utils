@@ -51,7 +51,7 @@ switches = {
 	'Frozen': 1,
 	'MinPathLength': 1E-8,
 	'RestoringForce':-1.951E-11,
-	'InitialParticleTransversePosition':0
+	'InitialParticleTransversePosition':5E-3
 }
 
 # these are the parameters for the PTC RF table

@@ -146,9 +146,9 @@ print 'Kinetic Energy of particle = ', kin_Energy
 
 if horizontal:
         # ~ Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-        Particle_distribution_file = generate_initial_5mm_distributionH(p['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionH(s['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 else:
-        Particle_distribution_file = generate_initial_5mm_distributionV(p['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionV(s['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 bunch.addPartAttr("macrosize")
