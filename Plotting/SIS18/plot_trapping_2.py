@@ -127,7 +127,7 @@ ax1.set_title('Normalised particle emittance as a function of turn');
 ax1.grid(True);
 
 
-savename = str('Particle_trapping_1000synch_F=-4.4038e-09_5mm_3000turns.png')
+savename = str('Particle_trapping_1000synch_F=-4.38975e-09_5.1mm_2000turns_SC.png')
 print '\nJust saving this bad boy, in case you forgot the filename is: '
 print savename
 print ' and the full path + filename is: '
@@ -163,7 +163,7 @@ print 'z_f = ', d[999]['particles']['z'][0][0][0][0]
 
 print 'z_f - z_0 = ', (d[999]['particles']['z'][0][0][0][0] - d[0]['particles']['z'][0][0][0][0])
 
-savename = str('Particle_trapping_z_1000synch_F=-4.4038e-09_5mm_3000turns.png')
+savename = str('Particle_trapping_z_1000synch_F=-4.38975e-09_5.1mm_2000turns_SC.png')
 # ~ fig1.savefig('Emittance_y.png', transparent=True);
 print '\nJust saving this bad boy, in case you forgot the filename is: '
 print savename

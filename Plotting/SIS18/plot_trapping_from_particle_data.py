@@ -39,7 +39,7 @@ dE=[]
 z=[]
 particles=[]
 
-filename='SC/Particle_0.dat'
+filename='Particle_0.dat'
 fin=open(filename,'r').readlines()[1:]
 
 for l in fin:
@@ -92,10 +92,22 @@ emit_y=[]
 e_xn=[]
 e_yn=[]
 
+first_emittance = 1.
+first_emittance_set = 0
+
 # e_x = bet_x px^2 + 2 a_x x px + gamma_x x^2 
 for j in range(0, len(x), 1):
-    emit_x.append( betx0*xp[j]*xp[j] + 2*alfx0*x[j]*xp[j] + gamx0*x[j]*x[j] )
-    e_xn.append(emit_x[j] / emit_x[0])
+	if (x[j]==0.0) and (xp[j]==0.0):
+		emit_x.append(0.0)
+		print 'Turn ',j,' x = ', x[j], ' m, xp = ', xp[j], ' mrad. Emittance set to 0'
+	else:
+		emit_x.append( betx0*xp[j]*xp[j] + 2*alfx0*x[j]*xp[j] + gamx0*x[j]*x[j] )
+		if not first_emittance_set:
+			first_emittance = emit_x[j]
+			print 'First emittance = ', first_emittance
+			first_emittance_set = 1
+	
+	e_xn.append(emit_x[j] / first_emittance)
 
 # ~ for j in range(0, len(y), 1):
     # ~ emit_y.append( bety0*yp[j]*yp[j] + 2*alfy0*y[j]*yp[j] + gamy0*y[j]*y[j] )
@@ -106,7 +118,7 @@ for j in range(0, len(x), 1):
 # ~ #################
 fig, ax1 = plt.subplots();
 
-ax1.plot(e_xn, color='m');
+ax1.plot(Turn, e_xn, color='m');
         
 ax1.set_xlabel('Turn [-]');
 ax1.set_ylabel('emittance_x / emittance_x0');
@@ -114,7 +126,7 @@ ax1.set_title('Normalised particle emittance as a function of turn');
 ax1.grid(True);
 
 
-savename = str('Particle_trapping_1000synch_F=-1.951E-11_5mm_1500turns.png')
+savename = str('Particle_trapping_1000synch_F=-4.38975e-09_5.1mm_2000turns_SC_Manual.png')
 print '\nJust saving this bad boy, in case you forgot the filename is: '
 print savename
 fig.savefig(savename);
@@ -145,7 +157,7 @@ print 'z_f = ', z[-1]
 
 print 'z_f - z_0 = ', (z[-1] - z[0])
 
-savename = str('Particle_trapping_z_1000synch_F=-1.951E-11_5mm_1500turns.png')
+savename = str('Particle_trapping_z_1000synch_F=-4.38975e-09_5.1mm_2000turns_SC_Manual.png')
 # ~ fig1.savefig('Emittance_y.png', transparent=True);
 print '\nJust saving this bad boy, in case you forgot the filename is: '
 print savename
