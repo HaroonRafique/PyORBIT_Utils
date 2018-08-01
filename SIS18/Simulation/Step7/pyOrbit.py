@@ -65,6 +65,7 @@ if slicebyslice:
 
 
 from lib.output_dictionary import *
+from lib.particle_output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution2 import *
 # ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 from lib.save_bunch_as_matfile import *
@@ -145,9 +146,9 @@ print 'Kinetic Energy of particle = ', kin_Energy
 
 if horizontal:
         # ~ Particle_distribution_file = generate_initial_5mm_distributionH(0.1E-3, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-        Particle_distribution_file = generate_initial_5mm_distributionH(p['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionH(s['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 else:
-        Particle_distribution_file = generate_initial_5mm_distributionV(p['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+        Particle_distribution_file = generate_initial_5mm_distributionV(s['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 bunch.addPartAttr("macrosize")
@@ -285,6 +286,18 @@ def LinearRestoringForce(b, force):
                         b.dE(i,en)
                         
 
+# Define particle output dictionary
+#-----------------------------------------------------------------------
+particle_output = Particle_output_dictionary()
+
+# Automatically adds particle 0, lets add the rest
+# ~ for i in range(1, p['n_macroparticles']):
+	# ~ particle_output.AddNewParticle(i)
+	
+# ~ particle_output.AddNewParticle(1)
+# Update for turn -1 (pre tracking)
+particle_output.update(bunch, -1)
+
 #----------------------------------------------------
 # Do some turns and dump particle information
 #----------------------------------------------------
@@ -302,12 +315,21 @@ for turn in range(p['turns_max']):
 	map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
 					  lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
 
-        if turn in p['turns_print']:
-                saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
-                saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
+	if turn in p['turns_print']:
+		saveBunchAsMatfile(bunch, "output/mainbunch_%s"%(str(turn).zfill(6)))
+		saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
 
-        output.save_to_matfile('output')
+	output.save_to_matfile('output')
 	output.update()
+	particle_output.update(bunch, turn)
+	
+	# For last turn output particle dictionary and/or make plots
+	if turn == (p['turns_max']-1):
+		for i in range(0, p['n_macroparticles']):
+			particle_output.print_particle(i)
+					
+		particle_output.print_all_particles()
+		
         
 pr.disable()
 s = StringIO.StringIO()

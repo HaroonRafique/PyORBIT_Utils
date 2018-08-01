@@ -14,7 +14,7 @@ TransverseCut = 5
 n_macroparticles = int(1)
 macrosize = intensity/float(n_macroparticles)
 blength_rms = (beta*299792458*3472.7e-9)/4. # = 40.206868
-dpp_rms = (beta*2.5e-4)/3.
+dpp_rms = (2.5e-4)/3.
 circumference= 216.7199935
 rf_voltage=0.0
 gamma_transition=5
@@ -50,7 +50,8 @@ switches = {
 	'SliceBySlice': 0,
 	'Frozen': 1,
 	'MinPathLength': 1E-8,
-	'RestoringForce':-1.951E-11
+	'RestoringForce':-1.951E-11,
+	'InitialParticleTransversePosition':5E-3
 }
 
 # these are the parameters for the PTC RF table

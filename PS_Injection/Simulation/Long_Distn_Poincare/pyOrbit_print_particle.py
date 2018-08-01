@@ -301,8 +301,6 @@ particle_output = Particle_output_dictionary()
 for i in range(1, p['n_macroparticles']):
 	particle_output.AddNewParticle(i)
 	
-
-
 # ~ particle_output.AddNewParticle(1)
 # Update for turn -1 (pre tracking)
 particle_output.update(bunch, -1)
@@ -352,11 +350,5 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	if turn == (sts['turns_max']-1):
 		for i in range(0, p['n_macroparticles']):
 			particle_output.print_particle(i)
-			
-		particle_output.plot_poincare('x','y')
-		particle_output.plot_poincare('xp','yp')
-		particle_output.plot_poincare('x','xp')
-		particle_output.plot_poincare('y','yp')
-		particle_output.plot_poincare('z','dE')
 					
 		particle_output.print_all_particles()
