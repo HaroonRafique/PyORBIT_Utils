@@ -90,14 +90,18 @@
 \def \gsiSISpage {\href{https://web-docs.gsi.de/~giuliano/research_activity/trapping_benchmarking/main.html}{https://web-docs.gsi.de/~giuliano/research\_activity/trapping\_benchmarking/main.html}}
 \def \hbgithub {\href{https://github.com/hannes-bartosik/py-orbit}{https://github.com/hannes-bartosik/py-orbit.git}}
 \def \ptcgithub {\href{https://github.com/jbcern/PTC/tree/analytical-space-charge-acceleration}{https://github.com/jbcern/PTC.git}}
-
+\def \franchettipaper {\href{https://web-docs.gsi.de/~giuliano/publications/reports_not_on_web/HB2006_THBW01.pdf}}
 
 \begin{document}
 	
 \maketitle % this produces the title block
 
 \begin{abstract}
-	Giuliano Franchetti's SIS18 benchmark has been performed with the PTC-PyORBIT code, the results are detailed in this report.
+	The effects of space charge on particle beams in accelerators are many and complex. Interplay exists between space charge and other effects such as the electron cloud. Space charge is dependent on the beam distribution longitudinally and transversely, the structure and layout of the particle accelerator in which the beam is maintained, and the complex dynamics that may include other coherent and incoherent effects.
+	
+	As such, comparing a space charge simulation with experiment or other simulation tools is difficult. Giuliano Franchetti, together with Ingo Hofmann and Shinji Machida compared the space charge simulation tools MICROMAP and SIMPSONS using the SIS18 accelerator in GSI Darmstadt. 	
+	
+	Giuliano Franchetti's SIS18 benchmark has been performed with the PTC-PyORBIT code, the steps taken to achieve this, and the results, are detailed in this report.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%----------------------------------------------------------------------------------------
@@ -145,7 +149,7 @@ The parameters in table~\ref{tab:parameters16} are used in steps 1 - 6, and the 
 \end{table}
 
 \begin{table}
-	\begin{center}
+	\begin{center}amplitude detuning
 		\begin{tabular}[!b]{|l|c|c|c|}
 			\hline
 			\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Unit} \\
