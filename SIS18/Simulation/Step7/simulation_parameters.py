@@ -60,6 +60,6 @@ switches = {
 	'Frozen': 1,
 	'MinPathLength': 1E-8,
 	'RestoringForce': RestoringForce,
-	'InitialParticleTransversePosition':5.2E-3,	# Used for single particle sims
+	'InitialParticleTransversePosition':5.05E-3,	# Used for single particle sims
 	'InitialDistnSigma':4						# Used for bunch sims
 }
