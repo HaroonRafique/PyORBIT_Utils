@@ -15,12 +15,12 @@ if Step1to6:
 	intensity=2.95e10	# DeltaQ = 0.1  Z=40.3m t=3472.7ns
 	blength_rms = (beta*299792458*3472.7e-9)/4.	# = 40.206868 m
 	sig_z = (3472.7e-9)/4.
-	RestoringForce = -4.38975e-09
+	RestoringForce = -1.951E-11
 else:
 	intensity=1.95e+9	# DeltaQ = 0.1  Z=2.69m t=231.51ns
 	blength_rms = (beta*299792458*231.51e-9)/4. # = 2.680419244 m
 	sig_z = (231.51e-9)/4.
-	RestoringForce = -1.951E-11
+	RestoringForce = -4.38975e-09
 
 # Assume Geometric epsn_x = (beta*gamma)*epsn_g_x
 epsn_x=(beta*gamma)*(12.57e-6)/4			# beta*gamma*e_g/4 = 4.91E-7
