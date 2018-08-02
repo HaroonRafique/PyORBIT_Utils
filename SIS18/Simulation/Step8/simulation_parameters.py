@@ -30,7 +30,7 @@ dpp_rms = 2.5e-4/3.
 # Simulation Parameters
 n_macroparticles = int(1)
 macrosize = intensity/float(n_macroparticles)
-turns_max = 2000
+turns_max = 5E5
 turns_update = range(-1, turns_max, 100)
 turns_print = range(-1, turns_max, 1)
 rf_voltage=0.0
@@ -60,6 +60,6 @@ switches = {
 	'Frozen': 1,
 	'MinPathLength': 1E-8,
 	'RestoringForce': RestoringForce,
-	'InitialParticleTransversePosition':5.2E-3,	# Used for single particle sims
+	'InitialParticleTransversePosition':5E-3,	# Used for single particle sims
 	'InitialDistnSigma':4						# Used for bunch sims
 }
