@@ -6,7 +6,7 @@ Step1to6 = 0
 # Constants
 beta = 0.15448
 gamma = 1.012149995
-m = 1.2
+m = 50	#change for longitudinal gaussian (to infinity -> gaussian)
 TransverseCut = 5
 circumference= 216.7199935
 
