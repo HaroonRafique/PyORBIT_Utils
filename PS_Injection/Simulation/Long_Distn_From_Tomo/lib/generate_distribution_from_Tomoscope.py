@@ -19,6 +19,9 @@ class LongitudinalDistributionFromTomoscope():
 			self.t, self.dE = np.meshgrid(data['time_nsec'],data['energy_MeV'])		
 		else:
 			thefile = open(filename,"r")
+			self.I=[]
+			self.dt_bins=[]
+			self.dE_bins=[]
 			
 			for l in thefile:
 				# First line: Minimum dt, maximum dt, binsize, bins
@@ -26,24 +29,29 @@ class LongitudinalDistributionFromTomoscope():
 					self.dt_min = l.split()[0]
 					self.dt_max = l.split()[1]
 					self.dt_bin = l.split()[2]
-					self.dt_bins = l.split()[3]
+					self.dt_no_bins = l.split()[3]
 				# Second line: Minimum dE, maximum dE, binsize, bins
 				elif l == 1:
 					self.dE_min = l.split()[0]
 					self.dE_max = l.split()[1]
 					self.dE_bin = l.split()[2]
-					self.dE_bins = l.split()[3]
+					self.dE_no_bins = l.split()[3]
 				# Read grid line by line to create density array
 				else:
+					self.temp=[]
 					# read each value and append to array
 					for i in l.split():
-						temp.append(float(i))
+						self.temp.append(float(i))
 					# append array to density array
-					self.I.append(temp)
+					self.I.append(self.temp)
+					self.temp=[]
 			print self.I
+			
+			self.dt_bins = np.arange(self.dt_no_bins)*self.dt_bin
+			self.dE_bins = np.arange(self.dE_no_bins)*self.dE_bin
 					
 			# make a meshgrid using the min max and binsize etc
-			self.t, self.dE = np.meshgrid( (np.arange(self.dt_bins)*self.dt_bin), (np.arange(self.dE_bins)*self.dE_bin))
+			self.t, self.dE = np.meshgrid( self.dt_bins, self.dE_bins)
 			
 		self.t_rand = []
 		self.dE_rand = []
