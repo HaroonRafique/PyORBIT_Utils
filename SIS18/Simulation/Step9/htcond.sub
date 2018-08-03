@@ -1,6 +1,6 @@
 # HTCondor submit description file
 
-request_cpus            = 1
+request_cpus            = 8
 #+BigMemJob              = True
 #+MaxRuntime             = 604800
 getenv                  = True
