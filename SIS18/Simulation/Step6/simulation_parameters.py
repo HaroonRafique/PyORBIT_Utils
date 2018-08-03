@@ -1,7 +1,7 @@
 import numpy as np
 
 # Switch for SIS18 parameters
-Step1to6 = 0
+Step1to6 = 1
 
 # Constants
 beta = 0.15448
@@ -11,12 +11,12 @@ TransverseCut = 5
 circumference= 216.7199935
 
 # Beam Parameters
-if Step1to6:
+if Step1to6: # Synchrotron period of 15000 turns
 	intensity=2.95e10	# DeltaQ = 0.1  Z=40.3m t=3472.7ns
 	blength_rms = (beta*299792458*3472.7e-9)/4.	# = 40.206868 m
 	sig_z = (3472.7e-9)/4.
 	RestoringForce = -1.951E-11
-else:
+else: # Synchrotron period of 15000 turns
 	intensity=1.95e+9	# DeltaQ = 0.1  Z=2.69m t=231.51ns
 	blength_rms = (beta*299792458*231.51e-9)/4. # = 2.680419244 m
 	sig_z = (231.51e-9)/4.
