@@ -1,6 +1,6 @@
 import numpy as np
 
-# ~ tomo_file = 'tomoscope_file/tomo_data_singleRF_EKP_297.mat'
+# ~ tomo_file = 'tomo_data_singleRF_EKP_297.mat'
 tomo_file = 'PyORBIT_Tomo_file.txt'
 #z_max = 0.77
 m = 1.2
