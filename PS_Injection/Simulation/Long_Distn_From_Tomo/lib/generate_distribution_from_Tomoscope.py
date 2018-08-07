@@ -25,14 +25,20 @@ class LongitudinalDistributionFromTomoscope():
 			
 		else:
 			thefile = open(filename,"r")
-				for l in thefile:
+			lines=0
+			for l in thefile:
+				lines = lines + 1
+				
+			lines = lines - 2
+			print 'grid size = ', lines, ' * ', lines, ' = ', (lines*lines)
+				
 			thefile.close()
 			thefile = open(filename,"r")			
 			
-			self.I = np.array()
 			# Need to know the size of the square numpy array from the input file
-			self.dt_bin =  np.array((shape=(5,2)))
-			self.dE_bin =  np.array((shape=(5,2)))
+			# ~ self.I = np.zeros(shape=(lines,lines))
+			self.dt_bin =  np.zeros(shape=(lines,lines))
+			self.dE_bin =  np.zeros(shape=(lines,lines))
 			self.dt_no_bins = 0
 			self.dE_no_bins = 0
 			
