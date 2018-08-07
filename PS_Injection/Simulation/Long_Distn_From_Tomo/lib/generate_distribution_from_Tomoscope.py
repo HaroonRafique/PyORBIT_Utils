@@ -17,11 +17,24 @@ class LongitudinalDistributionFromTomoscope():
 			self.data = data
 			self.I = data['density_array']
 			self.t, self.dE = np.meshgrid(data['time_nsec'],data['energy_MeV'])		
+			print self.t
+			# ~ print self.t	#keys
+			# ~ print self.t['key'] #array structure 1 level in
+			print self.dE.shape
+			print self.I.shape
+			
 		else:
 			thefile = open(filename,"r")
-			self.I=[]
-			self.dt_bins=[]
-			self.dE_bins=[]
+				for l in thefile:
+			thefile.close()
+			thefile = open(filename,"r")			
+			
+			self.I = np.array()
+			# Need to know the size of the square numpy array from the input file
+			self.dt_bin =  np.array((shape=(5,2)))
+			self.dE_bin =  np.array((shape=(5,2)))
+			self.dt_no_bins = 0
+			self.dE_no_bins = 0
 			
 			for l in thefile:
 				# First line: Minimum dt, maximum dt, binsize, bins
@@ -52,12 +65,14 @@ class LongitudinalDistributionFromTomoscope():
 					
 			# make a meshgrid using the min max and binsize etc
 			self.t, self.dE = np.meshgrid( self.dt_bins, self.dE_bins)
+			print self.t
+			print self.t.keys()
 			
 		self.t_rand = []
-		self.dE_rand = []
+		self.dE_rand = []			
 		
 	def getCoordinates(self, n_mp=1, noise_level=0):
-		data = self.data
+		# ~ data = self.data
 		I = self.I
 		t = self.t
 		dE = self.dE
@@ -106,7 +121,7 @@ class LongitudinalDistributionFromTomoscope():
 		ax.set_ylabel('dE [MeV]')
 
 
-def generate_initial_distribution(parameters, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
+def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
 								  summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
 	assert outputFormat in ['Orbit', 'pyOrbit']
 	p = parameters
@@ -148,7 +163,8 @@ def generate_initial_distribution(parameters, Lattice=None, output_file='Particl
 	except KeyError:
 		noise_level = 0
 	
-	Longitudinal_distribution = LongitudinalDistributionFromTomoscope(p['tomo_file'])
+	# ~ Longitudinal_distribution = LongitudinalDistributionFromTomoscope(p['tomo_file'])
+	Longitudinal_distribution = LongitudinalDistributionFromTomoscope(p['tomo_file'], matfile)
 	t_rand, dE_rand = Longitudinal_distribution.getCoordinates(p['n_macroparticles'],noise_level) 
 	z = t_rand * speed_of_light * beta * 1e-9 # convert ns to s and then m
 	dE = dE_rand * 1e-3 # convert from MeV to GeV
