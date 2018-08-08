@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import subprocess
 import re
+from scipy.io import savemat
 
 input_file='2017.11.28.12.09.05.117_tomo185.dat'
 full_input_file='./2017.11.28.12.09.05.117_tomo185.dat'
@@ -65,15 +66,24 @@ for i in range (0, (var[0]-1), 1):
 	thefile.write("\n")
 	
 thefile.close()
-# ~ # First line dt bins
-# ~ for item in tAxis:
-	# ~ thefile.write("%f\t" % item)
-  
-# ~ thefile.write("\n")
-# ~ # Second line dE bins
-# ~ for item in EAxis:
-	# ~ thefile.write("%f\t" % item)
-	
-	
-# Third line 
 
+# Mat file method
+
+# ~ data = np.ndarray(shape=(profilelength, profilelength), buffer=np.array(np.loadtxt("image002.data")))
+# ~ data = np.transpose(data)
+
+# Make time and energy vector
+# ~ time_in_bins = np.arange(0, profilelength)
+# ~ time_in_nsec = (time_in_bins - x) * dt * 1e9
+
+# ~ energy_in_bins = np.arange(0, profilelength)
+# ~ energy_in_MeV = (energy_in_bins - y) * dEbin * 1e-6
+
+yy, xx = np.meshgrid(EAxis, tAxis)
+plt.pcolormesh(xx, yy, dat)
+plt.xlabel('Time (ns)')
+plt.ylabel('Energy (MeV)')
+plt.show()
+
+data_dict = {'time_nsec': tAxis, 'energy_MeV': EAxis, 'density_array': dat}
+savemat('PyORBIT_Tomo_file.mat', data_dict)
