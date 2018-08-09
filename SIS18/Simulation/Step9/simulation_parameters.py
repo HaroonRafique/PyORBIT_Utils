@@ -30,9 +30,9 @@ dpp_rms = 2.5e-4/3.
 # Simulation Parameters
 n_macroparticles = int(1000)
 macrosize = intensity/float(n_macroparticles)
-turns_max = 1E5
-turns_update = range(-1, turns_max, 100)
-turns_print = range(-1, turns_max, 1E3)
+turns_max = int(1E5)
+turns_update = range(int(-1), turns_max, int(100))
+turns_print = range(int(-1), turns_max, int(1E3))
 rf_voltage=0.0
 
 parameters = {
