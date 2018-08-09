@@ -1,6 +1,5 @@
 import numpy as np
 
-#z_max = 0.77                   #???
 beta = 0.15448
 gamma = 1.012149995
 m = 1.2
@@ -52,7 +51,7 @@ switches = {
 	'MinPathLength': 1E-8,
 	# ~ 'RestoringForce':-4.403800e-09,
 	'RestoringForce':-4.38975e-09,
-	'InitialParticleTransversePosition':5.1E-3
+	'InitialParticleTransversePosition':5E-3
 }
 
 # these are the parameters for the PTC RF table
