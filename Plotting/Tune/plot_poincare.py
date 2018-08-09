@@ -106,54 +106,57 @@ fig1.subplots_adjust(wspace=0.3, hspace=0.3, left=0.1, right=0.99, top=0.95, bot
 no_input_files = len(iterators)
 points_per_file = len(d[1]['particles']['x'][0][0][0])
 points_per_plot = no_input_files * points_per_file
-total_points = 5 * points_per_plot
-print '\nPlotting xy, please be patient.\nRemember we\'re plotting ',points_per_file,' points, for ',no_input_files,' files!\nThats ',points_per_plot,' points in total for each of the 5 plots.\nThat\'s a grand total of ', total_points,'!!!'
-for i in iterators:
-        ax1.scatter(d[i]['particles']['x'][0][0][0], d[i]['particles']['y'][0][0][0], color='m', label='2.6 eVs');
-        
-# ~ ax1.legend();
+total_points = 5 * points_per_plot        
+
 ax1.set_xlabel('x [m]');
 ax1.set_ylabel('y [m]');
 ax1.set_title('Particle Distribution: Real space');
 ax1.grid(True);
 
-print '\nPlotting xp yp, we appreciate your understanding in this trying time...'
+print '\nPlotting xy, please be patient.\nRemember we\'re plotting ',points_per_file,' points, for ',no_input_files,' files!\nThats ',points_per_plot,' points in total for each of the 5 plots.\nThat\'s a grand total of ', total_points,'!!!'
 for i in iterators:
-        ax2.scatter(d[i]['particles']['xp'][0][0][0], d[i]['particles']['yp'][0][0][0], color='m', label='2.6 eVs');
+        ax1.scatter(d[i]['particles']['x'][0][0][0], d[i]['particles']['y'][0][0][0], color='m', label='2.6 eVs');
+
         
 ax2.set_xlabel('xp []');
 ax2.set_ylabel('yp []');
 ax2.set_title('Particle Distribution: xp yp');
 ax2.grid(True);
 
+print '\nPlotting xp yp, we appreciate your understanding in this trying time...'
+for i in iterators:
+        ax2.scatter(d[i]['particles']['xp'][0][0][0], d[i]['particles']['yp'][0][0][0], color='m', label='2.6 eVs');
+
+
+ax3.set_xlabel('x [m]');
+ax3.set_ylabel('xp []');
+ax3.set_title('Particle Distribution: Horizontal phase space');
+ax3.grid(True);
+
 print '\nPlotting x xp, we apologise for any inconvenience...'
 for i in iterators:
         ax3.scatter(d[i]['particles']['x'][0][0][0], d[i]['particles']['xp'][0][0][0], color='m', label='2.6 eVs', marker=',');
 
-ax3.set_xlabel('x [m]');
-ax3.set_ylabel('xp []');
-# ~ ax3.set_xlim();
-# ~ ax3.set_ylim();
-ax3.set_title('Particle Distribution: Horizontal phase space');
-ax3.grid(True);
-
-print '\nPlotting y yp, OK almost there, this is kinda taking the piss. We get it :-)'
-for i in iterators:
-        ax4.scatter(d[i]['particles']['y'][0][0][0], d[i]['particles']['yp'][0][0][0], color='m', label='2.6 eVs');
 
 ax4.set_xlabel('y [m]');
 ax4.set_ylabel('yp []');
 ax4.set_title('Particle Distribution: Vertical phase space');
 ax4.grid(True);
 
-print '\nPlotting z dE, whoop last one. Just this and the legend plot and we are outta here!'
+print '\nPlotting y yp, OK almost there, this is kinda taking the piss. We get it :-)'
 for i in iterators:
-        ax5.scatter(d[i]['particles']['z'][0][0][0], d[i]['particles']['dE'][0][0][0], color='m', label='2.6 eVs');
+        ax4.scatter(d[i]['particles']['y'][0][0][0], d[i]['particles']['yp'][0][0][0], color='m', label='2.6 eVs');
+
 
 ax5.set_xlabel('z [m]');
 ax5.set_ylabel('dE [GeV]');
 ax5.set_title('Particle Distribution: Longitudinal');
 ax5.grid(True);
+
+print '\nPlotting z dE, whoop last one. Just this and the legend plot and we are outta here!'
+for i in iterators:
+        ax5.scatter(d[i]['particles']['z'][0][0][0], d[i]['particles']['dE'][0][0][0], color='m', label='2.6 eVs');
+
 
 ax6.scatter(0,0,color='m', label='2.6 eVs')
 ax6.scatter(0,0,color='k', label='2.3 eVs')
@@ -169,7 +172,7 @@ legend_elements = [Line2D([0], [0], marker='o', color='w', label='2.6 eVs', mark
 
 ax6.legend(handles=legend_elements, loc='center')
 
-savename = str('Poincare_Dist_0-4p5sig_Multipole_0p2_Matched.png')
+savename = str('Poincare_Dist_0-4sigx_I=1.95e+9.png')
 # ~ fig1.savefig('Emittance_y.png', transparent=True);
 print '\nJust saving this bad boy, in case you forgot the filename is: '
 print savename

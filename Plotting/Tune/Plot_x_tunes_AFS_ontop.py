@@ -16,8 +16,8 @@ import matplotlib.pyplot as plt
 # PARAMETERS
 horizontal = 0
 
-intensity = 'I=0.295e11'
-step = '2'
+intensity = 'I=1.95e+9'
+step = '3'
 plane =''
 if horizontal:
     plane = 'x'
@@ -128,9 +128,9 @@ if horizontal:
 	plot_name = 'SIS18_' + case + '_Qx.png'
 	# ~ ax.set_xlim(0,5)
 	# ~ ax.set_ylim(0.2325, 0.3375)
-	img = plt.imread("step2_x.png")
-	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.2325, 0.3375]) #Step 2
-	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 7.0, 0.2325, 0.345]) #Step 3
+	img = plt.imread("step3_x.png")
+	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.2325, 0.3375]) #Step 2
+	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 7.0, 0.2325, 0.345]) #Step 3
 	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 6.0, 0.2325, 0.3505]) #Step 4
 
 else:
@@ -139,9 +139,9 @@ else:
 	plot_name = 'SIS18_' + case + '_Qy.png'
 	ax.set_xlim(0,5)
 	ax.set_ylim(0.05, 0.20625)		
-	img = plt.imread("step2_y.png")
-	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.2325, 0.3375]) #Step 2
-	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 7.0, 0.2325, 0.345]) #Step 3
+	img = plt.imread("step3_y.png")
+	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.2325, 0.3375]) #Step 2
+	ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 5.0, 0.05, 0.20625]) #Step 3
 	# ~ ax.imshow(img, zorder=0, origin='upper', aspect='auto', extent=[0.0, 6.0, 0.2325, 0.3505]) #Step 4
 
 ax.grid()

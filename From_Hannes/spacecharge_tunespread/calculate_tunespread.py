@@ -1,6 +1,6 @@
 from tunespread import *
 
-gamma = 1.01215
+gamma = 1.012149995
 beta = np.sqrt(gamma**2-1)/gamma
 
 deltap = 2.5e-4/3.
@@ -10,11 +10,13 @@ emit_y = (beta*gamma)*9.3e-6 / 4.
 
 q = 1
 
-n_part = 0.305564e11
-blength = 3472.7
+# ~ n_part = 0.305564e11		# dQx = 0.01
+# ~ n_part = 2.95e10 				# dQx = 0.097
+# ~ blength = 3472.7
 
-# ~ n_part = 2.03706e9
-# ~ blength = 231.51
+# ~ n_part = 2.03706e9			# dQx = 0.01
+n_part = 2.0e9			# dQx = 0.01
+blength = 231.51
 
 '''
 Step2+
