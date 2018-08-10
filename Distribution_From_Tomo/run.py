@@ -27,9 +27,13 @@ print(out[9])
 # dtbin = 2.5000E-09
 # dEbin = 9.6494E+04
 # turn above into numbers in ns and GeV
-dt = float(regexp.findall(out[7])[0])/1E-9
-dE = float(regexp.findall(out[9])[0])/1E9
+# ~ dt = float(regexp.findall(out[7])[0])/1E-9
+# ~ dE = float(regexp.findall(out[9])[0])/1E9
 
+# Units from Eirini's script
+dt = float(regexp.findall(out[7])[0])/1E-9
+dE = float(regexp.findall(out[9])[0])/1E6 # MeV
+ 
 # make bins
 tAxis = np.arange(dat.shape[0])*dt
 EAxis = np.arange(dat.shape[0])*dE
@@ -41,7 +45,7 @@ EAxis -= np.mean(EAxis)
 # plot
 fig, ax = plt.subplots()
 ax.pcolor(tAxis, EAxis, dat)
-ax.set(xlabel='dt [ns]', ylabel='dE [GeV]', title='Longitudinal distribution from tomo data')
+ax.set(xlabel='dt [ns]', ylabel='dE [MeV]', title='Longitudinal distribution from tomo data')
 plot_name = input_file + '.png'
 fig.savefig(plot_name, dpi=600)
 
