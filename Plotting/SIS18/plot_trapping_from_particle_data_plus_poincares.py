@@ -20,12 +20,14 @@ plt.rcParams['font.size'] = 6
 plt.rcParams['legend.fontsize'] = 'large'
 plt.rcParams['legend.handlelength'] = 5
 
+plt.rcParams['agg.path.chunksize'] = 1000
+
 # ~ plt.rcParams['figure.titlesize'] = 'medium'
 
 plt.rcParams['lines.linewidth'] = 0.5
 plt.rcParams['lines.markersize'] = 0.25
 
-case = '1000synch_F=-4.38975e-09_5.0.5mm_2000turns_SC_Manual'
+case = '1000synch_F=-4.38975e-09_5.0.5mm_1E5turns_SC_Manual'
 
 # Read file, looks like:
 #ParticleID	Turn	x[m]	xp	y[m]	yp	z[m]	dE[GeV]
@@ -117,16 +119,16 @@ for j in range(0, len(x), 1):
 
 #################
 #   Trapping    #
-# ~ #################
+#################
 fig, ax1 = plt.subplots();
-
-ax1.plot(Turn, e_xn, color='m');
         
 ax1.set_xlabel('Turn [-]');
 ax1.set_ylabel('emittance_x / emittance_x0');
 ax1.set_title('Normalised particle emittance as a function of turn');
 ax1.grid(True);
 
+# ~ ax1.plot(Turn, e_xn, color='m', marker='.');
+ax1.plot(Turn, e_xn, color='m');
 
 savename = 'Particle_trapping_'+case+'.png'
 print '\nJust saving this bad boy, in case you forgot the filename is: '
@@ -142,7 +144,7 @@ fig, ax1 = plt.subplots();
 # ~ for i in particles:
     # ~ print 'plotting z, turn ', i
     # ~ for j in range(0, len(z)):
-ax1.scatter(Turn, z, color='m');
+ax1.scatter(Turn, z, color='m', marker='.');
         
 # ~ ax1.legend();
 # ~ ax1.set_xlabel('Turn / Synchrotron Period [-]');
@@ -166,7 +168,7 @@ fig.savefig(savename);
 #   z dE Poincare   #
 #####################
 fig, ax1 = plt.subplots();
-ax1.scatter(z, dE, color='m');
+ax1.scatter(z, dE, color='m', marker='.');
 
 ax1.set_xlabel('z [m]');
 ax1.set_ylabel('dE [GeV]');
@@ -182,7 +184,7 @@ fig.savefig(savename);
 #   x xp Poincare   #
 #####################
 fig, ax1 = plt.subplots();
-ax1.scatter(x, xp, color='m');
+ax1.scatter(x, xp, color='m', marker='.');
 
 ax1.set_xlabel('x [m]');
 ax1.set_ylabel('xp [mrad]');
