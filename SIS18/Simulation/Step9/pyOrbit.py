@@ -327,7 +327,7 @@ for turn in range(p['turns_max']):
 	# For last turn output particle dictionary and/or make plots
 	if turn == (p['turns_max']-1):
 		# ~ for i in range(0, p['n_macroparticles']):
-			# ~ particle_output.print_particle(i)					
+		# ~ particle_output.print_particle(0)					
 		particle_output.print_all_particles()
 		
         

@@ -28,7 +28,7 @@ epsn_y=(beta*gamma)*(9.30e-6)/4				# beta*gamma*e_g/4 = 3.635E-7
 dpp_rms = 2.5e-4/3.
 
 # Simulation Parameters
-n_macroparticles = int(1000)
+n_macroparticles = int(1E5)
 macrosize = intensity/float(n_macroparticles)
 turns_max = int(1E5)
 turns_update = range(int(-1), turns_max, int(100))
