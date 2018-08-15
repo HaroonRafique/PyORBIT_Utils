@@ -71,6 +71,49 @@ class Particle_output_dictionary(object):
 				
 		self.turn_list.append(turn)
 		
+	def UpdateAndPrint(self, bunch, turn, filename=None):
+		self.update_flag = 1
+		
+		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
+		if not rank:
+						
+			for n in self.particle_list:
+				
+				# Create the turn dictionary
+				self.particles[str(n)][str(turn)] = {}	# Second level : N-2 : Turn
+			
+				# self.particles[index][turn]['x'] = bunch.x(index)
+				self.particles[str(n)][str(turn)]['x'] = bunch.x(n)
+				self.particles[str(n)][str(turn)]['xp'] = bunch.xp(n)
+				self.particles[str(n)][str(turn)]['y'] = bunch.y(n)
+				self.particles[str(n)][str(turn)]['yp'] = bunch.yp(n)
+				self.particles[str(n)][str(turn)]['z'] = bunch.z(n)
+				self.particles[str(n)][str(turn)]['dE'] = bunch.dE(n)
+				
+				if filename is None:				
+					filename = 'Particle_' + str(n) + '_turn_' + str(turn) + '.dat'
+				
+				# if file exists then append
+				if os.path.exists(filename):
+					f = open(filename,"a+")
+										
+				# if file doesn't exist create and add header
+				else:
+					f = open(filename,"w+")
+					f.write("#ParticleID\tTurn\tx[m]\txp\ty[m]\typ\tz[m]\tdE[GeV]")
+				
+				f.write("\n%i\t%i\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
+					n, turn, 										\
+					self.particles[str(n)][str(turn)]['x'],		\
+					self.particles[str(n)][str(turn)]['xp'],	\
+					self.particles[str(n)][str(turn)]['y'],		\
+					self.particles[str(n)][str(turn)]['yp'],	\
+					self.particles[str(n)][str(turn)]['z'],		\
+					self.particles[str(n)][str(turn)]['dE']		))
+				f.close()
+						
+		self.turn_list.append(turn)
+		
 		# ~ print "Particle_output_dictionary::update: Added turn %i" % (turn)
 		# ~ print "Dictionary now:"
 		# ~ print self.particles
