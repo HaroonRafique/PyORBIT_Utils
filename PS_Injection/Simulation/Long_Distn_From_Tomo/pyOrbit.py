@@ -57,10 +57,10 @@ if slicebyslice:
         
 # Generate initial distribution from tomo data
 #----------------------------------------------
-if s['ImportFromTomo']:
-	from lib.generate_distribution_from_Tomoscope import *
-else:
-	from lib.pyOrbit_GenerateInitialDistribution2 import *
+# ~ if s['ImportFromTomo']:
+	# ~ from lib.generate_distribution_from_Tomoscope import *
+# ~ else:
+from lib.pyOrbit_GenerateInitialDistribution2 import *
 # ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 
 from lib.output_dictionary import *
@@ -160,12 +160,14 @@ if sts['turn'] < 0:
 	print '\ngenerate_initial_distribution on MPI process: ', rank
 	if s['ImportFromTomo']:
 		if '.mat' in p['tomo_file']:
-			Particle_distribution = generate_initial_distribution(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+			Particle_distribution = generate_initial_distribution_tomo_new(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+			# ~ Particle_distribution = generate_initial_distribution(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 		else:
-			Particle_distribution = generate_initial_distribution(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+			Particle_distribution = generate_initial_distribution_tomo_new(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+			# ~ Particle_distribution = generate_initial_distribution(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 	else:
 		Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-	# ~ orbit_mpi.MPI_Barrier(comm)
+		# ~ orbit_mpi.MPI_Barrier(comm)
 
 	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
