@@ -7,7 +7,7 @@ import numpy as np
 import scipy.io as sio
 import os
 
-# Use switches in simulation_parameters.py in current folder
+# Use switches in simulation_parameters.py inInitial_Distribution current folder
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
 slicebyslice = s['SliceBySlice']        # 2.5D space charge
@@ -158,11 +158,13 @@ if sts['turn'] < 0:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
 	print '\ngenerate_initial_distribution on MPI process: ', rank
-	if '.mat' in p['tomo_file']:
-		Particle_distribution = generate_initial_distribution(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	if s['ImportFromTomo']:
+		if '.mat' in p['tomo_file']:
+			Particle_distribution = generate_initial_distribution(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		else:
+			Particle_distribution = generate_initial_distribution(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 	else:
-		Particle_distribution = generate_initial_distribution(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-
+		Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 	# ~ orbit_mpi.MPI_Barrier(comm)
 
 	print '\bunch_orbit_to_pyorbit on MPI process: ', rank

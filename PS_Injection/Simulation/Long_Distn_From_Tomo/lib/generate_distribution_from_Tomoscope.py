@@ -116,18 +116,18 @@ class LongitudinalDistributionFromTomoscope():
 
 	def plot_Tomoscope_data(self):
 		f,ax = plt.subplots(1)
-		plt.scatter(self.t,self.dE,15,self.I,lw=0)
+		plt.scatter(self.t, self.dE, 15, self.I, lw=0)
 		ax.set_xlabel('time [ns]')
 		ax.set_ylabel('dE [MeV]')
 
 	def plot_generated_distribution(self):
 		f,ax = plt.subplots(1)
-		plt.hist2d(self.t_rand,self.dE_rand,len(np.unique(self.t)))
+		plt.hist2d(self.t_rand, self.dE_rand, len(np.unique(self.t)))
 		ax.set_xlabel('time [ns]')
 		ax.set_ylabel('dE [MeV]')
 
 
-def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
+def generate_initial_distribution_test(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
 								  summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
 	assert outputFormat in ['Orbit', 'pyOrbit']
 	p = parameters
@@ -171,10 +171,16 @@ def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_fi
 	
 	# ~ Longitudinal_distribution = LongitudinalDistributionFromTomoscope(p['tomo_file'])
 	Longitudinal_distribution = LongitudinalDistributionFromTomoscope(p['tomo_file'], matfile)
-	t_rand, dE_rand = Longitudinal_distribution.getCoordinates(p['n_macroparticles'],noise_level) 
+	
+	# ~ Longitudinal_distribution.plot_Tomoscope_data()
+	# ~ Longitudinal_distribution.plot_generated_distribution()
+	
+	t_rand, dE_rand = Longitudinal_distribution.getCoordinates(p['n_macroparticles'], noise_level) 
 	z = t_rand * speed_of_light * beta * 1e-9 # convert ns to s and then m
+	# ~ z = (t_rand * 1e-9) * speed_of_light * beta * 0.075 # convert ns to s and then m
 	dE = dE_rand * 1e-3 # convert from MeV to GeV
-	dpp = dE / p['energy']/1.e-9 / beta**2 
+	dpp = dE / p['energy'] / 1.e-9 / beta**2 
+	# ~ dpp = dE / p['energy'] / beta**2  # Not sure which dpp definition is correct
 	
 	# h_main = np.atleast_1d(p['harmonic_number'])[0]
 	# R = p['circumference']/2/np.pi
@@ -203,13 +209,16 @@ def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_fi
 		xp.extend(Transverse_coords[:,1].tolist())
 		y.extend(Transverse_coords[:,2].tolist())
 		yp.extend(Transverse_coords[:,3].tolist())
+		
 	# in case x has not yet a length of n_macroparticles
-	while len(x)<p['n_macroparticles']:
-		Transverse_coords = Transverse_distribution.getCoordinates()
-		x.append(Transverse_coords[0])
-		xp.append(Transverse_coords[1])
-		y.append(Transverse_coords[2])
-		yp.append(Transverse_coords[3])
+	# ~ while len(x)<p['n_macroparticles']:
+		# ~ Transverse_coords = Transverse_distribution.getCoordinates()
+		# ~ x.append(Transverse_coords[0])
+		# ~ xp.append(Transverse_coords[1])
+		# ~ y.append(Transverse_coords[2])
+		# ~ yp.append(Transverse_coords[3])
+		
+	# Dispersion and closed orbit	
 	x = np.array(x) + p['x0']  + dpp * p['etax0']
 	xp = np.array(xp) + p['xp0'] + dpp * p['etapx0']
 	y = np.array(y) + p['y0']  + dpp * p['etay0']
@@ -225,6 +234,7 @@ def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_fi
 				xp *= 1000.
 				y  *= 1000.
 				yp *= 1000.
+				# ~ dE[i] /= 1.e9	# Already in the correct units	
 				map(lambda i: csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]]), range(p['n_macroparticles']))	
 			elif outputFormat == 'pyOrbit':
 				map(lambda i: csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]]), range(p['n_macroparticles']))	
@@ -239,6 +249,102 @@ def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_fi
 
 		print '\nCreated particle distribution with ' + str(p['n_macroparticles']) + ' macroparticles into file: ', output_file
 	
+	orbit_mpi.MPI_Barrier(comm)
+
+	return output_file
+
+		
+
+def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
+								  summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
+							
+	assert outputFormat in ['Orbit', 'pyOrbit']
+	parameters['alphax0'] = Lattice.alphax0
+	parameters['betax0']  = Lattice.betax0
+	parameters['alphay0'] = Lattice.alphay0
+	parameters['betay0']  = Lattice.betay0
+	parameters['etax0']   = Lattice.etax0
+	parameters['etapx0']  = Lattice.etapx0
+	parameters['etay0']   = Lattice.etay0
+	parameters['etapy0']  = Lattice.etapy0
+	parameters['x0']      = Lattice.orbitx0
+	parameters['xp0']     = Lattice.orbitpx0
+	parameters['y0']      = Lattice.orbity0
+	parameters['yp0']     = Lattice.orbitpy0
+	parameters['gamma_transition'] = Lattice.gammaT
+	parameters['circumference']    = Lattice.getLength()
+	parameters['length'] = Lattice.getLength()/Lattice.nHarm
+	# twiss containers
+	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
+	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
+	dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
+	dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
+	# ~ dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
+	# ~ dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
+	closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
+	closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']} 
+
+	# initialize particle arrays
+	x = np.zeros(parameters['n_macroparticles'])
+	xp = np.zeros(parameters['n_macroparticles'])
+	y = np.zeros(parameters['n_macroparticles'])
+	yp = np.zeros(parameters['n_macroparticles'])
+	z = np.zeros(parameters['n_macroparticles'])
+	dE = np.zeros(parameters['n_macroparticles'])
+
+	# building the distributions
+	Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
+	
+	try: 
+		noise_level = parameters['noise_level']
+	except KeyError:
+		noise_level = 0
+	
+	# ~ Longitudinal_distribution = LongitudinalDistributionFromTomoscope(p['tomo_file'])
+	# ~ Longitudinal_distribution = LongitudinalDistributionFromTomoscope(parameters['tomo_file'], matfile)
+	# ~ t_rand, dE_rand = Longitudinal_distribution.getCoordinates(parameters['n_macroparticles'], noise_level)
+	# ~ z = t_rand * speed_of_light * parameters['beta'] * 1e-9 # convert ns to s and then m
+	# ~ z = (t_rand * 1e-9) * speed_of_light * beta * 0.075 # convert ns to s and then m
+	# ~ dE = dE_rand * 1e-3 # convert from MeV to GeV
+	# ~ dpp = dE / p['energy']/1.e-9 / beta**2 
+	# ~ dpp = dE / p['energy'] / beta**2 
+
+	# only the main CPU is actually writing its distribution to a file ...
+	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+	if orbit_mpi.MPI_Comm_rank(comm) == 0:
+		with open(output_file,"w") as fid:
+			csv_writer = csv.writer(fid, delimiter=' ')			
+		
+			# ~ t_rand, dE_rand = Longitudinal_distribution.getCoordinates(parameters['n_macroparticles'], noise_level) 
+			# ~ z = (t_rand * 1e-9) * speed_of_light * parameters['beta'] # convert ns to s and then m
+			# ~ dE = dE_rand * 1e-3 # convert from MeV to GeV
+
+			for i in range(parameters['n_macroparticles']):
+				(x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
+				x[i] += closedOrbitx['x0']
+				xp[i] += closedOrbitx['xp0']
+				y[i] += closedOrbity['y0']
+				yp[i] += closedOrbity['yp0']
+				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
+				x[i] += dpp * dispersionx['etax0']
+				xp[i] += dpp * dispersionx['etapx0']	
+				y[i] += dpp * dispersiony['etay0']
+				yp[i] += dpp * dispersiony['etapy0']	
+				
+				if outputFormat == 'Orbit':
+					x[i] *= 1000.
+					xp[i] *= 1000.
+					y[i] *= 1000.
+					yp[i] *= 1000.
+					dE[i] /= 1.e9		
+					csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
+				#csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
+		if summary_file:
+			with open(summary_file, 'w') as fid:
+				map(lambda key: fid.write(key + ' = ' + str(parameters[key]) + '\n'), parameters)
+		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
+
+
 	orbit_mpi.MPI_Barrier(comm)
 
 	return output_file
