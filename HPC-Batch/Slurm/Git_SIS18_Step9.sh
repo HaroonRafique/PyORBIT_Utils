@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH -p be-short
-#SBATCH -N 1
-#SBATCH --job-name 8_SIS18
+#SBATCH -p be-long
+#SBATCH -N 5
+#SBATCH --job-name 9_SIS18
 #SBATCH --mem-per-cpu 3200M
-#SBATCH --ntasks-per-node 1
+#SBATCH --ntasks-per-node 40
 #SBATCH -exclusive
 #SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
@@ -19,7 +19,7 @@ source /hpcscratch/user/harafiqu/PyORBIT/virtualenvs/py2.7/bin/activate
 
 BATCH_ROOT_DIR='/hpcscratch/user/harafiqu'
 ORBIT_ROOT='/hpcscratch/user/harafiqu/PyORBIT/py-orbit'
-RUN_DIR='/hpcscratch/user/harafiqu/PyORBIT_Utils/SIS18/Simulation/Step8'
+RUN_DIR='/hpcscratch/user/harafiqu/PyORBIT_Utils/SIS18/Simulation/Step9'
 #~ VIRT_PY_DIR='/hpcscratch/user/harafiqu/PyORBIT/virtualenvs/py2.7/bin'
 OrigIwd=$(pwd)
 
