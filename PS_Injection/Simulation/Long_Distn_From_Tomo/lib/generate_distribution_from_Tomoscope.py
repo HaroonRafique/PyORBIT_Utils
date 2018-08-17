@@ -126,7 +126,6 @@ class LongitudinalDistributionFromTomoscope():
 		ax.set_xlabel('time [ns]')
 		ax.set_ylabel('dE [MeV]')
 
-
 def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
 								  summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
 	assert outputFormat in ['Orbit', 'pyOrbit']								 
@@ -200,8 +199,7 @@ def generate_initial_distribution(parameters, matfile=0, Lattice=None, output_fi
 
 	return output_file
 									  
-def generate_initial_distribution_old_tomo(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
-								  summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
+def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
 	assert outputFormat in ['Orbit', 'pyOrbit']
 	p = parameters
 	beta = p['beta']
@@ -324,9 +322,7 @@ def generate_initial_distribution_old_tomo(parameters, matfile=0, Lattice=None, 
 	
 	orbit_mpi.MPI_Barrier(comm)
 
-	return output_file
-
-		
+	return output_file		
 
 def generate_initial_distribution_old_original(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit',
 								  summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):

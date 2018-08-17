@@ -326,7 +326,7 @@ def generate_initial_distribution_tomo_old(parameters, matfile=0, Lattice=None, 
 
 	return output_file
 
-def generate_initial_distribution_tomo_new(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
+def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
 	
 	# Get parameters from the lattice
 	parameters['alphax0'] = Lattice.alphax0
@@ -424,7 +424,6 @@ def generate_initial_distribution_tomo_new(parameters, matfile=0, Lattice=None, 
 	orbit_mpi.MPI_Barrier(comm)
 
 	return output_file
-
 
 def generate_initial_distribution(parameters, Lattice,output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
 	parameters['alphax0'] = Lattice.alphax0
@@ -538,7 +537,6 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 		print '\nCreated particle distribution with ' + str(parameters['n_macroparticles']) + ' macroparticles into file: ', output_file
 	
 	return output_file'''
-
 
 def generate_initial_distribution_FMA(parameters, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit', triangular_grid = True):
 

@@ -160,10 +160,10 @@ if sts['turn'] < 0:
 	print '\ngenerate_initial_distribution on MPI process: ', rank
 	if s['ImportFromTomo']:
 		if '.mat' in p['tomo_file']:
-			Particle_distribution = generate_initial_distribution_tomo_new(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+			Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 			# ~ Particle_distribution = generate_initial_distribution(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 		else:
-			Particle_distribution = generate_initial_distribution_tomo_new(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+			Particle_distribution = generate_initial_distribution_from_tomo(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 			# ~ Particle_distribution = generate_initial_distribution(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 	else:
 		Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
