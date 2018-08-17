@@ -152,13 +152,18 @@ if sts['turn'] < 0:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
 	print '\ngenerate_initial_distribution on MPI process: ', rank
-	Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-
-	# ~ orbit_mpi.MPI_Barrier(comm)
+	if s['ImportFromTomo']:
+		if '.mat' in p['tomo_file']:
+			Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		else:
+			Particle_distribution = generate_initial_distribution_from_tomo(p, 0, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	else:
+		Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
-
+	# ~ bunch.readBunch(Particle_distribution_file)
+	
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
 	bunch.addPartAttr("macrosize")
@@ -169,7 +174,8 @@ if sts['turn'] < 0:
 #-----------------------------------------------------------------------
 	bunch.dumpBunch("input/mainbunch_start.dat")
 	saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
-	sts['mainbunch_file'] = "bunch_output/mainbunch_-000001"
+	saveBunchAsMatfile(bunch, "input/mainbunch")
+	sts['mainbunch_file'] = "input/mainbunch"
 
 # Create empty lost bunch
 #-----------------------------------------------------------------------
@@ -223,9 +229,9 @@ if frozen:
 if slicebyslice:
 	print '\nAdding space charge nodes on MPI process: ', rank
 	# Make a SC solver
-	sizeX = 32
-	sizeY = 32
-	sizeZ = 32  # Number of longitudinal slices in the 2.5D solver
+	sizeX = s['GridSizeX']
+	sizeY = s['GridSizeY']
+	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
 	# ~ sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
 	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
 	sc_path_length_min = 1E-8
@@ -321,6 +327,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	output.update()
 	
 	if turn in sts['turns_print']:
+		saveBunchAsMatfile(bunch, "input/mainbunch")
 		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
 		saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
 		output.save_to_matfile(output_file)		        
