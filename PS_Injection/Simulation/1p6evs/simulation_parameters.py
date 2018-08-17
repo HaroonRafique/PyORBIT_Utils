@@ -1,29 +1,34 @@
 import numpy as np
 
+tomo_file = 'PyORBIT_Tomo_file.mat'
 #z_max = 0.77
-m = 1.2
-intensity =2e+12
-epsn_x=2.26e-6 
-epsn_y=2.134e-6 
-TransverseCut = 5
-# ~ n_macroparticles = int(500e3)
-n_macroparticles = int(5e5)
-macrosize = intensity/float(n_macroparticles)
-#~ blength_rms = 5.96
+
+# Beam Paramters
+intensity = 2e+12
+epsn_x = 2.26e-6 
+epsn_y = 2.134e-6 
 blength_rms = (0.91*299792458*210e-9)/4.
-#~ dpp_rms = 0.573e-3*0.91
-dpp_rms = 1.08e-031
-circumference= 2*np.pi*100
+dpp_rms = 1.08e-03
 rf_voltage=0.0261e6
-turns_max = int(1E4)	#
+
+# Simulation Parameters
+turns_max = int(1E4)	
 # ~ turns_max = 2			# Tune Footprint
 turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
+n_macroparticles = int(50e3)
+macrosize = intensity/float(n_macroparticles)
+
+m = 1.2
+TransverseCut = 5
+
+# Constants
+circumference = 2*np.pi*100
 
 parameters = {
+	'tomo_file': tomo_file,
 	'LongitudinalJohoParameter': m,
 	'LongitudinalCut': 2.4,
-	#'LongitudinalDistribution_z_max': z_max,
 	'blength_rms': blength_rms,
 	'n_macroparticles': n_macroparticles,
 	'intensity': intensity,
@@ -41,8 +46,12 @@ parameters = {
 
 switches = {
 	'Horizontal': 1,
-	'SliceBySlice': 1,
-	'Frozen': 0
+	'ImportFromTomo': 1,
+	'SliceBySlice': 0,
+	'Frozen': 0,
+	'GridSizeX': 64,
+	'GridSizeY': 64,
+	'GridSizeZ': 64
 }
 
 # these are the paramters for the PTC RF table

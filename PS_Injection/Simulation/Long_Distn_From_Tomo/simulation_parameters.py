@@ -1,7 +1,5 @@
 import numpy as np
 
-# ~ tomo_file = 'tomo_data_singleRF_EKP_297.mat'
-# ~ tomo_file = 'PyORBIT_Tomo_file.txt'
 tomo_file = 'PyORBIT_Tomo_file.mat'
 #z_max = 0.77
 
@@ -14,8 +12,8 @@ dpp_rms = 9.08e-04
 rf_voltage = 0.0175e6
 
 # Simulation Parameters
-# ~ turns_max = int(1E4)	#
-turns_max = 2			# Tune Footprint
+turns_max = int(1E4)	
+# ~ turns_max = 2			# Tune Footprint
 turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
 n_macroparticles = int(50e3)
@@ -26,7 +24,6 @@ TransverseCut = 5
 
 # Constants
 circumference = 2*np.pi*100
-
 
 parameters = {
 	'tomo_file': tomo_file,
