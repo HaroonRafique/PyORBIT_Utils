@@ -1,18 +1,35 @@
+'''
+This script takes an output from the tomo (.dat format), and runs
+the file through the executable tomo_vo.intelmp, thus generating a 
+.mat file to be read by a PyORBIT distribution generator (written by
+CERN BE-ABP-HSI members) which generates the longitudinal distribution
+based on the measured tomo data.
+
+This script is based on the work of:
+Simon Albright (BE-RF)
+Andrea Santamaria Garcia (BE-OP)
+Eirini Koukovini-Platia (BE-ABP-HSC)
+
+and is made available by Haroon Rafique (CERN BE-ABP-HSI) as is.
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import subprocess
 import re
 from scipy.io import savemat
 
-input_file='2017.11.28.12.09.05.117_tomo185.dat'
-full_input_file='./2017.11.28.12.09.05.117_tomo185.dat'
+input_file_name='2017.11.28.12.09.05.117_tomo185.dat'
+input_file_path='./2017.11.28.12.09.05.117_tomo185.dat'
 
-# Run the executable
-result = subprocess.Popen(['./tomo_vo.intelmp'], stdin=open(full_input_file, 'r'), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+# Run the executable using the input file
+result = subprocess.Popen(['./tomo_vo.intelmp'], stdin=open(input_file_path, 'r'), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 out, err = result.communicate()
 out = out.splitlines()
+
 # Read created image data
 dat = np.loadtxt("image002.data")
+
 # reshape from one column to a square
 var = (int(np.sqrt(dat.shape[0])), int(np.sqrt(dat.shape[0])))
 dat = dat.reshape(var).T
@@ -30,26 +47,26 @@ print(out[9])
 # ~ dt = float(regexp.findall(out[7])[0])/1E-9
 # ~ dE = float(regexp.findall(out[9])[0])/1E9
 
-# Units from Eirini's script
-dt = float(regexp.findall(out[7])[0])/1E-9
-dE = float(regexp.findall(out[9])[0])/1E6 # MeV
+# Save in units of nanoseconds and mega electron volts
+dt = float(regexp.findall(out[7])[0])/1E-9 # ns
+dE = float(regexp.findall(out[9])[0])/1E6  # MeV
  
 # make bins
 tAxis = np.arange(dat.shape[0])*dt
 EAxis = np.arange(dat.shape[0])*dE
 
-# centre on (0,0)
+# centre on (0,0) - not exact
 tAxis -= np.mean(tAxis)
 EAxis -= np.mean(EAxis)
 
-# plot
+# plot to check
 fig, ax = plt.subplots()
 ax.pcolor(tAxis, EAxis, dat)
 ax.set(xlabel='dt [ns]', ylabel='dE [MeV]', title='Longitudinal distribution from tomo data')
-plot_name = input_file + '.png'
+plot_name = input_file_name + '.png'
 fig.savefig(plot_name, dpi=600)
 
-# Save file for PyORBIT
+# Save file for PyORBIT - Format 1 (untested)
 thefile = open("PyORBIT_Tomo_file.txt","w+")
 
 # First line: Minimum dt, maximum dt, binsize, bins
@@ -71,7 +88,7 @@ for i in range (0, (var[0]-1), 1):
 	
 thefile.close()
 
-# Mat file method
+# Save file for PyORBIT - Format 2 (tested)
 
 # ~ data = np.ndarray(shape=(profilelength, profilelength), buffer=np.array(np.loadtxt("image002.data")))
 # ~ data = np.transpose(data)
