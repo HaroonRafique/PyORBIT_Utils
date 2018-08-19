@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH -p be-short
+#SBATCH -p be-long
 #SBATCH -N 1
-#SBATCH --job-name 8_SIS18
+#SBATCH --job-name 1p9eVs_noSC
 #SBATCH --mem-per-cpu 3200M
-#SBATCH --ntasks-per-node 1
+#SBATCH --ntasks-per-node 40
 #SBATCH -exclusive
 #SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
@@ -19,17 +19,11 @@ source /hpcscratch/user/harafiqu/PyORBIT/virtualenvs/py2.7/bin/activate
 
 BATCH_ROOT_DIR='/hpcscratch/user/harafiqu'
 ORBIT_ROOT='/hpcscratch/user/harafiqu/PyORBIT/py-orbit'
-RUN_DIR='/hpcscratch/user/harafiqu/PyORBIT_Utils/SIS18/Simulation/Step8'
-#~ VIRT_PY_DIR='/hpcscratch/user/harafiqu/PyORBIT/virtualenvs/py2.7/bin'
+RUN_DIR='/hpcscratch/user/harafiqu/PyORBIT_Utils/PS_Injection/Simulation/1p9evs_noSC'
 OrigIwd=$(pwd)
 
-# Activate the virtual python environment
-#~ cd ${VIRT_PY_DIR}
-#~ source activate
-
-ClusterID=$SLURM_NODEID
-ProcID=$SLURM_JOB_ID
-
+cd ${RUN_DIR}
+./clean_folder.sh
 cd ${BATCH_ROOT_DIR}
 
 output_dir='output'
@@ -61,4 +55,3 @@ rm junk.txt
 tend=$(date +%s)
 dt=$(($tend - $tstart))
 echo 'total simulation time (s): ' $dt >> ${simulation_info_file}
-
