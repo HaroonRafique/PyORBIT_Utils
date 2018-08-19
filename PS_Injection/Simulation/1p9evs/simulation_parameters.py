@@ -1,6 +1,6 @@
 import numpy as np
 
-tomo_file = 'PyORBIT_Tomo_file.mat'
+tomo_file = 'Input/PyORBIT_Tomo_file.mat'
 #z_max = 0.77
 
 # Beam Paramters
