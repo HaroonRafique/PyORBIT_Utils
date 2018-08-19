@@ -47,7 +47,7 @@ parameters = {
 switches = {
 	'Horizontal': 1,
 	'ImportFromTomo': 1,
-	'SliceBySlice': 0,
+	'SliceBySlice': 1,
 	'Frozen': 0,
 	'GridSizeX': 64,
 	'GridSizeY': 64,
