@@ -11,16 +11,16 @@ plt.rcParams['savefig.dpi'] = 300
 
 plt.rcParams['font.size'] = 6
 plt.rcParams['legend.fontsize'] = 'small'
-plt.rcParams['figure.titlesize'] = 'medium'
+#plt.rcParams['figure.titlesize'] = 'medium'
 
 plt.rcParams['lines.linewidth'] = 0.5
 
 # Open File
 file_1p3='output/output.mat'
-file_1p6='../../1p6evs/output/output.mat'
-file_1p9='../../1p9evs/output/output.mat'
-file_2p3='../../2p3evs/output/output.mat'
-file_2p6='../../2p6evs/output/output.mat'
+file_1p6='../1p6evs/output/output.mat'
+file_1p9='../1p9evs/output/output.mat'
+file_2p3='../2p3evs/output/output.mat'
+file_2p6='../2p6evs/output/output.mat'
 
 particles_1p3=dict()
 particles_1p6=dict()
