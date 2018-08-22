@@ -56,6 +56,7 @@ if slicebyslice:
         from spacecharge import InterpolatedLineDensityProfile
 
 from lib.output_dictionary import *
+from lib.particle_output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution2 import *
 # ~ from lib.pyOrbit_GenerateMatchedDistribution import *
 from lib.save_bunch_as_matfile import *
@@ -296,6 +297,18 @@ if frozen:
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
 
+# Define particle output dictionary
+#-----------------------------------------------------------------------
+particle_output = Particle_output_dictionary()
+
+# Automatically adds particle 0, lets add the rest
+for i in range(1, 10):
+	particle_output.AddNewParticle(i)
+	
+# ~ particle_output.AddNewParticle(1)
+# Update for turn -1 (pre tracking)
+particle_output.update(bunch, -1)
+
 # Track
 #-----------------------------------------------------------------------
 print '\nTracking on MPI process: ', rank
@@ -325,6 +338,12 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		sts['turn'] = turn
 
 	output.update()
+	particle_output.update(bunch, turn)
+	
+	if turn == (p['turns_max']-1):
+		for i in range(0, 10):
+			particle_output.print_particle(i)					
+		particle_output.print_all_particles()
 	
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
