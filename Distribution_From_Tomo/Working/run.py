@@ -21,7 +21,7 @@ from scipy.io import savemat
 import sys
 
 # 1.3 eVs
-# ~ input_file_name='2017.11.28.12.09.05.117_tomo185.dat'
+input_file_name='2017.11.28.12.09.05.117_tomo185.dat'
 
 # 1.6 eVs
 # ~ input_file_name='2017.11.28.11.35.25.636_tomo185.dat'
@@ -33,7 +33,7 @@ import sys
 # ~ input_file_name='2017.11.24.18.16.50.800_tomo185.dat'
 
 # 2.6 eVs
-input_file_name='2017.11.24.16.07.17.081_tomo185.dat'
+# ~ input_file_name='2017.11.24.16.07.17.081_tomo185.dat'
 
 input_file_path=str('./'+input_file_name)
 
@@ -80,6 +80,7 @@ EAxis -= np.mean(EAxis)
 fig, ax = plt.subplots()
 ax.pcolor(tAxis, EAxis, dat)
 ax.set(xlabel='dt [ns]', ylabel='dE [MeV]', title='Longitudinal distribution from tomo data')
+ax.grid(True)
 plot_name = input_file_name + '.png'
 fig.savefig(plot_name, dpi=600)
 

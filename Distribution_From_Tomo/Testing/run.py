@@ -18,14 +18,31 @@ import matplotlib.pyplot as plt
 import subprocess
 import re
 from scipy.io import savemat
+import sys
 
-input_file_name='2017.11.28.12.09.05.117_tomo185.dat'
-input_file_path='./2017.11.28.12.09.05.117_tomo185.dat'
+# 1.3 eVs
+# ~ input_file_name='2017.11.28.12.09.05.117_tomo185.dat'
+
+# 1.6 eVs
+# ~ input_file_name='2017.11.28.11.35.25.636_tomo185.dat'
+
+# 1.9 eVs
+# ~ input_file_name='2017.11.24.17.17.20.458_tomo185.dat'
+
+# 2.3 eVs
+# ~ input_file_name='2017.11.24.18.16.50.800_tomo185.dat'
+
+# 2.6 eVs
+input_file_name='2017.11.24.16.07.17.081_tomo185.dat'
+
+input_file_path=str('./'+input_file_name)
 
 # Run the executable using the input file
 result = subprocess.Popen(['./tomo_vo.intelmp'], stdin=open(input_file_path, 'r'), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 out, err = result.communicate()
 out = out.splitlines()
+
+# ~ sys.exit()
 
 # Read created image data
 dat = np.loadtxt("image002.data")
@@ -59,10 +76,36 @@ EAxis = np.arange(dat.shape[0])*dE
 tAxis -= np.mean(tAxis)
 EAxis -= np.mean(EAxis)
 
+# Manual shift
+# ~ tAxis -= 13									# 1.3 eVs
+# ~ EAxis -= .05								# 1.3 eVs
+
+# ~ tAxis -= 7									# 1.6 eVs
+
+# ~ tAxis -= 5									# 1.9 eVs
+
+# ~ tAxis -= 5									# 2.3 eVs
+# ~ EAxis -= 0.1								# 2.3 eVs
+
+tAxis -= 1									# 2.6 eVs
+
+# Manual filter
+# ~ for x in range(0, dat.shape[0]):
+    # ~ for y in range(0, dat.shape[1]):		
+    
+for x,y in np.ndindex(dat.shape):
+	if dat[x,y] < 0.00004:					# 1.3 eVs
+		dat[x,y] = 0.0		
+			
+# ~ for x,y in np.ndindex(dat.shape):		
+	# ~ if dat[x-1, y] and dat[x,y-1] and dat[x-1, y-1] and dat[x+1, y] and dat[x, y+1] and dat[x+1, y+1] and dat[x-1, y+1] and dat[x+1, y-1] is None:
+		# ~ dat[x,y] = 0.0
+
 # plot to check
 fig, ax = plt.subplots()
 ax.pcolor(tAxis, EAxis, dat)
 ax.set(xlabel='dt [ns]', ylabel='dE [MeV]', title='Longitudinal distribution from tomo data')
+ax.grid(True)
 plot_name = input_file_name + '.png'
 fig.savefig(plot_name, dpi=600)
 
@@ -100,7 +143,8 @@ thefile.close()
 # ~ energy_in_bins = np.arange(0, profilelength)
 # ~ energy_in_MeV = (energy_in_bins - y) * dEbin * 1e-6
 
-yy, xx = np.meshgrid(EAxis, tAxis)
+xx, yy = np.meshgrid(tAxis, EAxis)
+# ~ yy, xx = np.meshgrid(EAxis, tAxis)
 plt.pcolormesh(xx, yy, dat)
 plt.xlabel('Time (ns)')
 plt.ylabel('Energy (MeV)')
