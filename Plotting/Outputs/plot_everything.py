@@ -12,7 +12,7 @@ import scipy.io as sio
 # y label; e.g. 'Bunch Length [m]'
 # percentage - switch used to plot raw or percentage change from initial value
 
-def plot_parameter(parameter, filename, title=None, ylab=None, yunit='-', xmin=0, xmax=0, ymin=0, ymax=0, percentage = False):
+def plot_parameter(parameter, filename, title=None, ylab=None, yunit='-', ymin=None, ymax=None, percentage = False):
 
 	if percentage:
 		print '\nPlotting ', parameter, ' percentage'
@@ -21,7 +21,7 @@ def plot_parameter(parameter, filename, title=None, ylab=None, yunit='-', xmin=0
 
 	fig1 = plt.figure(figsize=(6,4))
 	ax1 = fig1.add_subplot(111)
-		
+			
 	if ylab is None:
 		ylab = parameter
 		
@@ -40,12 +40,9 @@ def plot_parameter(parameter, filename, title=None, ylab=None, yunit='-', xmin=0
 		ax1.set_ylabel(ylabel);
 		figname = filename + '_' + parameter + '.png'
 	
-	if xmin and xmax is not None:
-		ax1.set_xlim(xmin, xmax)	
-		
 	if ymin is not None:
 		ax1.set_ylim(bottom = ymin)	
-	elif ymax is not None:
+	if ymax is not None:
 		ax1.set_ylim(top = ymax)
 	
 	ax1.set_xlabel('Turn [-]');
