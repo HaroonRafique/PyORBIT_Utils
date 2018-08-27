@@ -308,7 +308,7 @@ print '\nnow start tracking...'
 
 for turn in range(p['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
-        LinearRestoringForce(bunch, s['RestoringForce'])
+	LinearRestoringForce(bunch, s['RestoringForce'])
         
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	
