@@ -4,10 +4,6 @@
 # Uses all files in a directory with a .mat extension
 # This includes subdirectories so please be careful
 
-# TODO:
-# Fix axes according to max values
-# plot heatmap
-
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from matplotlib.ticker import FormatStrFormatter
@@ -17,6 +13,7 @@ import scipy.io as sio
 import os
 import sys
 from mpl_toolkits.mplot3d import axes3d
+import matplotlib.gridspec as gridspec
 
 ###################
 # Figure settings #
@@ -238,21 +235,70 @@ for t in sorted(iterators):
 #######################
 # 2nd plot for z - dE #
 #######################
-	fig2 = plt.figure(figsize=(5,5),constrained_layout=True)
-	plt.clf()
-	ax1 = fig2.add_subplot(111) 
-	
-	heatmap6, xedges6, yedges6 = np.histogram2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[z_min, z_max],[dE_min, dE_max]])
-	# ~ heatmap6, xedges6, yedges6 = np.histogram2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bins=(bin_size_x, bin_size_y))
-	extent6 = [xedges6[0], xedges6[-1], yedges6[0], yedges6[-1]]
-	ax1.imshow(heatmap6, extent=extent6, aspect=( (z_min - z_max)/(dE_min - dE_max) ))
 
-	ax1.set_xlabel('z [m]');
-	ax1.set_ylabel('dE [GeV]');
-	
+
+	# ~ fig2, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row')
+	fig2 = plt.figure(1)
+	gridspec.GridSpec(3,3)				# Create grid to resize subplots
+	fig2.subplots_adjust(hspace = 0)	# Horizontal spacing between subplots
+	fig2.subplots_adjust(wspace = 0)	# Vertical spacing between subplots
 	tit1 = 'Z dE Turn = ' + str(t)
-	ax1.set_title(tit1);
-	ax1.grid(True);
+	
+	plt.subplot2grid((3,3), (0,0), colspan=2, rowspan=1)
+	plt.hist(d[t]['particles']['z'][0][0][0], bins = bin_size_x,  range = [z_min, z_max], density=True)
+	plt.ylabel('Frequency')
+	plt.title(tit1)
+	
+	plt.subplot2grid((3,3), (1,0), colspan=2, rowspan=2)
+	plt.hist2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bin_size_x, range=[[z_min, z_max],[dE_min, dE_max]])
+	plt.xlabel('z [m]')
+	plt.ylabel('dE [GeV]')
+	
+	plt.subplot2grid((3,3), (1,2), colspan=1, rowspan=2)
+	plt.hist(d[t]['particles']['dE'][0][0][0], bins = bin_size_y,  range = [dE_min, dE_max], density=True, orientation=u'horizontal')
+	plt.xlabel('Frequency')
+	current_axis = plt.gca()
+	current_axis.axes.get_yaxis().set_visible(False)
+
+
+
+
+	# ~ fig2=plt.figure(figsize=(4,4),constrained_layout=True)
+	# ~ fig1=plt.figure(figsize=(6,10))
+	# ~ plt.clf()
+	# ~ ax1 = fig2.add_subplot(221, sharex = True) 
+	# ~ ax2 = fig2.add_subplot(222)
+	# ~ ax3 = fig2.add_subplot(223, sharex = True, sharey = True) 
+	# ~ ax4 = fig2.add_subplot(224, sharey = True)
+	
+	
+	# ~ fig2, axs = plt.subplots(2, 2, sharey=True, tight_layout=True, figsize=(4,4))
+	# ~ fig2, axs = plt.subplots(2, 2, tight_layout=True, figsize=(4,4))
+	
+
+	# ~ heatmap6, xedges6, yedges6 = np.histogram2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[z_min, z_max],[dE_min, dE_max]])
+	# ~ extent6 = [xedges6[0], xedges6[-1], yedges6[0], yedges6[-1]]
+	
+	# ~ axs[1,0].imshow(heatmap6, extent=extent6, aspect=( (z_min - z_max)/(dE_min - dE_max) ))	
+	# ~ axs[1,0].hist2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bin_size_x, range=[[z_min, z_max],[dE_min, dE_max]])
+
+	# ~ axs[0,0].hist(d[t]['particles']['z'][0][0][0], bins = bin_size_x,  range = [z_min, z_max])
+	# ~ axs[1,1].hist(d[t]['particles']['dE'][0][0][0], bins = bin_size_y,  range = [dE_min, dE_max])
+	
+	# ~ fig2 = plt.figure(figsize=(5,5),constrained_layout=True)
+	# ~ plt.clf()
+	# ~ ax1 = fig2.add_subplot(111) 
+	
+	# ~ heatmap6, xedges6, yedges6 = np.histogram2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[z_min, z_max],[dE_min, dE_max]])
+	# ~ extent6 = [xedges6[0], xedges6[-1], yedges6[0], yedges6[-1]]
+	# ~ ax1.imshow(heatmap6, extent=extent6, aspect=( (z_min - z_max)/(dE_min - dE_max) ))
+
+	# ~ ax1.set_xlabel('z [m]');
+	# ~ ax1.set_ylabel('dE [GeV]');
+	
+	# ~ tit1 = 'Z dE Turn = ' + str(t)
+	# ~ ax1.set_title(tit1);
+	# ~ ax1.grid(True);
 
 	figname = 'Gif_z_dE/z_dE_'+ str(t) + '.png'
 	fig2.savefig(figname);

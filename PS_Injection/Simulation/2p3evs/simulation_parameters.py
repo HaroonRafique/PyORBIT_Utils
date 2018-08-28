@@ -9,7 +9,8 @@ epsn_x = 2.26e-6
 epsn_y = 2.134e-6 
 blength_rms = (0.91*299792458*210e-9)/4.
 dpp_rms = 1.63e-03
-rf_voltage=0.0553e6
+# ~ rf_voltage=0.0553e6
+rf_voltage=0.0455904306645E6
 
 # Simulation Parameters
 turns_max = int(1E4)	
@@ -60,7 +61,8 @@ harmonic_factors = [1] #this times the base harmonic defines the RF harmonics (f
 time = np.array([0,1,2])
 ones = np.ones_like(time)
 Ekin_GeV = 1.4*ones
-RF_voltage_MV = np.array([0.0553*ones]).T # in MV
+# ~ RF_voltage_MV = np.array([0.0553*ones]).T # in MV
+RF_voltage_MV = np.array([0.0455904306645*ones]).T # in MV
 RF_phase = np.array([np.pi*ones]).T
 
 RFparameters = {
