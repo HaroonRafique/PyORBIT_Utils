@@ -179,7 +179,8 @@ XCOMP       :  MULTIPOLE , KNL:= {0.0, 0.0 ,0.108*IXcomp3/(BRHO)} , KSL:= {0.0, 
 
 ! r.f. cavity  10 MHz
 ! The length should really be 2.4m, but MAD8 gives error.
-C10         :  RFCAVITY,  L=Z*2.39, VOLT:=VRF, LAG=0, HARMON=7;
+!C10         :  RFCAVITY,  L=Z*2.39, VOLT:=VRF, LAG=0, HARMON=7;
+C10         :  RFCAVITY,  L=1., VOLT:=VRF, LAG=0, HARMON=7;
 
 ! r.f. cavity  13/20 MHz
 ! The length should really be 1.0m, but MAD8 gives error.

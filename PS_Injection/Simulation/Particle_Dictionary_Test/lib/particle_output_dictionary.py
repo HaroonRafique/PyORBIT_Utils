@@ -58,6 +58,8 @@ class Particle_output_dictionary(object):
 						
 			for n in self.particle_list:
 				
+				# ~ print 'Particle_output_dictionary::updated: Adding turn' , turn
+				
 				# Create the turn dictionary
 				self.particles[str(n)][str(turn)] = {}	# Second level : N-2 : Turn
 			
@@ -69,7 +71,7 @@ class Particle_output_dictionary(object):
 				self.particles[str(n)][str(turn)]['z'] = bunch.z(n)
 				self.particles[str(n)][str(turn)]['dE'] = bunch.dE(n)
 				
-		self.turn_list.append(turn)
+			self.turn_list.append(turn)
 		
 		# ~ print "Particle_output_dictionary::update: Added turn %i" % (turn)
 		# ~ print "Dictionary now:"
