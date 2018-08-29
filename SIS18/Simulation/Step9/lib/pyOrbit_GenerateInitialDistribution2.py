@@ -63,8 +63,11 @@ class LongitudinalJohoDistributionSingleHarmonic():
 		self.slip_factor = (1 / gamma_transition**2 - 1 / gamma**2)	
 		self.energy = Parameters_dict['energy']
 		self.sigma_dphi = self.rf_frequency * (bunch_length/2) * pi
+		
+		# calculate from dpp set m >100 for gaussian
 		self.sigma_dE = np.sqrt(self.beta**2 * self.energy / self.slip_factor / self.harmonic_number * self.rf_voltage / pi * (np.cos(self.sigma_dphi + self.phi_s) - np.cos(self.phi_s) + self.sigma_dphi * np.sin(self.phi_s)))
 		
+		# limiting contour - set to infinity?
 		self.H_max = (self.rf_voltage/(2*pi) * (np.cos(self.LongitudinalCut * self.sigma_dphi + self.phi_s) - np.cos(self.phi_s) + (self.LongitudinalCut * self.sigma_dphi)*np.sin(self.phi_s)))
 		self.distribution = JohoNormalized2D(Joho_order)
 		
