@@ -13,11 +13,11 @@ dpp_rms = 1.08e-03
 rf_voltage=0.0188523113225E6
 
 # Simulation Parameters
-turns_max = int(1E4)	
+turns_max = int(5E1)	
 # ~ turns_max = 2			# Tune Footprint
-turns_update = range(-1, turns_max, 100)
-turns_print =  range(-1, turns_max, 100)
-n_macroparticles = int(50e3)
+turns_update = range(-1, turns_max, 1)
+turns_print =  range(-1, turns_max, 1)
+n_macroparticles = int(1E6)
 macrosize = intensity/float(n_macroparticles)
 
 m = 1.2
