@@ -86,6 +86,7 @@ class LongitudinalJohoDistributionSingleHarmonic():
 		
 
 def generate_initial_distribution(parameters, Lattice,output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+	
 	parameters['alphax0'] = Lattice.alphax0
 	parameters['betax0']  = Lattice.betax0
 	parameters['alphay0'] = Lattice.alphay0
@@ -470,6 +471,22 @@ def generate_initial_distribution_y0(parameters, output_file = 'Input/ParticleDi
 
 
 def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+	
+	parameters['alphax0'] = Lattice.alphax0
+	parameters['betax0']  = Lattice.betax0
+	parameters['alphay0'] = Lattice.alphay0
+	parameters['betay0']  = Lattice.betay0
+	parameters['etax0']   = Lattice.etax0
+	parameters['etapx0']  = Lattice.etapx0
+	parameters['etay0']   = Lattice.etay0
+	parameters['etapy0']  = Lattice.etapy0
+	parameters['x0']      = Lattice.orbitx0
+	parameters['xp0']     = Lattice.orbitpx0
+	parameters['y0']      = Lattice.orbity0
+	parameters['yp0']     = Lattice.orbitpy0
+	parameters['gamma_transition'] = Lattice.gammaT
+	parameters['circumference']    = Lattice.getLength()
+	parameters['length'] = Lattice.getLength()/Lattice.nHarm
 	
 	# twiss containers
 	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
