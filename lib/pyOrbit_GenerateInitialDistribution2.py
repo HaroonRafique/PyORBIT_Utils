@@ -371,6 +371,7 @@ def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None,
 		noise_level = parameters['noise_level']
 	except KeyError:
 		noise_level = 0	
+		
 	t_rand, dE_rand = Longitudinal_distribution.getCoordinates(parameters['n_macroparticles'], noise_level) 
 	z = (t_rand * 1e-9) * speed_of_light * parameters['beta'] # convert ns to s and then m
 	dE = dE_rand * 1e-3 # convert from MeV to GeV
@@ -397,7 +398,8 @@ def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None,
 				xp[i] += closedOrbitx['xp0']
 				y[i] += closedOrbity['y0']
 				yp[i] += closedOrbity['yp0']
-				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
+				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2 * 1E9 # dE is already in GeV - convert to eV
+				print '\n dpp = ', dpp
 				x[i] += dpp * dispersionx['etax0']
 				xp[i] += dpp * dispersionx['etapx0']	
 				y[i] += dpp * dispersiony['etay0']
@@ -408,7 +410,7 @@ def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None,
 				xp[i] *= 1000.
 				y[i] *= 1000.
 				yp[i] *= 1000.
-				# ~ dE[i] /= 1.e9	
+				# ~ dE[i] /= 1.e9	# dE already converted to GeV
 						
 			# ~ if outputFormat == 'Orbit':
 			map(lambda i: csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]]), range(parameters['n_macroparticles']))	
@@ -477,7 +479,7 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 				xp[i] += closedOrbitx['xp0']
 				y[i] += closedOrbity['y0']
 				yp[i] += closedOrbity['yp0']
-				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
+				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2	# dE here is in eV
 				x[i] += dpp * dispersionx['etax0']
 				xp[i] += dpp * dispersionx['etapx0']	
 				y[i] += dpp * dispersiony['etay0']
@@ -488,7 +490,7 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 					xp[i] *= 1000.
 					y[i] *= 1000.
 					yp[i] *= 1000.
-					dE[i] /= 1.e9		
+					dE[i] /= 1.e9		# Convert dE from eV to GeV
 					csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 				#csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
 		if summary_file:

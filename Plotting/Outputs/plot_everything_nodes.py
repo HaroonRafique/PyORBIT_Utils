@@ -123,14 +123,14 @@ plot_parameter(parameter = 'intensity', filename ='PS_Injection', yunit = 'proto
 plot_parameter(parameter = 'mean_x', filename ='PS_Injection', yunit = 'm', percentage = False)
 plot_parameter(parameter = 'mean_x', filename ='PS_Injection', yunit = 'm', percentage = True)
 
-plot_parameter(parameter = 'mean_xp', filename ='PS_Injection', yunit = 'mrad', percentage = False)
-plot_parameter(parameter = 'mean_xp', filename ='PS_Injection', yunit = 'mrad', percentage = True)
+plot_parameter(parameter = 'mean_xp', filename ='PS_Injection', yunit = 'rad', percentage = False)
+plot_parameter(parameter = 'mean_xp', filename ='PS_Injection', yunit = 'rad', percentage = True)
 
 plot_parameter(parameter = 'mean_y', filename ='PS_Injection', yunit = 'm', percentage = False)
 plot_parameter(parameter = 'mean_y', filename ='PS_Injection', yunit = 'm', percentage = True)
 
-plot_parameter(parameter = 'mean_yp', filename ='PS_Injection', yunit = 'mrad', percentage = False)
-plot_parameter(parameter = 'mean_yp', filename ='PS_Injection', yunit = 'mrad', percentage = True)
+plot_parameter(parameter = 'mean_yp', filename ='PS_Injection', yunit = 'rad', percentage = False)
+plot_parameter(parameter = 'mean_yp', filename ='PS_Injection', yunit = 'rad', percentage = True)
 
 plot_parameter(parameter = 'mean_z', filename ='PS_Injection', yunit = 'm', percentage = False)
 plot_parameter(parameter = 'mean_z', filename ='PS_Injection', yunit = 'm', percentage = True)
@@ -138,14 +138,14 @@ plot_parameter(parameter = 'mean_z', filename ='PS_Injection', yunit = 'm', perc
 plot_parameter(parameter = 'mean_dE', filename ='PS_Injection', yunit = 'GeV', percentage = False)
 plot_parameter(parameter = 'mean_dE', filename ='PS_Injection', yunit = 'GeV', percentage = True)
 
-plot_parameter(parameter = 'epsn_x', filename ='PS_Injection', yunit = 'mm mrad', percentage = False)
-plot_parameter(parameter = 'epsn_x', filename ='PS_Injection', yunit = 'mm mrad', percentage = True)
+plot_parameter(parameter = 'epsn_x', filename ='PS_Injection', yunit = 'm rad', percentage = False)
+plot_parameter(parameter = 'epsn_x', filename ='PS_Injection', yunit = 'm rad', percentage = True)
 
-plot_parameter(parameter = 'epsn_y', filename ='PS_Injection', yunit = 'mm mrad', percentage = False)
-plot_parameter(parameter = 'epsn_y', filename ='PS_Injection', yunit = 'mm mrad', percentage = True)
+plot_parameter(parameter = 'epsn_y', filename ='PS_Injection', yunit = 'm rad', percentage = False)
+plot_parameter(parameter = 'epsn_y', filename ='PS_Injection', yunit = 'm rad', percentage = True)
 
-plot_parameter(parameter = 'eps_z', filename ='PS_Injection', yunit = 'mm mrad', percentage = False)
-plot_parameter(parameter = 'eps_z', filename ='PS_Injection', yunit = 'mm mrad', percentage = True)
+plot_parameter(parameter = 'eps_z', filename ='PS_Injection', yunit = 'eV s', percentage = False)
+plot_parameter(parameter = 'eps_z', filename ='PS_Injection', yunit = 'eV s', percentage = True)
 
 plot_parameter(parameter = 'bunchlength', filename ='PS_Injection', yunit = 'm', percentage = False)
 plot_parameter(parameter = 'bunchlength', filename ='PS_Injection', yunit = 'm', percentage = True)

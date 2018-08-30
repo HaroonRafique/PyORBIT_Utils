@@ -9,14 +9,15 @@ epsn_x = 2.26e-6
 epsn_y = 2.134e-6 
 blength_rms = (0.91*299792458*210e-9)/4.
 dpp_rms = 9.08e-04
-rf_voltage = 0.0175e6
+# ~ rf_voltage = 0.0175e6
+rf_voltage = 0.0123212966992E6
 
 # Simulation Parameters
 turns_max = int(1E4)	
 # ~ turns_max = 2			# Tune Footprint
 turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
-n_macroparticles = int(5E4)
+n_macroparticles = int(50e3)
 macrosize = intensity/float(n_macroparticles)
 
 m = 1.2
@@ -47,7 +48,7 @@ parameters = {
 switches = {
 	'Horizontal': 1,
 	'ImportFromTomo': 1,
-	'SliceBySlice': 0,
+	'SliceBySlice': 1,
 	'Frozen': 0,
 	'GridSizeX': 64,
 	'GridSizeY': 64,
@@ -60,7 +61,8 @@ harmonic_factors = [1] #this times the base harmonic defines the RF harmonics (f
 time = np.array([0,1,2])
 ones = np.ones_like(time)
 Ekin_GeV = 1.4*ones
-RF_voltage_MV = np.array([0.0175*ones]).T # in MV
+# ~ RF_voltage_MV = np.array([0.0175*ones]).T # in MV
+RF_voltage_MV = np.array([0.0123212966992*ones]).T # in MV
 RF_phase = np.array([np.pi*ones]).T
 
 RFparameters = {
