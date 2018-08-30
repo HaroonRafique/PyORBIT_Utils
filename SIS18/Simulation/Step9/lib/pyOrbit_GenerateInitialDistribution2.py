@@ -508,7 +508,6 @@ def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 
 	# building the distributions
 	Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
 	# ~ Longitudinal_distribution = LongitudinalJohoDistributionSingleHarmonic(parameters, parameters['LongitudinalJohoParameter'])
-	Longitudinal_distribution = GaussDist1D()
 
 	if orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD) == 0:
 		fid = open(output_file,"w")
