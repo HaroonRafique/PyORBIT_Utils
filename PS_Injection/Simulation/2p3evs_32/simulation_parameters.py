@@ -17,10 +17,10 @@ turns_max = int(1E4)
 turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
 
-grid = 16
-n_macroparticles = int(50E3)
-# ~ grid = 32
-# ~ n_macroparticles = int(350E3)
+# ~ grid = 16
+# ~ n_macroparticles = int(50E3)
+grid = 32
+n_macroparticles = int(350E3)
 # ~ grid = 64
 # ~ n_macroparticles = int(3E6)
 
