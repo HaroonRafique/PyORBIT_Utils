@@ -501,21 +501,25 @@ def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 
 	xp = np.zeros(parameters['n_macroparticles'])
 	y = np.zeros(parameters['n_macroparticles'])
 	yp = np.zeros(parameters['n_macroparticles'])
-	# ~ phi = np.zeros(parameters['n_macroparticles'])
-	z = np.zeros(parameters['n_macroparticles'])
+	phi = np.zeros(parameters['n_macroparticles'])
+	# ~ z = np.zeros(parameters['n_macroparticles'])
 	dE = np.zeros(parameters['n_macroparticles'])
 
 	# building the distributions
 	Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
 	# ~ Longitudinal_distribution = LongitudinalJohoDistributionSingleHarmonic(parameters, parameters['LongitudinalJohoParameter'])
+	
+	# We need to convert z into phi
+	h_main = np.atleast_1d(parameters['harmonic_number'])[0]
+	R = parameters['circumference'] / 2 / np.pi
 
 	if orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD) == 0:
 		fid = open(output_file,"w")
 		csv_writer = csv.writer(fid, delimiter=' ')
 		for i in range(parameters['n_macroparticles']):
-			(phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
+			# ~ (phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
 			dE[i] = random.gauss(0., parameters['dpp_rms'])
-			z[i] = random.gauss(0., parameters['sig_z'])
+			phi[i] = - random.gauss(0., parameters['sig_z']) * h_main / R 
 			(x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
 			x[i] += closedOrbitx['x0']
 			xp[i] += closedOrbitx['xp0']
