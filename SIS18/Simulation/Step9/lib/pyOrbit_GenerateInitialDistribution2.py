@@ -469,8 +469,8 @@ def generate_initial_distribution_y0(parameters, output_file = 'Input/ParticleDi
 	return output_file
 
 
-def generate_initial_distribution_3DGaussian(parameters, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
-
+def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+	
 	# twiss containers
 	twissX = TwissContainer(alpha = parameters['alphax0'], beta = parameters['betax0'], emittance = parameters['epsn_x'] / parameters['gamma'] / parameters['beta'])
 	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
