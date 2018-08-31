@@ -56,9 +56,9 @@ switches = {
 	'ImportFromTomo': 1,
 	'SliceBySlice': 1,
 	'Frozen': 0,
-	'GridSizeX': 64,
-	'GridSizeY': 64,
-	'GridSizeZ': 64
+	'GridSizeX': grid,
+	'GridSizeY': grid,
+	'GridSizeZ': grid
 }
 # these are the paramters for the PTC RF table
 harmonic_factors = [1] #this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
