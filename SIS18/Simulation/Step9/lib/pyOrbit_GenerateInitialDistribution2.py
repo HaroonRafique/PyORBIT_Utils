@@ -510,16 +510,33 @@ def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 
 	# ~ Longitudinal_distribution = LongitudinalJohoDistributionSingleHarmonic(parameters, parameters['LongitudinalJohoParameter'])
 	
 	# We need to convert z into phi
-	h_main = np.atleast_1d(parameters['harmonic_number'])[0]
+	# ~ h_main = np.atleast_1d(parameters['harmonic_number'])[0]
+	h_main = 2
 	R = parameters['circumference'] / 2 / np.pi
+	sig_E = (parameters['dpp_rms'] * parameters['energy'] / parameters['beta'])
 
 	if orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD) == 0:
 		fid = open(output_file,"w")
 		csv_writer = csv.writer(fid, delimiter=' ')
 		for i in range(parameters['n_macroparticles']):
-			# ~ (phi[i], dE[i]) = Longitudinal_distribution.getCoordinates()
-			dE[i] = random.gauss(0., parameters['dpp_rms'])
-			phi[i] = - random.gauss(0., parameters['sig_z']) * h_main / R 
+			
+			# Longitudinal distn - use 3 sigma as cut-off (manual)
+			
+			outside_limits_E = True
+			while outside_limits_E:
+				dE[i] = random.gauss(0., sig_E)	# Energy in eV
+				if abs(dE[i]) < (2*sig_E):
+					outside_limits_E = False
+			
+			outside_limits_z = True			
+			while outside_limits_z:
+				z_temp = random.gauss(0., parameters['blength_rms'])
+				if abs(z_temp) < (2*parameters['blength_rms']):					
+					phi[i] = - z_temp * h_main / R 
+					outside_limits_z = False
+				
+			# ~ phi[i] = - random.gauss(0., parameters['blength_rms']) * h_main / R 
+			
 			(x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
 			x[i] += closedOrbitx['x0']
 			xp[i] += closedOrbitx['xp0']

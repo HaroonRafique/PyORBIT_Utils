@@ -144,6 +144,10 @@ kin_Energy = bunch.getSyncParticle().kinEnergy()
 print 'Energy of particle = ', p['energy']
 print 'Kinetic Energy of particle = ', kin_Energy
 
+for i in p:
+	print '\t', i, '\t = \t', p[i]
+
+
 if horizontal:
 	Particle_distribution_file = generate_initial_distribution_3DGaussian(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 	# ~ Particle_distribution_file = generate_initial_5mm_distributionH(s['InitialParticleTransversePosition'], 0, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
@@ -292,8 +296,9 @@ def LinearRestoringForce(b, force):
 particle_output = Particle_output_dictionary()
 
 # Automatically adds particle 0, lets add the rest
-# ~ for i in range(1, p['n_macroparticles']):
-	# ~ particle_output.AddNewParticle(i)
+single_particles_to_print = int(10)
+for i in range(1, single_particles_to_print):
+	particle_output.AddNewParticle(i)
 	
 # ~ particle_output.AddNewParticle(1)
 # Update for turn -1 (pre tracking)
@@ -326,8 +331,8 @@ for turn in range(p['turns_max']):
 	
 	# For last turn output particle dictionary and/or make plots
 	if turn == (p['turns_max']-1):
-		# ~ for i in range(0, p['n_macroparticles']):
-		# ~ particle_output.print_particle(0)					
+		for i in range(0, single_particles_to_print):
+			particle_output.print_particle(0)					
 		particle_output.print_all_particles()
 		
         
