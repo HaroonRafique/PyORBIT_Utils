@@ -151,9 +151,6 @@ print '\nThe last turn recorded is turn ', max_file_no, ' in file ', max_file
 print '\nz_max = ', z_max, ', z_min = ', z_min
 print '\ndE_max = ', dE_max, ', dE_min = ', dE_min
 
-# ~ z_max = 50.
-# ~ z_min = -50.
-
 x_max = 1.1* x_max
 xp_max = 1.1* xp_max
 y_max = 1.1* y_max
@@ -176,8 +173,8 @@ bin_size = 128
 # ~ plot_parameter_gif(parameter1, parameter2, p1_min, p1_max, p2_min, p2_max, xlab, ylab, yunit='-', xunit='-', bin_size = 128):
 plot_parameter_gif('z', 'dE', z_min, z_max, dE_min, dE_max, 'z [m]', 'dE [GeV]')
 plot_parameter_gif('z', 'x', z_min, z_max, x_min, x_max, 'z [m]', 'x [m]')
-plot_parameter_gif('x', 'xp', x_min, x_max, xp_min, xp_max, 'x [m]', 'xp [mrad]')
+plot_parameter_gif('x', 'xp', x_min, x_max, xp_min, xp_max, 'x [m]', 'xp [rad]')
 plot_parameter_gif('x', 'y', x_min, x_max, y_min, y_max, 'x [m]', 'y [m]')
-plot_parameter_gif('y', 'yp', y_min, y_max, yp_min, yp_max, 'y [m]', 'yp [mrad]')
+plot_parameter_gif('y', 'yp', y_min, y_max, yp_min, yp_max, 'y [m]', 'yp [rad]')
 
 print 'All Done! Peace out'
