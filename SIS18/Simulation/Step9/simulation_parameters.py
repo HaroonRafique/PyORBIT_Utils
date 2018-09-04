@@ -25,15 +25,15 @@ else:
 # Assume Geometric epsn_x = (beta*gamma)*epsn_g_x
 epsn_x=(beta*gamma)*(12.57e-6)/4			# beta*gamma*e_g/4 = 4.91E-7
 epsn_y=(beta*gamma)*(9.30e-6)/4				# beta*gamma*e_g/4 = 3.635E-7
-dpp_rms = 2.5e-4/3.
+dpp_rms = 2.5e-4/3.							# 8.333E-5
 
 # Simulation Parameters
 n_macroparticles = int(1E3)
 macrosize = intensity/float(n_macroparticles)
 # ~ turns_max = int(1E5)
-turns_max = int(10)
+turns_max = int(1E5)
 turns_update = range(int(-1), turns_max, int(100))
-turns_print = range(int(-1), turns_max, int(1E3))
+turns_print = range(int(-1), turns_max, int(100))
 rf_voltage=0.0
 
 parameters = {
