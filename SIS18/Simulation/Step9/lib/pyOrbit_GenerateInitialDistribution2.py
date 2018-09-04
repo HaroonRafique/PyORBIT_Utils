@@ -351,7 +351,6 @@ def generate_initial_5mm_distribution(start, half_range, parameters, Lattice, ho
 	
 	return output_file'''
 
-
 def generate_initial_distribution_FMA(parameters, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit', triangular_grid = True):
 
 	# twiss containers
@@ -469,7 +468,6 @@ def generate_initial_distribution_y0(parameters, output_file = 'Input/ParticleDi
 	
 	return output_file
 
-
 def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
 	
 	parameters['alphax0'] = Lattice.alphax0
@@ -510,10 +508,9 @@ def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 
 	# ~ Longitudinal_distribution = LongitudinalJohoDistributionSingleHarmonic(parameters, parameters['LongitudinalJohoParameter'])
 	
 	# We need to convert z into phi
-	# ~ h_main = np.atleast_1d(parameters['harmonic_number'])[0]
-	h_main = 2
+	h_main = np.atleast_1d(parameters['harmonic_number'])[0]
 	R = parameters['circumference'] / 2 / np.pi
-	sig_E = (parameters['dpp_rms'] * parameters['energy'] / parameters['beta'])
+	sig_E = (parameters['dpp_rms'] * parameters['energy'] * parameters['beta']**2)
 
 	if orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD) == 0:
 		fid = open(output_file,"w")
@@ -525,18 +522,18 @@ def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 
 			outside_limits_E = True
 			while outside_limits_E:
 				dE[i] = random.gauss(0., sig_E)	# Energy in eV
-				if abs(dE[i]) < (2*sig_E):
+				if abs(dE[i]) < (3*sig_E):
+					print '\n\tdE = ', dE[i]
 					outside_limits_E = False
 			
 			outside_limits_z = True			
 			while outside_limits_z:
 				z_temp = random.gauss(0., parameters['blength_rms'])
-				if abs(z_temp) < (2*parameters['blength_rms']):					
+				if abs(z_temp) < (3*parameters['blength_rms']):			
+					print '\n\tz_temp = ', z_temp		
 					phi[i] = - z_temp * h_main / R 
 					outside_limits_z = False
-				
-			# ~ phi[i] = - random.gauss(0., parameters['blength_rms']) * h_main / R 
-			
+							
 			(x[i], xp[i], y[i], yp[i]) = Transverse_distribution.getCoordinates()
 			x[i] += closedOrbitx['x0']
 			xp[i] += closedOrbitx['xp0']
@@ -552,7 +549,7 @@ def generate_initial_distribution_3DGaussian(parameters, Lattice, output_file = 
 				x[i] *= 1000.
 				xp[i] *= 1000.
 				y[i] *= 1000.
-				yp[i] *= 1000.
+				yp[i] *= 1000
 				dE[i] /= 1.e9		
 				csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 		#	else:
