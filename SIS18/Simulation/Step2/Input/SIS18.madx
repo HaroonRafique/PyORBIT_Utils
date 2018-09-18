@@ -193,26 +193,10 @@ dpp=0;
 bunch_length=(0.15448*299792458*3472.7e-9)/4.; !40.206868
 
 beam, particle=proton, pc=pce, sige=dpp, sigt=bunch_length, exn=3.1425e-6, eyn=2.32e-6, et=40.206868;
-!beam, particle=proton, pc=pce, sige=dpp;
-
-!stop;
-use, sequence=SIS18;
   
-!PR.BWSH65     :  MONITOR  , L = 0.0; 
-
-!seqedit, sequence=SIS18;
-  !flatten;
-  !install, element=PR.BWSH65, at=0.0, from=PS65$START;
-  !cycle , start=PR.BWSH65;
-  !flatten;
-  !endedit;
-!save,file='./SIS18/SIS18.seq';
-
-
 use, sequence=SIS18;
 select, flag=twiss, column=NAME, KEYWORD, S, L, X, Y, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY, DPX, DPY;
 !twiss,  sequence=SIS18, file=twiss_SIS18.tfs; save;
-
 
 value, pc, beam->pc, beam->energy;
 
@@ -248,8 +232,8 @@ value, IQF, IQD;
 
 ptc_create_universe;
 ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
-ptc_script, file="./SIS18/resplit.ptc";
-ptc_script, file="./print_flat_file.ptc"; 
+ptc_script, file="resplit.ptc";
+ptc_script, file="print_flat_file.ptc"; 
 select, flag=ptc_twiss, clear;
 select, flag=ptc_twiss, column=name, s, betx, bety, Dx, Dy, px, py, disp3, disp3p, disp1, disp1p;
 ptc_twiss, icase=5, no=4, deltap_dependency, closed_orbit, file=ptc_twiss_matched.tfs, table=ptc_twiss_matched;

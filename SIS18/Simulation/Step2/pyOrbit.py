@@ -87,7 +87,7 @@ mpi_mkdir_p('lost')
 #----------------------------------------------
 if not rank:
 	# ~ os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
-	os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < SIS18.madx")
+	os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Input/SIS18.madx")
 orbit_mpi.MPI_Barrier(comm)
 
 #----------------------------------------------
@@ -106,8 +106,8 @@ PTC_File = "SIS_18_BENCHMARK.flt"
 Lattice = PTC_Lattice("MACHINE")
 Lattice.readPTC(PTC_File)
 # ~ readScriptPTC('Input/fringe.txt')
-readScriptPTC('time.ptc')
-readScriptPTC('chrom.ptc')
+readScriptPTC('Input/time.ptc')
+readScriptPTC('Input/chrom.ptc')
 
 paramsDict = {}
 paramsDict["length"]=Lattice.getLength()/Lattice.nHarm
