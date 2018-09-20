@@ -1,0 +1,64 @@
+/******************************************************************
+ * MAD-X PS Optics
+ **
+ ** Flat file for MTE simulations with pyOrbit
+ **
+ ** Alexander Huschauer
+ ** Created 12/09/2014
+ ******************************************************************/
+ /******************************************************************
+ * Define the global flags defining the lattice
+ ******************************************************************/
+
+! Do not forget to change the flags depending on your needs
+!0 --> no element, 1 --> element inside
+BACKLEG_FLAG = 0;         ! backleg windings
+JUNCTION_DRIFT_FLAG = 0;  ! transform the junction in a single drift
+QLOW_FLAG = 1;            ! Qlow in the sequence
+BUMP16_FlAG = 0;          ! bump 16
+BUMP23_FLAG = 0;          ! bump 23
+BUMP31_FLAG = 0;          ! bump 31
+BUMP42_FLAG = 0;          ! bump 42
+GAMMAJUMP_FLAG = 0;       ! gamma jump quadrupoles
+ODE_FLAG = 0;             ! high beta vertical octupoles
+MTE_FLAG = 1;             ! MTE multipoles
+CAVITIES_10MHZ = 0;       ! 10 Mhz cavities
+CAVITIES_REMAINING=1;	  ! 20, 40, 80, 200 MHz	
+INSERT_MTE_CAVITY=1;	  ! single 10 MHz cavity in SS91 on H16
+INSERT_DUMMY_CAVITY = 0;  ! single cavity for generic studies
+
+/******************************************************************
+ * Call lattice files
+ ******************************************************************/
+!Pc:=2.141766;	!1.4GeV
+!Pc:=2.784437;	!2GeV
+Pc = 14;
+call, file="./lattice/load_configuration.lat";
+call, file="./lattice/strength/2011_ref_MTE_pfw.str";
+beam, particle=PROTON, pc=Pc;
+
+/******************************************************************
+ * Magnetic configuration of the machine
+ ******************************************************************/
+
+call, file="./Input/C800/Track_input_C800";
+
+VRFMTE:=0.012;
+
+/******************************************************************
+ * Now generates the flatfiles
+ ******************************************************************/
+use, sequence=PS;
+ptc_create_universe;
+ptc_create_layout,time=false, model=2, exact=true, method=2, nst=1;
+!! This script will first resplit the lattice 
+!! Then it will generate a flat file with basic options 
+!ptc_script, file="resplit.ptc";
+ptc_script, file="./lattice/scripts/print_flat_file.ptc"; 
+!! Reference Twiss 
+!! Useful to generate a matched beam distribution 
+!ptc_twiss, icase=56,no=2,file="output/ptc_twiss", table="ptc_twiss"; 
+!plot, table=ptc_twiss, vaxis=x,beta11, haxis=s, title="PTC TWISS", file="output/plots"; 
+!ptc_script, file="twiss.ptc"; 
+ptc_end;
+
