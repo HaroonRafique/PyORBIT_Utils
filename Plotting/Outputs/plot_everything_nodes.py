@@ -61,6 +61,41 @@ def plot_parameter(parameter, filename, title=None, ylab=None, yunit='-', ymin=N
 	fig1.savefig(figname);	
 	return;
 
+def plot_mean_of_two_parameters(parameter1, parameter2, filename, title=None, ylab=None, yunit='-', ymin=None, ymax=None):
+
+	print '\nPlotting mean of ', parameter1, 'and', parameter2,
+		
+	fig1 = plt.figure(figsize=(6,4))
+	ax1 = fig1.add_subplot(111)
+			
+	if ylab is None:
+		ylab = 'mean of ' + parameter1 + ' and ' + parameter2
+		
+	if title is None:
+		title = 'mean of ' + parameter1 + ' and ' + parameter2
+
+	ax1.plot(particles_1p3['turn'][0], (particles_1p3[parameter1][0] + particles_1p3[parameter2][0])/2, label='1.3 eVs');
+	ax1.plot(particles_1p6['turn'][0], (particles_1p6[parameter1][0] + particles_1p6[parameter2][0])/2, label='1.6 eVs');
+	ax1.plot(particles_1p9['turn'][0], (particles_1p9[parameter1][0] + particles_1p9[parameter2][0])/2, label='1.9 eVs');
+	ax1.plot(particles_2p3['turn'][0], (particles_2p3[parameter1][0] + particles_2p3[parameter2][0])/2, label='2.3 eVs');
+	ax1.plot(particles_2p6['turn'][0], (particles_2p6[parameter1][0] + particles_2p6[parameter2][0])/2, label='2.6 eVs');
+	ylabel = str( 'mean of ' + parameter1 + ' and ' + parameter2 + ' [' + yunit + ']')
+	ax1.set_ylabel(ylabel);
+	figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
+	
+	if ymin is not None:
+		ax1.set_ylim(bottom = ymin)	
+	if ymax is not None:
+		ax1.set_ylim(top = ymax)
+	
+	ax1.legend()
+	ax1.set_xlabel('Turn [-]');
+	ax1.set_title(title);
+	ax1.grid(True);
+	
+	fig1.savefig(figname);	
+	return;
+
 plt.rcParams['figure.figsize'] = [8.0, 6.0]
 plt.rcParams['figure.dpi'] = 300
 plt.rcParams['savefig.dpi'] = 300
@@ -83,10 +118,10 @@ sio.loadmat(file_in, mdict=particles)
 
 # Open File
 file_1p3='output.mat'
-file_1p6='../../1p6evs_noSC/output/output.mat'
-file_1p9='../../1p9evs_noSC/output/output.mat'
-file_2p3='../../2p3evs_noSC/output/output.mat'
-file_2p6='../../2p6evs_noSC/output/output.mat'
+file_1p6='../../1p6evs_16/output/output.mat'
+file_1p9='../../1p9evs_16/output/output.mat'
+file_2p3='../../2p3evs_16/output/output.mat'
+file_2p6='../../2p6evs_16/output/output.mat'
 
 particles_1p3=dict()
 particles_1p6=dict()
@@ -152,3 +187,5 @@ plot_parameter(parameter = 'bunchlength', filename ='PS_Injection', yunit = 'm',
 
 plot_parameter(parameter = 'dpp_rms', filename ='PS_Injection', yunit = '-', percentage = False)
 plot_parameter(parameter = 'dpp_rms', filename ='PS_Injection', yunit = '-', percentage = True)
+
+plot_mean_of_two_parameters(parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename ='PS_Injection', yunit = 'm rad')
