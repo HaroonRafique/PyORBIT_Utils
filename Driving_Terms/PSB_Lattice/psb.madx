@@ -1,0 +1,176 @@
+
+/******************************************************************************************
+ *
+ * PS BOOSTER. Directory: /afs/cern.ch/eng/ps/cps/Psb
+ * It consists of 16 identical periods, apart from the equipment
+ * in the straight sections.
+ * The BOOSTER has a radius of 25m and thus a circonference of 157.08m
+ *
+ * The injected beam from the linac have Ekin=50 MeV proton beam with p~300MeV/c.
+ * (311 MeV/c according to the report: http://accelconf.web.cern.ch/accelconf/p05/PAPERS/TPAT054.PDF)
+ * corresponding to E=0.988471 GeV and E0=0.938272 GeV. (The rest mass of a proton is 0.938272 GeV)
+ *
+ * The kinetic energy of the extracted beam is Ekin=1.4 GeV and p=2.141766 GeV/c [p=(SQRT(Ekin^2+2*E0*Ekin)/c]
+ * The beam is extracted to the PS. In the PS, it is injected in SS42.
+ *
+ *
+ * Revolution time at extraction:  T,revolution,ext = 572.79 ns (nano  seconds)
+ * Revolution time at injection:   T,revolution,inj =   1.6  us (micro seconds)
+ * The BOOSTER today has 2 bunches in each ring, i.e. 8 bunches in the PS.
+ * Injection time: C=275 ms, measure time C=290 ms
+ *
+ * Working points:
+ * Injection - high intensity          : QX=4.28,  QY=4.55
+ * Injection - low  intensity e.g. LHC : QX=4.28,  QY=4.45
+ * Extraction                          : QX=4.172, QY=4.23   = wp1
+ *
+ *
+ *
+ *
+ * The 2 MHz cavities are for the H0 mode, they are run around 8kV.
+ * They are run at the revolution frequency.
+ * The beam is below transition.
+ *
+ * The 4 MHz cavities are used to flatten the bunches.
+ * They reduce the peak current compared to the average currents.
+ * The 4 MHz cavities are run between 6-8 kV.
+ * They are run at twice the revolution frequency.
+ *
+ *
+ * All elements in the straight sections added.  21 Dec 2006 O.Berrig
+ * New working point: QX = 4.172 and QY = 4.23.  21 Dec 2006 O.Berrig
+ *
+ *
+ ******************************************************************************************
+ *
+ * This file is for protons at 0.348 GeV/c at time c = 301
+ *
+ *
+ * Execute with:  >madx_dev < psb_orbit.madx
+ *
+ ******************************************************************************************/
+
+
+
+ title, 'BOOSTER lattice';
+
+ option, echo;
+ option, RBARC=FALSE;
+
+
+
+/******************************************************************************************
+ * BOOSTER
+ ******************************************************************************************/
+ call, file = './psb.ele';
+ call, file = './psb.seq';
+ call, file = './psb.dbx';
+ call, file= './powering.seq';
+ call, file= './defseries.seq';
+ call, file = './psb_orbit.str';
+
+/******************************************************************************************
+ * beam, use
+ ******************************************************************************************/
+
+beam, particle=PROTON, pc=0.5707;  ! change depending on c-time of orbit measurement; pc=momentum
+use, sequence=psb4; ! Ring 4
+set,  format="20.10f";
+
+value, beam->pc;
+
+use, sequence=psb4;
+
+ !BR4.XNO3L1         , KNL := { 0, 0, kBR4XNO3L1 } ;
+ !BR4.XNO11L1        , KNL := { 0, 0, kBR4XNO11L1 } ;
+ kBR4XNO3L1	=	1;
+ kBR4XNO11L1 =	1;
+ 
+ !BR4.XNO8L1         , KNL := { 0, 0, kBR4XNO8L1 } ;
+ !BR4.XNO16L1        , KNL := { 0, 0, kBR4XNO16L1 } ;
+ !kBR4XNO8L1 = 	1;
+ !kBR4XNO16L1 = 1;
+ 
+ !BR4.XNO4L1         , KNL := { 0, 0, kBR4XNO4L1 } ;
+ !kBR4XNO4L1 = 	1;
+ 
+ !BR4.XNO6L1         , KNL := { 0, 0, kBR4XNO6L1 } ;
+ !kBR4XNO6L1 = 	1;
+ 
+ !BR4.XNO9L1         , KNL := { 0, 0, kBR4XNO9L1 } ;
+ !kBR4XNO9L1 = 	1;
+ 
+ !BR4.XNO12L1        , KNL := { 0, 0, kBR4XNO12L1 } ;
+ !kBR4XNO12L1 = 1;
+
+MATCH,sequence=psb4;
+ vary, NAME=kKF, step = 0.00001;
+ vary, NAME=kKD, step = 0.00001;
+ global, sequence=PSB4, Q1=4.2, Q2=4.4;
+ lmdif, calls = 10000, tolerance = 1.0E-15;
+ENDMATCH;
+
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx;
+twiss, sequence=psb4, file= twiss;
+
+ptc_create_universe;
+ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
+select, flag=ptc_twiss, clear;
+select, flag=ptc_twiss, column=name,  betx, px, bety, py, disp3, disp3p, disp1, disp1p;
+ptc_twiss, icase=5, no=4, deltap_dependency, closed_orbit, file=ptc_twiss, table=ptc_twiss;
+ptc_end;
+
+PTC_RDT_3s: macro={
+ ptc_create_universe;
+  ptc_create_layout,model=2,method=6,nst=3, exact=true;
+  PTC_SETSWITCH, debuglevel=0, fringe=true, exact_mis=true;
+  select_ptc_normal, q1=0, q2=0; //fractional tune
+  select_ptc_normal, dq1=1, dq2=1; // chromaticity
+  select_ptc_normal, dq1=2, dq2=2; // second order chrom
+  select_ptc_normal, dq1=3, dq2=3; // third order chrom  
+  select_ptc_normal, anhx=1,0,0, anhy=1,0,0;  // 1st order
+  select_ptc_normal, anhx=0,1,0, anhy=0,1,0;
+  ! hamiltonian, 3rd order, minus = skew
+  select_ptc_normal, haml=3,0,0;
+  select_ptc_normal, eign=2,1;
+  select_ptc_normal, eign=1,2;
+
+  PTC_ALIGN;  
+  option, -info;
+  ptc_normal,deltap=dp,closed_orbit,normal,icase=5,no=5;
+  qx0 =table(normal_results,value,1);
+  qx1 =table(normal_results,value,3);
+  qx2 =table(normal_results,value,5);
+  qx3 =table(normal_results,value,7);  
+  qy0 =table(normal_results,value,2);
+  qy1 =table(normal_results,value,4);
+  qy2 =table(normal_results,value,6);
+  qy3 =table(normal_results,value,8);  
+  axx =table(normal_results,value,9);  
+  axy =table(normal_results,value,10);  
+  ayy =table(normal_results,value,12);
+  h3000c = table(normal_results,value,13);
+  h3000s = table(normal_results,value,14);
+  h3000a = table(normal_results,value,15);
+  h2100c = table(normal_results,value,16);
+  h2100s = table(normal_results,value,17);
+  h2100a = table(normal_results,value,18);
+  h1020c = table(normal_results,value,19);
+  h1020s = table(normal_results,value,20);
+  h1020a = table(normal_results,value,21);
+  h1011c = table(normal_results,value,22);
+  h1011s = table(normal_results,value,23);
+  h1011a = table(normal_results,value,24);
+  h1002c = table(normal_results,value,25);
+  h1002s = table(normal_results,value,26);
+  h1002a = table(normal_results,value,27);
+
+  !option, info;
+  write, table=normal_results, file="PTC-normal_1+2_XNO311L1.ptc";
+ ptc_end;
+};
+
+exec, PTC_RDT_3s;
+
+stop;
