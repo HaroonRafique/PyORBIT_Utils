@@ -4,8 +4,8 @@ tomo_file = 'Input/PyORBIT_Tomo_file.mat'
 
 # Beam Parameters
 intensity = 1.6e+12
-epsn_x = 2.2e-6 
-epsn_y = 1.9e-6 
+epsn_x = 1.598e-6 
+epsn_y = 1.683e-6 
 
 blength_rms = (0.91*299792458*210e-9)/4.
 dpp_rms = 9.81e-04
