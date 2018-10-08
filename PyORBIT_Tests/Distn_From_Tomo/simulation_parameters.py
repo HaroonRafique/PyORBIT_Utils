@@ -9,12 +9,12 @@ epsn_y = 1.683e-6
 
 blength_rms = (0.91*299792458*210e-9)/4.
 dpp_rms = 1.83e-03
-rf_voltage=0.0576573943448E6
+rf_voltage = 0.0576573943448E6
 
 # Simulation Parameters
-turns_max = int(1E4)	
-turns_update = range(-1, turns_max, 100)
-turns_print =  range(-1, turns_max, 100)
+turns_max = int(1E2)	
+turns_update = range(-1, turns_max, 10)
+turns_print =  range(-1, turns_max, 10)
 
 grid_x = 64
 grid_y = 64
@@ -56,9 +56,8 @@ parameters = {
 }
 
 switches = {
-	'Horizontal': 1,
 	'ImportFromTomo': 1,
-	'SliceBySlice': 1,
+	'SliceBySlice': 0,
 	'Frozen': 0,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
