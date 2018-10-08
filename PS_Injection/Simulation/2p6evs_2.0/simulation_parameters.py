@@ -60,9 +60,9 @@ switches = {
 	'ImportFromTomo': 1,
 	'SliceBySlice': 1,
 	'Frozen': 0,
-	'GridSizeX': grid,
-	'GridSizeY': grid,
-	'GridSizeZ': 32
+	'GridSizeX': grid_x,
+	'GridSizeY': grid_y,
+	'GridSizeZ': grid_z
 }
 
 RFparameters = {
