@@ -1,0 +1,28 @@
+select, flag=twiss, clear;
+select, flag=twiss, column=name, betx, bety, dx, dy;
+twiss, sequence=psb, file;
+
+betax_2L1.V_ROT(xx,yy,zz):macro= {betax_2L1.V_ROT:=table(xx,yy,zz);};
+betay_2L1.V_ROT(xx,yy,zz):macro= {betay_2L1.V_ROT:=table(xx,yy,zz);};
+betax_2L1.H_ROT(xx,yy,zz):macro= {betax_2L1.H_ROT:=table(xx,yy,zz);};
+betay_2L1.H_ROT(xx,yy,zz):macro= {betay_2L1.H_ROT:=table(xx,yy,zz);};
+
+dispx_2L1.V_ROT(xx,yy,zz):macro= {dispx_2L1.V_ROT:=table(xx,yy,zz);};
+dispy_2L1.V_ROT(xx,yy,zz):macro= {dispy_2L1.V_ROT:=table(xx,yy,zz);};
+dispx2L1.H_ROT(xx,yy,zz):macro= {dispx2L1.H_ROT:=table(xx,yy,zz);};
+dispy2L1.H_ROT(xx,yy,zz):macro= {dispy2L1.H_ROT:=table(xx,yy,zz);};
+
+exec,betax_2L1.V_ROT(twiss,betx,1);
+exec,betay_2L1.V_ROT(twiss,bety,1);
+exec,betax_2L1.H_ROT(twiss,betx,2); 
+exec,betay_2L1.H_ROT(twiss,bety,2);
+
+exec,dispx_2L1.V_ROT(twiss,dx,1);
+exec,dispy_2L1.V_ROT(twiss,dy,1);
+exec,dispx2L1.H_ROT(twiss,dx,2);
+exec,dispy2L1.H_ROT(twiss,dy,2);
+
+q1:= table(summ, q1);
+q2:= table(summ, q2);
+
+return;
