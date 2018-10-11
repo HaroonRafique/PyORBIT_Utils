@@ -1106,7 +1106,7 @@ P02ring4: SEQUENCE, REFER = centre, L  = 9.8175; !Ring 4, Period 02
  BR4.XSK2L4          : XSK          , AT = 7.001802     , SLOT_ID = 2458917, ASSEMBLY_ID = 2452414;
  BR.QFO22                           , AT = 7.580797     , SLOT_ID = 2458884;
  BR.STSCRAP22                       , AT = 8.1998       , SLOT_ID = 2458882, ASSEMBLY_ID = 2458880;
- BR.BHZ22                           , AT = 9.008652     , SLOT_ID = 2458880;
+ BR.BHZ22                           , AT = 9.008652, SLOT_ID = 2458880;
 ENDSEQUENCE;
 
 P03ring4: SEQUENCE, REFER = centre, L  = 9.8175; !Ring 4, Period 03

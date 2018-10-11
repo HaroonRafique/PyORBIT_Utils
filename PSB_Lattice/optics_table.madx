@@ -1,22 +1,24 @@
 call, file='PSB/psb.ele';
 call, file='PSB/psb.seq';
 call, file='PSB/psb_160MeV.str';
+call, file='PSB/powering.seq';
+call, file='PSB/defseries.seq';
 
 !beam, particle=proton, pc=pc;
 
 !160 MeV
 beam, particle=PROTON, pc=0.5708301551;  ! change depending on c-time of orbit
 
-use, sequence=PSB;
+use, sequence=PSB3;
 
 create, table=model, column=q1, q2, betax_2L1.V_ROT, betay_2L1.V_ROT, dispx_2L1.V_ROT, dispy_2L1.V_ROT, betax_2L1.H_ROT, betay_2L1.H_ROT, dispx2L1.H_ROT, dispy2L1.H_ROT;
 
 name(q1,q2):macro={
-twiss, sequence=psb, file= twiss_q1_q2;
+twiss, sequence=psb3, file= twiss_q1_q2;
 };
 
-qy=4.1;
-qx=4.1;
+qy=4.3;
+qx=4.3;
 
 ! Loop over Qy
 while (qy <= 4.6){
@@ -24,10 +26,10 @@ while (qy <= 4.6){
 while (qx <= 4.6){
 
 ! Match tunes
-MATCH,sequence=ps;
+MATCH,sequence=psb3;
  vary, NAME=iqf, step = 0.0001;
  vary, NAME=iqd, step = 0.0001;
- global, sequence=PSB, Q1=qx, Q2=qy;
+ global, sequence=PSB3, Q1=qx, Q2=qy;
  lmdif, calls = 10000, tolerance = 1.0E-21;
 ENDMATCH;
 
@@ -58,5 +60,8 @@ tar=1;
 
 ! write file
 write, table=model, file=model;
+
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx, dy, mux, muy, l;
 
 stop;
