@@ -19,7 +19,7 @@ turns_print =  range(-1, turns_max, 10)
 grid_x = 64
 grid_y = 64
 grid_z = 32
-n_macroparticles = int(1.4E6)
+n_macroparticles = int(1E4)
 
 macrosize = intensity/float(n_macroparticles)
 

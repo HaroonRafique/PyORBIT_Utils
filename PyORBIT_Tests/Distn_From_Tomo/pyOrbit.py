@@ -11,9 +11,14 @@ Post processing scripts are provided to:
 > Create a GIF of the longitudinal distribution evolution
 > Plot all relevant bunch output
 
+Pre processing scripts are provided to:
+> Convert the saved tomoscope data into a format used as input for 
+the user defined GenerateInitialDistribution2 functions that create the
+initial distribution
+
 In this case the Proton Synchrotron (PS) lattice is used
 
-Requirements:
+Requirements (for this script):
 Haroon Rafique's PyORBIT libraries found at:
 https://github.com/HaroonRafique/PyORBIT_Utils/tree/master/lib
 PS lattice and simulation files:
@@ -94,13 +99,13 @@ print 'Start on MPI process: ', rank
 
 # Folder Structure
 # We already have the folders 'Input', 'lib', and 'PS'
-# Input:
-# lib:
-# PS:
-# input:
-# bunch_output:
-# output:
-# lost:
+# Input: contains relevent input files
+# lib: contains user defined classes and functions
+# PS: contains PS lattice files
+# input: destination for input files generated within script
+# bunch_output: destination for dumped bunch files
+# output: destination for the output dictionary file
+# lost: destination for dumped lost particle files
 #-----------------------------------------------------------------------
 print '\nmkdir on MPI process: ', rank
 from lib.mpi_helpers import mpi_mkdir_p
