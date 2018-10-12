@@ -1,0 +1,16 @@
+call, file='PSB/psb.ele';
+call, file='PSB/psb.seq';
+call, file='PSB/psb_160MeV.str';
+
+!beam, particle=proton, pc=pc;
+
+!160 MeV
+beam, particle=PROTON, pc=0.5708301551;  ! change depending on c-time of orbit
+
+use, sequence=PSB3;
+
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx, dy, mux, muy, l;
+twiss,  sequence=psb3, file=twiss.tfs, save;
+
+stop;
