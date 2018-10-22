@@ -1,0 +1,62 @@
+!call, file='PS/PS_new.ele';
+call, file='PS/PS.ele';
+!call, file='PS/PS_new.seq';
+call, file='PS/PS.seq';
+call, file='PS/PS_new.str';
+
+beam, particle=proton, pc=pc;
+
+use, sequence=PS;
+
+create, table=model, column=q1, q2, betax64, betay64, dispx64, dispy64, betax65, betay65, dispx65, dispy65, betax68, betay68, dispx68, dispy68, betax85, betay85, dispx85, dispy85;
+
+name(q1,q2):macro={
+twiss, sequence=ps, file= twiss_q1_q2;
+};
+
+qy=6.01;
+qx=6.01;
+qx_i = 6.01;
+
+! Loop over Qy
+while (qy <= 6.11){
+
+while (qx <= 6.11){
+
+! Match tunes
+MATCH,sequence=ps;
+ vary, NAME=iqf, step = 0.0001;
+ vary, NAME=iqd, step = 0.0001;
+ global, sequence=PS, Q1=qx, Q2=qy;
+ lmdif, calls = 10000, tolerance = 1.0E-21;
+ENDMATCH;
+
+/****
+a=100*qx;
+b=100*qy;
+
+if (tar<1e-10);{
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx, dy, mux, muy, l;
+exec name($a,$b);
+};
+****/
+
+! write to table
+if (tar<1e-10);{
+call, file='model.madx';
+fill, table=model;
+};
+
+qx=qx+0.005;
+tar=1;
+};
+qx=qx_i;
+qy=qy+0.005;
+tar=1;
+};
+
+! write file
+write, table=model, file=model;
+
+stop;
