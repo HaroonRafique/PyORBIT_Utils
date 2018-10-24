@@ -1,0 +1,115 @@
+call, file='PS/PS.ele';
+call, file='PS/PS.seq';
+call, file='PS/PS_new.str';
+
+beam, particle=proton, pc=pc;
+
+use, sequence=PS;
+
+qy=6.025;
+qx=6.305;
+
+! Loop over Qy
+while (qy <= 6.11){
+
+! Match tunes
+MATCH,sequence=ps;
+ vary, NAME=iqf, step = 0.0001;
+ vary, NAME=iqd, step = 0.0001;
+ global, sequence=PS, Q1=qx, Q2=qy;
+ lmdif, calls = 10000, tolerance = 1.0E-21;
+ENDMATCH;
+
+
+! write tfs twiss table
+if (tar<1e-10);{
+
+! use a long and messy if else
+if (qy == 6.025);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p025.tfs, save;
+};
+elseif (qy == 6.035);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p03.tfs, save;
+};
+elseif (qy == 6.035);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p035.tfs, save;
+};
+elseif (qy == 6.04);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p04.tfs, save;
+};
+elseif (qy == 6.045);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p045.tfs, save;
+};
+elseif (qy == 6.05);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p05.tfs, save;
+};
+elseif (qy == 6.055);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p055.tfs, save;
+};
+elseif (qy == 6.06);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p06.tfs, save;
+};
+elseif (qy == 6.065);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p065.tfs, save;
+};
+elseif (qy == 6.07);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p07.tfs, save;
+};
+elseif (qy == 6.075);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p075.tfs, save;
+};
+elseif (qy == 6.08);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p08.tfs, save;
+};
+elseif (qy == 6.085);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p085.tfs, save;
+};
+elseif (qy == 6.075);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p075.tfs, save;
+};
+elseif (qy == 6.09);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p09.tfs, save;
+};
+elseif (qy == 6.095);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p095.tfs, save;
+};
+elseif (qy == 6.1);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p1.tfs, save;
+};
+elseif (qy == 6.105);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p105.tfs, save;
+};
+elseif (qy == 6.11);{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6p11.tfs, save;
+};
+else;{
+select, flag=twiss, clear;
+twiss,  sequence=PS, file=twiss_6p305_6pwhoknows.tfs, save;
+}
+
+};
+
+qy=qy+0.005;
+tar=1;
+};
+
+stop;
