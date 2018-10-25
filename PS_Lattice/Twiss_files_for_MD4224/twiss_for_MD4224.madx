@@ -1,6 +1,6 @@
-call, file='PS/PS.ele';
-call, file='PS/PS.seq';
-call, file='PS/PS_new.str';
+call, file='../PS/PS.ele';
+call, file='../PS/PS.seq';
+call, file='../PS/PS_new.str';
 
 beam, particle=proton, pc=pc;
 
@@ -24,92 +24,99 @@ ENDMATCH;
 ! write tfs twiss table
 if (tar<1e-10);{
 
-! use a long and messy if else
-if (qy == 6.025);{
+IF (qy == 6.025){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p025.tfs, save;
 };
-elseif (qy == 6.035);{
+ELSEIF (qy == 6.03){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p03.tfs, save;
 };
-elseif (qy == 6.035);{
+ELSEIF (qy == 6.035){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p035.tfs, save;
 };
-elseif (qy == 6.04);{
+ELSEIF (qy == 6.04){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p04.tfs, save;
 };
-elseif (qy == 6.045);{
+ELSEIF (qy == 6.045){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p045.tfs, save;
 };
-elseif (qy == 6.05);{
+ELSEIF (qy == 6.05){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p05.tfs, save;
 };
-elseif (qy == 6.055);{
+ELSEIF (qy == 6.055){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p055.tfs, save;
 };
-elseif (qy == 6.06);{
+ELSEIF (qy == 6.06){
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p06.tfs, save;
 };
-elseif (qy == 6.065);{
+ELSEIF (qy == 6.065){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p065.tfs, save;
 };
-elseif (qy == 6.07);{
+ELSEIF (qy == 6.07){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p07.tfs, save;
 };
-elseif (qy == 6.075);{
+ELSEIF (qy == 6.075){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p075.tfs, save;
 };
-elseif (qy == 6.08);{
+ELSEIF (qy == 6.08){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p08.tfs, save;
 };
-elseif (qy == 6.085);{
+ELSEIF (qy == 6.085){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p085.tfs, save;
 };
-elseif (qy == 6.075);{
-select, flag=twiss, clear;
-twiss,  sequence=PS, file=twiss_6p305_6p075.tfs, save;
-};
-elseif (qy == 6.09);{
+ELSEIF (qy == 6.09){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p09.tfs, save;
 };
-elseif (qy == 6.095);{
+ELSEIF (qy == 6.095){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p095.tfs, save;
 };
-elseif (qy == 6.1);{
+ELSEIF (qy == 6.1){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p1.tfs, save;
 };
-elseif (qy == 6.105);{
+ELSEIF (qy == 6.105){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p105.tfs, save;
 };
-elseif (qy == 6.11);{
+ELSEIF (qy == 6.11){
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6p11.tfs, save;
 };
-else;{
+ELSE{
+value, tar;
 select, flag=twiss, clear;
 twiss,  sequence=PS, file=twiss_6p305_6pwhoknows.tfs, save;
-}
+};
 
 };
 
 qy=qy+0.005;
 tar=1;
+value, tar;
 };
 
 stop;
