@@ -6,11 +6,11 @@ beam, particle=proton, pc=pc;
 
 use, sequence=PS;
 
-qy=6.025;
+qy=6.105;
 qx=6.305;
 
 ! Loop over Qy
-while (qy <= 6.11){
+while (qy <= 6.105){
 
 ! Match tunes
 MATCH,sequence=ps;
