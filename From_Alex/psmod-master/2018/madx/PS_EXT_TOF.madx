@@ -1,0 +1,45 @@
+/******************************************************************
+ * MAD-X PS Optics
+ **
+ ** TOF extraction
+ **
+ ** Alexander Huschauer
+ ** Created 08/02/18
+ ******************************************************************/
+ 
+/******************************************************************
+ * Call lattice files
+ ******************************************************************/
+
+call, file="../beams/ps_beam_20GeV.beamx";
+call, file="../elements/PS.ele";
+call, file="../sequence/PS.seq";
+call, file="../strength/elements.str";
+call, file="../strength/PS_EXT_TOF.str";
+call, file="../cmd/macros.ptc";
+
+ /******************************************************************
+ * Matching
+ ******************************************************************/
+
+/*
+use, sequence=PS;
+match, use_macro;
+  vary,   name=PFKI1F, step=1.0E-6 ;
+  vary,   name=PFKI1D, step=1.0E-6 ;
+  USE_MACRO, name=ptc_twiss_tune_macro;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q1)= 0.14;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q2)= 0.37;
+  JACOBIAN,calls=10000,bisec=3,TOLERANCE=1.0E-21;
+ENDMATCH;
+Assign, echo="../output/matching/PS_EXT_TOF.matching";
+value, PFKI1F, PFKI1D;
+Assign, echo=terminal;
+*/
+
+/******************************************************************
+ * Twiss
+ ******************************************************************/
+
+use, sequence=PS;
+twiss, file = '../output/twiss/PS_EXT_TOF.twiss';

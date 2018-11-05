@@ -1,0 +1,102 @@
+/******************************************************************
+ * MAD-X PS Optics
+ **
+ ** SFTPRO flat top
+ **
+ ** Alexander Huschauer
+ ** Created 08/02/18
+ ******************************************************************/
+ 
+/******************************************************************
+ * Call lattice files
+ ******************************************************************/
+
+call, file="../beams/ps_beam_14GeV.beamx";
+call, file="../elements/PS.ele";
+call, file="../sequence/PS.seq";
+call, file="../strength/elements.str";
+call, file="../strength/PS_FT_SFTPRO_C800.str";
+call, file="../cmd/macros.ptc";
+
+ /******************************************************************
+ * Matching
+ ******************************************************************/
+
+
+use, sequence=PS;
+match, use_macro;
+  vary,   name=kf, step=1.0E-6 ;
+  vary,   name=kd, step=1.0E-6 ;
+  USE_MACRO, name=ptc_twiss_tune_macro;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q1)= 0.255;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q2)= 0.3;
+  JACOBIAN,calls=10000,bisec=3,TOLERANCE=1.0E-21;
+ENDMATCH;
+Assign, echo="../output/matching/PS_FT_SFTPRO_C800.matching";
+value, kf, kd;
+Assign, echo=terminal;
+
+stop;
+
+/******************************************************************
+ * PTC twiss - Core
+ ******************************************************************/
+
+use, sequence=PS;
+ptc_create_universe;
+ptc_create_layout, time=false, model=2, exact=true, method=6, nst=5;
+ptc_twiss,closed_orbit,icase=56,no=4,file="../output/twiss/PS_FT_SFTPRO_C800.ptctwiss";
+ptc_end;
+
+/******************************************************************
+ * PTC twiss - Island
+ ******************************************************************/
+
+use, sequence=PS4;
+ptc_create_universe;
+ptc_create_layout, time=false, model=2, exact=true, method=6, nst=5;
+ptc_twiss,closed_orbit,icase=56,no=4,file="../output/twiss/PS_FT_SFTPRO_C800_islands.ptctwiss", X=-0.025, PX=-0.001, Y=0.0, PY=0.0, T=0.0, PT=0.0;
+ptc_end;
+
+stop;
+
+/******************************************************************
+ * Tracking
+ ******************************************************************/
+
+use, sequence=PS;
+ptc_create_universe,;
+ptc_create_layout,time=false, model=2, exact=true, method=6, nst=5;
+ptc_START, x = 0.000000, px = 0.000000, y = 0.0, py = 0.0;
+ptc_START, x = -0.001207, px = -0.000048, y = 0.0, py = 0.0;
+ptc_START, x = -0.002414, px = -0.000097, y = 0.0, py = 0.0;
+ptc_START, x = -0.003621, px = -0.000145, y = 0.0, py = 0.0;
+ptc_START, x = -0.004828, px = -0.000193, y = 0.0, py = 0.0;
+ptc_START, x = -0.006034, px = -0.000241, y = 0.0, py = 0.0;
+ptc_START, x = -0.007241, px = -0.000290, y = 0.0, py = 0.0;
+ptc_START, x = -0.008448, px = -0.000338, y = 0.0, py = 0.0;
+ptc_START, x = -0.009655, px = -0.000386, y = 0.0, py = 0.0;
+ptc_START, x = -0.010862, px = -0.000434, y = 0.0, py = 0.0;
+ptc_START, x = -0.012069, px = -0.000483, y = 0.0, py = 0.0;
+ptc_START, x = -0.013276, px = -0.000531, y = 0.0, py = 0.0;
+ptc_START, x = -0.014483, px = -0.000579, y = 0.0, py = 0.0;
+ptc_START, x = -0.015690, px = -0.000628, y = 0.0, py = 0.0;
+ptc_START, x = -0.016897, px = -0.000676, y = 0.0, py = 0.0;
+ptc_START, x = -0.018103, px = -0.000724, y = 0.0, py = 0.0;
+ptc_START, x = -0.019310, px = -0.000772, y = 0.0, py = 0.0;
+ptc_START, x = -0.020517, px = -0.000821, y = 0.0, py = 0.0;
+ptc_START, x = -0.021724, px = -0.000869, y = 0.0, py = 0.0;
+ptc_START, x = -0.022931, px = -0.000917, y = 0.0, py = 0.0;
+ptc_START, x = -0.024138, px = -0.000966, y = 0.0, py = 0.0;
+ptc_START, x = -0.025345, px = -0.001014, y = 0.0, py = 0.0;
+ptc_START, x = -0.026552, px = -0.001062, y = 0.0, py = 0.0;
+ptc_START, x = -0.027759, px = -0.001110, y = 0.0, py = 0.0;
+ptc_START, x = -0.028966, px = -0.001159, y = 0.0, py = 0.0;
+ptc_START, x = -0.030172, px = -0.001207, y = 0.0, py = 0.0;
+ptc_START, x = -0.031379, px = -0.001255, y = 0.0, py = 0.0;
+ptc_START, x = -0.032586, px = -0.001303, y = 0.0, py = 0.0;
+ptc_START, x = -0.033793, px = -0.001352, y = 0.0, py = 0.0;
+ptc_START, x = -0.035000, px = -0.001400, y = 0.0, py = 0.0;
+ptc_track, deltap=0.000,icase=4,turns=400,file=../output/track/PS_FT_SFTPRO_C800/PS_FT_SFTPRO_C800,element_by_element,dump;
+ptc_track_end;
+ptc_end;

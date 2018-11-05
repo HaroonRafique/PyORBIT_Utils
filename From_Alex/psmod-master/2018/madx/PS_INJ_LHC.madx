@@ -1,0 +1,26 @@
+/******************************************************************
+ * MAD-X PS Optics
+ **
+ ** LHC low-energy
+ **
+ ** Alexander Huschauer
+ ** Created 08/02/18
+ ******************************************************************/
+ 
+/******************************************************************
+ * Call lattice files
+ ******************************************************************/
+
+call, file="../beams/ps_beam_1dot4GeV.beamx";
+call, file="../elements/PS.ele";
+call, file="../sequence/PS.seq";
+call, file="../strength/elements.str";
+call, file="../strength/PS_INJ_LHC.str";
+call, file="../cmd/macros.ptc";
+
+/******************************************************************
+ * Twiss
+ ******************************************************************/
+
+use, sequence=PS;
+twiss, file = '../output/twiss/PS_INJ_LHC.twiss';

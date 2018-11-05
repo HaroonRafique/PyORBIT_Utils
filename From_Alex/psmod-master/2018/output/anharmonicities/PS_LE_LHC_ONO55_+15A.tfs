@@ -1,0 +1,18 @@
+@ NAME             %14s "NORMAL_RESULTS"
+@ TYPE             %10s "NORMAL_RES"
+@ TITLE            %08s "no-title"
+@ ORIGIN           %17s "5.03.06 Darwin 64"
+@ DATE             %08s "28/08/18"
+@ TIME             %08s "23.35.14"
+* NAME                   ORDER1     ORDER2     ORDER3     ORDER4              VALUE 
+$ %s                         %d         %d         %d         %d                %le 
+ "Q1"                         0          0          0          0               0.21
+ "Q2"                         0          0          0          0              0.245
+ "ANHX"                       1          0          0          0        103.9271191
+ "ANHX"                       2          0          0          0       -4350.238388
+ "ANHX"                       3          0          0          0                 -0
+ "ANHX"                       0          1          0          0       -57.14348649
+ "ANHY"                       1          0          0          0       -57.14348649
+ "ANHY"                       2          0          0          0        57518.42295
+ "ANHY"                       3          0          0          0                 -0
+ "ANHY"                       0          1          0          0       -27.76116429
