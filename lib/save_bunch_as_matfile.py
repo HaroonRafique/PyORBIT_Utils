@@ -7,6 +7,7 @@ from bunch import Bunch
 
 # 12.03.2017: works now also for lostbunch attributes
 # 03.06.2017: now a bunch object can be generated from a matfile
+# 17.02.2018: now a bunch object can be generated from a matfile even if it contains only a single particle
 
 def saveBunchAsMatfile(bunch, filename=None):
 
@@ -98,12 +99,12 @@ def bunch_from_matfile(matfile):
 	bunch.getSyncParticle().momentum(d['bunchparameters']['momentum'])
 	bunch.getSyncParticle().time(d['bunchparameters']['time'])
 
-	x  = d['particles']['x'][()]
-	xp = d['particles']['xp'][()]
-	y  = d['particles']['y'][()]
-	yp = d['particles']['yp'][()]
-	z  = d['particles']['z'][()]
-	dE = d['particles']['dE'][()]
+	x  = np.atleast_1d(d['particles']['x'][()])
+	xp = np.atleast_1d(d['particles']['xp'][()])
+	y  = np.atleast_1d(d['particles']['y'][()])
+	yp = np.atleast_1d(d['particles']['yp'][()])
+	z  = np.atleast_1d(d['particles']['z'][()])
+	dE = np.atleast_1d(d['particles']['dE'][()])
 	n_part = len(x)
 
 	import orbit_mpi
@@ -128,8 +129,8 @@ def bunch_from_matfile(matfile):
 		a_size = bunch.getPartAttrSize(a)
 		if a_size>1:
 			for j in xrange(a_size):
-				map(lambda (ip,i): bunch.partAttrValue(a, ip, j, p[a][j][i]), enumerate(xrange(i_start,i_stop)))
+				map(lambda (ip,i): bunch.partAttrValue(a, ip, j, np.atleast_1d(p[a][j])[i]), enumerate(xrange(i_start,i_stop)))
 		else:
-			map(lambda (ip,i): bunch.partAttrValue(a, ip, 0, p[a][i]), enumerate(xrange(i_start,i_stop)))
+			map(lambda (ip,i): bunch.partAttrValue(a, ip, 0, np.atleast_1d(p[a])[i]), enumerate(xrange(i_start,i_stop)))
 	orbit_mpi.MPI_Barrier(comm)
 	return bunch
