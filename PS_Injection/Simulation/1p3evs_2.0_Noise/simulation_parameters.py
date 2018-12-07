@@ -12,6 +12,9 @@ dpp_rms = 9.81e-04
 rf_voltage = 0.0123212966992E6
 
 # Simulation Parameters
+# Noise test
+n_macroparticles = int(14E6)
+turns_max = int(1E3)	
 #turns_max = int(1E4)	
 turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
@@ -21,9 +24,6 @@ grid_y = 64
 grid_z = 32
 #n_macroparticles = int(1.4E6)
 
-# Noise test
-n_macroparticles = int(14E6)
-turns_max = int(1E3)	
 
 macrosize = intensity/float(n_macroparticles)
 
