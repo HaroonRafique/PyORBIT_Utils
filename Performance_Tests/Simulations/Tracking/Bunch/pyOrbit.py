@@ -228,6 +228,7 @@ print '\nTracking on MPI process: ', rank
 for turn in range(sts['turn']+1, sts['turns_max']):
 
 	Lattice.trackBunch(bunch, paramsDict)
+	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	
 	if turn in sts['turns_update']:
 		sts['turn'] = turn
