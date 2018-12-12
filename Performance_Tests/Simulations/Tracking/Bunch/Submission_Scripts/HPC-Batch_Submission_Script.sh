@@ -19,7 +19,7 @@ module load mpi/mvapich2/2.2
 
 BATCH_ROOT_DIR='/hpcscratch/user/harafiqu'
 ORBIT_ROOT='/hpcscratch/user/harafiqu/PyORBIT/py-orbit'
-RUN_DIR='/bescratch/user/harafiqu/PyORBIT_Utils/Performance_Tests'
+RUN_DIR='/bescratch/user/harafiqu/PyORBIT_Utils/Performance_Tests/Tracking/Bunch/'
 OrigIwd=$(pwd)
 
 cd ${RUN_DIR}
