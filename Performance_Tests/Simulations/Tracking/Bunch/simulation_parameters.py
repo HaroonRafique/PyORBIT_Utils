@@ -1,5 +1,7 @@
 import numpy as np
 
+tomo_file = 'Input/PyORBIT_Tomo_file.mat'
+
 # Beam Parameters
 intensity = 2e+12
 epsn_x = 2.036e-6
@@ -35,6 +37,7 @@ m = 1.2
 TransverseCut = 5
 
 parameters = {
+	'tomo_file': tomo_file,
 	'LongitudinalJohoParameter': m,
 	'LongitudinalCut': 2.4,
 	'blength_rms': blength_rms,
