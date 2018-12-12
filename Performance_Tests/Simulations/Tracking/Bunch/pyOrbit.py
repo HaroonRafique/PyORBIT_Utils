@@ -7,14 +7,6 @@ import numpy as np
 import scipy.io as sio
 import os
 
-# Use switches in simulation_parameters.py in current folder
-#-------------------------------------------------------------
-from simulation_parameters import switches as s
-slicebyslice = s['SliceBySlice']        # 2.5D space charge
-frozen = s['Frozen']                    # Frozen space charge
-
-if frozen: slicebyslice=0
-
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
 from orbit.utils.consts import mass_proton, speed_of_light, pi
