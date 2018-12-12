@@ -35,7 +35,6 @@ m = 1.2
 TransverseCut = 5
 
 parameters = {
-	'tomo_file': tomo_file,
 	'LongitudinalJohoParameter': m,
 	'LongitudinalCut': 2.4,
 	'blength_rms': blength_rms,
