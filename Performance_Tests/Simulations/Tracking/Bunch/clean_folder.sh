@@ -1,9 +1,8 @@
 #!/bin/bash
 # condor cleanup
-mkdir Condor_Logfiles
-mv output/simulation_info_* Condor_Logfiles
-mv logfile_* Condor_Logfiles
-mv output_* Condor_Logfiles
+rm output/simulation_info_* 
+rm logfile_*
+rm output_*
 # clean ghost files
 rm Input/mainbunch_start.dat~
 rm Input/optics_ptc.txt~
