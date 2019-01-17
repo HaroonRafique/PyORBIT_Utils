@@ -1,0 +1,63 @@
+call, file='PSB/psb.ele';
+call, file='PSB/psb.seq';
+call, file='PSB/psb_160MeV.str';
+
+!beam, particle=proton, pc=pc;
+
+!160 MeV
+beam, particle=PROTON, pc=0.5708301551;  ! change depending on c-time of orbit
+
+use, sequence=PSB3;
+
+/******************************************************************
+ * Next we use a ptc macro to match the tunes in the lattice to
+ * desired values tune_x and tune_y.
+ * The 'resplit.ptc' script may be included if the user wishes to...? 
+ *
+ * Using model=2, exact=true is recommended.
+ ******************************************************************/
+tune_x = 0.2;
+tune_y = 0.4;
+ 
+ptc_twiss_tune_macro_false_split: macro={
+  ptc_create_universe;
+  ptc_create_layout, time=true, model=2, exact=true, method=6, nst=3;
+  ptc_twiss, closed_orbit, table = ptc_twiss, icase=56, no=2, summary_table=ptc_twiss_summary;
+  qx0=table(ptc_twiss_summary,Q1);
+  qy0=table(ptc_twiss_summary,Q2);
+  value, qx0, qy0;
+  ptc_end;
+};
+
+use, sequence=PSB3;
+match, use_macro;
+  vary,   name=kKF, step=1.0E-6 ;
+  vary,   name=kKD, step=1.0E-6 ;
+  USE_MACRO, name=ptc_twiss_tune_macro_false_split;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q1)= tune_x;
+  CONSTRAINT, expr=  table(ptc_twiss_summary,Q2)= tune_y;
+  JACOBIAN,calls=10000,bisec=3,TOLERANCE=1.0E-21;
+ENDMATCH;
+value, IQF, IQD;
+
+
+/******************************************************************
+ * First we use the PTC script resplit.ptc - this is used to split
+ * defined elements (dipole, quadrupole, sextupole families etc) in
+ * order to introduce space charge nodes inside their length. See the
+ * file for further information. Next the flat file is generated and 
+ * saved.
+ ******************************************************************/
+
+ptc_create_universe;
+ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
+ptc_script, file="./PSB/resplit.ptc";
+ptc_script, file="./print_flat_file.ptc"; 
+ptc_end;
+
+
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx, dy, mux, muy, l;
+twiss,  sequence=psb3, file=twiss.tfs, save;
+
+stop;
