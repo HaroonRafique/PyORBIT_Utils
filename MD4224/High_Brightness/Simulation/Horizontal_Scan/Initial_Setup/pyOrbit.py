@@ -107,7 +107,7 @@ PTC_File = "SPACE_CHARGE_STUDIES_INJECTION.flt"
 Lattice = PTC_Lattice("PS")
 Lattice.readPTC(PTC_File)
 
-readScriptPTC('Input/fringe.ptc')
+readScriptPTC('Input/fringe.txt')
 readScriptPTC('Input/time.ptc')
 readScriptPTC('Input/ramp_cavities.ptc')
 # ~ readScriptPTC('Input/chrom.ptc')
