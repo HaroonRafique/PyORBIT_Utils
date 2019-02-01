@@ -15,14 +15,14 @@ name(q1,q2):macro={
 twiss, sequence=ps, file= twiss_q1_q2;
 };
 
-qy=6.01;
-qx=6.01;
-qx_i = 6.01;
+qy=6.10;
+qx=6.07;
+qx_i = 6.10;
 
 ! Loop over Qy
-while (qy <= 6.35){
+while (qy <= 6.25){
 
-while (qx <= 6.35){
+while (qx <= 6.22){
 
 ! Match tunes
 MATCH,sequence=ps;
@@ -49,11 +49,11 @@ call, file='model.madx';
 fill, table=model;
 };
 
-qx=qx+0.005;
+qx=qx+0.01;
 tar=1;
 };
 qx=qx_i;
-qy=qy+0.005;
+qy=qy+0.01;
 tar=1;
 };
 
