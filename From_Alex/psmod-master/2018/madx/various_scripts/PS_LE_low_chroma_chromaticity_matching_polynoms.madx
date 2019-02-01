@@ -25,13 +25,21 @@ call, file="../../cmd/macros.ptc";
 !Qx=0.21 + 0.83801238423 x +  68.6013557004 x^2
 !Qy=0.24 - 2.91974082086 x + 115.247493197 x^2
 
-MQx0 :=  0.21;
-MQx1 := 0.838012384227;
-MQx2 := 68.6013557004;
+!MQx0 :=  0.21;
+!MQx1 := 0.838012384227;
+!MQx2 := 68.6013557004;
 
-MQy0 :=  0.24;
-MQy1 := -2.91974082086;
-MQy2 := 115.247493197;
+!MQy0 :=  0.24;
+!MQy1 := -2.91974082086;
+!MQy2 := 115.247493197;
+
+MQx0 :=  0.188296;
+MQx1 :=  0.493755;
+MQx2 :=  9.54002;
+
+MQy0 := 0.245019;
+MQy1 := 0.896371;
+MQy2 := 25.51191;
 
 /*******************************************************************************
 **                        Low-energy quadrupoles                              **
@@ -79,6 +87,8 @@ value,qy0,qy1,qy2/2;
 use, sequence=PS;
 ptc_create_universe;
 ptc_create_layout, time=false, model=2, exact=true, method=6, nst=5;
-ptc_twiss,closed_orbit,icase=56,no=4,file="../../output/twiss/PS_LE_low_chroma.ptctwiss";
+!ptc_twiss,closed_orbit,icase=56,no=4,file="../../output/twiss/PS_LE_low_chroma.ptctwiss";
+ptc_twiss,closed_orbit,icase=56,no=4,file="../../../../../MD4224/Low_Brightness/TWISS/PS_LE_low_chroma.ptctwiss";
+
 ptc_end;
 
