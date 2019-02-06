@@ -42,8 +42,8 @@
 @ SYNCH_5          %le                   0
 @ TITLE            %08s "no-title"
 @ ORIGIN           %16s "5.04.02 Linux 64"
-@ DATE             %08s "01/02/19"
-@ TIME             %08s "15.47.56"
+@ DATE             %08s "05/02/19"
+@ TIME             %08s "13.10.26"
 * NAME                             BETX               BETY                 DX                 DY 
 $ %s                                %le                %le                %le                %le 
  "PS$START"                 20.78288417        11.92347969        3.375804384                 -0

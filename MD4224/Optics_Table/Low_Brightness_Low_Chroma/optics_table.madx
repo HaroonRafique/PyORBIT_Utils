@@ -12,10 +12,17 @@
  ******************************************************************/
 
 call, file="../../../From_Alex/psmod-master/2018/beams/ps_beam_1dot4GeV.beamx";
-call, file="../../../From_Alex/psmod-master/2018/elements/PS.ele";
-call, file="../../../From_Alex/psmod-master/2018/sequence/PS.seq";
-call, file="../../../From_Alex/psmod-master/2018/strength/elements.str";
+!call, file="../../../From_Alex/psmod-master/2018/elements/PS.ele";
+!call, file="../../../From_Alex/psmod-master/2018/sequence/PS.seq";
+!call, file="../../../From_Alex/psmod-master/2018/strength/elements.str";
 call, file="../../../From_Alex/psmod-master/2018/cmd/macros.ptc";
+
+!call, file='PS/PS_new.ele';
+call, file='PS/PS.ele';
+!call, file='PS/PS_new.seq';
+call, file='PS/PS.seq';
+call, file='PS/PS_new.str';
+!call, file='PS/PS_LE_low_chroma.strength';
 
 /******************************************************************
 * Polynomials obtained from measurements of non-linear chromaticity
@@ -63,32 +70,73 @@ match,use_macro;
         vary,name=PFKI3D;
         use_macro,name=ptc_chrom_macro;
         constraint,expr= qx0= 1*MQx0;
-	constraint,expr= qy0= 1*MQy0;
+		constraint,expr= qy0= 1*MQy0;
         constraint,expr= qx1= 1*MQx1;	
         constraint,expr= qy1= 1*MQy1;	
         constraint,expr= qx2= 2*MQx2;
         constraint,expr= qy2= 2*MQy2;		
 jacobian,calls=50000,bisec=3;
 ENDMATCH;
-Assign, echo="../../output/matching/PS_LE_low_chroma_multipoles.matching";
 
-value,PFKI1F,PFKI2F,PFKI3F;
-value,PFKI1D,PFKI2D,PFKI3D;
+beam, particle=proton, pc=pc;
 
-Assign, echo=terminal;
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx, dy, mux, muy, l;
+twiss, sequence=ps, file;
 
-value,qx0,qx1,qx2/2;
-value,qy0,qy1,qy2/2;
-
-/******************************************************************
- * PTC twiss
- ******************************************************************/
+!stop;
 
 use, sequence=PS;
-ptc_create_universe;
-ptc_create_layout, time=false, model=2, exact=true, method=6, nst=5;
-!ptc_twiss,closed_orbit,icase=56,no=4,file="../../output/twiss/PS_LE_low_chroma.ptctwiss";
-ptc_twiss,closed_orbit,icase=56,no=4,file="../../../../../MD4224/Low_Brightness/TWISS/PS_LE_low_chroma.ptctwiss";
 
-ptc_end;
+create, table=model, column=q1, q2, betax64, betay64, dispx64, dispy64, betax65, betay65, dispx65, dispy65, betax68, betay68, dispx68, dispy68, betax85, betay85, dispx85, dispy85;
 
+name(q1,q2):macro={
+twiss, sequence=ps, file= twiss_q1_q2;
+};
+
+qy=6.03;
+qx=6.30;
+qx_i = 6.30;
+
+! Loop over Qy
+while (qy <= 6.12){
+
+while (qx <= 6.31){
+
+! Match tunes
+MATCH,sequence=ps;
+ vary, NAME=kf, step = 0.0001;
+ vary, NAME=kd, step = 0.0001;
+ global, sequence=PS, Q1=qx, Q2=qy;
+ lmdif, calls = 10000, tolerance = 1.0E-21;
+ENDMATCH;
+
+/****
+a=100*qx;
+b=100*qy;
+
+if (tar<1e-10);{
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx, dy, mux, muy, l;
+exec name($a,$b);
+};
+****/
+
+! write to table
+if (tar<1e-10);{
+call, file='model.madx';
+fill, table=model;
+};
+
+qx=qx+0.005;
+tar=1;
+};
+qx=qx_i;
+qy=qy+0.005;
+tar=1;
+};
+
+! write file
+write, table=model, file=model;
+
+stop;

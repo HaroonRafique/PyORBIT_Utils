@@ -1,0 +1,44 @@
+select, flag=twiss, clear;
+select, flag=twiss, column=name, betx, bety, dx, dy;
+twiss, sequence=ps, file;
+
+betax64(xx,yy,zz):macro= {betax64:=table(xx,yy,zz);};
+betay64(xx,yy,zz):macro= {betay64:=table(xx,yy,zz);};
+betax65(xx,yy,zz):macro= {betax65:=table(xx,yy,zz);};
+betay65(xx,yy,zz):macro= {betay65:=table(xx,yy,zz);};
+betax68(xx,yy,zz):macro= {betax68:=table(xx,yy,zz);};
+betay68(xx,yy,zz):macro= {betay68:=table(xx,yy,zz);};
+betax85(xx,yy,zz):macro= {betax85:=table(xx,yy,zz);};
+betay85(xx,yy,zz):macro= {betay85:=table(xx,yy,zz);};
+
+dispx64(xx,yy,zz):macro= {dispx64:=table(xx,yy,zz);};
+dispy64(xx,yy,zz):macro= {dispy64:=table(xx,yy,zz);};
+dispx65(xx,yy,zz):macro= {dispx65:=table(xx,yy,zz);};
+dispy65(xx,yy,zz):macro= {dispy65:=table(xx,yy,zz);};
+dispx68(xx,yy,zz):macro= {dispx68:=table(xx,yy,zz);};
+dispy68(xx,yy,zz):macro= {dispy68:=table(xx,yy,zz);};
+dispx85(xx,yy,zz):macro= {dispx85:=table(xx,yy,zz);};
+dispy85(xx,yy,zz):macro= {dispy85:=table(xx,yy,zz);};
+
+exec,betax64(twiss,betx,2008);
+exec,betay64(twiss,bety,2008);
+exec,betax65(twiss,betx,2037); 
+exec,betay65(twiss,bety,2037);
+exec,betax68(twiss,betx,2125);
+exec,betay68(twiss,bety,2125);
+exec,betax85(twiss,betx,2650); 
+exec,betay85(twiss,bety,2650);
+
+exec,dispx64(twiss,dx,2008);
+exec,dispy64(twiss,dy,2008);
+exec,dispx65(twiss,dx,2037);
+exec,dispy65(twiss,dy,2037);
+exec,dispx68(twiss,dx,2125);
+exec,dispy85(twiss,dy,2125);
+exec,dispx85(twiss,dx,2650);
+exec,dispy85(twiss,dy,2650);
+
+q1:= table(summ, q1);
+q2:= table(summ, q2);
+
+return;
