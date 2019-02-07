@@ -1,0 +1,190 @@
+
+/************************************************************************************/
+/*                       PSB SEQUENCES                                              */
+/************************************************************************************/
+
+
+! Define Periods (and parts of periods) as sequences
+  Per1ToFoil: SEQUENCE, L = LiL1/2, refer=centre;  ! with chicane
+    BR.BSW1,           AT = LiL1/2 - .991;
+    BR.BSW2,           AT = LiL1/2 - .295;
+  ENDSEQUENCE;
+
+  FoilToPer2: SEQUENCE, L = Lper - LiL1/2, refer=centre;
+    BR.BSW3,           AT = .295;
+    BR.BSW4,           AT = .991;
+    BR.BHZ11:   Bend,  AT = LiL1/2 + Lbend/2;
+    BR.QFO11:   QFO,   AT = LiL1/2 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE1:    QDE,   AT = LiL1/2 + Lbend + Ltrip/2.;
+    BR.KSW1L4,         AT = LiL1/2 + Lbend + Ltrip/2. + 0.768; ! estimate from PSB handbook
+    BR.QFO12:   QFO,   AT = LiL1/2 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ12:   BEND,  AT = Lper - LiL1/2 - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per2: SEQUENCE, L = Lper, refer=centre;
+!    BR1.BWS.2L1.V_ROT   : BWSV         , AT = .918;
+!    BR1.BWS.2L1.H_ROT   : BWSH         , AT = 1.016;
+    BR.KSW2L1,         AT = 1.680;                             ! estimate from PSB handbook
+    BR.BHZ21:   Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO21:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    UES2L3:     UES,   AT = 5.467802     ;      ! pick-up
+!    BR.QDE2:    QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QDE2,           AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO22:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ22:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per3: SEQUENCE, L = Lper, refer=centre;
+    BR1.DES3L1: DES_ac  , AT = .8065;              ! AD dipole for Meghan
+    BR.QNO3L1: QNO,    AT = 1.463;
+    BR.BHZ31:   Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO31:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE3,           AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO32:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ32:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per4: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ41:   Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO41:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QNO4L3: QNO, AT = 5.467821;
+!    BR.QDE4:    QDE,   AT = LiL1 + Lbend + Ltrip/2.;    
+    BR.QDE4,           AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO42:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ42:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per5: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ51:   Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO51:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE5:    QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO52:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ52:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+  
+  Per6: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ61:   Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO61:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE6:    QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO62:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ62:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per7: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ71:   Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO71:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE7:    QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO72:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ72:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per8: SEQUENCE, L = Lper, refer=centre;
+    BR.QNO8L1: QNO,    AT = 1.463;
+    BR.BHZ81:   Bend,  AT = LiL1 + Lbend/2;
+    BR2.WBS8L2: WBS,   AT=LiL1 + Lbend/2+1.0106915;	
+    BR.QFO81:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QNO8L3: QNO, AT = 5.467821;
+    BR.QDE8:    QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO82:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ82:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per9: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ91:   Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO91:   QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE9:    QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO92:   QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ92:   BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per10: SEQUENCE, L = Lper, refer=centre;
+    BR.C02,            AT = LiL1/2;
+    BR.BHZ101:  Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO101:  QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE10:   QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO102:  QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ102:  BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per11: SEQUENCE, L = Lper, refer=centre;  
+    BR.QNO11L1: QNO,    AT = 1.463;
+    BR.BHZ111:  Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO111:  QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE11:   QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO112:  QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ112:  BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per12: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ121:  Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO121:  QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QNO12L3: QNO, AT = 5.467821;
+    BR.QDE12:   QDE,   AT = LiL1 + Lbend + Ltrip/2.;    
+    BR.QFO122:  QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ122:  BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per13: SEQUENCE, L = Lper, refer=centre;
+!   BR.C04,            AT = LiL1/2;
+    BR.BHZ131:  Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO131:  QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+!    BR.QDE13:   QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QDE13,          AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO132:  QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ132:  BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per14: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ141:  Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO141:  QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QDE14,          AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO142:  QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ142:  BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per15: SEQUENCE, L = Lper, refer=centre;
+    BR.BHZ151:  Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO151:  QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+!    BR.QDE15:   QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QDE15,          AT = LiL1 + Lbend + Ltrip/2.;
+    BR.QFO152:  QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ152:  BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+  Per16: SEQUENCE, L = Lper, refer=centre;
+    BR.KSW16L1,        AT = 1.15;    ! rough estimate ... to be checked with Wim, Jean-Michel .. 
+    BR.QNO16L1: QNO,    AT = 1.463;
+    BR.BHZ161:  Bend,  AT = LiL1 + Lbend/2;
+    BR.QFO161:  QFO,   AT = LiL1 + Lbend + Ltrip/2. - 1.345;
+    BR.QNO16L3: QNO, AT = 5.467821;
+    BR.QDE16:   QDE,   AT = LiL1 + Lbend + Ltrip/2.;
+    BR.KSW16L4,        AT = LiL1 + Lbend + Ltrip/2. + 0.768; ! estimate from PSB handbook
+    BR.QFO162:  QFO,   AT = LiL1 + Lbend + Ltrip/2. + 1.345;
+    BR.BHZ162:  BEND,  AT = Lper - Lbend/2.;
+  ENDSEQUENCE;
+
+! Aperture file
+!call file = 'psb_2012.dbx';
+
+
+! Put periods together to form a a Booster ring
+  PSBRing: SEQUENCE, L = 16*Lper, refer=entry;  ! no perturbation BSW modeled as quads with L=0
+    FoilToPer2,  AT =  0; 
+    Per2,        AT =  1*Lper - LiL1/2;
+    Per3,        AT =  2*Lper - LiL1/2;
+    Per4,        AT =  3*Lper - LiL1/2;
+    Per5,        AT =  4*Lper - LiL1/2;
+    Per6,        AT =  5*Lper - LiL1/2;
+    Per7,        AT =  6*Lper - LiL1/2;
+    Per8,        AT =  7*Lper - LiL1/2;
+    Per9,        AT =  8*Lper - LiL1/2;
+    Per10,       AT =  9*Lper - LiL1/2;
+    Per11,       AT = 10*Lper - LiL1/2;
+    Per12,       AT = 11*Lper - LiL1/2;
+    Per13,       AT = 12*Lper - LiL1/2;
+    Per14,       AT = 13*Lper - LiL1/2;
+    Per15,       AT = 14*Lper - LiL1/2;
+    Per16,       AT = 15*Lper - LiL1/2;
+    Per1ToFoil,  AT = 16*Lper - LiL1/2;
+  ENDSEQUENCE;
+

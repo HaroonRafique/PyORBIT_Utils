@@ -1,0 +1,151 @@
+TITLE, 'Booster for PTC-ORBIT simulations';
+
+! Elements definition
+call, file = "psb_madx/psb.ele"; 
+
+! Sequence definition
+call, file = "psb_madx/psb.seq";  
+
+E_inj = 0.16 ; 
+call, file = 'simulation_PSB_settings.txt';
+
+
+! Define beam at injection energy (E_inj in GeV)
+  BEAM, PARTICLE=Prot, MASS=0.93827, CHARGE=1., ENERGY=0.93827 + E_inj;
+
+!<============================== Machine without perturbation ===================================>
+! Use PTC interface to match lattice without perturbation (kf and kd to working point)
+! The flat file will be created based on the unperturbed machine
+  kBSW = 0.;  ! BSW 'strength' must be zero here
+  k2BSW = 0.;
+  value, kBSW, k2BSW; 
+
+!***********************************************************************************************!
+! MATCH kf, kd for the defined tune, without any machine perturbation
+!***********************************************************************************************!
+
+  kf = 0.75;
+  kd =-0.75;
+
+  USE, PERIOD = PSBRing;
+
+  MATCH, SEQUENCE = PSBRing;
+  VARY, NAME = kf, STEP = .1;
+  VARY, NAME = kd, STEP = .1;
+  GLOBAL, Q1 = QH;
+  GLOBAL, Q2 = QV;
+  LMDIF, TOLERANCE = 1.0E-15;
+  ENDMATCH;
+  SELECT, FLAG=TWISS, COLUMN=NAME, KEYWORD, L, k1L, S, BETX, BETY, DX, DY;
+  TWISS, FILE='PSB.tfs';    
+  
+  MATCH, USE_MACRO;
+    VARY, NAME = kf, STEP = .1;
+    VARY, NAME = kd, STEP = .1;
+    ma1: macro =
+     {
+        USE, PERIOD = PSBRing;   ! period without special equipment
+        ptc_create_universe;
+           ptc_create_layout, model=2, method=2, nst=5,exact=true;
+           ptc_setswitch, debuglevel=0, nocavity=false, fringe=true,
+                 exact_mis=true, time=true, totalpath=true;
+           PTC_TWISS,  table=twiss, closed_orbit, icase=5, no=2, rmatrix;
+       ptc_end;
+     }
+    CONSTRAINT, EXPR=Table(twiss, PSBRing$end, mu1) = QH;
+    CONSTRAINT, EXPR=Table(twiss, PSBRing$end, mu2) = QV;
+    LMDIF, TOLERANCE = 1.0E-15;
+  ENDMATCH;
+
+
+! Output lattice functions for machine without any perturbation for the matched tune defined at the beginning of the file
+!  USE, PERIOD = PSBRing;
+  SELECT, FLAG=TWISS, CLEAR;
+  SELECT, FLAG=TWISS, COLUMN=NAME, L, S, k1L, BETA11, ALFA11, MU1, BETA22, ALFA22, MU2, DISP1, DX, DY, x, px;
+  ptc_create_universe;
+     ptc_create_layout, model=2, method=2, nst=5,exact=true, resplit;
+     ptc_setswitch, debuglevel=0, nocavity=false, fringe=true,
+           exact_mis=true, time=true, totalpath=true;
+     PTC_TWISS,  table=twiss, closed_orbit, icase=5, no=2, rmatrix;
+  ptc_end;
+  WRITE, TABLE=twiss, FILE="PSB_PTC_twiss_Qmatch.Out";
+  VALUE, kf, kd; 
+
+
+
+!**********************************************************************************
+! Apply the chicane bump
+!**********************************************************************************
+
+! For the Qx=4.43, Qy=4.6 working point, th orbit doesn't converge if I start with dkd3=dkd14=0. 
+! The reason is because the beta-beating brings the tune on top of the half integer and the orbit 
+! becomes huge leading to DA not converging. To solve this, I add some strength to dkd3 and dkd14 
+
+!  call,file='BSW_input.txt';
+!  call,file='Q314_input.txt';
+!  call,file='QDF_input.txt';
+
+  kBSW = 0.0; 
+  k2BSW = 0.0;
+
+  USE, PERIOD = PSBRing;
+  SELECT, FLAG=TWISS, CLEAR;
+  SELECT, FLAG=TWISS, COLUMN=NAME, L, S, k1L, BETA11, ALFA11, MU1, BETA22, ALFA22, MU2, DISP1, DX, DY, x, px;
+
+/*
+  Select, flag=error, clear = true;
+  Select,flag=error,pattern="BR.BSW1";
+  Select,flag=error,pattern="BR.BSW4";
+  EFCOMP, dkn={0,0,k2BSW};
+
+  Select, flag=error, clear = true;
+  Select,flag=error,pattern="BR.BSW2";
+  Select,flag=error,pattern="BR.BSW3";
+  EFCOMP, dkn={0,0,-k2BSW};
+
+*/
+  beta = BEAM->beta;
+
+  ptc_create_universe;
+     ptc_create_layout, model=2, method=2, nst=5,exact=true, resplit;
+     ptc_setswitch, debuglevel=0, nocavity=false, fringe=true,
+           exact_mis=true, time=true, totalpath=true;
+     ptc_script, file="ptc/thinX.PTC";
+     ptc_script, file="ptc/thinP.PTC";
+     PTC_TWISS,  table=twiss, closed_orbit, icase=5, no=2, rmatrix;
+
+    select,flag=ptc_twiss,column=name,s,alfa11,beta11,beta21,beta12,alfa22,beta22,disp1,disp2,disp3,disp4,x,px,y,py;
+    ptc_twiss,deltap=0,closed_orbit,icase=5,table=ptc_twiss,no=6, SUMMARY_TABLE=ptc_twiss_summary;
+    alfxstart=table(ptc_twiss,alfa11,1);
+    betxstart=table(ptc_twiss,beta11,1);  
+    alfystart=table(ptc_twiss,alfa22,1);
+    betystart=table(ptc_twiss,beta22,1);
+    x0=table(ptc_twiss,x,1);
+    xp0=table(ptc_twiss,px,1);
+    y0=table(ptc_twiss,y,1);
+    yp0=table(ptc_twiss,py,1);
+    dxstart=table(ptc_twiss,disp1,1) * beta;
+    dxpstart=table(ptc_twiss,disp2,1) * beta;
+    dystart=table(ptc_twiss,disp3,1) * beta;
+    dypstart=table(ptc_twiss,disp4,1) * beta;
+    dqx=table(ptc_twiss_summary,dq1) * beta;
+    dqy=table(ptc_twiss_summary,dq2) * beta;
+    gamma_transition=table(ptc_twiss_summary,gamma_tr);
+    circumference = table(ptc_twiss_summary,length);
+
+  ptc_end;
+
+  WRITE, TABLE=twiss, FILE="input/PSB_PTC_flat.Out";
+  VALUE, kf, kd; 
+
+
+ emit;
+ TWISS;
+ Qx = table(summ, q1);
+ Qy = table(summ, q2);
+
+ assign, echo="input/optics_ptc.txt";
+ value, Qx,Qy,dqx,dqy,alfxstart,betxstart,alfystart,betystart,x0,xp0,y0,yp0,dxstart,dxpstart,dystart,dypstart, gamma_transition;
+ assign, echo=terminal;
+
+

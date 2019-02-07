@@ -1,0 +1,93 @@
+! *******************************************************************************************
+!
+! Elements definition for the PSB upgrade lattice
+! Based on PSB_xHannes.madx 
+! 
+! Lattice including the injection bump and BSW bump 
+! 
+! F. Antoniou, Jan. 2018
+! *******************************************************************************************
+
+/*
+    - geometry as extracted from Rufers Note SI/Note ME/70-4 .... even with negative
+      bending angles for the moment 
+    - all magnets defined as individual elements with proper names
+    - symmetric injection chicane by Wim and Brennan
+    -> No need to split magnets and drifts for space charge evaluations??
+    -> Every magnet defined as element (in the sequence) ... a la Sascha to add soon
+      imperfections (not yet defined here)
+ 
+   To run and extract data for ORBIT on lxplus
+    - > /afs/cern.ch/group/si/slap/bin/madx_dev < PSB_All_QV455_160.madx
+*/
+
+
+! Data on geometry from Rufer's note
+   Lper  = 50.*Pi/16;              ! Length of one period
+   LiL1  = 2.654;                  ! Length of long straight sections
+   Lbend = 1.6177;                 ! Arc length in bending magnet
+!  rho   = Lbend/(Pi/16.);         ! bending radius not needed
+   Ltrip  = Lper - LiL1 - 2*Lbend; ! triplet length from bending exit to bending entrance
+   L_BSW = 0.370;
+
+  Bend    : SBEND, L=Lbend, ANGLE=-TWOPI/32., E1=-TWOPI/64., E2=-TWOPI/64.;
+
+
+! Main quadrupole strengths: kf and kd 
+! dkd3 and dkd14 extra qstrip functions for beta_beat correction due to the BSW chicane
+
+  QFO     : QUADRUPOLE, L=0.5027, K1: = kf;
+  QDE     : QUADRUPOLE, L=0.8811, K1: = kd;
+  BR.QDE3 : QUADRUPOLE, L=0.8811, K1: = kd+dkd3;
+  BR.QDE14: QUADRUPOLE, L=0.8811, K1: = kd+dkd14;
+  BR.QDE2 : QUADRUPOLE, L=0.8811, K1: = kd+dkd2;
+  BR.QDE15: QUADRUPOLE, L=0.8811, K1: = kd+dkd15;
+  BR.QDE1 : QUADRUPOLE, L=0.8811, K1: = kd+dkd1;
+  BR.QDE16: QUADRUPOLE, L=0.8811, K1: = kd+dkd16;
+  BR.QDE4 : QUADRUPOLE, L=0.8811, K1: = kd+dkd4;
+  BR.QDE13: QUADRUPOLE, L=0.8811, K1: = kd+dkd13;
+
+! RF Cavity with 8 kV peak voltage ... installed in straight 10L1 ..i
+!     no dedicated h=2 cavity for the moment 
+  BR.C02  : RFCAVITY, VOLT:= .008, HARMON:=1, L:=1.0, LAG:=0.0, no_cavity_totalpath;
+  BR.C04  : RFCAVITY, VOLT:= .006, HARMON:=2, L:=1.0, LAG:=0.5, no_cavity_totalpath;
+
+!  injection straight :
+!     - with four 66 mrad 0.370 m bends (as proposed now by Brennan, Wim & Co), 
+!     - with beam offset (by momentum offset) -10mm towards the ring inside
+
+
+  BR.BSW1 : QUADRUPOLE, L=L_BSW , K1=0.0, kill_ent_fringe, bend_fringe, k0:= kBSW;
+  BR.BSW2 : QUADRUPOLE, L=L_BSW , K1=0.0, kill_exi_fringe, bend_fringe, k0:=-kBSW;
+  BR.BSW3 : QUADRUPOLE, L=L_BSW , K1=0.0, kill_ent_fringe, bend_fringe, k0:=-kBSW;
+  BR.BSW4 : QUADRUPOLE, L=L_BSW , K1=0.0, kill_exi_fringe, bend_fringe, k0:= kBSW;
+
+! Injection bumpers .... again as quadrupoles 
+! ebenedet comment: The bump goes down in ~50 /mu s
+! ebenedet comment: They look similar to conventional magnets, i.e. different from extraction kicker (~100ns, ~2m long)
+  BR.KSW16L1 : QUADRUPOLE, L=0.444, K1=0.0, bend_fringe, k0:= dKSW16L1;
+  BR.KSW16L4 : QUADRUPOLE, L=0.444, K1=0.0, bend_fringe, k0:= dKSW16L4;
+  BR.KSW1L4  : QUADRUPOLE, L=0.444, K1=0.0, bend_fringe, k0:= dKSW1L4;
+  BR.KSW2L1  : QUADRUPOLE, L=0.444, K1=0.0, bend_fringe, k0:= dKSW2L1;
+
+  
+! AC dipole for meghan
+  DES_ac : QUADRUPOLE , L := .565, K1=0.0, kill_ent_fringe, kill_exi_fringe,  k0:=kacdipole ;      ! Electrostatic horizontal/vertical stripline deflector
+
+  kacdipole:=0;
+
+! QNO816L3 correctors
+
+  kno:=0;
+  QNO : MULTIPOLE, L=0, knl:={0,kno};
+
+! Other elements (i.e. apertures)
+
+  BWSH      : MONITOR     , L := 0;         ! PSB Wire scanner horizontal
+  BWSV      : MONITOR     , L := 0;         ! PSB Wire scanner vertical
+
+  WBS       : RCOLLIMATOR , L := 0.04;       ! PSB Collimator, window beamscope
+
+!pick-up
+  UES : monitor, L:=0;  !pickup
+

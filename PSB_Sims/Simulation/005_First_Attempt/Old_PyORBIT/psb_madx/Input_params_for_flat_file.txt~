@@ -1,0 +1,10 @@
+
+  QH   = 4.28;
+  QV   = 4.55;
+
+! Main lattice magnets
+  kf = 0.75121719338;
+  kd = -0.76795630312;
+  
+  flag_bend_finge = 1;
+  flag_match_for_tune = 0;

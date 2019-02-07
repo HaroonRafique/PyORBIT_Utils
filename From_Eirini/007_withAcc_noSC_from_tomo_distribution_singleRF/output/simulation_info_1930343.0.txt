@@ -1,0 +1,4 @@
+PyOrbit path:  /afs/cern.ch/work/e/eirini2/private/pyorbit_env/py-orbit
+using 8 CPUs
+****************************************
+total simulation time (s):  20183
