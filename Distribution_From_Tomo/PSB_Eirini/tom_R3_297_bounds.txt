@@ -12,7 +12,7 @@ MD5=MD3183_LHC_BCMS25_2018
 ! Input data file =
 pipe
 ! Directory in which to write all output =
-/tmp/
+./
 ! Number of frames in input data =
 100
 ! Number of frames to ignore =
