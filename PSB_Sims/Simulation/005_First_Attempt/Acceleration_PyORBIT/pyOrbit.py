@@ -126,7 +126,7 @@ n=0
 for node in Lattice.getNodes():
 	(node_pos_start,node_pos_stop) = Lattice.getNodePositionsDict()[node]
 	print "node: ",n, ", name: ",node.getName()," type:",node.getType()," pos:",node_pos_start," L=",node.getLength()," end=",node_pos_start+node.getLength()
-	myaperturenode = TeapotApertureNode(1, 10, 18, position)
+	myaperturenode = TeapotApertureNode(1, 100, 18, position)
 	node.addChildNode(myaperturenode, node.ENTRANCE)
 	node.addChildNode(myaperturenode, node.BODY)
 	node.addChildNode(myaperturenode, node.EXIT)
@@ -166,11 +166,15 @@ p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta
 Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch.readBunch(Particle_distribution_file)
+
 bunch.addPartAttr("macrosize")
 map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
+
 ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
+
 bunch.dumpBunch("input/mainbunch_start.dat")
 saveBunchAsMatfile(bunch, "input/mainbunch")
+saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
 
 lostbunch = Bunch()
 bunch.copyEmptyBunchTo(lostbunch)
@@ -178,7 +182,6 @@ lostbunch.addPartAttr('ParticlePhaseAttributes')
 lostbunch.addPartAttr("LostParticleAttributes")
 paramsDict['lostbunch'] = lostbunch
 saveBunchAsMatfile(lostbunch, "input/lostbunch")
-
 
 #----------------------------------------------------
 # Define twiss analysis and output dictionary
@@ -188,7 +191,6 @@ get_dpp = lambda b, bta: np.sqrt(bta.getCorrelation(5,5)) / (b.getSyncParticle()
 get_bunch_length = lambda b, bta: 4 * np.sqrt(bta.getCorrelation(4,4)) / (speed_of_light*b.getSyncParticle().beta())
 get_eps_z = lambda b, bta: 1e9 * 4 * pi * bta.getEmittance(2) / (speed_of_light*b.getSyncParticle().beta())
 
-#output_file = 'Output/output'
 output_file = 'output/output'
 output = Output_dictionary()
 output.addParameter('turn', lambda: turn)
@@ -229,7 +231,7 @@ for turn in range(p['turns_max']):
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	output.update()
 	if turn in p['turns_print']:
-		#bunch.dumpBunch("output/mainbunch_%s"%(str(turn).zfill(6)))
+		# ~ bunch.dumpBunch("output/mainbunch_%s"%(str(turn).zfill(6)))
 		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
 		output.save_to_matfile(output_file)
 		# readScriptPTC('ptc/write_FINAL_SETTINGS.ptc')

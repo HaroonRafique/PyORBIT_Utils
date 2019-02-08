@@ -5,8 +5,8 @@ tomo_matfile = 'tomoscope_file/PyORBIT_Tomo_file'
 intensity = 1.6e+13 # future ISOLDE beam
 epsn_x = 2e-6
 epsn_y = 2e-6
-TransverseCut = 15
-n_macroparticles = int(100) #50000 #500000
+TransverseCut = 5
+n_macroparticles = int(1) #50000 #500000
 macrosize = np.sum(intensity)/float(n_macroparticles)
 
 beta_l = 0.5198122836207495
@@ -15,7 +15,7 @@ gamma_l = 1.17057569296
 # This is a guess - need to check
 blength_rms = (beta_l*299792458*150e-9)/4.
 
-turns_max = int(1E4) #10000
+turns_max = int(10000) #10000
 turns_print = range(-1, turns_max, int(1))
 
 parameters = {
