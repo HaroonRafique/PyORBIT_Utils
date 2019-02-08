@@ -1,18 +1,26 @@
 import numpy as np
 
-tomo_matfile = 'tomoscope_file/tomo_data_H_nomWorkPoint_ct_297_turns2.76.mat'
+# ~ tomo_matfile = 'tomoscope_file/tomo_data_H_nomWorkPoint_ct_297_turns2.76.mat'
+tomo_matfile = 'tomoscope_file/PyORBIT_Tomo_file'
 intensity = 1.6e+13 # future ISOLDE beam
 epsn_x = 2e-6
 epsn_y = 2e-6
 TransverseCut = 15
-n_macroparticles = 50000 #500000
+n_macroparticles = int(100) #50000 #500000
 macrosize = np.sum(intensity)/float(n_macroparticles)
 
-turns_max = 10000
-turns_print = range(-1, turns_max, 100)
-#turns_print = range(-1, turns_max, 1)
+beta_l = 0.5198122836207495
+gamma_l = 1.17057569296
+
+# This is a guess - need to check
+blength_rms = (beta_l*299792458*150e-9)/4.
+
+turns_max = int(1E4) #10000
+turns_print = range(-1, turns_max, int(1))
 
 parameters = {
+	'blength_rms': blength_rms,
+	'tomo_file': tomo_matfile,
 	'tomo_matfile': tomo_matfile,
 	'n_macroparticles': n_macroparticles,
 	'intensity': intensity,

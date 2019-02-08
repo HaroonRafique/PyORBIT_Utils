@@ -7,6 +7,11 @@ import scipy.io as sio
 import os
 import orbit_mpi
 
+from simulation_parameters import parameters as p
+from simulation_parameters import RFparameters as RF
+#from lib.generate_distribution_from_Tomoscope import *
+from lib.pyOrbit_GenerateInitialDistribution2 import *
+
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
 from orbit.utils.consts import mass_proton, speed_of_light, pi
@@ -64,6 +69,7 @@ rank = orbit_mpi.MPI_Comm_rank(comm)
 from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('input')
 mpi_mkdir_p('output')
+mpi_mkdir_p('bunch_output')
 
 
 #----------------------------------------------
@@ -119,7 +125,7 @@ pos_stop  = Lattice.getLength()
 n=0
 for node in Lattice.getNodes():
 	(node_pos_start,node_pos_stop) = Lattice.getNodePositionsDict()[node]
-	print "node number=",n, "node=",node.getName()," type=",node.getType(),"  pos=",node_pos_start," L=",node.getLength()," end=",node_pos_start+node.getLength()
+	print "node: ",n, ", name: ",node.getName()," type:",node.getType()," pos:",node_pos_start," L=",node.getLength()," end=",node_pos_start+node.getLength()
 	myaperturenode = TeapotApertureNode(1, 10, 18, position)
 	node.addChildNode(myaperturenode, node.ENTRANCE)
 	node.addChildNode(myaperturenode, node.BODY)
@@ -145,21 +151,19 @@ print '\nAdding main bunch ...'
 bunch = Bunch()
 setBunchParamsPTC(bunch)
 
-from simulation_parameters import parameters as p
-from simulation_parameters import RFparameters as RF
-from lib.generate_distribution_from_Tomoscope import *
-
 #p['harmonic_number'] = Lattice.nHarm * np.atleast_1d(RF['harmonic_factors']) #harmonic_factors
-#p['rf_voltage']      = 1e6*RF['voltage_MV'][0]
-#p['phi_s']           = pi + RF['phase'][0]
-p['gamma']           = bunch.getSyncParticle().gamma()
-p['beta']            = bunch.getSyncParticle().beta()
-p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
+#p['rf_voltage'] = 1e6*RF['voltage_MV'][0]
+#p['phi_s'] = pi + RF['phase'][0]
+p['harmonic_number'] = Lattice.nHarm 
+p['gamma'] = bunch.getSyncParticle().gamma()
+print 'gamma = ', p['gamma'] 
+p['beta'] = bunch.getSyncParticle().beta()
+print 'beta = ', p['beta'] 
+p['energy'] = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
+p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 
-Particle_distribution_file = generate_initial_distribution(p, Lattice, 
-								summary_mat_file='simulation_parameters.mat',
-								output_file='input/ParticleDistribution.in',
-								summary_file='input/ParticleDistribution_summary.txt')
+#Particle_distribution_file = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch.readBunch(Particle_distribution_file)
 bunch.addPartAttr("macrosize")
@@ -175,38 +179,6 @@ lostbunch.addPartAttr("LostParticleAttributes")
 paramsDict['lostbunch'] = lostbunch
 saveBunchAsMatfile(lostbunch, "input/lostbunch")
 
-'''
-#----------------------------------------------------
-# Add transverse potential space charge node with
-# rectangular boundary
-#----------------------------------------------------
-
-print '\nAdding longitudinal space charge ...'
-b_a = 1.5 #longitudinal SC formula, b_a beam pipe over beam radius
-nMacrosMin = 32 #min number of macroparticles required in a slice in order to calculate SC - to avoid noise effects
-useSpaceCharge = 1
-nBins= 32 #64     # Number of longitudinal slices in the 1D space charge solver
-position = 1   # The location in the lattice. Can be any empty place
-length = Lattice.getLength() 
-sc1Dnode = SC1D_AccNode(b_a,length, nMacrosMin, useSpaceCharge, nBins)
-nodes = Lattice.getNodes()
-AccNode = nodes[1]
-addLongitudinalSpaceChargeNodeAsChild(Lattice, AccNode, sc1Dnode)
-
-print '\nAdding transverse space charge nodes ...'
-sizeX = 64 #128
-sizeY = 64 #128
-sizeZ = 32 #64  # Number of longitudinal slies in the 2.5D solver
-calc2p5d = SpaceChargeCalc2p5D(sizeX,sizeY,sizeZ)
-calc2p5d.setSmoothBinning(True) #smooth longitudinal binning flag
-#smooth_flag = calc2p5d.getSmoothBinning() #check the smooth binning option
-#print 'smooth_flag', smooth_flag
-sc_path_length_min = 0.00000001
-
-# Add the space charge solver to the lattice as child nodes
-sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calc2p5d)
-print '  Installed', len(sc_nodes), 'space charge nodes ...'
-'''
 
 #----------------------------------------------------
 # Define twiss analysis and output dictionary
@@ -238,31 +210,27 @@ output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissana
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
-
 	
-'''	
- def file_len(fname):
- 	with open(fname) as f:
-         	for n_rows, l in enumerate(f):
-             		pass
- 	return n_rows + 1
-'''
-#----------------------------------------------------
-# Doing some turns after injection
-#----------------------------------------------------
+#-----------------------------------------------------------------------
+# Track
+#-----------------------------------------------------------------------
 
 for turn in range(p['turns_max']):
-        # keep particles within circumference
+	print 'turn number: ', turn
+	
+    # keep particles within circumference
 	for i in xrange(bunch.getSize()):
 		bunch.z(i,-Lattice.getLength()/2.+(bunch.z(i)+Lattice.getLength()/2.)%Lattice.getLength())
-	print 'turn number: ', turn
+		
 	Lattice.trackBunch(bunch, paramsDict)
 	# readScriptPTC("ptc/update-twiss.ptc")
 	# updateParamsPTC(Lattice,bunch)
+	
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	output.update()
 	if turn in p['turns_print']:
-		bunch.dumpBunch("output/mainbunch_%s"%(str(turn).zfill(6)))
+		# ~ bunch.dumpBunch("output/mainbunch_%s"%(str(turn).zfill(6)))
+		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
 		output.save_to_matfile(output_file)
 		# readScriptPTC('ptc/write_FINAL_SETTINGS.ptc')
 
