@@ -14,7 +14,7 @@ TransverseCut = 5
 
 # This is a guess - need to check
 #blength_rms = (beta_l*299792458*150e-9)/4.
-phase_offset = 0.0
+phase_offset = 0.0 # manual fudge for longitudinal bunch matching
 
 turns_max = int(1000)
 n_macroparticles = int(500)
@@ -39,20 +39,20 @@ parameters = {
 
 # these are the paramters for the PTC RF table
 harmonic_factors = [1,2] #this times the base harmonic defines the RF harmonics (for SPS = 4620)
+
 time = np.arange(0.00000, 0.02100, 0.00100)
 ones = np.ones_like(time)
-#with acceleration
-#Ekin_GeV = np.array([0.16000000, 0.16156116, 0.16312827, 0.16470131, 0.16628024, 0.16786504, 0.16945569, 0.17105215, 0.17265442, 0.17426245, 0.17587624, 0.17749574, 0.17912094, 0.18075180, 0.18238832, 0.18403046, 0.18567819, 0.18733150, 0.18899036, 0.19065474, 0.19232462])
 
-# ~ RF_voltage_MV = np.array([.008*ones, .006*ones]).T # in MV
-# ~ RF_phase = np.array([3.14159*ones, 0.*ones]).T
+#160 MeV with acceleration
+Ekin_GeV = np.array([0.16000000, 0.16156116, 0.16312827, 0.16470131, 0.16628024, 0.16786504, 0.16945569, 0.17105215, 0.17265442, 0.17426245, 0.17587624, 0.17749574, 0.17912094, 0.18075180, 0.18238832, 0.18403046, 0.18567819, 0.18733150, 0.18899036, 0.19065474, 0.19232462])
 
-Ekin_GeV = np.array(np.ones_like(time)*0.05)
 
-# ~ RF_voltage_MV = np.array([.008*ones, .0*ones]).T # in MV
-RF_voltage_MV = np.array([.008*ones, .0*ones]).T # in MV
-# ~ RF_phase = np.array([np.pi*ones, 0.*ones]).T
-RF_phase = np.array([(1+np.pi)*ones, 0.*ones]).T
+# ~ RF_voltage_MV = np.array([.008*ones, .006*ones]).T # double harmonic 8KV 6KV
+
+# Ekin_GeV = np.array(np.ones_like(time)*0.05) # Constant energy 50 MeV
+
+RF_voltage_MV = np.array([.008*ones, .0*ones]).T # single harmonic 8KV
+RF_phase = np.array([(1+np.pi)*ones, 0.*ones]).T # appears to be correct
 
 '''
 RF_phase = np.zeros((21,2))

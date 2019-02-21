@@ -20,9 +20,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ORBIT_ROOT}/lib
 export PYTHONPATH=${PYTHONPATH}:${ORBIT_ROOT}/py:${ORBIT_ROOT}/lib
 export PATH=$PATH:${ORBIT_ROOT}/bin
 
+source /cvmfs/projects.cern.ch/intelsw/psxe/linux/all-setup.sh
 source /afs/cern.ch/user/p/pyorbit/public/PyORBIT/py-orbit/customEnvironment.sh
 source /afs/cern.ch/user/p/pyorbit/public/PyORBIT/virtualenvs/py2.7/bin/activate
-source /cvmfs/projects.cern.ch/intelsw/psxe/linux/all-setup.sh
 
 # opposite of useful:
 
