@@ -62,7 +62,6 @@ print "Start ..."
 comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
 rank = orbit_mpi.MPI_Comm_rank(comm)
 
-
 #----------------------------------------------
 # Create folder sctructure
 #----------------------------------------------
@@ -70,7 +69,6 @@ from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('input')
 mpi_mkdir_p('output')
 mpi_mkdir_p('bunch_output')
-
 
 #----------------------------------------------
 # Generate Lattice (MADX + PTC)
@@ -154,16 +152,16 @@ setBunchParamsPTC(bunch)
 #p['harmonic_number'] = Lattice.nHarm * np.atleast_1d(RF['harmonic_factors']) #harmonic_factors
 #p['rf_voltage'] = 1e6*RF['voltage_MV'][0]
 #p['phi_s'] = pi + RF['phase'][0]
+#p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
+
+p['circumference'] = Lattice.getLength()
 p['harmonic_number'] = Lattice.nHarm 
 p['gamma'] = bunch.getSyncParticle().gamma()
-print 'gamma = ', p['gamma'] 
 p['beta'] = bunch.getSyncParticle().beta()
-print 'beta = ', p['beta'] 
 p['energy'] = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
-p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
 
 #Particle_distribution_file = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+Particle_distribution_file = generate_initial_distribution_from_tomo_offset(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 bunch.readBunch(Particle_distribution_file)
 
@@ -225,13 +223,12 @@ for turn in range(p['turns_max']):
 		bunch.z(i,-Lattice.getLength()/2.+(bunch.z(i)+Lattice.getLength()/2.)%Lattice.getLength())
 		
 	Lattice.trackBunch(bunch, paramsDict)
-	# readScriptPTC("ptc/update-twiss.ptc")
-	# updateParamsPTC(Lattice,bunch)
+	readScriptPTC("ptc/update-twiss.ptc")
+	updateParamsPTC(Lattice,bunch)
 	
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	output.update()
 	if turn in p['turns_print']:
-		# ~ bunch.dumpBunch("output/mainbunch_%s"%(str(turn).zfill(6)))
 		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
 		output.save_to_matfile(output_file)
 		# readScriptPTC('ptc/write_FINAL_SETTINGS.ptc')

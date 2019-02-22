@@ -12,13 +12,25 @@ if [ ! -n "$2" ]
     exit $E_BADARGS
 fi
 
+# Have to choose which PyORBIT to use:
 export ORBIT_ROOT=/afs/cern.ch/user/p/pyorbit/public/PyORBIT/py-orbit
 #export ORBIT_ROOT=/afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC
 
-# Use these if you have a simply python linking error
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ORBIT_ROOT}/lib
+export PYTHONPATH=${PYTHONPATH}:${ORBIT_ROOT}/py:${ORBIT_ROOT}/lib
+export PATH=$PATH:${ORBIT_ROOT}/bin
+
+source /cvmfs/projects.cern.ch/intelsw/psxe/linux/all-setup.sh
+source /afs/cern.ch/user/p/pyorbit/public/PyORBIT/py-orbit/customEnvironment.sh
+source /afs/cern.ch/user/p/pyorbit/public/PyORBIT/virtualenvs/py2.7/bin/activate
+
+# opposite of useful:
+
+# Probably required:
+
+# Possibly useful:
 #source /afs/cern.ch/sw/lcg/external/gcc/4.8.4/x86_64-slc6-gcc48-opt/setup.sh 
 #export LD_LIBRARY_PATH=/afs/cern.ch/sw/lcg/contrib/gcc/4.8.1/x86_64-slc6-gcc48-opt/lib64 
-#source /afs/cern.ch/user/n/nkarast2/work/public/virtualenvs/py27/bin/activate
 
 echo 'ORBIT_ROOT = '
 echo ${ORBIT_ROOT}
