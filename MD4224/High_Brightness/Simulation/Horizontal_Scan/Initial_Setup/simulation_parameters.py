@@ -2,26 +2,26 @@ import numpy as np
 
 tomo_file = 'Input/PyORBIT_Tomo_file.mat'
 
-# Beam Parameters
-intensity = 2e+12
-epsn_x = 2.036e-6
-epsn_y = 2.225e-6
+# Beam Parameters from MD4224
+intensity = 72E+11
+epsn_x = 1.2E-6
+epsn_y = 1E-6
 
-blength_rms = (0.91*299792458*210e-9)/4.
-dpp_rms = 9.81e-04
-rf_voltage = 0.0123212966992E6
+blength_rms = (0.91*299792458*140e-9)/4.	# ~140ns from example tomo
+dpp_rms = 9e-04								# from example tomo
+# rf_voltage = 0.0123212966992E6
+# 21294.205190595723 # peak RF voltage from tomo
+rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
-n_macroparticles = int(1E4)
-turns_max = int(1E4)	
+n_macroparticles = int(5E5)
+turns_max = int(7E4)	
 turns_update = range(-1, turns_max, 100)
 turns_print =  range(-1, turns_max, 100)
 
-grid_x = 64
-grid_y = 64
+grid_x = 32
+grid_y = 32
 grid_z = 32
-#n_macroparticles = int(1.4E6)
-
 
 macrosize = intensity/float(n_macroparticles)
 
