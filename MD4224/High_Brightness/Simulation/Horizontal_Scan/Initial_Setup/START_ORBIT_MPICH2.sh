@@ -13,17 +13,20 @@ if [ ! -n "$2" ]
 fi
 
 # Have to choose which PyORBIT to use:
-#export ORBIT_ROOT=/afs/cern.ch/user/p/pyorbit/public/PyORBIT/py-orbit
+#export ORBIT_ROOT=/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit_frozenSC_20170731
+#~ export ORBIT_ROOT=/afs/cern.ch/user/p/pyorbit/public/PyORBIT/py-orbit
 #~ export ORBIT_ROOT=/afs/cern.ch/project/LIUsc/space_charge/Codes/py-orbit_revison1291_dev_FrozenPIC
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ORBIT_ROOT}/lib
-export PYTHONPATH=${PYTHONPATH}:${ORBIT_ROOT}/py:${ORBIT_ROOT}/lib
-export PATH=$PATH:${ORBIT_ROOT}/bin
+#~ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ORBIT_ROOT}/lib
+#~ export PYTHONPATH=${PYTHONPATH}:${ORBIT_ROOT}/py:${ORBIT_ROOT}/lib
+#~ export PATH=$PATH:${ORBIT_ROOT}/bin
 
-source /cvmfs/projects.cern.ch/intelsw/psxe/linux/all-setup.sh
+#~ source /cvmfs/projects.cern.ch/intelsw/psxe/linux/all-setup.sh
 #source /afs/cern.ch/user/p/pyorbit/public/PyORBIT/py-orbit/customEnvironment.sh
 #source /afs/cern.ch/user/p/pyorbit/public/PyORBIT/virtualenvs/py2.7/bin/activate
 
+echo 'Setup environment'
+. setup_environment.sh
 
 echo 'ORBIT_ROOT = '
 echo ${ORBIT_ROOT}
