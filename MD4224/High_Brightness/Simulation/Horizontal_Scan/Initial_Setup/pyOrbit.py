@@ -99,7 +99,6 @@ from lib.write_ptc_table import write_RFtable
 from simulation_parameters import RFparameters as RF 
 write_RFtable('input/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time','Ekin_GeV','voltage_MV','phase']])
 
-
 # Initialize a Teapot-Style PTC lattice
 #-----------------------------------------------------------------------
 print '\nstart PTC Flat file on MPI process: ', rank
@@ -107,7 +106,7 @@ PTC_File = "SPACE_CHARGE_STUDIES_INJECTION.flt"
 Lattice = PTC_Lattice("PS")
 Lattice.readPTC(PTC_File)
 
-readScriptPTC('Input/fringe.txt')
+readScriptPTC('Input/fringe.ptc')
 readScriptPTC('Input/time.ptc')
 readScriptPTC('Input/ramp_cavities.ptc')
 # ~ readScriptPTC('Input/chrom.ptc')
@@ -193,10 +192,7 @@ if sts['turn'] < 0:
 	sts['turns_print'] = p['turns_print']
 	sts['circumference'] = p['circumference']
 	if frozen:
-		sts['sc_params1'] = {'intensity': p['intensity'],
-											 'epsn_x':    p['epsn_x'],
-											 'epsn_y':    p['epsn_y'],
-											 'dpp_rms':   p['dpp_rms']}
+		sts['sc_params1'] = {'intensity': p['intensity'], 'epsn_x':p['epsn_x'], 'epsn_y':p['epsn_y'], 'dpp_rms':p['dpp_rms']}
 
 bunch = bunch_from_matfile(sts['mainbunch_file'])
 lostbunch = bunch_from_matfile(sts['lostbunch_file'])
