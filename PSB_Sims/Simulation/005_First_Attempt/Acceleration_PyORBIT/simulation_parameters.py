@@ -21,11 +21,11 @@ epsn_x = 2e-6
 epsn_y = 2e-6
 TransverseCut = 5
 
-turns_max = int(10000)
+turns_max = int(1)
 n_macroparticles = int(1)
 
 macrosize = np.sum(intensity)/float(n_macroparticles)
-turns_print = range(-1, turns_max, int(100))
+turns_print = range(-1, turns_max, int(1))
 
 phase_offset = 0.0 # manual fudge for longitudinal bunch matching
 
