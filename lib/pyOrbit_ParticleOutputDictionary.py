@@ -1,6 +1,15 @@
-
-# 24.07.2018: 	Created by Haroon Rafique, CERN BE-ABP-HSI 
-#			Started with clone of Hannes Bartosik's output dictionary
+#-----------------------------------------------------------------------
+# Class to output single particle co-ordinates, based on 
+# Hannes Bartosik's (CERN BE-ABP-HSI) output dictionary.
+# 24.07.2018: Created by Haroon Rafique, CERN BE-ABP-HSI 
+#
+# Function AddNewParticle(n) adds particle n to dictionary.
+# Function Update(bunch, turn) stores data for particles at turn.
+# Function PrintParticleForTurn(turn, n, filename) self-explanatory.
+# Function PrintParticle(n, filename) self-explanatory.
+# Function PrintAllParticles(filename) prints all particles for all
+# turns for which Update() function was called.
+#-----------------------------------------------------------------------
 
 import orbit_mpi
 import os
@@ -49,7 +58,7 @@ class Particle_output_dictionary(object):
 				self.particle_list.append(n)
 			
 		
-	def update(self, bunch, turn):
+	def Update(self, bunch, turn, verbose=False):
 		self.update_flag = 1
 		
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
@@ -68,14 +77,14 @@ class Particle_output_dictionary(object):
 				self.particles[str(n)][str(turn)]['z'] = bunch.z(n)
 				self.particles[str(n)][str(turn)]['dE'] = bunch.dE(n)
 				
-		self.turn_list.append(turn)
-		
-		# ~ print "Particle_output_dictionary::update: Added turn %i" % (turn)
-		# ~ print "Dictionary now:"
-		# ~ print self.particles
+		self.turn_list.append(turn)		
+		if verbose:
+			print "Particle_output_dictionary::update: Added turn %i" % (turn)
+			print "Dictionary now:"
+			print self.particles
 				
 	# Function to print 6D co-ordinates for a particle for 1 given turn
-	def print_particle_for_turn(self, turn, n, filename=None):
+	def PrintParticleForTurn(self, turn, n, filename=None):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			if filename is None:				
@@ -105,7 +114,7 @@ class Particle_output_dictionary(object):
 				f.close()
 
 	# Function to print 6D co-ordinates for a particle for all turns
-	def print_particle(self, n, filename=None):
+	def PrintParticle(self, n, filename=None):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			if filename is None:				
@@ -133,11 +142,10 @@ class Particle_output_dictionary(object):
 						self.particles[str(n)][str(t)]['yp'],		\
 						self.particles[str(n)][str(t)]['z'],		\
 						self.particles[str(n)][str(t)]['dE'] 		))
-				f.close()
-				
+				f.close()				
 					
 	# Function to print 6D co-ordinates for all particles for all turns
-	def print_all_particles(self, filename=None):
+	def PrintAllParticles(self, filename=None):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			if filename is None:				
@@ -163,68 +171,3 @@ class Particle_output_dictionary(object):
 						self.particles[str(n)][str(t)]['z'],		\
 						self.particles[str(n)][str(t)]['dE']		))
 			f.close()
-			# ~ print self.particle_list
-			# ~ print self.turn_list
-				
-	# Function takes two strings defining a coordinate phase space
-	# and plots a poincare section for all particles and turns
-	# Won't work because the virtual python environment doesn't include matplotlib
-	# ~ def plot_poincare(self, coordinate1, coordinate2, filename=None):
-		# ~ if filename is None:	
-			# ~ name = 'Poincare_Section_'+coordinate1+'_'+coordinate2+'.png'			
-			# ~ filename = name
-			
-		# ~ import matplotlib.pyplot as pltPD
-		# ~ from matplotlib.patches import Patch
-		# ~ from matplotlib.lines import Line2D
-		# ~ import numpy as np
-		# ~ import sys
-		
-		# ~ plt.rcParams['figure.figsize'] = [8.0, 6.0]
-		# ~ plt.rcParams['figure.dpi'] = 600
-		# ~ plt.rcParams['savefig.dpi'] = 600
-
-		# ~ plt.rcParams['font.size'] = 6
-		# ~ plt.rcParams['legend.fontsize'] = 'large'
-		# ~ plt.rcParams['legend.handlelength'] = 5
-
-		# ~ plt.rcParams['lines.linewidth'] = 0.5
-		# ~ plt.rcParams['lines.markersize'] = 0.25
-	
-		# ~ fig, ax = plt.subplots();
-		# ~ for n in self.particle_list:	
-			# ~ for t in self.turn_list:		
-				# ~ ax.scatter(self.particles[str(n)][str(t)][coordinate1], self.particles[str(n)][str(t)][coordinate2])
-	
-		# ~ if coordinate1 == 'x': ax.set_xlabel('x [m]');
-		# ~ elif coordinate1 == 'xp': ax.set_xlabel('xp [rad]');
-		# ~ elif coordinate1 == 'y': ax.set_xlabel('y [m]');
-		# ~ elif coordinate1 == 'yp': ax.set_xlabel('yp [rad]');
-		# ~ elif coordinate1 == 'z': ax.set_xlabel('z [m]');
-		# ~ elif coordinate1 == 'dE': ax.set_xlabel('dE [GeV]');
-		
-		# ~ if coordinate2 == 'x': ax.set_ylabel('x [m]');
-		# ~ elif coordinate2 == 'xp': ax.set_ylabel('xp [rad]');
-		# ~ elif coordinate2 == 'y': ax.set_ylabel('y [m]');
-		# ~ elif coordinate2 == 'yp': ax.set_ylabel('yp [rad]');
-		# ~ elif coordinate2 == 'z': ax.set_ylabel('z [m]');
-		# ~ elif coordinate2 == 'dE': ax.set_ylabel('dE [GeV]');
-		
-		# ~ title = 'Poincare Distribution: '++coordinate1+' - '+coordinate2
-		# ~ ax.set_title(title);
-		# ~ ax.grid(True);
-		
-		# ~ fig.savefig(filename);
-	
-	
-			
-	# ~ def save_to_matfile(self, filename):
-		# ~ rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
-		# ~ if not rank:
-			# ~ sio.savemat(filename, self.output_dict)
-		# ~ orbit_mpi.MPI_Barrier(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
-
-	# ~ def import_from_matfile(self, filename):
-		# ~ d = sio.loadmat(filename, squeeze_me=True)
-		# ~ for k in self.output_dict:
-			# ~ self.output_dict[k] = d[k].tolist()
