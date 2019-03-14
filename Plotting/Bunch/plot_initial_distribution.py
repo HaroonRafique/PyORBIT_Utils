@@ -22,7 +22,7 @@ plt.rcParams['lines.linewidth'] = 0.5
 plt.rcParams['lines.markersize'] = 0.25
 
 # Open File
-file_in='mainbunch.mat'
+file_in='bunch_output/mainbunch_-000001.mat'
 
 particles=dict()
 

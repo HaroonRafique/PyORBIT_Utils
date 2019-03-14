@@ -1,0 +1,132 @@
+/******************************************************************
+ * MAD-X PS Optics
+ **
+ ** LHC low-energy
+ **
+ ** Alexander Huschauer
+ ** Created 08/02/18
+ ******************************************************************/
+ 
+/******************************************************************
+ * Call lattice files
+ ******************************************************************/
+
+call, file="../../../From_Alex/psmod-master/2018/beams/ps_beam_1dot4GeV.beamx";
+!call, file="../../../From_Alex/psmod-master/2018/elements/PS.ele";
+!call, file="../../../From_Alex/psmod-master/2018/sequence/PS.seq";
+!call, file="../../../From_Alex/psmod-master/2018/strength/elements.str";
+call, file="../../../From_Alex/psmod-master/2018/cmd/macros.ptc";
+
+!call, file='PS/PS_new.ele';
+call, file='PS/PS.ele';
+!call, file='PS/PS_new.seq';
+call, file='PS/PS.seq';
+call, file='PS/PS_new.str';
+!call, file='PS/PS_LE_low_chroma.strength';
+
+/******************************************************************
+* Polynomials obtained from measurements of non-linear chromaticity
+*                on LHC flat bottom - 09.04.2018
+ ******************************************************************/
+!2nd dedree polynomial
+!Qx=0.21 + 0.83801238423 x +  68.6013557004 x^2
+!Qy=0.24 - 2.91974082086 x + 115.247493197 x^2
+
+!MQx0 :=  0.21;
+!MQx1 := 0.838012384227;
+!MQx2 := 68.6013557004;
+
+!MQy0 :=  0.24;
+!MQy1 := -2.91974082086;
+!MQy2 := 115.247493197;
+
+MQx0 :=  0.188296;
+MQx1 :=  0.493755;
+MQx2 :=  9.54002;
+
+MQy0 := 0.245019;
+MQy1 := 0.896371;
+MQy2 := 25.51191;
+
+/*******************************************************************************
+**                        Low-energy quadrupoles                              **
+**                              from LSA                                      **
+*******************************************************************************/
+
+kf                 =     -0.002 ;
+kd                 =      0.0036 ;
+
+/******************************************************************
+ * Multipole matching
+ ******************************************************************/
+
+beam, particle=proton, pc=pc;
+
+select, flag=twiss, clear;
+select, flag=twiss, column= name, s, betx, bety, dx, dy, mux, muy, l;
+twiss, sequence=ps, file;
+
+!stop;
+
+use, sequence=PS;
+
+create, table=model, column=q1, q2, betax64, betay64, dispx64, dispy64, betax65, betay65, dispx65, dispy65, betax68, betay68, dispx68, dispy68, betax85, betay85, dispx85, dispy85;
+
+name(q1,q2):macro={
+twiss, sequence=ps, file= twiss_q1_q2;
+};
+
+qy=0.03;
+qx=0.30;
+qx_i = 0.30;
+
+! Loop over Qy
+!while (qy <= 0.12){
+while (qy <= 0.05){
+
+!while (qx <= 0.31){
+
+! Match tunes
+MATCH,sequence=ps;
+ vary, NAME=kf, step = 0.0001;
+ vary, NAME=kd, step = 0.0001;
+ global, sequence=PS, Q1=qx, Q2=qy;
+ lmdif, calls = 10000, tolerance = 1.0E-21;
+ENDMATCH;
+
+use, sequence=PS;
+match,use_macro;
+        vary,name=PFKI1F;
+        vary,name=PFKI1D;
+        vary,name=PFKI2F;
+        vary,name=PFKI2D;
+        vary,name=PFKI3F;
+        vary,name=PFKI3D;
+        use_macro,name=ptc_chrom_macro;
+        constraint,expr= qx0= 1*qx;
+		constraint,expr= qy0= 1*qy;
+        constraint,expr= qx1= 1*MQx1;	
+        constraint,expr= qy1= 1*MQy1;	
+        constraint,expr= qx2= 2*MQx2;
+        constraint,expr= qy2= 2*MQy2;		
+jacobian,calls=50000,bisec=3;
+ENDMATCH;
+
+! write to table
+if (tar<1e-10);{
+call, file='model.madx';
+fill, table=model;
+};
+
+!qx=qx+0.005;
+!tar=1;
+!};
+qx=qx_i;
+qy=qy+0.005;
+tar=1;
+};
+
+! write file
+write, table=model, file=model;
+
+stop;

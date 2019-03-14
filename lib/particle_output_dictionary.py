@@ -1,10 +1,9 @@
-# ~ import time
-import orbit_mpi
-import os
-# ~ import scipy.io as sio
 
 # 24.07.2018: 	Created by Haroon Rafique, CERN BE-ABP-HSI 
 #			Started with clone of Hannes Bartosik's output dictionary
+
+import orbit_mpi
+import os
 
 class Particle_output_dictionary(object):
 	
@@ -175,7 +174,7 @@ class Particle_output_dictionary(object):
 			# ~ name = 'Poincare_Section_'+coordinate1+'_'+coordinate2+'.png'			
 			# ~ filename = name
 			
-		# ~ import matplotlib.pyplot as plt
+		# ~ import matplotlib.pyplot as pltPD
 		# ~ from matplotlib.patches import Patch
 		# ~ from matplotlib.lines import Line2D
 		# ~ import numpy as np
