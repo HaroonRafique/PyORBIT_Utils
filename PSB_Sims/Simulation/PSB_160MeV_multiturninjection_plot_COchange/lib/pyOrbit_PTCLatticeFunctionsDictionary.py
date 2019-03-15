@@ -33,22 +33,22 @@ class PTCLatticeFunctionsDictionary(object):
 		if not rank:
 										
 			# Create the turn dictionary
-			self.twiss_dict[str(turn)] = {}	# Second level : N-2 : Turn
+			self.twiss_dict[int(turn)] = {}	# Second level : N-2 : Turn
 			
 			# Third level: twiss				
-			self.twiss_dict[str(turn)]['beta_x'] = ([n.getParamsDict()['betax'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['beta_y'] = ([n.getParamsDict()['betay'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['alpha_x'] = ([n.getParamsDict()['alphax'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['alpha_y'] = ([n.getParamsDict()['alphay'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['eta_x'] = ([n.getParamsDict()['etax'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['eta_y'] = ([n.getParamsDict()['etay'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['eta_px'] = ([n.getParamsDict()['etapx'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['eta_py'] = ([n.getParamsDict()['etapy'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['orbit_x'] = ([n.getParamsDict()['orbitx'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['orbit_px'] = ([n.getParamsDict()['orbitpx'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['orbit_y'] = ([n.getParamsDict()['orbity'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['orbit_py'] = ([n.getParamsDict()['orbitpy'] for n in Lattice.getNodes()])
-			self.twiss_dict[str(turn)]['s'] = np.cumsum([n.getLength() for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['beta_x'] = ([n.getParamsDict()['betax'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['beta_y'] = ([n.getParamsDict()['betay'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['alpha_x'] = ([n.getParamsDict()['alphax'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['alpha_y'] = ([n.getParamsDict()['alphay'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['eta_x'] = ([n.getParamsDict()['etax'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['eta_y'] = ([n.getParamsDict()['etay'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['eta_px'] = ([n.getParamsDict()['etapx'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['eta_py'] = ([n.getParamsDict()['etapy'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['orbit_x'] = ([n.getParamsDict()['orbitx'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['orbit_px'] = ([n.getParamsDict()['orbitpx'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['orbit_y'] = ([n.getParamsDict()['orbity'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['orbit_py'] = ([n.getParamsDict()['orbitpy'] for n in Lattice.getNodes()])
+			self.twiss_dict[int(turn)]['s'] = np.cumsum([n.getLength() for n in Lattice.getNodes()])
 							
 		self.turn_list.append(turn)		
 		if verbose:
@@ -78,19 +78,19 @@ class PTCLatticeFunctionsDictionary(object):
 				
 				for i in range(0, len(self.twiss_dict[str(turn)]['s']), 1):
 					f.write("\n%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
-					self.twiss_dict[str(turn)]['s'][i],			\
-					self.twiss_dict[str(turn)]['beta_x'][i],	\
-					self.twiss_dict[str(turn)]['beta_y'][i],	\
-					self.twiss_dict[str(turn)]['alpha_x'][i],	\
-					self.twiss_dict[str(turn)]['alpha_y'][i],	\
-					self.twiss_dict[str(turn)]['eta_x'][i],		\
-					self.twiss_dict[str(turn)]['eta_y'][i],		\
-					self.twiss_dict[str(turn)]['eta_px'][i],	\
-					self.twiss_dict[str(turn)]['eta_py'][i],	\
-					self.twiss_dict[str(turn)]['orbit_x'][i],	\
-					self.twiss_dict[str(turn)]['orbit_px'][i],	\
-					self.twiss_dict[str(turn)]['orbit_y'][i],	\
-					self.twiss_dict[str(turn)]['orbit_py'][i]))
+					self.twiss_dict[int(turn)]['s'][i],			\
+					self.twiss_dict[int(turn)]['beta_x'][i],	\
+					self.twiss_dict[int(turn)]['beta_y'][i],	\
+					self.twiss_dict[int(turn)]['alpha_x'][i],	\
+					self.twiss_dict[int(turn)]['alpha_y'][i],	\
+					self.twiss_dict[int(turn)]['eta_x'][i],		\
+					self.twiss_dict[int(turn)]['eta_y'][i],		\
+					self.twiss_dict[int(turn)]['eta_px'][i],	\
+					self.twiss_dict[int(turn)]['eta_py'][i],	\
+					self.twiss_dict[int(turn)]['orbit_x'][i],	\
+					self.twiss_dict[int(turn)]['orbit_px'][i],	\
+					self.twiss_dict[int(turn)]['orbit_y'][i],	\
+					self.twiss_dict[int(turn)]['orbit_py'][i]))
 				f.close()
 
 	# Function to print PTC twiss for all recorded turns

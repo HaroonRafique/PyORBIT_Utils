@@ -88,7 +88,7 @@ else:
 # Simulation Parameters
 #----------------------------------------------
 # ~ sts['turns_max'] = 5000
-sts['turns_max'] = 20
+sts['turns_max'] = 1000
 sts['turns_print'] = xrange(-1, sts['turns_max'], 2000000)
 sts['turns_injection'] = np.arange(1)
 
@@ -308,80 +308,69 @@ TurnList = PTC_Twiss.ReturnTurnList()
 # plotting 
 import matplotlib.pylab as plt
 import matplotlib.cm as cm
-# ~ # horizontal closed orbit
+
 colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
-f, ax = plt.subplots()
 
+# some gymnastics to avoid plotting offset elements ...
+roll = 284
+circumference = 25*2*np.pi
+s = TwissDict[0]['s']
+s[roll:] -= circumference
+s[roll] = np.nan
+i2plot = range(len(s))
+for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
+
+
+f, ax = plt.subplots()
 for t in TurnList:
-	ax.plot(TwissDict[str(t)]['s'], TwissDict[str(t)]['orbit_x'], color=colors[t])
+	ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
 ax.set_xlabel('s (m)')
-ax.set_ylabel('horizontal CO (m)')
+ax.set_ylabel('horizontal CO (mm)')
+ax.set_xlim(-15,15)
 plt.savefig('png/closedOrbit_evolution_test.png', dpi=400)
 
-f, ax = plt.subplots()
 
+i2plot = range(len(s))
+for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
+
+
+f, ax = plt.subplots()
 for t in TurnList:
-	ax.plot(TwissDict[str(t)]['s'], TwissDict[str(t)]['beta_x'], color=colors[t])
+	ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
 ax.set_xlabel('s (m)')
 ax.set_ylabel('beta_x (m)')
+ax.set_ylim(bottom=0)
 plt.savefig('png/betax_evolution_test.png', dpi=400)
 
-f, ax = plt.subplots()
 
+f, ax = plt.subplots()
 for t in TurnList:
-	ax.plot(TwissDict[str(t)]['s'], TwissDict[str(t)]['beta_y'], color=colors[t])
+	ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
 ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_x (m)')
+ax.set_ylabel('beta_y (m)')
+ax.set_ylim(bottom=0)
 plt.savefig('png/betay_evolution_test.png', dpi=400)
 
-f, ax = plt.subplots()
 
+f, ax = plt.subplots()
 for t in TurnList:
-	for i in xrange(len(TwissDict[str(t)]['s'])):
-		ax.scatter(TwissDict[str(t)]['s'][i], 100*(TwissDict[str(t)]['beta_y'][i] - TwissDict[str(t)]['beta_y'][0] / TwissDict[str(t)]['beta_y'][0]), color=colors[t], s=1)
+	beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
+	beta_y = np.array(TwissDict[t]['beta_y'])
+	ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
 ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_x (m)')
+ax.set_ylabel('beta_y (m)')
 plt.savefig('png/betay_beating_evolution_test.png', dpi=400)
 
-# ~ CO_x = np.array(CO_x)
-# ~ s = np.cumsum([n.getLength() for n in Lattice.getNodes()])
-# ~ f, ax = plt.subplots()
-# ~ roll = 284
-# ~ circumference = 25*2*np.pi
-# ~ s[roll:] -= circumference
-# ~ s[roll] = np.nan
-# ~ i2plot = range(len(s))
-# ~ for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i)
-# ~ for i, c in enumerate(colors):
-	# ~ # ax.plot(np.roll(s[i2plot],roll), 1e3*np.roll(CO_x[i,i2plot].T, roll, axis=0), color=c);
-	# ~ ax.plot(s[i2plot], 1e3*CO_x[i,i2plot].T, color=c);
-# ~ # ax.plot(1e3*CO_x[:,i2plot].T);
-# ~ ax.set_xlim(-15,15)
-# ~ ax.set_xlabel('s (m)')
-# ~ ax.set_ylabel('horizontal CO (mm)')
-# ~ plt.savefig('png/closedOrbit_evolution.png', dpi=400)
+
+f, ax = plt.subplots()
+for t in TurnList:
+	beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
+	beta_x = np.array(TwissDict[t]['beta_x'])
+	ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
+ax.set_xlabel('s (m)')
+ax.set_ylabel('beta_y (m)')
+plt.savefig('png/betax_beating_evolution_test.png', dpi=400)
 
 
-# ~ # vertical beta function
-# ~ i2plot = range(len(s))
-# ~ for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
-# ~ BETA_y = np.array(BETA_y)
-
-# ~ f, ax = plt.subplots()
-# ~ for i, c in enumerate(colors):
-	# ~ ax.plot(s[i2plot], BETA_y[i,i2plot].T, color=c)
-# ~ ax.set_xlabel('s (m)')
-# ~ ax.set_ylabel('vertical beta function CO (mm)')
-# ~ plt.savefig('png/betay_evolution.png', dpi=400)
-
-# ~ f, ax = plt.subplots()
-# ~ for i, c in enumerate(colors):
-	# ~ ax.plot(s[i2plot], 100*(BETA_y[i,i2plot].T-BETA_y[-1,i2plot].T)/BETA_y[-1,i2plot].T, color=c)
-# ~ ax.set_xlabel('s (m)')
-# ~ ax.set_ylabel('relative vertical beta beating (%)')
-# ~ plt.savefig('png/betay_beating_evolution.png', dpi=400)
-
-
-# ~ plt.show()
-
+plt.close('all')
