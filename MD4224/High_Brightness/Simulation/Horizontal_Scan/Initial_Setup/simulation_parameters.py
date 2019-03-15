@@ -1,6 +1,6 @@
 import numpy as np
 
-tomo_file = 'Input/PyORBIT_Tomo_file.mat'
+tomo_file = 'PyORBIT_Tomo_file.mat'
 
 # Beam Parameters from MD4224
 intensity = 72E+11
@@ -61,7 +61,7 @@ parameters = {
 switches = {
 	'Horizontal': 1,
 	'ImportFromTomo': 1,
-	'SliceBySlice': 0,
+	'SliceBySlice': 1,
 	'Frozen': 0,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,

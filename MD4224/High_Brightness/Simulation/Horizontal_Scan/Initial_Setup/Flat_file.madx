@@ -1,15 +1,16 @@
 /******************************************************************************
  * INITIALIZATION
  ******************************************************************************/
+ 
 RFV = 0.024;
-
 
 TITLE, "Injection optics for space charge studies";
 
-call,  file = './PS/PS_new.ele';
-call,  file = './PS/PS_new.seq';
-call,  file = './PS/PS_new.str';
-call,  file = './PS/PS_2013.aper';
+call,  file = './Lattice/PS_new.ele';
+call,  file = './Lattice/PS_new.seq';
+call,  file = './Lattice/PS_new.str';
+call,  file = './Lattice/PS_2013.aper';
+
 /******************************************************************************
  * BEAM and USE
  ******************************************************************************/
@@ -25,21 +26,20 @@ PR.BWSH65     :  MONITOR  , L = 0.0;
   cycle , start=PR.BWSH65;
   flatten;
   endedit;
-save,file='PS/PS.seq';
+save,file='./Lattice/PS.seq';
 
-
-  use, sequence=PS;
-
+use, sequence=PS;
 
 value, pc, beam->pc, beam->energy;
 
 /******************************************************************
  * MATCHING
  ******************************************************************/
+ 
 ptc_twiss_tune_macro_false_split: macro={
   ptc_create_universe;
   ptc_create_layout, time=true, model=2, exact=true, method=6, nst=3;
-  !ptc_script, file="resplit.ptc";
+  !ptc_script, file="./PTC/resplit.ptc";
   ptc_twiss, closed_orbit, table=ptc_twiss,icase=56,no=2,summary_table=ptc_twiss_summary;
   qx0=table(ptc_twiss_summary,Q1);
   qy0=table(ptc_twiss_summary,Q2);
@@ -58,18 +58,15 @@ match, use_macro;
 ENDMATCH;
 value, IQF, IQD;
 
-
 /******************************************************************
  * Generate flat file
  ******************************************************************/
-
+ 
 ptc_create_universe;
 ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
-ptc_script, file="./PS/resplit.ptc";
-ptc_script, file="./print_flat_file.ptc"; 
+ptc_script, file="./PTC/resplit.ptc";
+ptc_script, file="./PTC/print_flat_file.ptc"; 
 ptc_end;
-
-
 
 ptc_create_universe;
 ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
