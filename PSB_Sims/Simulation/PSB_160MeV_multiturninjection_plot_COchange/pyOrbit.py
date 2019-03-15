@@ -87,8 +87,8 @@ else:
 #----------------------------------------------
 # Simulation Parameters
 #----------------------------------------------
-# ~ sts['turns_max'] = 5000
-sts['turns_max'] = 1000
+sts['turns_max'] = 5000
+# ~ sts['turns_max'] = 1000
 sts['turns_print'] = xrange(-1, sts['turns_max'], 2000000)
 sts['turns_injection'] = np.arange(1)
 
@@ -328,7 +328,8 @@ for t in TurnList:
 ax.set_xlabel('s (m)')
 ax.set_ylabel('horizontal CO (mm)')
 ax.set_xlim(-15,15)
-plt.savefig('png/closedOrbit_evolution_test.png', dpi=400)
+savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+plt.savefig(savename, dpi=400)
 
 
 i2plot = range(len(s))
@@ -341,7 +342,8 @@ for t in TurnList:
 ax.set_xlabel('s (m)')
 ax.set_ylabel('beta_x (m)')
 ax.set_ylim(bottom=0)
-plt.savefig('png/betax_evolution_test.png', dpi=400)
+savename = str('png/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
+plt.savefig(savename, dpi=400)
 
 
 f, ax = plt.subplots()
@@ -350,7 +352,8 @@ for t in TurnList:
 ax.set_xlabel('s (m)')
 ax.set_ylabel('beta_y (m)')
 ax.set_ylim(bottom=0)
-plt.savefig('png/betay_evolution_test.png', dpi=400)
+savename = str('png/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
+plt.savefig(savename, dpi=400)
 
 
 f, ax = plt.subplots()
@@ -360,7 +363,8 @@ for t in TurnList:
 	ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
 ax.set_xlabel('s (m)')
 ax.set_ylabel('beta_y (m)')
-plt.savefig('png/betay_beating_evolution_test.png', dpi=400)
+savename = str('png/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+plt.savefig(savename, dpi=400)
 
 
 f, ax = plt.subplots()
@@ -370,7 +374,8 @@ for t in TurnList:
 	ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
 ax.set_xlabel('s (m)')
 ax.set_ylabel('beta_y (m)')
-plt.savefig('png/betax_beating_evolution_test.png', dpi=400)
+savename = str('png/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+plt.savefig(savename, dpi=400)
 
 
 plt.close('all')
