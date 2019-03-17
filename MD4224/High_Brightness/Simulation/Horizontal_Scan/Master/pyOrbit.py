@@ -101,13 +101,13 @@ write_RFtable('input/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time',
 # Initialize a Teapot-Style PTC lattice
 #-----------------------------------------------------------------------
 print '\nstart PTC Flat file on MPI process: ', rank
-PTC_File = "SPACE_CHARGE_STUDIES_INJECTION.flt"
+PTC_File = "PTC-PyORBIT_flat_file.flt"
 Lattice = PTC_Lattice("PS")
 Lattice.readPTC(PTC_File)
 
-readScriptPTC_noSTDOUT('Input/fringe.ptc')
-readScriptPTC_noSTDOUT('Input/time.ptc')
-readScriptPTC_noSTDOUT('Input/ramp_cavities.ptc')
+readScriptPTC_noSTDOUT('PTC/fringe.ptc')
+readScriptPTC_noSTDOUT('PTC/time.ptc')
+readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
 # ~ readScriptPTC_noSTDOUT('Input/chrom.ptc')
 
 # Create a dictionary of parameters
@@ -140,7 +140,8 @@ if sts['turn'] < 0:
 	p['gamma']           = bunch.getSyncParticle().gamma()
 	p['beta']            = bunch.getSyncParticle().beta()
 	p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
-	p['bunch_length'] = p['blength_rms']/speed_of_light/bunch.getSyncParticle().beta()*4
+	# ~ p['bunch_length'] = p['sig_z']/speed_of_light/bunch.getSyncParticle().beta()*4
+	p['bunch_length'] = p['bunch_length']
 	kin_Energy = bunch.getSyncParticle().kinEnergy()
 
 	print '\nbunch_orbit_to_pyorbit on MPI process: ', rank
