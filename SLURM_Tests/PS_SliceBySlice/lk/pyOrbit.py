@@ -163,8 +163,8 @@ if sts['turn'] < 0:
 #-----------------------------------------------------------------------
 	bunch.dumpBunch("input/mainbunch_start.dat")
 	saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
-	saveBunchAsMatfile(bunch, "input/mainbunch")
-	sts['mainbunch_file'] = "input/mainbunch"
+	saveBunchAsMatfile(bunch, "mainbunch")
+	sts['mainbunch_file'] = "mainbunch"
 
 # Create empty lost bunch
 #-----------------------------------------------------------------------
