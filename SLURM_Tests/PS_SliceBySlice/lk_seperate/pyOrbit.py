@@ -12,10 +12,10 @@ import os
 from simulation_parameters import switches as s
 slicebyslice = s['SliceBySlice'] # 2.5D space charge
 slicebyslice_no_long = s['slicebyslice_no_long'] # 2.5D space charge no longitudinal kick
-slicebyslice_seperate = s['slicebyslice_seperate'] # 2.5D space charge no longitudinal kick
+slicebyslice_seperate_long = s['slicebyslice_seperate'] # 2.5D space charge no longitudinal kick
 
 if slicebyslice_no_long: slicebyslice=0        
-if slicebyslice_seperate: slicebyslice_no_long=0
+if slicebyslice_seperate_long: slicebyslice_no_long=0
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
@@ -146,27 +146,31 @@ if sts['turn'] < 0:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
 	print '\ngenerate_initial_distribution on MPI process: ', rank
-	if s['ImportFromTomo']:
-			Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-	else:
-		Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	# ~ if s['ImportFromTomo']:
+			# ~ Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	# ~ else:
+		# ~ Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
-	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+	# ~ print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+	# ~ bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 	# ~ bunch.readBunch(Particle_distribution_file)
 	
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
-	bunch.addPartAttr("macrosize")
-	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
-	ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
+	# ~ bunch.addPartAttr("macrosize")
+	# ~ map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
+	# ~ ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 
 # Dump and save as Matfile
 #-----------------------------------------------------------------------
+	# ~ saveBunchAsMatfile(bunch, "input/mainbunch")
+	# ~ sts['mainbunch_file'] = "input/mainbunch"
+	
+	sts['mainbunch_file'] = "mainbunch.mat"
+	bunch = bunch_from_matfile(sts['mainbunch_file'])
+	saveBunchAsMatfile(bunch, "mainbunch")
 	bunch.dumpBunch("input/mainbunch_start.dat")
 	saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
-	saveBunchAsMatfile(bunch, "input/mainbunch")
-	sts['mainbunch_file'] = "input/mainbunch"
 
 # Create empty lost bunch
 #-----------------------------------------------------------------------

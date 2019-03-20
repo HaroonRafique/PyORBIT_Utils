@@ -12,9 +12,10 @@ import os
 from simulation_parameters import switches as s
 slicebyslice = s['SliceBySlice'] # 2.5D space charge
 slicebyslice_no_long = s['slicebyslice_no_long'] # 2.5D space charge no longitudinal kick
+slicebyslice_seperate_long = s['slicebyslice_seperate'] # 2.5D space charge no longitudinal kick
 
-if slicebyslice_no_long:
-        slicebyslice=0
+if slicebyslice_no_long: slicebyslice=0        
+if slicebyslice_seperate_long: slicebyslice_no_long=0
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
@@ -41,6 +42,7 @@ from orbit.aperture import TeapotApertureNode
 
 # space charge
 from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
+from orbit.space_charge.sc1d import addLongitudinalSpaceChargeNode, addLongitudinalSpaceChargeNodeAsChild, SC1D_AccNode
 from spacecharge import SpaceChargeCalcSliceBySlice2D
 from spacecharge import SpaceChargeCalcAnalyticGaussian
 from spacecharge import InterpolatedLineDensityProfile
@@ -144,27 +146,31 @@ if sts['turn'] < 0:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
 	print '\ngenerate_initial_distribution on MPI process: ', rank
-	if s['ImportFromTomo']:
-			Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-	else:
-		Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	# ~ if s['ImportFromTomo']:
+			# ~ Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	# ~ else:
+		# ~ Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
-	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+	# ~ print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+	# ~ bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 	# ~ bunch.readBunch(Particle_distribution_file)
 	
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
-	bunch.addPartAttr("macrosize")
-	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
-	ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
+	# ~ bunch.addPartAttr("macrosize")
+	# ~ map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
+	# ~ ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 
 # Dump and save as Matfile
 #-----------------------------------------------------------------------
+	# ~ saveBunchAsMatfile(bunch, "input/mainbunch")
+	# ~ sts['mainbunch_file'] = "input/mainbunch"
+	
+	sts['mainbunch_file'] = "mainbunch.mat"
+	bunch = bunch_from_matfile(sts['mainbunch_file'])
+	saveBunchAsMatfile(bunch, "mainbunch")
 	bunch.dumpBunch("input/mainbunch_start.dat")
 	saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
-	saveBunchAsMatfile(bunch, "input/mainbunch")
-	sts['mainbunch_file'] = "input/mainbunch"
 
 # Create empty lost bunch
 #-----------------------------------------------------------------------
@@ -219,6 +225,34 @@ if slicebyslice:
 	# Add the space charge solver to the lattice as child nodes
 	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
 	print '  Installed', len(sc_nodes), 'space charge nodes ...'
+
+
+# Add space charge nodes
+#----------------------------------------------------
+if slicebyslice_seperate_long:
+	
+
+	print '\nAdding space charge nodes on MPI process: ', rank
+	# Make a SC solver
+	sizeX = s['GridSizeX']
+	sizeY = s['GridSizeY']
+	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
+	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ,useLongitudinalKick=False)
+	sc_path_length_min = 1E-8
+	# Add the space charge solver to the lattice as child nodes
+	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
+	print '  Installed', len(sc_nodes), 'space charge nodes ...'
+	
+	b_a = 1.5
+	nMacrosMin = 32
+	useSpaceCharge = 1
+	nBins= s['GridSizeZ']  # Number of longitudinal slices in the 1D space charge solver
+	position = 1   # The location in the lattice. Can be any empty place
+	length = Lattice.getLength() 
+	sc1Dnode = SC1D_AccNode(b_a, length, nMacrosMin, useSpaceCharge, nBins)
+	nodes = Lattice.getNodes()
+	AccNode = nodes[1]
+	addLongitudinalSpaceChargeNodeAsChild(Lattice, AccNode, sc1Dnode)
 
 
 # Add tune analysis child node

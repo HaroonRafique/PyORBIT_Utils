@@ -112,7 +112,7 @@ main_label = 'SliceBySlice Longitudinal Kick Check'
 file_no_SC='no_SC/output/output.mat'
 file_no_lk='no_lk/output/output.mat'
 file_lk='lk/output/output.mat'
-file_lk_sep='file_lk_seperate/output/output.mat'
+file_lk_sep='lk_seperate/output/output.mat'
 
 particles_no_SC=dict()
 particles_no_lk=dict()
