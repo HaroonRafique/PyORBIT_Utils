@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p be-long
-#SBATCH -job-name no_SC7
+#SBATCH --job-name no_SC7
 #SBATCH -N 1
 #SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
