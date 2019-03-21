@@ -21,7 +21,7 @@ jobname = 'PyORBIT'
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
 # Optional - have to use with correct switches
-manual_time = '14 00:00' # manually set using format 'days hours:minutes'
+manual_time = '14-00:00' # manually set using format 'days-hours:minutes'
 manual_tasks = 40	# manually change ntasks
 
 # Defaults - can be changed
