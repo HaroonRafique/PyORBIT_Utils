@@ -72,7 +72,7 @@ f= open(script_name,"w")
 
 f.write('#!/bin/bash')
 f.write('\n#SBATCH -p ' + str(queue))
-f.write('\n#SBATCH -job-name ' + str(jobname))
+f.write('\n#SBATCH --job-name ' + str(jobname))
 f.write('\n#SBATCH -N ' + str(n_nodes))
 f.write('\n#SBATCH --ntasks-per-node ' + str(n_tasks))
 f.write('\n#SBATCH --mem-per-cpu 3200M')
