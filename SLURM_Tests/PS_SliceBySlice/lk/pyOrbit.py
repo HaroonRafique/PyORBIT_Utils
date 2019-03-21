@@ -246,9 +246,19 @@ if slicebyslice_seperate_long:
 	b_a = 1.5
 	nMacrosMin = 32
 	useSpaceCharge = 1
-	nBins= s['GridSizeZ']  # Number of longitudinal slices in the 1D space charge solver
+	
+	def two_round(x, base=2): return int(base * round(float(x)/base))
+	
+	print '\n\tUsing 2D SliceBySlice with 1D Longitudinal Space Charge'
+	print '\n\t Number of z bins oringially = ', s['GridSizeZ']
+	print '\n\t Harmonic number = ', Lattice.nHarm
+	print '\n\t Adjusting to nearest even number = ', two_round(Lattice.nHarm)
+
+	nBins= s['GridSizeZ'] * two_round(Lattice.nHarm)  # Number of longitudinal slices in the 1D space charge solver
+
 	position = 1   # The location in the lattice. Can be any empty place
 	length = Lattice.getLength() 
+	
 	sc1Dnode = SC1D_AccNode(b_a, length, nMacrosMin, useSpaceCharge, nBins)
 	nodes = Lattice.getNodes()
 	AccNode = nodes[1]
