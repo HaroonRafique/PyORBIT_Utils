@@ -50,10 +50,10 @@ if autotask:
 			exit(0)
 else: n_tasks = manual_tasks
 
-time = '1 23:59'
+time = '1-23:59'
 if autotime:
-	if 'long' in queue: time = '14 00:00'
-	elif 'short' in queue: time = '1 23:59'
+	if 'long' in queue: time = '14-00:00'
+	elif 'short' in queue: time = '1-23:59'
 	else: 	
 		print 'queue not recognised'
 		exit(0)
@@ -79,7 +79,7 @@ f.write('\n#SBATCH --mem-per-cpu 3200M')
 f.write('\n#SBATCH -t ' + str(time))
 f.write('\n#SBATCH -o ' + str(output_file_name))
 f.write('\n#SBATCH -e ' + str(error_file_name))
-if (exclusive): f.write('\n#SBATCH -exclusive')
+if (exclusive): f.write('\n#SBATCH --exclusive')
 if not hyperthreading: f.write('\n#SBATCH --hint=nomultithread')
 f.write('\n')
 f.write('\nBATCH_ROOT_DIR=' + str(root_dir))
