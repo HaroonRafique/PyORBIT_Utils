@@ -623,7 +623,7 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
 	return output_file
 
 
-def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, zero_particle=True, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
 	
 	parameters['alphax0'] = Lattice.alphax0
 	parameters['betax0']  = Lattice.betax0
@@ -673,8 +673,9 @@ def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, z
 			#phi = - z * h_main / R
 
 			for i in range(parameters['n_macroparticles']):
-				if zero_particle:
+				if parameters['n_macroparticles'] == 1:
 					if i == 0:	phi[i] = - z_offset * h_main / R
+					else: phi[i] = i * -z_offset * h_main / R
 				else:	phi[i] = i * -z_offset * h_main / R
                 
 				if outputFormat == 'Orbit':
