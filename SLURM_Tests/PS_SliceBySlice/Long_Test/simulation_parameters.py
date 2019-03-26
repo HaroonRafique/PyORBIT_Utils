@@ -20,14 +20,9 @@ rf_voltage = 0.0212942055190595723
 # Simulation Parameters
 n_macroparticles = int(1)
 turns_max = int(1E3)	
-turns_update = range(-1, turns_max, 100)
-turns_print =  range(-1, turns_max, 100)
+turns_update = range(-1, turns_max, 50)
+turns_print =  range(-1, turns_max, 50)
 macrosize = intensity/float(n_macroparticles)
-
-# Space Charge
-grid_x = 16
-grid_y = 16
-grid_z = 16
 
 # PTC RF Table Parameters
 harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)
@@ -60,25 +55,6 @@ parameters = {
 	'turns_print': turns_print,
 	'rf_voltage': rf_voltage,
 	'circumference':circumference
-}
-
-tunespread = {
-	'intensity': intensity,
-	'gamma': gamma,
-	'sig_z': sig_z,
-	'epsn_x': epsn_x,
-	'epsn_y': epsn_y,
-	'dpp_rms': dpp_rms,
-}
-
-switches = {
-	'ImportFromTomo': 0,
-	'SliceBySlice': 0,
-	'slicebyslice_no_long': 0,
-	'slicebyslice_seperate': 0,
-	'GridSizeX': grid_x,
-	'GridSizeY': grid_y,
-	'GridSizeZ': grid_z
 }
 
 RFparameters = {

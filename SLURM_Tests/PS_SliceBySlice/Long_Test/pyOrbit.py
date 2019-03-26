@@ -7,15 +7,6 @@ import numpy as np
 import scipy.io as sio
 import os
 
-# Use switches in simulation_parameters.py in current folder
-#-------------------------------------------------------------
-from simulation_parameters import switches as s
-slicebyslice = s['SliceBySlice']        # 2.5D space charge
-frozen = s['Frozen']                    # Frozen space charge
-
-if frozen:
-        slicebyslice=0
-
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
 from orbit.utils.consts import mass_proton, speed_of_light, pi
@@ -39,31 +30,21 @@ from ext.ptc_orbit.ptc_orbit import updateParamsPTC, synchronousSetPTC, synchron
 from ext.ptc_orbit.ptc_orbit import trackBunchThroughLatticePTC, trackBunchInRangePTC
 from orbit.aperture import TeapotApertureNode
 
-# transverse space charge
-# Use switches as these conflict
-#----------------------------------------------
-if frozen:
-        from orbit.space_charge.analytical import scAccNodes, scLatticeModifications
-        from spacecharge import SpaceChargeCalcAnalyticGaussian
-        from spacecharge import GaussianLineDensityProfile
-if slicebyslice:
-        #PIC
-        from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
-        from spacecharge import SpaceChargeCalcSliceBySlice2D
-        from spacecharge import SpaceChargeCalcAnalyticGaussian
-        from spacecharge import InterpolatedLineDensityProfile
-
+# CERN libs
 from lib.output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution import *
+from lib.pyOrbit_ParticleOutputDictionary import *
 from lib.save_bunch_as_matfile import *
 from lib.suppress_stdout import suppress_STDOUT
 readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
+
 
 # MPI stuff
 #-----------------------------------------------------------------------
 comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
 rank = orbit_mpi.MPI_Comm_rank(comm)
 print 'Start on MPI process: ', rank
+
 
 # Create folder structure
 #-----------------------------------------------------------------------
@@ -73,6 +54,7 @@ mpi_mkdir_p('input')
 mpi_mkdir_p('bunch_output')
 mpi_mkdir_p('output')
 mpi_mkdir_p('lost')
+
 
 # Dictionary for simulation status
 #-----------------------------------------------------------------------
@@ -84,12 +66,6 @@ else:
         with open(status_file) as fid:
                 sts = pickle.load(fid)
 
-# Generate Lattice (MADX + PTC) - Use MPI to run on only one 'process'
-#-----------------------------------------------------------------------
-print '\nStart MADX on MPI process: ', rank
-if not rank:
-	os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
-orbit_mpi.MPI_Barrier(comm)
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------
@@ -98,23 +74,25 @@ from lib.write_ptc_table import write_RFtable
 from simulation_parameters import RFparameters as RF 
 write_RFtable('input/RF_table.ptc', *[RF[k] for k in ['harmonic_factors','time','Ekin_GeV','voltage_MV','phase']])
 
+
 # Initialize a Teapot-Style PTC lattice
 #-----------------------------------------------------------------------
 print '\nstart PTC Flat file on MPI process: ', rank
-PTC_File = "PTC-PyORBIT_flat_file.flt"
+PTC_File = "Lattice/PTC-PyORBIT_flat_file.flt"
 Lattice = PTC_Lattice("PS")
 Lattice.readPTC(PTC_File)
 
 readScriptPTC_noSTDOUT('PTC/fringe.ptc')
 readScriptPTC_noSTDOUT('PTC/time.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
-# ~ readScriptPTC_noSTDOUT('Input/chrom.ptc')
+
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
 print '\nparamsDict on MPI process: ', rank
 paramsDict = {}
 paramsDict["length"]=Lattice.getLength()/Lattice.nHarm
+
 
 # Add apertures
 #-----------------------------------------------------------------------
@@ -126,6 +104,7 @@ for node in Lattice.getNodes():
 	node.addChildNode(myaperturenode, node.BODY)
 	node.addChildNode(myaperturenode, node.EXIT)
 	position += node.getLength()
+
 
 # Make a bunch and import relevant parameters for it
 #-----------------------------------------------------------------------
@@ -140,7 +119,6 @@ if sts['turn'] < 0:
 	p['gamma']           = bunch.getSyncParticle().gamma()
 	p['beta']            = bunch.getSyncParticle().beta()
 	p['energy']          = 1e9 * bunch.mass() * bunch.getSyncParticle().gamma()
-	# ~ p['bunch_length'] = p['sig_z']/speed_of_light/bunch.getSyncParticle().beta()*4
 	p['bunch_length'] = p['bunch_length']
 	kin_Energy = bunch.getSyncParticle().kinEnergy()
 
@@ -148,14 +126,16 @@ if sts['turn'] < 0:
 	for i in p:
 		print '\t', i, '\t = \t', p[i]
 
+
 # Create the initial distribution 
 #-----------------------------------------------------------------------
 	print '\ngenerate_initial_distribution on MPI process: ', rank
-	Particle_distribution = generate_initial_long_poincare_distribution(0.5, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	z_init = 0.5
+	Particle_distribution = generate_initial_long_poincare_distribution(z_init, p, Lattice, zero_particle=True, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
-	# ~ bunch.readBunch(Particle_distribution_file)
+	
 	
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
@@ -163,12 +143,15 @@ if sts['turn'] < 0:
 	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
 	ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 
+
 # Dump and save as Matfile
 #-----------------------------------------------------------------------
 	bunch.dumpBunch("input/mainbunch_start.dat")
 	saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
 	saveBunchAsMatfile(bunch, "input/mainbunch")
 	sts['mainbunch_file'] = "input/mainbunch.mat"
+	bunch = bunch_from_matfile(sts['mainbunch_file'])
+
 
 # Create empty lost bunch
 #-----------------------------------------------------------------------
@@ -178,6 +161,7 @@ if sts['turn'] < 0:
 	lostbunch.addPartAttr("LostParticleAttributes")	
 	saveBunchAsMatfile(lostbunch, "input/lostbunch")
 	sts['lostbunch_file'] = "input/lostbunch"
+
 
 # Add items to pickle parameters
 #-----------------------------------------------------------------------
@@ -190,25 +174,6 @@ bunch = bunch_from_matfile(sts['mainbunch_file'])
 lostbunch = bunch_from_matfile(sts['lostbunch_file'])
 paramsDict["lostbunch"]=lostbunch
 paramsDict["bunch"]= bunch
-
-#############################-------------------########################
-#############################	SPACE CHARGE	########################
-#############################-------------------########################
-
-# Add space charge nodes
-#----------------------------------------------------
-if slicebyslice:
-	print '\nAdding space charge nodes on MPI process: ', rank
-	# Make a SC solver
-	sizeX = s['GridSizeX']
-	sizeY = s['GridSizeY']
-	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
-	# ~ sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
-	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
-	sc_path_length_min = 1E-8
-	# Add the space charge solver to the lattice as child nodes
-	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
-	print '  Installed', len(sc_nodes), 'space charge nodes ...'
 
 
 # Add tune analysis child node
@@ -249,8 +214,13 @@ output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
 
-if os.path.exists(output_file):
-	output.import_from_matfile(output_file)
+if os.path.exists(output_file):	output.import_from_matfile(output_file)	
+	
+	
+# Define particle output dictionary - automatically adds first particle
+#-----------------------------------------------------------------------
+particle_output = Particle_output_dictionary()
+
 
 # Track
 #-----------------------------------------------------------------------
@@ -274,6 +244,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
+	particle_output.Update(bunch, turn)
 	
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
@@ -283,3 +254,45 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
+				
+particle_output.PrintParticle(0)		
+
+# Need number of turns to return to starting position. Let's read the
+# particle output file
+#-----------------------------------------------------------------------
+
+print '\n\tReading particle dictionary'
+
+z=[]
+
+filename='Particle_0.dat'
+fin=open(filename,'r').readlines()[1:]
+
+for l in fin:
+	z.append(float(l.split()[6]))
+	
+print '\n\tz_0 from simulation = ', z_init
+print '\n\tz_0 from file (actual value) = ', z[0]
+
+# Now iterate over z position to find full oscillation
+tolerance = 1E-4
+
+print '\n\tTolerance for finding full oscillation = ', tolerance
+
+for i in xrange(len(z)):	if abs(z[i] - z[0]) < tolerance:	synch_turns = i
+		
+print '\n\tSynchrotron period in turns = ', synch_turns
+
+# We know our expected synchrotron oscillation period:
+synch_oscillation_period = 634 #Hz
+
+calculated_synch_oscillation_period = 1 /( (synch_turns * p['circumference']) / (p['beta'] * speed_of_light) )
+
+print '\n\tExpected Synchrotron Period = ', synch_oscillation_period, ' Hz'
+print '\n\tCalculated Synchrotron Period = ', calculated_synch_oscillation_period, ' Hz'
+
+print '\n\tDifference in Synchrotron Periods =', abs(synch_oscillation_period - calculated_synch_oscillation_period), 'Hz'
+
+print '\n\tDifference in Synchrotron Periods =', (abs(synch_oscillation_period - calculated_synch_oscillation_period)/ synch_oscillation_period)*100, '%'
+
+print '\n\tLongitudinal Test Simulation Finished! Have an awesome day :-)'

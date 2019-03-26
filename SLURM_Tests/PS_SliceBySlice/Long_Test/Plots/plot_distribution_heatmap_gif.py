@@ -175,7 +175,8 @@ for t in sorted(iterators):
 	# Create heatmap
 	heatmap, xedges, yedges = np.histogram2d(d[t]['particles']['x'][0][0][0], d[t]['particles']['y'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[x_min, x_max],[y_min, y_max]])
 	extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-	ax1.imshow(heatmap, extent=extent, aspect=( (x_min - x_max)/(y_min - y_max) ) )
+	# ~ ax1.imshow(heatmap, extent=extent, aspect=( (x_min - x_max)/(y_min - y_max) ) )
+	ax1.imshow(heatmap, extent=extent, aspect=1)
 
 	# ~ ax1.legend();
 	ax1.set_xlabel('x [m]');
@@ -188,7 +189,8 @@ for t in sorted(iterators):
 
 	heatmap2, xedges2, yedges2 = np.histogram2d(d[t]['particles']['xp'][0][0][0], d[t]['particles']['yp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[xp_min, xp_max],[yp_min, yp_max]])
 	extent2 = [xedges2[0], xedges2[-1], yedges2[0], yedges2[-1]]
-	ax2.imshow(heatmap2, extent=extent2, aspect=( (xp_min - xp_max)/(yp_min - yp_max) ))
+	# ~ ax2.imshow(heatmap2, extent=extent2, aspect=( (xp_min - xp_max)/(yp_min - yp_max) ))
+	ax2.imshow(heatmap, extent=extent, aspect=1)
 
 	ax2.set_xlabel('xp []');
 	ax2.set_ylabel('yp []');
@@ -200,7 +202,8 @@ for t in sorted(iterators):
 
 	heatmap3, xedges3, yedges3 = np.histogram2d(d[t]['particles']['x'][0][0][0], d[t]['particles']['xp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[x_min, x_max],[xp_min, xp_max]])
 	extent3 = [xedges3[0], xedges3[-1], yedges3[0], yedges3[-1]]
-	ax3.imshow(heatmap3, extent=extent3, aspect=( (x_min - x_max)/(xp_min - xp_max) ))
+	# ~ ax3.imshow(heatmap3, extent=extent3, aspect=( (x_min - x_max)/(xp_min - xp_max) ))	
+	ax3.imshow(heatmap, extent=extent, aspect=1)
 	
 	ax3.set_xlabel('x [m]');
 	ax3.set_ylabel('xp []');	
@@ -212,7 +215,8 @@ for t in sorted(iterators):
 
 	heatmap4, xedges4, yedges4 = np.histogram2d(d[t]['particles']['y'][0][0][0], d[t]['particles']['yp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[y_min, y_max],[yp_min, yp_max]])
 	extent4 = [xedges4[0], xedges4[-1], yedges4[0], yedges4[-1]]
-	ax4.imshow(heatmap4, extent=extent4, aspect=( (y_min - y_max)/(yp_min - yp_max) ))
+	# ~ ax4.imshow(heatmap4, extent=extent4, aspect=( (y_min - y_max)/(yp_min - yp_max) ))
+	ax4.imshow(heatmap, extent=extent, aspect=1)
 
 	ax4.set_xlabel('y [m]');
 	ax4.set_ylabel('yp []');
@@ -225,7 +229,8 @@ for t in sorted(iterators):
 	# ~ ax5.scatter(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], color='g', label='1.3 eVs');
 	heatmap5, xedges5, yedges5 = np.histogram2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[z_min, z_max],[dE_min, dE_max]])
 	extent5 = [xedges5[0], xedges5[-1], yedges5[0], yedges5[-1]]
-	ax5.imshow(heatmap5, extent=extent5, aspect=( (z_min - z_max)/(dE_min - dE_max) ))
+	# ~ ax5.imshow(heatmap5, extent=extent5, aspect=( (z_min - z_max)/(dE_min - dE_max) ))
+	ax5.imshow(heatmap, extent=extent, aspect=1)
 
 	ax5.set_xlabel('z [m]');
 	ax5.set_ylabel('dE [GeV]');

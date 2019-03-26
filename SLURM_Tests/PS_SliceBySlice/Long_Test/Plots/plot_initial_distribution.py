@@ -19,7 +19,7 @@ plt.rcParams['legend.handlelength'] = 5
 plt.rcParams['figure.titlesize'] = 'medium'
 
 plt.rcParams['lines.linewidth'] = 0.5
-plt.rcParams['lines.markersize'] = 0.25
+plt.rcParams['lines.markersize'] = 2
 
 # Open File
 file_in='bunch_output/mainbunch_-000001.mat'
@@ -27,13 +27,6 @@ file_in='bunch_output/mainbunch_-000001.mat'
 particles=dict()
 
 sio.loadmat(file_in, mdict=particles)
-
-# ~ print particles_1p3['bunchparameters'].dtype.names
-# ~ print dir(particles_1p3['bunchparameters'])
-# ~ exit()
-# ~ print particles_1p3['particles']['x'][0][0]
-# ~ print np.asarray(particles_1p3['particles']['x'][0][0][0])
-# ~ print np.squeeze(np.asarray(particles_1p3['particles']['x'][0][0][0]))
 
 # Parameters
 	# ~ x  = d['particles']['x'][()]
@@ -56,14 +49,10 @@ ax4 = fig1.add_subplot(324)
 ax5 = fig1.add_subplot(325) 
 ax6 = fig1.add_subplot(326)
 
-# ~ fig2.subplots_adjust(wspace=width between plots, hspace=height between plots, left=margin, right=margin, top=margin, bottom=margin)
-# ~ fig2.subplots_adjust(wspace=0.1, hspace=0.3, left=0.15, right=0.99, top=0.95, bottom=0.1)
 fig1.subplots_adjust(wspace=0.3, hspace=0.3, left=0.1, right=0.99, top=0.95, bottom=0.05)
-#fig.tight_layout()                            
 
 ax1.scatter(particles['particles']['x'][0][0][0], particles['particles']['y'][0][0][0], color='g', label='1.3 eVs');
 
-# ~ ax1.legend();
 ax1.set_xlabel('x [m]');
 ax1.set_ylabel('y [m]');
 ax1.set_title('Particle Distribution: Real space');
