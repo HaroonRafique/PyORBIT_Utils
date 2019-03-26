@@ -279,7 +279,8 @@ tolerance = 1E-4
 
 print '\n\tTolerance for finding full oscillation = ', tolerance
 
-for i in xrange(len(z)):	if abs(z[i] - z[0]) < tolerance:	synch_turns = i
+for i in xrange(len(z)): 
+	if (abs(z[i] - z[0]) < tolerance): synch_turns = i
 		
 print '\n\tSynchrotron period in turns = ', synch_turns
 
