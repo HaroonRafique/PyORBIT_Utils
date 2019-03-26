@@ -131,7 +131,7 @@ if sts['turn'] < 0:
 #-----------------------------------------------------------------------
 	print '\ngenerate_initial_distribution on MPI process: ', rank
 	z_init = 0.5
-	Particle_distribution = generate_initial_long_poincare_distribution(z_init, p, Lattice, zero_particle=True, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	Particle_distribution = generate_initial_long_poincare_distribution(z_init, p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
@@ -221,6 +221,11 @@ if os.path.exists(output_file):	output.import_from_matfile(output_file)
 #-----------------------------------------------------------------------
 particle_output = Particle_output_dictionary()
 
+# Automatically adds particle 0, lets add the rest
+single_particles_to_print = p['n_macroparticles']
+for i in range(1, single_particles_to_print):
+	particle_output.AddNewParticle(i)
+
 
 # Track
 #-----------------------------------------------------------------------
@@ -255,45 +260,4 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
 				
-particle_output.PrintParticle(0)		
-
-# Need number of turns to return to starting position. Let's read the
-# particle output file
-#-----------------------------------------------------------------------
-
-print '\n\tReading particle dictionary'
-
-z=[]
-
-filename='Particle_0.dat'
-fin=open(filename,'r').readlines()[1:]
-
-for l in fin:
-	z.append(float(l.split()[6]))
-	
-print '\n\tz_0 from simulation = ', z_init
-print '\n\tz_0 from file (actual value) = ', z[0]
-
-# Now iterate over z position to find full oscillation
-tolerance = 1E-4
-
-print '\n\tTolerance for finding full oscillation = ', tolerance
-
-for i in xrange(len(z)): 
-	if (abs(z[i] - z[0]) < tolerance): synch_turns = i
-		
-print '\n\tSynchrotron period in turns = ', synch_turns
-
-# We know our expected synchrotron oscillation period:
-synch_oscillation_period = 634 #Hz
-
-calculated_synch_oscillation_period = 1 /( (synch_turns * p['circumference']) / (p['beta'] * speed_of_light) )
-
-print '\n\tExpected Synchrotron Period = ', synch_oscillation_period, ' Hz'
-print '\n\tCalculated Synchrotron Period = ', calculated_synch_oscillation_period, ' Hz'
-
-print '\n\tDifference in Synchrotron Periods =', abs(synch_oscillation_period - calculated_synch_oscillation_period), 'Hz'
-
-print '\n\tDifference in Synchrotron Periods =', (abs(synch_oscillation_period - calculated_synch_oscillation_period)/ synch_oscillation_period)*100, '%'
-
-print '\n\tLongitudinal Test Simulation Finished! Have an awesome day :-)'
+particle_output.PrintAllParticles()	
