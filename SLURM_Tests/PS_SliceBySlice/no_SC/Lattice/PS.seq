@@ -633,7 +633,7 @@ pr.bhr000090.j1: j1;
 pr.bhr000090.mpfe1: mpfe1;
 pr.bhr000090.fexff1: sbend,l:= 2.19624,angle:= 0.03135482654,k1:=ke1f * cf090 ,e1:= 0,k2:=ke2f * cf090 ,aperture:={ 0.073, 0.035},apertype=ellipse;
 pr.bhr000090.mpfe2: mpfe2;
-c10: rfcavity,l:= 1,volt:=vrf ,lag:= 0,harmon:= 7,no_cavity_totalpath=true;
+c10: rfcavity,l:= 1,volt:=vrf ,lag:= 0,harmon:= 9,no_cavity_totalpath=true;
 pr.c10.91: c10;
 pr.qsk91: qnsf,ksl:={ 0,cc403 * iqs };
 pr.bht000091.mpfi1: mpfi1;
