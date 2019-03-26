@@ -623,7 +623,7 @@ def generate_initial_poincare_distribution(n_sigma, parameters, Lattice, horizon
 	return output_file
 
 
-def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, horizontal = 1,  output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
+def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, zero_particle=True, output_file = 'Input/ParticleDistribution.in', summary_file = 'Input/ParticleDistribution_summary.txt', outputFormat='Orbit'):
 	
 	parameters['alphax0'] = Lattice.alphax0
 	parameters['betax0']  = Lattice.betax0
@@ -654,7 +654,7 @@ def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, h
 	xp = np.zeros(parameters['n_macroparticles'])
 	y = np.zeros(parameters['n_macroparticles'])
 	yp = np.zeros(parameters['n_macroparticles'])
-	z = np.zeros(parameters['n_macroparticles'])
+	phi = np.zeros(parameters['n_macroparticles'])
 	dE = np.zeros(parameters['n_macroparticles'])
 
 	# building the distributions
@@ -667,9 +667,15 @@ def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, h
 	if orbit_mpi.MPI_Comm_rank(comm) == 0:
 		with open(output_file,"w") as fid:
 			csv_writer = csv.writer(fid, delimiter=' ')
+			
+			h_main = np.atleast_1d(parameters['harmonic_number'])[0]
+			R = parameters['circumference'] / 2 / np.pi
+			#phi = - z * h_main / R
 
 			for i in range(parameters['n_macroparticles']):
-				z[i] = i * z_offset
+				if zero_particle:
+					if i == 0:	phi[i] = - z_offset * h_main / R
+				else:	phi[i] = i * -z_offset * h_main / R
                 
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.
@@ -678,7 +684,7 @@ def generate_initial_long_poincare_distribution(z_offset, parameters, Lattice, h
 					yp[i] *= 1000.
 					dE[i] /= 1.e9
 					# ~ csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
-				csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
+				csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 		# ~ if summary_file:
 			# ~ with open(summary_file, 'w') as fid:
 				# ~ map(lambda key: fid.write(key + ' = ' + str(parameters[key]) + '\n'), parameters)

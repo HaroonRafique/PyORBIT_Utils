@@ -9,5 +9,6 @@ rm -r input
 rm ptc_twiss
 rm madx_twiss.tfs
 rm tunespread.dat
+rm Particle_0.dat
 
 . clean_junk.sh
