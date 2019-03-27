@@ -74,7 +74,9 @@ if not rank:
 		print '\nFlat file already present, no need to re-run MAD-X'
 	else:
 		print '\nGenerating flat file inside MAD-X'
-		os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
+		if s['H7']:		os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file_H7.madx")
+		else:		os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file_H9.madx")
+			
 orbit_mpi.MPI_Barrier(comm)
 
 # Generate PTC RF table

@@ -72,6 +72,7 @@ tunespread = {
 }
 
 switches = {
+	'H7': False,
 	'ImportFromTomo': 1,
 	'SliceBySlice': 0,
 	'Frozen': 0,
