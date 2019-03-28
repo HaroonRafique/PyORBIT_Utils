@@ -16,7 +16,7 @@ epsn_y = 1E-6
 blength = 140e-9
 sig_z = (beta * c * blength)/4.
 dpp_rms = 9e-04	
-rf_voltage = 0.5 * 0.0212942055190595723
+rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
 n_macroparticles = int(1E3)
