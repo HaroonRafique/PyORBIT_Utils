@@ -1,6 +1,7 @@
 import numpy as np
 
-tomo_file = 'PyORBIT_Tomo_file.mat'
+# ~ tomo_file = 'PyORBIT_Tomo_file.mat'
+tomo_file = 'PyORBIT_Tomo_file_T.mat'
 
 # PS Injection 1.4 GeV
 gamma = 2.49253731343
@@ -15,7 +16,7 @@ epsn_y = 1E-6
 blength = 140e-9
 sig_z = (beta * c * blength)/4.
 dpp_rms = 9e-04	
-rf_voltage = 0.0212942055190595723
+rf_voltage = 0.5 * 0.0212942055190595723
 
 # Simulation Parameters
 n_macroparticles = int(1E3)
@@ -34,7 +35,7 @@ harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (
 time = np.array([0,1,2])
 ones = np.ones_like(time)
 Ekin_GeV = 1.4*ones
-RF_voltage_MV = np.array([0.0212942055190595723*ones]).T # in MV
+RF_voltage_MV = np.array([rf_voltage*ones]).T # in MV
 RF_phase = np.array([np.pi*ones]).T
 
 # Constants
@@ -73,7 +74,7 @@ tunespread = {
 
 switches = {
 	'H7': False,
-	'ImportFromTomo': 1,
+	'ImportFromTomo': 0,
 	'SliceBySlice': 0,
 	'Frozen': 0,
 	'GridSizeX': grid_x,
