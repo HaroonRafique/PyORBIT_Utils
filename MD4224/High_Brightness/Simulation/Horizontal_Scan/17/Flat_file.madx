@@ -47,7 +47,7 @@ value, pc, beam->pc, beam->energy;
  * desired values tune_x and tune_y.
  *
  * Using model=2, exact=true is recommended.
- aa**********************************************************************/
+ **********************************************************************/
 tune_x = 0.17;
 tune_y = 0.24;
  

@@ -11,10 +11,6 @@ import os
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
 slicebyslice = s['SliceBySlice']        # 2.5D space charge
-frozen = s['Frozen']                    # Frozen space charge
-
-if frozen:
-        slicebyslice=0
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
