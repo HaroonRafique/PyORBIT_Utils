@@ -8,7 +8,7 @@ beta = np.sqrt(gamma**2-1)/gamma
 c = 299792458
 
 # Beam Parameters from MD4224
-intensity = 72E+11
+intensity = 72E+10
 epsn_x = 1.2E-6
 epsn_y = 1E-6
 
