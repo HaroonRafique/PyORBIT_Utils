@@ -1,7 +1,7 @@
 import numpy as np
 
-# ~ tomo_file = 'PyORBIT_Tomo_file.mat'
-tomo_file = 'PyORBIT_Tomo_file_T.mat'
+tomo_file = 'PyORBIT_Tomo_file.mat'
+# ~ tomo_file = 'PyORBIT_Tomo_file_T.mat'
 
 # PS Injection 1.4 GeV
 gamma = 2.49253731343
@@ -15,8 +15,8 @@ epsn_y = 1E-6
 
 blength = 140e-9
 sig_z = (beta * c * blength)/4.
-dpp_rms = 9e-04	
-rf_voltage = 0.0212942055190595723
+dpp_rms = 8.7e-04	
+rf_voltage = 0.0212942055190595723 * 0.6
 
 # Simulation Parameters
 n_macroparticles = int(1E3)
@@ -74,7 +74,7 @@ tunespread = {
 
 switches = {
 	'H7': False,
-	'ImportFromTomo': 0,
+	'ImportFromTomo': 1,
 	'SliceBySlice': 0,
 	'Frozen': 0,
 	'GridSizeX': grid_x,

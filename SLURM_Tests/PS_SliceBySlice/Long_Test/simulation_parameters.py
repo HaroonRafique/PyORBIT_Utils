@@ -8,7 +8,7 @@ beta = np.sqrt(gamma**2-1)/gamma
 c = 299792458
 
 # Beam Parameters from MD4224
-intensity = 72E+11
+intensity = 72E+10
 epsn_x = 1.2E-6
 epsn_y = 1E-6
 
@@ -18,7 +18,7 @@ dpp_rms = 9e-04
 rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
-n_macroparticles = int(1E3)
+n_macroparticles = int(1)
 turns_max = int(1E3)	
 turns_update = range(-1, turns_max, 50)
 turns_print =  range(-1, turns_max, 50)
