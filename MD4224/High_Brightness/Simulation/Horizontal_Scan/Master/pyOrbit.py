@@ -56,6 +56,7 @@ if slicebyslice:
 from lib.output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution import *
 from lib.save_bunch_as_matfile import *
+from lib.pyOrbit_Tunespread_Calculator import *
 from lib.suppress_stdout import suppress_STDOUT
 readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
 
@@ -80,7 +81,7 @@ import pickle # HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
 status_file = 'input/simulation_status.pkl'
 if not os.path.exists(status_file):
         sts = {'turn': -1}
-else:
+else:SLURM_Tests/PS_SliceBySlice/Long_Test/simulation_parameters.py
         with open(status_file) as fid:
                 sts = pickle.load(fid)
 
@@ -90,6 +91,11 @@ print '\nStart MADX on MPI process: ', rank
 if not rank:
 	os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
 orbit_mpi.MPI_Barrier(comm)
+
+# Print Tunespread data
+#-----------------------------------------------------------------------
+from simulation_parameters import tunespread as ts
+TunespreadCalculator(ts, 'madx_twiss.tfs')
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------

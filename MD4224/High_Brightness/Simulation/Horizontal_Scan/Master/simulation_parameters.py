@@ -1,6 +1,6 @@
 import numpy as np
 
-tomo_file = 'PyORBIT_Tomo_file.mat'
+tomo_file = 'PyORBIT_Tomo_file_MD4224_HB.mat'
 
 # PS Injection 1.4 GeV
 gamma = 2.49253731343
@@ -72,7 +72,6 @@ tunespread = {
 }
 
 switches = {
-	'Horizontal': 1,
 	'ImportFromTomo': 1,
 	'SliceBySlice': 1,
 	'Frozen': 0,
