@@ -70,7 +70,7 @@ import pickle # HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
 status_file = 'input/simulation_status.pkl'
 if not os.path.exists(status_file):
         sts = {'turn': -1}
-else:SLURM_Tests/PS_SliceBySlice/Long_Test/simulation_parameters.py
+else:
         with open(status_file) as fid:
                 sts = pickle.load(fid)
 

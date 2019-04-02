@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p be-long
-#SBATCH --job-name 14_V_MD4224
+#SBATCH --job-name 07_H_MD4224
 #SBATCH -N 1
 #SBATCH --ntasks-per-node 40
 #SBATCH --mem-per-cpu 3200M
@@ -10,7 +10,7 @@
 #SBATCH --exclusive
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Vertical_Scan/14
+RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Horizontal_Scan/07
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file

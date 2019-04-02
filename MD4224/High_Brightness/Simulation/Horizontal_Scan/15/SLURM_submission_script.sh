@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p be-long
-#SBATCH --job-name 14_V_MD4224
-#SBATCH -N 1
+#SBATCH --job-name 15_H_MD4224
+#SBATCH -N 2
 #SBATCH --ntasks-per-node 40
 #SBATCH --mem-per-cpu 3200M
 #SBATCH -t 14-00:00
@@ -10,7 +10,7 @@
 #SBATCH --exclusive
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Vertical_Scan/14
+RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Horizontal_Scan/15
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
@@ -43,7 +43,7 @@ module load mpi/mvapich2/2.2
 tstart=$(date +%s)
 
 # Run the job
-srun ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
+srun -${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
 
 tend=$(date +%s)
 dt=$(($tend - $tstart))

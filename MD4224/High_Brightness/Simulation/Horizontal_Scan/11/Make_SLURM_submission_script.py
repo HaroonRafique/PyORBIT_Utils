@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Python script to create a SLURM submission script for PyORBIT
 # 21 March 2019 Haroon Rafique CERN BE-ABP-HSI 
 

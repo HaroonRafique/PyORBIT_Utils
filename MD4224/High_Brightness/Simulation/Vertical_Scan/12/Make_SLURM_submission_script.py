@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Python script to create a SLURM submission script for PyORBIT
 # 21 March 2019 Haroon Rafique CERN BE-ABP-HSI 
 
@@ -116,7 +117,7 @@ f.write('\n')
 f.write('\ntstart=$(date +%s)')
 f.write('\n')
 f.write('\n# Run the job')
-if hyperthreading:f.write('\nsrun -${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/' + str(simulation_file))	
+if hyperthreading:f.write('\nsrun ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/' + str(simulation_file))	
 else:f.write('\nsrun --hint=nomultithread ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/' + str(simulation_file))
 f.write('\n')
 f.write('\ntend=$(date +%s)')
