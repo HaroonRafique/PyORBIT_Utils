@@ -17,7 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import subprocess
 import re
-from scipy.io import savemat
+import scipy.io as sio
 import sys
 
 input_file_name='C200_001_001_001.dat'
@@ -27,8 +27,6 @@ input_file_path=str('./'+input_file_name)
 result = subprocess.Popen(['./tomo_vo.intelmp'], stdin=open(input_file_path, 'r'), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 out, err = result.communicate()
 out = out.splitlines()
-
-# ~ sys.exit()
 
 # Read created image data
 dat = np.loadtxt("image002.data")
@@ -43,12 +41,6 @@ regexp = re.compile("\\d+\\.?\\d*E?[-+]?\\d*")
 print(out[7])
 print(out[9])
 
-# output data looks like this:
-# dtbin = 2.5000E-09
-# dEbin = 9.6494E+04
-# turn above into numbers in ns and GeV
-# ~ dt = float(regexp.findall(out[7])[0])/1E-9
-# ~ dE = float(regexp.findall(out[9])[0])/1E9
 
 # Save in units of nanoseconds and mega electron volts
 dt = float(regexp.findall(out[7])[0])/1E-9 # ns
@@ -64,19 +56,15 @@ EAxis -= np.mean(EAxis)
 
 ##########################
 # Manual shift of centre #
-##########################
-# ~ tAxis -= 13									# 1.3 eVs
-# ~ EAxis -= .05								# 1.3 eVs
 
-# ~ tAxis += 10	#MD4224 Vertical 2
 tAxis += 8	#MD4224 Vertical 1
 
-filter_level = 6E-5
+filter_level = 5E-5
 
 for x,y in np.ndindex(dat.shape):
 	if dat[x,y] < filter_level:					# 1.3 eVs
 		dat[x,y] = 0.0	
-		
+					
 # This filters any pixel where surrounding pixels are 0
 # may need to be modified if your phase space isn't a bunch but
 # contains some sort of lines / filamentation that is wanted
@@ -88,24 +76,40 @@ for x in range (0, dat.shape[0], 1):
 			if dat[x, y-1] == 0.0 and dat[x, y+1] == 0.0:
 				print 'outlier removed at [',x, ',' ,y, ']'
 				dat[x,y] = 0.0			
-
-# 1.9 eV s outliers - used for check
-# ~ dat[65, 3]  =  0.0
-# ~ dat[67, 127]  =  0.0
-# ~ dat[82, 112]  =  0.0
-# ~ dat[85, 23]  =  0.0
-# ~ dat[88, 105]  =  0.0
-# ~ dat[95, 36]  =  0.0
-# ~ dat[102, 49]  =  0.0
-# ~ dat[103, 80]  =  0.0
-# ~ dat[105, 72]  =  0.0
 						
+# Import particle file						
+		
+# Open File
+# ~ file_in='mainbunch_-000001_bad.mat'
+file_in='mainbunch_-000001.mat'
+
+particles=dict()
+
+sio.loadmat(file_in, mdict=particles)
+
+# Parameters
+	# ~ x  = d['particles']['x'][()]
+	# ~ xp = d['particles']['xp'][()]
+	# ~ y  = d['particles']['y'][()]
+	# ~ yp = d['particles']['yp'][()]
+	# ~ z  = d['particles']['z'][()]
+	# ~ dE = d['particles']['dE'][()]
+
+gamma = 2.4921
+beta = 0.916
+sol = 299792458
+# ~ fudge = 0.66
+fudge=1
+												
 # plot to check
 fig, ax = plt.subplots()
 ax.pcolor(tAxis, EAxis, dat)
+plt.scatter(particles['particles']['z'][0][0][0]*1E9*fudge / (beta * sol), particles['particles']['dE'][0][0][0]*1000, color='g', label='1.3 eVs');
+
+
 ax.set(xlabel='dt [ns]', ylabel='dE [MeV]', title='Longitudinal distribution from tomo data')
 ax.grid(True)
-plot_name = input_file_name + '.png'
+plot_name = input_file_name + '_distn.png'
 fig.savefig(plot_name, dpi=600)
 
 # Save file for PyORBIT - Format 1 (untested)
@@ -149,4 +153,4 @@ thefile.close()
 # ~ plt.show()
 
 data_dict = {'time_nsec': tAxis, 'energy_MeV': EAxis, 'density_array': dat}
-savemat('PyORBIT_Tomo_file.mat', data_dict)
+sio.savemat('PyORBIT_Tomo_file.mat', data_dict)

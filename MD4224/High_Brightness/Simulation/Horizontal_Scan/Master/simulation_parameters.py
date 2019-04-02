@@ -1,6 +1,6 @@
 import numpy as np
 
-tomo_file = 'PyORBIT_Tomo_file.mat'
+tomo_file = 'PyORBIT_Tomo_file_MD4224_HB.mat'
 
 # PS Injection 1.4 GeV
 gamma = 2.49253731343
@@ -19,9 +19,9 @@ rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
 n_macroparticles = int(5E5)
-turns_max = int(1E5)	
-turns_update = range(-1, turns_max, 100)
-turns_print =  range(-1, turns_max, 100)
+turns_max = int(1E4)	
+turns_update = range(-1, turns_max, 1000)
+turns_print =  range(-1, turns_max, 1000)
 macrosize = intensity/float(n_macroparticles)
 
 # Space Charge
@@ -72,7 +72,6 @@ tunespread = {
 }
 
 switches = {
-	'Horizontal': 1,
 	'ImportFromTomo': 1,
 	'SliceBySlice': 1,
 	'Frozen': 0,

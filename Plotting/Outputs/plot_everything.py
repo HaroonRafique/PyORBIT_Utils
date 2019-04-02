@@ -150,8 +150,8 @@ plot_parameter(parameter = 'epsn_y', filename ='PS_Injection', yunit = 'm rad', 
 plot_parameter(parameter = 'eps_z', filename ='PS_Injection', yunit = 'eV s', percentage = False)
 plot_parameter(parameter = 'eps_z', filename ='PS_Injection', yunit = 'eV s', percentage = True)
 
-plot_parameter(parameter = 'bunchlength', filename ='PS_Injection', yunit = 'm', percentage = False)
-plot_parameter(parameter = 'bunchlength', filename ='PS_Injection', yunit = 'm', percentage = True)
+plot_parameter(parameter = 'bunchlength', filename ='PS_Injection', yunit = 's', percentage = False)
+plot_parameter(parameter = 'bunchlength', filename ='PS_Injection', yunit = 's', percentage = True)
 
 plot_parameter(parameter = 'dpp_rms', filename ='PS_Injection', yunit = '-', percentage = False)
 plot_parameter(parameter = 'dpp_rms', filename ='PS_Injection', yunit = '-', percentage = True)

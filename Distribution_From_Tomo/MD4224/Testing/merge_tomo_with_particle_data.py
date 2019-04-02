@@ -124,7 +124,7 @@ plt.scatter(t, dE_, s=0.05, color='w')
 
 ax.set(xlabel='dt [ns]', ylabel='dE [MeV]', title='Longitudinal distribution from tomo data')
 ax.grid(True)
-plot_name = input_file_name + '.png'
+plot_name = input_file_name + '_poincare.png'
 fig.savefig(plot_name, dpi=600)
 
 # Save file for PyORBIT - Format 1 (untested)
