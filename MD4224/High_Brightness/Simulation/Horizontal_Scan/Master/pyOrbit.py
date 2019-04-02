@@ -11,10 +11,6 @@ import os
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
 slicebyslice = s['SliceBySlice']        # 2.5D space charge
-frozen = s['Frozen']                    # Frozen space charge
-
-if frozen:
-        slicebyslice=0
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
@@ -40,18 +36,11 @@ from ext.ptc_orbit.ptc_orbit import trackBunchThroughLatticePTC, trackBunchInRan
 from orbit.aperture import TeapotApertureNode
 
 # transverse space charge
-# Use switches as these conflict
-#----------------------------------------------
-if frozen:
-        from orbit.space_charge.analytical import scAccNodes, scLatticeModifications
-        from spacecharge import SpaceChargeCalcAnalyticGaussian
-        from spacecharge import GaussianLineDensityProfile
-if slicebyslice:
-        #PIC
-        from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
-        from spacecharge import SpaceChargeCalcSliceBySlice2D
-        from spacecharge import SpaceChargeCalcAnalyticGaussian
-        from spacecharge import InterpolatedLineDensityProfile
+
+from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
+from spacecharge import SpaceChargeCalcSliceBySlice2D
+from spacecharge import SpaceChargeCalcAnalyticGaussian
+from spacecharge import InterpolatedLineDensityProfile
 
 from lib.output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution import *
@@ -114,7 +103,6 @@ Lattice.readPTC(PTC_File)
 readScriptPTC_noSTDOUT('PTC/fringe.ptc')
 readScriptPTC_noSTDOUT('PTC/time.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
-# ~ readScriptPTC_noSTDOUT('Input/chrom.ptc')
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
@@ -194,8 +182,6 @@ if sts['turn'] < 0:
 	sts['turns_update'] = p['turns_update']
 	sts['turns_print'] = p['turns_print']
 	sts['circumference'] = p['circumference']
-	if frozen:
-		sts['sc_params1'] = {'intensity': p['intensity'], 'epsn_x':p['epsn_x'], 'epsn_y':p['epsn_y'], 'dpp_rms':p['dpp_rms']}
 
 bunch = bunch_from_matfile(sts['mainbunch_file'])
 lostbunch = bunch_from_matfile(sts['lostbunch_file'])
@@ -205,22 +191,6 @@ paramsDict["bunch"]= bunch
 #############################-------------------########################
 #############################	SPACE CHARGE	########################
 #############################-------------------########################
-
-# Add space charge nodes - FROZEN
-#----------------------------------------------------
-if frozen:
-	# ~ ld_profile = sts['linedensity_profile']
-	# ~ LineDensity = InterpolatedLineDensityProfile(min(ld_profile[0]), max(ld_profile[0]), ld_profile[1].tolist())
-	LineDensity=GaussianLineDensityProfile(p['blength_rms'])
-	print '\nSetting up the space charge calculations ...'
-	# Make a SC solver using frozen potential
-	# ~ sc_path_length_min = 1E-8
-	sc_path_length_min = s['MinPathLength']
-	sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms'], 'LineDensity': LineDensity}
-	space_charge_solver1 = SpaceChargeCalcAnalyticGaussian(*[sc_params1[k] for k in ['intensity','epsn_x','epsn_y','dpp_rms','LineDensity']])
-	print dir(scLatticeModifications)
-	sc_nodes1 = scLatticeModifications.setSCanalyticalAccNodes(Lattice, sc_path_length_min, space_charge_solver1)
-	print 'Installed %i space charge nodes'%(len(sc_nodes1))
 
 # Add space charge nodes
 #----------------------------------------------------
@@ -249,14 +219,6 @@ tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','
 tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
 addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
 
-if frozen:
-# Prepare a bunch object to store particle coordinates
-#-----------------------------------------------------------------------
-	print '\nBunch on MPI process: ', rank
-	bunch_tmp = Bunch()
-	bunch.copyEmptyBunchTo(bunch_tmp)
-	bunch_tmp.addPartAttr('ParticlePhaseAttributes')
-
 # Define twiss analysis and output dictionary
 #-----------------------------------------------------------------------
 print '\nTWISS on MPI process: ', rank
@@ -282,14 +244,6 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
-# ~ output.addParameter('turn_date', lambda: time.strftime("%Y-%m-%d"))
-# ~ output.addParameter('turn_time', lambda: time.strftime("%H:%M:%S"))
-
-if frozen:
-	output.addParameter('BE_intensity1', lambda: sc_params1['intensity'])
-	output.addParameter('BE_epsn_x1', lambda: sc_params1['epsn_x'])
-	output.addParameter('BE_epsn_y1', lambda: sc_params1['epsn_y'])
-	output.addParameter('BE_dpp_rms1', lambda: sc_params1['dpp_rms'])
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
@@ -313,12 +267,6 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
 	
-	# subtract circumference each turn in order to reconstruct the turn number from loss position
-	if frozen:
-		map(lambda i: lostbunch.partAttrValue("LostParticleAttributes", i, 0, 
-			lostbunch.partAttrValue("LostParticleAttributes", i, 0)-p['circumference']), xrange(lostbunch.getSize()))
-		bunch.addParticlesTo(bunch_tmp)
-					
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
