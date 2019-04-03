@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Python script to create a SLURM submission script for PyORBIT
 # 21 March 2019 Haroon Rafique CERN BE-ABP-HSI 
 
@@ -15,9 +16,9 @@ autotime = True			# 2 days for short queues, 2 weeks for long queues
 autotask = True			# Automatically set nodes to maximum tasks
 
 # Must be chosen
-queue = 'be-short' #'be-long', 'be-short', 'batch-long', 'batch-short'
+queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
 n_nodes = 1		
-jobname = 'Master_test'
+jobname = 'L_Test'
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
 # Optional - have to use with correct switches
@@ -116,7 +117,7 @@ f.write('\n')
 f.write('\ntstart=$(date +%s)')
 f.write('\n')
 f.write('\n# Run the job')
-if hyperthreading:f.write('\nsrun -${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/' + str(simulation_file))	
+if hyperthreading:f.write('\nsrun ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/' + str(simulation_file))	
 else:f.write('\nsrun --hint=nomultithread ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/' + str(simulation_file))
 f.write('\n')
 f.write('\ntend=$(date +%s)')

@@ -5,7 +5,7 @@ TITLE, "Flat file generation for PTC-PyORBIT";
  * First we call the files describing the machine, in this case we use 
  * the CERN proton synchrotron (PS).
  **********************************************************************/
-call,  file = './Lattice/PS_H7.ele';
+call,  file = './Lattice/PS_new.ele';
 call,  file = './Lattice/PS_new.seq';
 call,  file = './Lattice/PS_new.str';
 call,  file = './Lattice/PS_2013.aper';

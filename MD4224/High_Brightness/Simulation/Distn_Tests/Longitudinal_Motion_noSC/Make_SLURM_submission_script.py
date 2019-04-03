@@ -10,7 +10,7 @@ import os
 script_name = "SLURM_submission_script.sh"
 
 # Switches
-hyperthreading = True	# Enable hyperthreading
+hyperthreading = False	# Enable hyperthreading
 exclusive = True		# Exclusive (see SLURM documentation)
 autotime = True			# 2 days for short queues, 2 weeks for long queues
 autotask = True			# Automatically set nodes to maximum tasks
@@ -18,7 +18,7 @@ autotask = True			# Automatically set nodes to maximum tasks
 # Must be chosen
 queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
 n_nodes = 1		
-jobname = '11_H_MD4224'
+jobname = 'L_noSC_Test'
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
 # Optional - have to use with correct switches

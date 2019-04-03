@@ -10,6 +10,7 @@ import os
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
+slicebyslice = s['SliceBySlice']        # 2.5D space charge
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
@@ -34,9 +35,17 @@ from ext.ptc_orbit.ptc_orbit import updateParamsPTC, synchronousSetPTC, synchron
 from ext.ptc_orbit.ptc_orbit import trackBunchThroughLatticePTC, trackBunchInRangePTC
 from orbit.aperture import TeapotApertureNode
 
+# transverse space charge
+
+from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
+from spacecharge import SpaceChargeCalcSliceBySlice2D
+from spacecharge import SpaceChargeCalcAnalyticGaussian
+from spacecharge import InterpolatedLineDensityProfile
+
 from lib.output_dictionary import *
 from lib.pyOrbit_GenerateInitialDistribution import *
 from lib.save_bunch_as_matfile import *
+from lib.pyOrbit_Tunespread_Calculator import *
 from lib.suppress_stdout import suppress_STDOUT
 readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
 
@@ -69,15 +78,13 @@ else:
 #-----------------------------------------------------------------------
 print '\nStart MADX on MPI process: ', rank
 if not rank:
-	exists = os.path.isfile('./PTC-PyORBIT_flat_file.flt')
-	if exists:
-		print '\nFlat file already present, no need to re-run MAD-X'
-	else:
-		print '\nGenerating flat file inside MAD-X'
-		if s['H7']:		os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file_H7.madx")
-		else:		os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file_H9.madx")
-			
+	os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
 orbit_mpi.MPI_Barrier(comm)
+
+# Print Tunespread data
+#-----------------------------------------------------------------------
+from simulation_parameters import tunespread as ts
+TunespreadCalculator(ts, 'madx_twiss.tfs')
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------
@@ -145,6 +152,7 @@ if sts['turn'] < 0:
 
 	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+	# ~ bunch.readBunch(Particle_distribution_file)
 	
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
@@ -180,6 +188,25 @@ lostbunch = bunch_from_matfile(sts['lostbunch_file'])
 paramsDict["lostbunch"]=lostbunch
 paramsDict["bunch"]= bunch
 
+#############################-------------------########################
+#############################	SPACE CHARGE	########################
+#############################-------------------########################
+
+# Add space charge nodes
+#----------------------------------------------------
+if slicebyslice:
+	print '\nAdding space charge nodes on MPI process: ', rank
+	# Make a SC solver
+	sizeX = s['GridSizeX']
+	sizeY = s['GridSizeY']
+	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
+	# ~ sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
+	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
+	sc_path_length_min = 1E-8
+	# Add the space charge solver to the lattice as child nodes
+	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
+	print '  Installed', len(sc_nodes), 'space charge nodes ...'
+
 
 # Add tune analysis child node
 #-----------------------------------------------------
@@ -191,7 +218,6 @@ tunes = TeapotTuneAnalysisNode("tune_analysis")
 tunes.assignTwiss(*[Twiss_at_parentnode_entrance[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
 tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
 addTeapotDiagnosticsNodeAsChild(Lattice, parentnode, tunes)
-
 
 # Define twiss analysis and output dictionary
 #-----------------------------------------------------------------------
@@ -240,7 +266,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
-						
+	
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
