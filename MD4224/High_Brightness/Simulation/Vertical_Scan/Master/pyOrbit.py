@@ -10,7 +10,10 @@ import os
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
-slicebyslice = s['SliceBySlice']        # 2.5D space charge
+slicebyslice = s['SliceBySlice']        # Slice by slice space charge
+twopointfived = s['TwoPointFiveD']        # 2.5D space charge
+
+if twopointfived: slicebyslice = 0
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
@@ -36,9 +39,12 @@ from ext.ptc_orbit.ptc_orbit import trackBunchThroughLatticePTC, trackBunchInRan
 from orbit.aperture import TeapotApertureNode
 
 # transverse space charge
-
+if slicebyslice:
+	from spacecharge import SpaceChargeCalcSliceBySlice2D
+elif twopointfived:
+	from spacecharge import SpaceChargeCalc2p5D
+	
 from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
-from spacecharge import SpaceChargeCalcSliceBySlice2D
 from spacecharge import SpaceChargeCalcAnalyticGaussian
 from spacecharge import InterpolatedLineDensityProfile
 
@@ -198,13 +204,24 @@ paramsDict["bunch"]= bunch
 # Add space charge nodes
 #----------------------------------------------------
 if slicebyslice:
-	print '\nAdding space charge nodes on MPI process: ', rank
+	print '\nAdding slice-by-slice space charge nodes on MPI process: ', rank
 	# Make a SC solver
 	sizeX = s['GridSizeX']
 	sizeY = s['GridSizeY']
 	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
-	# ~ sc_params1 = {'intensity': p['intensity'], 'epsn_x': p['epsn_x'], 'epsn_y': p['epsn_y'], 'dpp_rms': p['dpp_rms']}
 	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
+	sc_path_length_min = 1E-8
+	# Add the space charge solver to the lattice as child nodes
+	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
+	print '  Installed', len(sc_nodes), 'space charge nodes ...'
+
+elif twopointfived:
+	print '\nAdding 2.5D space charge nodes on MPI process: ', rank
+	# Make a SC solver
+	sizeX = s['GridSizeX']
+	sizeY = s['GridSizeY']
+	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
+	calcsbs = SpaceChargeCalc2p5D(sizeX,sizeY,sizeZ)
 	sc_path_length_min = 1E-8
 	# Add the space charge solver to the lattice as child nodes
 	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
