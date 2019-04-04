@@ -144,21 +144,24 @@ if sts['turn'] < 0:
 
 # Create the initial distribution 
 #-----------------------------------------------------------------------
-	print '\ngenerate_initial_distribution on MPI process: ', rank
-	if s['ImportFromTomo']:
-			Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-	else:
-		Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	# ~ print '\ngenerate_initial_distribution on MPI process: ', rank
+	# ~ if s['ImportFromTomo']:
+			# ~ Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+	# ~ else:
+		# ~ Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-	print '\bunch_orbit_to_pyorbit on MPI process: ', rank
-	bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+	# ~ print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+	# ~ bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 	# ~ bunch.readBunch(Particle_distribution_file)
+	
+	path_to_distn = './../../Input_Distns/1p5E6/MD4224_Nominal_WP_Tomo_Distn.mat'
+	bunch = bunch_from_matfile(path_to_distn)
 	
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
-	bunch.addPartAttr("macrosize")
-	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
-	ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
+	# ~ bunch.addPartAttr("macrosize")
+	# ~ map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
+	# ~ ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 
 # Dump and save as Matfile
 #-----------------------------------------------------------------------

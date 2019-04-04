@@ -18,15 +18,15 @@ dpp_rms = 9e-04
 rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
-n_macroparticles = int(5E5)
-turns_max = int(1E4)	
-turns_update = range(-1, turns_max, 1000)
-turns_print =  range(-1, turns_max, 1000)
+n_macroparticles = int(1.5E6)
+turns_max = int(2.2E3)	
+turns_update = range(-1, turns_max, 200)
+turns_print =  range(-1, turns_max, 200)
 macrosize = intensity/float(n_macroparticles)
 
 # Space Charge
-grid_x = 32
-grid_y = 32
+grid_x = 64
+grid_y = 64
 grid_z = 32
 
 # PTC RF Table Parameters
