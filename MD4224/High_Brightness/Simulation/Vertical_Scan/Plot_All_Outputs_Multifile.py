@@ -318,7 +318,7 @@ def plot_mean_of_two_parameters(parameter1, parameter2, filename, n_files, label
 labels = ['6.10', '6.12', '6.14', '6.16', '6.18', '6.20', '6.22', '6.24']
 main_label = 'MD4224_Vertical'
 legend_label = 'Tune'
-turn_tot = 3000
+turn_tot = None
 files = 8
 
 if len(labels) != files:

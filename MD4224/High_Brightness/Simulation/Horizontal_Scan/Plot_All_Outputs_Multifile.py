@@ -315,11 +315,11 @@ def plot_mean_of_two_parameters(parameter1, parameter2, filename, n_files, label
 ------------------------------------------------------------------------
 '''
 
-labels = ['6.07', '6.09', '6.11', '6.13', '6.17', '6.19', '6.21']
+labels = ['6.07', '6.09', '6.11', '6.13', '6.15', '6.17', '6.19', '6.21']
 main_label = 'MD4224_Horizontal'
 legend_label = 'Tune'
-turn_tot = 2200
-files = 7
+turn_tot = None
+files = 8
 
 if len(labels) != files:
 	print '\nWARNING: : Number of files is not equal to number of labels. Please check and correct. Exiting.\n'
@@ -330,10 +330,10 @@ file_1='07/output/output.mat'
 file_2='09/output/output.mat'
 file_3='11/output/output.mat'
 file_4='13/output/output.mat'
-file_5='17/output/output.mat'
-file_6='19/output/output.mat'
-file_7='21/output/output.mat'
-# ~ file_8='15/output/output.mat'
+file_5='15/output/output.mat'
+file_6='17/output/output.mat'
+file_7='19/output/output.mat'
+file_8='21/output/output.mat'
 # ~ file_9='22/output/output.mat'
 # ~ file_10='24/output/output.mat'
 
@@ -344,7 +344,7 @@ particles_4=dict()
 particles_5=dict()
 particles_6=dict()
 particles_7=dict()
-# ~ particles_8=dict()
+particles_8=dict()
 # ~ particles_9=dict()
 # ~ particles_10=dict()
 
@@ -355,7 +355,7 @@ sio.loadmat(file_4, mdict=particles_4)
 sio.loadmat(file_5, mdict=particles_5)
 sio.loadmat(file_6, mdict=particles_6)
 sio.loadmat(file_7, mdict=particles_7)
-# ~ sio.loadmat(file_8, mdict=particles_8)
+sio.loadmat(file_8, mdict=particles_8)
 # ~ sio.loadmat(file_9, mdict=particles_9)
 # ~ sio.loadmat(file_10, mdict=particles_10)
 
