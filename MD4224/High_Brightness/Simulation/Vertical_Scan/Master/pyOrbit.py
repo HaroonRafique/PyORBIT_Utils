@@ -148,31 +148,37 @@ if sts['turn'] < 0:
 	for i in p:
 		print '\t', i, '\t = \t', p[i]
 
+	if s['CreateDistn']:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
-	# ~ print '\ngenerate_initial_distribution on MPI process: ', rank
-	# ~ if s['ImportFromTomo']:
-			# ~ Particle_distribution = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
-	# ~ else:
-		# ~ Particle_distribution = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		print '\ngenerate_initial_distribution on MPI process: ', rank
+		if s['ImportFromTomo']:
+			Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		else:
+			Particle_distribution_file = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-	# ~ print '\bunch_orbit_to_pyorbit on MPI process: ', rank
-	# ~ bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
-	# ~ bunch.readBunch(Particle_distribution_file)
-	
-	path_to_distn = './../../Input_Distns/1p5E6/MD4224_Nominal_WP_Tomo_Distn.mat'
-	bunch = bunch_from_matfile(path_to_distn)
-	
+		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+		bunch.readBunch(Particle_distribution_file)
+
+	else:
+# OR load bunch from file
+#-----------------------------------------------------------------------
+		path_to_distn = './../../Input_Distns/1p5E6/MD4224_Nominal_WP_Tomo_Distn.mat'
+		bunch = bunch_from_matfile(path_to_distn)
+		
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
-	# ~ bunch.addPartAttr("macrosize")
-	# ~ map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
-	# ~ ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
+	bunch.addPartAttr("macrosize")
+	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
+	ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 
 # Dump and save as Matfile
 #-----------------------------------------------------------------------
-	bunch.dumpBunch("input/mainbunch_start.dat")
+	# ~ bunch.dumpBunch("input/mainbunch_start.dat")
+	print 'Save bunch in bunch_output/mainbunch_-000001.mat'
 	saveBunchAsMatfile(bunch, "bunch_output/mainbunch_-000001")
+	print 'Save bunch in input/mainbunch.mat'
 	saveBunchAsMatfile(bunch, "input/mainbunch")
 	sts['mainbunch_file'] = "input/mainbunch"
 

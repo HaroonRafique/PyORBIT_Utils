@@ -16,9 +16,19 @@ autotime = True			# 2 days for short queues, 2 weeks for long queues
 autotask = True			# Automatically set nodes to maximum tasks
 
 # Must be chosen
+
 queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
-n_nodes = 1		
+# ~ queue = 'be-short'
+
+# ~ n_nodes = 1		
+# ~ n_nodes = 2		
+n_nodes = 3		
+# ~ n_nodes = 4		
+
 jobname = 'PyORBIT'
+# ~ jobname = 'V_24_SbS'
+# ~ jobname = 'V_24_2.5D' 
+
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
 # Optional - have to use with correct switches

@@ -8,18 +8,18 @@ beta = np.sqrt(gamma**2-1)/gamma
 c = 299792458
 
 # Beam Parameters from MD4224
-intensity = 72E+10
+intensity = 72.5E+10
 epsn_x = 1.2E-6
 epsn_y = 1E-6
 
 blength = 140e-9
 sig_z = (beta * c * blength)/4.
-dpp_rms = 9e-04	
+dpp_rms = 8.7e-04	
 rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
 n_macroparticles = int(1.5E6)
-turns_max = int(2.2E3)	
+turns_max = int(1)	
 turns_update = range(-1, turns_max, 200)
 turns_print =  range(-1, turns_max, 200)
 macrosize = intensity/float(n_macroparticles)
@@ -72,9 +72,10 @@ tunespread = {
 }
 
 switches = {
-	'ImportFromTomo': 1,
-	'SliceBySlice': 0,
-	'TwoPointFiveD': 1,
+	'CreateDistn': False,
+	'ImportFromTomo': True,
+	'SliceBySlice': False,
+	'TwoPointFiveD': False,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
 	'GridSizeZ': grid_z
