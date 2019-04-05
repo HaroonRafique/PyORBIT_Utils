@@ -17,7 +17,7 @@ autotask = True			# Automatically set nodes to maximum tasks
 
 # Must be chosen
 queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
-n_nodes = 1		
+n_nodes = 3		
 jobname = '14_V_MD4224'
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 

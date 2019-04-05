@@ -16,8 +16,8 @@ autotime = True			# 2 days for short queues, 2 weeks for long queues
 autotask = True			# Automatically set nodes to maximum tasks
 
 # Must be chosen
-queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
-n_nodes = 2		
+queue = 'be-short' #'be-long', 'be-short', 'batch-long', 'batch-short'
+n_nodes = 3		
 jobname = '22_V_MD4224'
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
