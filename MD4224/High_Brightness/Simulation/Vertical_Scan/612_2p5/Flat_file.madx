@@ -25,15 +25,15 @@ use, sequence=PS;
 
 /***********************************************************************
  * Here we manually edit the sequence (lattice) to install a zero length
- * beam wire scanner at the start of region 65. We then save the new 
+ * beam wire scanner at the start of region 64. We then save the new 
  * sequence to a file.
  **********************************************************************/
-PR.BWSH65     :  MONITOR  , L = 0.0; 
+PR.BWSV64     :  MONITOR  , L = 0.0; 
 
 seqedit, sequence=PS;
 	flatten;
-	install, element=PR.BWSH65, at=0.0, from=PS65$START;
-	cycle , start=PR.BWSH65;
+	install, element=PR.BWSV64, at=0.4, from=PS64$START;
+	cycle , start=PR.BWSV64;
 	flatten;
 endedit;
 
@@ -133,7 +133,7 @@ value,qy0,qy1,qy2/2;
  * Using model=2, exact=true is recommended.
  **********************************************************************/
 tune_x = 0.21;
-tune_y = 0.24;
+tune_y = 0.12;
  
 ptc_twiss_tune_macro_false_split: macro={
   ptc_create_universe;

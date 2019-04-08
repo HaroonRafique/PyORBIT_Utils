@@ -1,17 +1,17 @@
 #!/bin/bash
-#SBATCH -p be-long
-#SBATCH --job-name D_test
-#SBATCH -N 3
+#SBATCH -p be-short
+#SBATCH --job-name V_24_2.5D
+#SBATCH -N 4
 #SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
-#SBATCH -t 14-00:00
+#SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Vertical_Scan/Master
+RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Vertical_Scan/624_2p5
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file

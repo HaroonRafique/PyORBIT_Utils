@@ -1,17 +1,16 @@
 #!/bin/bash
-#SBATCH -p be-long
-#SBATCH --job-name D_test
-#SBATCH -N 3
-#SBATCH --ntasks-per-node 20
+#SBATCH -p be-short
+#SBATCH --job-name V_18_SbS
+#SBATCH -N 4
+#SBATCH --ntasks-per-node 40
 #SBATCH --mem-per-cpu 3200M
-#SBATCH -t 14-00:00
+#SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive
-#SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Vertical_Scan/Master
+RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Vertical_Scan/618_SbS
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
@@ -44,7 +43,7 @@ module load mpi/mvapich2/2.2
 tstart=$(date +%s)
 
 # Run the job
-srun --hint=nomultithread ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
+srun ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
 
 tend=$(date +%s)
 dt=$(($tend - $tstart))

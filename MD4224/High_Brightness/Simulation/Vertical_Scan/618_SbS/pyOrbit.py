@@ -215,17 +215,17 @@ if slicebyslice:
 	sizeX = s['GridSizeX']
 	sizeY = s['GridSizeY']
 	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
-	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ)
+	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ,useLongitudinalKick=True)
 	sc_path_length_min = 1E-8
 	# Add the space charge solver to the lattice as child nodes
-	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
+	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs, useLongitudinalKick=s['LongitudinalKick'])
 	print '  Installed', len(sc_nodes), 'space charge nodes ...'
 
 elif twopointfived:
 	print '\nAdding 2.5D space charge nodes on MPI process: ', rank
 	# Make a SC solver
 	sizeX = s['GridSizeX']
-	sizeY = s['GridSizeY']
+	sizeY = s['GridSizeY'] 
 	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
 	calcsbs = SpaceChargeCalc2p5D(sizeX,sizeY,sizeZ)
 	sc_path_length_min = 1E-8
