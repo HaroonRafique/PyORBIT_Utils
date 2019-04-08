@@ -76,6 +76,7 @@ switches = {
 	'ImportFromTomo': True,
 	'SliceBySlice': False,
 	'TwoPointFiveD': True,
+	'LongitudinalKick': True,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
 	'GridSizeZ': grid_z

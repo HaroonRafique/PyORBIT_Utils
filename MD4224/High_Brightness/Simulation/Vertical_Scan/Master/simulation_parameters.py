@@ -19,7 +19,7 @@ rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
 n_macroparticles = int(1.5E6)
-turns_max = int(1)	
+turns_max = int(2200)	
 turns_update = range(-1, turns_max, 200)
 turns_print =  range(-1, turns_max, 200)
 macrosize = intensity/float(n_macroparticles)
@@ -75,7 +75,8 @@ switches = {
 	'CreateDistn': False,
 	'ImportFromTomo': True,
 	'SliceBySlice': False,
-	'TwoPointFiveD': False,
+	'TwoPointFiveD': True,
+	'LongitudinalKick': True,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
 	'GridSizeZ': grid_z
