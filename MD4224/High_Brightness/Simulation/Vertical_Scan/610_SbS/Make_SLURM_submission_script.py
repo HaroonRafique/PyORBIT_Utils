@@ -20,9 +20,9 @@ autotask = True			# Automatically set nodes to maximum tasks
 queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
 # ~ queue = 'be-short'
 
-# ~ n_nodes = 1		
+n_nodes = 1		
 # ~ n_nodes = 2		
-n_nodes = 3		
+# ~ n_nodes = 3		
 # ~ n_nodes = 4		
 
 # ~ jobname = 'PyORBIT'
