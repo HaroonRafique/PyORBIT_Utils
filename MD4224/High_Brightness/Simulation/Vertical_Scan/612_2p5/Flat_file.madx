@@ -33,6 +33,13 @@ PR.BWSV64     :  MONITOR  , L = 0.0;
 seqedit, sequence=PS;
 	flatten;
 	install, element=PR.BWSV64, at=0.4, from=PS64$START;
+	flatten;
+endedit;
+
+use, sequence=PS;
+
+seqedit, sequence=PS;
+	flatten;
 	cycle , start=PR.BWSV64;
 	flatten;
 endedit;

@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p be-short
 #SBATCH --job-name V_16_2.5D
-#SBATCH -N 3
+#SBATCH -N 2
 #SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
 #SBATCH -t 1-23:59

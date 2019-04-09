@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH -p be-short
+#SBATCH -p be-long
 #SBATCH --job-name V_12_2.5D
-#SBATCH -N 3
+#SBATCH -N 1
 #SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
-#SBATCH -t 1-23:59
+#SBATCH -t 14-00:00
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive

@@ -89,8 +89,9 @@ orbit_mpi.MPI_Barrier(comm)
 
 # Print Tunespread data
 #-----------------------------------------------------------------------
-from simulation_parameters import tunespread as ts
-TunespreadCalculator(ts, 'madx_twiss.tfs')
+# ~ from simulation_parameters import tunespread as ts
+# ~ if not rank:
+	# ~ TunespreadCalculator(ts, 'madx_twiss.tfs')
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------
@@ -212,22 +213,16 @@ paramsDict["bunch"]= bunch
 if slicebyslice:
 	print '\nAdding slice-by-slice space charge nodes on MPI process: ', rank
 	# Make a SC solver
-	sizeX = s['GridSizeX']
-	sizeY = s['GridSizeY']
-	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
-	calcsbs = SpaceChargeCalcSliceBySlice2D(sizeX,sizeY,sizeZ,useLongitudinalKick=True)
+	calcsbs = SpaceChargeCalcSliceBySlice2D(s['GridSizeX'], s['GridSizeY'], s['GridSizeZ'], useLongitudinalKick=s['LongitudinalKick'])
 	sc_path_length_min = 1E-8
 	# Add the space charge solver to the lattice as child nodes
-	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs, useLongitudinalKick=s['LongitudinalKick'])
+	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
 	print '  Installed', len(sc_nodes), 'space charge nodes ...'
 
 elif twopointfived:
 	print '\nAdding 2.5D space charge nodes on MPI process: ', rank
 	# Make a SC solver
-	sizeX = s['GridSizeX']
-	sizeY = s['GridSizeY'] 
-	sizeZ = s['GridSizeZ']  # Number of longitudinal slices in the 2.5D solver
-	calcsbs = SpaceChargeCalc2p5D(sizeX,sizeY,sizeZ)
+	calcsbs = SpaceChargeCalc2p5D(s['GridSizeX'], s['GridSizeY'], s['GridSizeZ'])
 	sc_path_length_min = 1E-8
 	# Add the space charge solver to the lattice as child nodes
 	sc_nodes = scLatticeModifications.setSC2p5DAccNodes(Lattice, sc_path_length_min, calcsbs)
