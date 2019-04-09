@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p be-long
 #SBATCH --job-name V_10_SbS
-#SBATCH -N 3
+#SBATCH -N 1
 #SBATCH --ntasks-per-node 40
 #SBATCH --mem-per-cpu 3200M
 #SBATCH -t 14-00:00
