@@ -89,9 +89,10 @@ orbit_mpi.MPI_Barrier(comm)
 
 # Print Tunespread data
 #-----------------------------------------------------------------------
-# ~ from simulation_parameters import tunespread as ts
-# ~ if not rank:
-	# ~ TunespreadCalculator(ts, 'madx_twiss.tfs')
+from simulation_parameters import tunespread as ts
+if not rank:
+	if os.path.exists('madx_twiss.tfs'):
+		TunespreadCalculator(ts, 'madx_twiss.tfs')
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------
