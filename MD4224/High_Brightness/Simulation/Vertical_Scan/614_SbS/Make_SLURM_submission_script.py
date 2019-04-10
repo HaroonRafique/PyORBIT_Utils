@@ -14,7 +14,7 @@ hyperthreading = True	# Enable hyperthreading
 exclusive = True		# Exclusive (see SLURM documentation)
 autotime = True			# 2 days for short queues, 2 weeks for long queues
 autotask = True			# Automatically set nodes to maximum tasks
-clean_all = True		# Clean simulation folder before running (False when resuming pickle checkpoint)
+clean_all = False		# Clean simulation folder before running (False when resuming pickle checkpoint)
 
 # Must be chosen
 
