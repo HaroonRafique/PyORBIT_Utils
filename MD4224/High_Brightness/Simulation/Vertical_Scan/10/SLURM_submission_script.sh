@@ -43,7 +43,7 @@ module load mpi/mvapich2/2.2
 tstart=$(date +%s)
 
 # Run the job
-srun ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
+srun -trace ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
 
 tend=$(date +%s)
 dt=$(($tend - $tstart))
