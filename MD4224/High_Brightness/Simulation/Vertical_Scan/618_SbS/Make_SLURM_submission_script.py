@@ -14,6 +14,7 @@ hyperthreading = True	# Enable hyperthreading
 exclusive = True		# Exclusive (see SLURM documentation)
 autotime = True			# 2 days for short queues, 2 weeks for long queues
 autotask = True			# Automatically set nodes to maximum tasks
+clean_all = True		# Clean simulation folder before running (False when resuming pickle checkpoint)
 
 # Must be chosen
 
@@ -118,7 +119,7 @@ f.write('\necho "****************************************" >> ${simulation_info_
 f.write('\n')
 f.write('\n# Enter job directory, clean it, and setup environment -> SLURM info file')
 f.write('\ncd ${RUN_DIR}')
-f.write('\n./clean_all.sh')
+if clean_all:f.write('\n./clean_all.sh')
 f.write('\n. setup_environment.sh >> ${simulation_info_file}')
 f.write('\n')
 f.write('\n# Load correct MPI')

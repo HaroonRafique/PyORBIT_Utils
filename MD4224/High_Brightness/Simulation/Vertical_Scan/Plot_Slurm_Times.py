@@ -223,6 +223,39 @@ def plot_turn_duration(dd, ml, turns=None, ymin=None, ymax=None):
 	fig1.savefig(figname);	
 	
 	return
+	
+	
+def plot_average_turn_duration(dd, ml, turns=None, ymin=None, ymax=None):
+	
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)	
+	
+	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
+	c_it = int(0)
+	
+	for key, value in sorted(dd.iteritems()):
+		
+		ax1.plot(dd[key]['turn'][0], dd[key]['turn_duration'][0], label=key, color=colors[c_it]);		
+		c_it = c_it + 1
+		
+	ax1.legend(frameon=False, loc=4)
+	ax1.set_xlabel('Turn [-]');
+	ax1.set_ylabel('Time [seconds]')
+	ax1.set_title('Time for 1 Simulation Turn');
+	ax1.grid(True);
+	
+	if turns is not None: 
+		ax1.set_xlim(left = 0)
+		ax1.set_xlim(right = turns)
+	if ymin is not None:
+		ax1.set_ylim(bottom = ymin)	
+	if ymax is not None:
+		ax1.set_ylim(top = ymax)
+	
+	figname = ml + '_turn_duration.png'
+	fig1.savefig(figname);	
+	
+	return
 
 main_label = 'PyORBIT_HPC-Batch_2p5D_vs_SBS'
 
