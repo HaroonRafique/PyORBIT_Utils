@@ -89,9 +89,10 @@ orbit_mpi.MPI_Barrier(comm)
 
 # Print Tunespread data
 #-----------------------------------------------------------------------
-# ~ from simulation_parameters import tunespread as ts
-# ~ if not rank:
-	# ~ TunespreadCalculator(ts, 'madx_twiss.tfs')
+from simulation_parameters import tunespread as ts
+if not rank:
+	if os.path.exists('madx_twiss.tfs'):
+		TunespreadCalculator(ts, 'madx_twiss.tfs')
 
 # Generate PTC RF table
 #-----------------------------------------------------------------------
@@ -160,7 +161,6 @@ if sts['turn'] < 0:
 
 		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
-		bunch.readBunch(Particle_distribution_file)
 
 	else:
 # OR load bunch from file
@@ -260,22 +260,18 @@ output.addParameter('mean_y', lambda: bunchtwissanalysis.getAverage(2))
 output.addParameter('mean_yp', lambda: bunchtwissanalysis.getAverage(3))
 output.addParameter('mean_z', lambda: bunchtwissanalysis.getAverage(4))
 output.addParameter('mean_dE', lambda: bunchtwissanalysis.getAverage(5))
-
-output.addParameter('beta_x', lambda: bunchtwissanalysis.getBeta(0))
-output.addParameter('beta_y', lambda: bunchtwissanalysis.getBeta(1))
-
-output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
-output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
-
-output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
-output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
-
 output.addParameter('epsn_x', lambda: bunchtwissanalysis.getEmittanceNormalized(0))
 output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(1))
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
-	
+output.addParameter('beta_x', lambda: bunchtwissanalysis.getBeta(0))
+output.addParameter('beta_y', lambda: bunchtwissanalysis.getBeta(1))
+output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
+output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
+output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
+output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
+
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
 
