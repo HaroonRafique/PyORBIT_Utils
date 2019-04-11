@@ -34,7 +34,6 @@ echo "****************************************" >> ${simulation_info_file}
 
 # Enter job directory, clean it, and setup environment -> SLURM info file
 cd ${RUN_DIR}
-./clean_all.sh
 . setup_environment.sh >> ${simulation_info_file}
 
 # Load correct MPI
