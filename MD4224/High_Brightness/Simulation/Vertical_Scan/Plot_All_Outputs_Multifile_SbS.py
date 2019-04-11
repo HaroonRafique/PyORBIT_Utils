@@ -402,7 +402,7 @@ print 'Final data dictionary keys: ', dd.keys()
 		
 main_label = 'Slice_By_Slice'
 legend_label = 'Tune'
-turn_tot = None
+turn_tot = 50
 turns = [0, 1, 10, 100, 199, 874, 2185]
 
 '''
