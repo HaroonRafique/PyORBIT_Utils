@@ -121,7 +121,7 @@ ax6 = fig1.add_subplot(326)
 fig1.subplots_adjust(wspace=0.3, hspace=0.3, left=0.1, right=0.99, top=0.95, bottom=0.05)
 
 # Create heatmap
-heatmap, xedges, yedges = np.histogram2d(d[t]['particles']['x'][0][0][0], d[t]['particles']['y'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[x_min, x_max],[y_min, y_max]])
+heatmap, xedges, yedges = np.histogram2d(d['particles']['x'][0][0][0], d['particles']['y'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[x_min, x_max],[y_min, y_max]])
 extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
 ax1.imshow(heatmap, extent=extent, aspect=( (x_min - x_max)/(y_min - y_max) ) )
 
@@ -134,7 +134,7 @@ tit1 = 'X Y Turn = ' + str(t)
 ax1.set_title(tit1);
 ax1.grid(True);
 
-heatmap2, xedges2, yedges2 = np.histogram2d(d[t]['particles']['xp'][0][0][0], d[t]['particles']['yp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[xp_min, xp_max],[yp_min, yp_max]])
+heatmap2, xedges2, yedges2 = np.histogram2d(d['particles']['xp'][0][0][0], d['particles']['yp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[xp_min, xp_max],[yp_min, yp_max]])
 extent2 = [xedges2[0], xedges2[-1], yedges2[0], yedges2[-1]]
 ax2.imshow(heatmap2, extent=extent2, aspect=( (xp_min - xp_max)/(yp_min - yp_max) ))
 
@@ -146,7 +146,7 @@ tit2 = 'XP YP Turn = ' + str(t)
 ax2.set_title(tit2);
 ax2.grid(True);
 
-heatmap3, xedges3, yedges3 = np.histogram2d(d[t]['particles']['x'][0][0][0], d[t]['particles']['xp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[x_min, x_max],[xp_min, xp_max]])
+heatmap3, xedges3, yedges3 = np.histogram2d(d['particles']['x'][0][0][0], d['particles']['xp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[x_min, x_max],[xp_min, xp_max]])
 extent3 = [xedges3[0], xedges3[-1], yedges3[0], yedges3[-1]]
 ax3.imshow(heatmap3, extent=extent3, aspect=( (x_min - x_max)/(xp_min - xp_max) ))
 
@@ -158,7 +158,7 @@ tit3 = 'X XP Turn = ' + str(t)
 ax3.set_title(tit3);
 ax3.grid(True);
 
-heatmap4, xedges4, yedges4 = np.histogram2d(d[t]['particles']['y'][0][0][0], d[t]['particles']['yp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[y_min, y_max],[yp_min, yp_max]])
+heatmap4, xedges4, yedges4 = np.histogram2d(d['particles']['y'][0][0][0], d['particles']['yp'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[y_min, y_max],[yp_min, yp_max]])
 extent4 = [xedges4[0], xedges4[-1], yedges4[0], yedges4[-1]]
 ax4.imshow(heatmap4, extent=extent4, aspect=( (y_min - y_max)/(yp_min - yp_max) ))
 
@@ -170,8 +170,8 @@ tit4 = 'Y YP Turn = ' + str(t)
 ax4.set_title(tit4);
 ax4.grid(True);
 
-# ~ ax5.scatter(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], color='g', label='1.3 eVs');
-heatmap5, xedges5, yedges5 = np.histogram2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[z_min, z_max],[dE_min, dE_max]])
+# ~ ax5.scatter(d['particles']['z'][0][0][0], d['particles']['dE'][0][0][0], color='g', label='1.3 eVs');
+heatmap5, xedges5, yedges5 = np.histogram2d(d['particles']['z'][0][0][0], d['particles']['dE'][0][0][0], bins=(bin_size_x, bin_size_y), range=[[z_min, z_max],[dE_min, dE_max]])
 extent5 = [xedges5[0], xedges5[-1], yedges5[0], yedges5[-1]]
 ax5.imshow(heatmap5, extent=extent5, aspect=( (z_min - z_max)/(dE_min - dE_max) ))
 
@@ -207,17 +207,17 @@ fig2.subplots_adjust(wspace = 0)	# Vertical spacing between subplots
 tit1 = 'Z dE Turn = ' + str(t)
 
 plt.subplot2grid((3,3), (0,0), colspan=2, rowspan=1)
-plt.hist(d[t]['particles']['z'][0][0][0], bins = bin_size_z,  range = [z_min, z_max], density=True)
+plt.hist(d['particles']['z'][0][0][0], bins = bin_size_z,  range = [z_min, z_max], density=True)
 plt.ylabel('Frequency')
 plt.title(tit1)
 
 plt.subplot2grid((3,3), (1,0), colspan=2, rowspan=2)
-plt.hist2d(d[t]['particles']['z'][0][0][0], d[t]['particles']['dE'][0][0][0], bin_size_z, range=[[z_min, z_max],[dE_min, dE_max]])
+plt.hist2d(d['particles']['z'][0][0][0], d['particles']['dE'][0][0][0], bin_size_z, range=[[z_min, z_max],[dE_min, dE_max]])
 plt.xlabel('z [m]')
 plt.ylabel('dE [GeV]')
 
 plt.subplot2grid((3,3), (1,2), colspan=1, rowspan=2)
-plt.hist(d[t]['particles']['dE'][0][0][0], bins = bin_size_dE,  range = [dE_min, dE_max], density=True, orientation=u'horizontal')
+plt.hist(d['particles']['dE'][0][0][0], bins = bin_size_dE,  range = [dE_min, dE_max], density=True, orientation=u'horizontal')
 plt.xlabel('Frequency')
 current_axis = plt.gca()
 current_axis.axes.get_yaxis().set_visible(False)
@@ -238,17 +238,17 @@ fig3.subplots_adjust(wspace = 0)	# Vertical spacing between subplots
 tit1 = 'x y Turn = ' + str(t)
 
 plt.subplot2grid((3,3), (0,0), colspan=2, rowspan=1)
-plt.hist(d[t]['particles']['x'][0][0][0], bins = bin_size_x,  range = [x_min, x_max], density=True)
+plt.hist(d['particles']['x'][0][0][0], bins = bin_size_x,  range = [x_min, x_max], density=True)
 plt.ylabel('Frequency')
 plt.title(tit1)
 
 plt.subplot2grid((3,3), (1,0), colspan=2, rowspan=2)
-plt.hist2d(d[t]['particles']['x'][0][0][0], d[t]['particles']['y'][0][0][0], bin_size_x, range=[[x_min, x_max],[y_min, y_max]])
+plt.hist2d(d['particles']['x'][0][0][0], d['particles']['y'][0][0][0], bin_size_x, range=[[x_min, x_max],[y_min, y_max]])
 plt.xlabel('x [m]')
 plt.ylabel('y [m]')
 
 plt.subplot2grid((3,3), (1,2), colspan=1, rowspan=2)
-plt.hist(d[t]['particles']['y'][0][0][0], bins = bin_size_y,  range = [y_min, y_max], density=True, orientation=u'horizontal')
+plt.hist(d['particles']['y'][0][0][0], bins = bin_size_y,  range = [y_min, y_max], density=True, orientation=u'horizontal')
 plt.xlabel('Frequency')
 current_axis = plt.gca()
 current_axis.axes.get_yaxis().set_visible(False)
@@ -269,17 +269,17 @@ fig4.subplots_adjust(wspace = 0)	# Vertical spacing between subplots
 tit1 = 'x xp Turn = ' + str(t)
 
 plt.subplot2grid((3,3), (0,0), colspan=2, rowspan=1)
-plt.hist(d[t]['particles']['x'][0][0][0], bins = bin_size_x,  range = [x_min, x_max], density=True)
+plt.hist(d['particles']['x'][0][0][0], bins = bin_size_x,  range = [x_min, x_max], density=True)
 plt.ylabel('Frequency')
 plt.title(tit1)
 
 plt.subplot2grid((3,3), (1,0), colspan=2, rowspan=2)
-plt.hist2d(d[t]['particles']['x'][0][0][0], d[t]['particles']['xp'][0][0][0], bin_size_x, range=[[x_min, x_max],[xp_min, xp_max]])
+plt.hist2d(d['particles']['x'][0][0][0], d['particles']['xp'][0][0][0], bin_size_x, range=[[x_min, x_max],[xp_min, xp_max]])
 plt.xlabel('x [m]')
 plt.ylabel('xp [rad]')
 
 plt.subplot2grid((3,3), (1,2), colspan=1, rowspan=2)
-plt.hist(d[t]['particles']['xp'][0][0][0], bins = bin_size_xp,  range = [xp_min, xp_max], density=True, orientation=u'horizontal')
+plt.hist(d['particles']['xp'][0][0][0], bins = bin_size_xp,  range = [xp_min, xp_max], density=True, orientation=u'horizontal')
 plt.xlabel('Frequency')
 current_axis = plt.gca()
 current_axis.axes.get_yaxis().set_visible(False)
@@ -300,17 +300,17 @@ fig5.subplots_adjust(wspace = 0)	# Vertical spacing between subplots
 tit1 = 'y yp Turn = ' + str(t)
 
 plt.subplot2grid((3,3), (0,0), colspan=2, rowspan=1)
-plt.hist(d[t]['particles']['y'][0][0][0], bins = bin_size_y,  range = [y_min, y_max], density=True)
+plt.hist(d['particles']['y'][0][0][0], bins = bin_size_y,  range = [y_min, y_max], density=True)
 plt.ylabel('Frequency')
 plt.title(tit1)
 
 plt.subplot2grid((3,3), (1,0), colspan=2, rowspan=2)
-plt.hist2d(d[t]['particles']['y'][0][0][0], d[t]['particles']['yp'][0][0][0], bin_size_y, range=[[y_min, y_max],[yp_min, yp_max]])
+plt.hist2d(d['particles']['y'][0][0][0], d['particles']['yp'][0][0][0], bin_size_y, range=[[y_min, y_max],[yp_min, yp_max]])
 plt.xlabel('y [m]')
 plt.ylabel('yp [rad]')
 
 plt.subplot2grid((3,3), (1,2), colspan=1, rowspan=2)
-plt.hist(d[t]['particles']['yp'][0][0][0], bins = bin_size_yp,  range = [yp_min, yp_max], density=True, orientation=u'horizontal')
+plt.hist(d['particles']['yp'][0][0][0], bins = bin_size_yp,  range = [yp_min, yp_max], density=True, orientation=u'horizontal')
 plt.xlabel('Frequency')
 current_axis = plt.gca()
 current_axis.axes.get_yaxis().set_visible(False)
