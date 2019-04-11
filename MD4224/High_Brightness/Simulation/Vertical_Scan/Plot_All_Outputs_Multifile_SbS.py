@@ -449,4 +449,4 @@ plot_parameter(dd, parameter = 'dpp_rms', filename = main_label, percentage = Tr
 
 plot_mean_of_two_parameters(dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
 
-plot_emittance(dd, main_label, turns, legend_label='Turn')
+plot_emittance(dd, main_label, turns, legend_label='Turn', ymin=0.6, ymax=3.8)
