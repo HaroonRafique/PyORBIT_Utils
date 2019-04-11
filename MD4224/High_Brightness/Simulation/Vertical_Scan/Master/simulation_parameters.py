@@ -23,7 +23,7 @@ turns_max = int(2200)
 turns_update = range(-1, turns_max, 200)
 turns_update.append(874) # WS 172s
 turns_update.append(2185)# WS 175s
-turns_print =  range(-1, turns_max, 200)
+turns_print = range(-1, turns_max, 200)
 turns_print.append(874)
 turns_print.append(2185)
 macrosize = intensity/float(n_macroparticles)
@@ -78,8 +78,8 @@ tunespread = {
 switches = {
 	'CreateDistn': False,
 	'ImportFromTomo': True,
-	'SliceBySlice': True,
-	'TwoPointFiveD': False,
+	'SliceBySlice': False,
+	'TwoPointFiveD': True,
 	'LongitudinalKick': True,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
