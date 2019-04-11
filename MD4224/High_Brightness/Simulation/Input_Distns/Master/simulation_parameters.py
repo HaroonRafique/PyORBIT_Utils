@@ -21,9 +21,11 @@ rf_voltage = 0.0212942055190595723
 n_macroparticles = int(1.5E6)
 turns_max = int(3)	
 turns_update = range(-1, turns_max, 1)
-turns_update.append(874, 2185)
+turns_update.append(874)
+turns_update.append(2185)
 turns_print =  range(-1, turns_max, 1)
-turns_print.append(874, 2185)
+turns_print.append(874)
+turns_print.append(2185)
 macrosize = intensity/float(n_macroparticles)
 
 # Space Charge
