@@ -41,7 +41,8 @@ plt.rcParams['legend.handlelength'] = 5
 plt.rcParams['lines.linewidth'] = 0.5
 plt.rcParams['lines.markersize'] = 0.25
 
-infile = ('input/mainbunch.mat')		# All outputs are .mat files
+# ~ infile = ('input/mainbunch.mat')		# All outputs are .mat files
+infile = ('bunch_output/mainbunch_000000.mat')		# All outputs are .mat files
 d = dict()
 
 x_max = 0.
