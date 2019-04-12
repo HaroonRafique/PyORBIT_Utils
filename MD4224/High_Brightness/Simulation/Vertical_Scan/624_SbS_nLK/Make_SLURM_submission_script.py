@@ -27,7 +27,7 @@ queue = 'be-short'
 n_nodes = 4		
 
 # ~ jobname = 'PyORBIT'
-jobname = 'V_24_SbSnlk'
+jobname = 'V_24_nlk'
 # ~ jobname = 'V_24_2.5D' 
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory

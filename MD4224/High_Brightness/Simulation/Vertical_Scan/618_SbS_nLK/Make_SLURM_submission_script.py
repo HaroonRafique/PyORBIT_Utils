@@ -27,7 +27,7 @@ n_nodes = 3
 # ~ n_nodes = 4		
 
 # ~ jobname = 'PyORBIT'
-jobname = 'V_18_SbSnlk'
+jobname = 'V_18_nlk'
 # ~ jobname = 'V_24_2.5D' 
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
