@@ -78,9 +78,9 @@ tunespread = {
 switches = {
 	'CreateDistn': False,
 	'ImportFromTomo': True,
-	'SliceBySlice': False,
-	'TwoPointFiveD': True,
-	'LongitudinalKick': True,
+	'SliceBySlice': True,
+	'TwoPointFiveD': False,
+	'LongitudinalKick': False,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
 	'GridSizeZ': grid_z
