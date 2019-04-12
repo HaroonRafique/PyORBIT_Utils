@@ -21,7 +21,11 @@ rf_voltage = 0.0212942055190595723
 n_macroparticles = int(1.5E6)
 turns_max = int(2200)	
 turns_update = range(-1, turns_max, 200)
-turns_print =  range(-1, turns_max, 200)
+turns_update.append(874) # WS 172s
+turns_update.append(2185)# WS 175s
+turns_print = range(-1, turns_max, 200)
+turns_print.append(874)
+turns_print.append(2185)
 macrosize = intensity/float(n_macroparticles)
 
 # Space Charge
@@ -76,7 +80,7 @@ switches = {
 	'ImportFromTomo': True,
 	'SliceBySlice': False,
 	'TwoPointFiveD': True,
-	'LongitudinalKick': True,
+	'LongitudinalKick': False,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
 	'GridSizeZ': grid_z

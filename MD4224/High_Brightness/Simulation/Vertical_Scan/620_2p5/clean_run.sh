@@ -8,7 +8,7 @@ if [ -e ./logfile_* ]; then
 fi
 
 # slurm cleanup
-if [ -e ./slurm* ]; then
+if [ -e "./slurm*" ]; then
     mkdir SLURM_Logfiles
 	mv slurm* SLURM_Logfiles
 fi
