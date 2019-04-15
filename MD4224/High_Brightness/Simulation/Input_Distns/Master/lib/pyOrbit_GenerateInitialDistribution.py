@@ -262,8 +262,6 @@ def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None,
 		with open(output_file,"w") as fid:
 			
 			csv_writer = csv.writer(fid, delimiter=' ')
-			
-			print 'generate_initial_distribution_from_tomo, N_mp = ', parameters['n_macroparticles']
 			for i in range(parameters['n_macroparticles']):
 				
 				# ~ (z[i], dE[i]) = Longitudinal_distribution.getCoordinates()
@@ -287,8 +285,7 @@ def generate_initial_distribution_from_tomo(parameters, matfile=0, Lattice=None,
 				y[i] *= 1000.
 				yp[i] *= 1000.
 				# ~ dE[i] /= 1.e9	
-			
-			print 'generate_initial_distribution_from_tomo, len(x) = ', len(x)
+						
 			# ~ if outputFormat == 'Orbit':
 			map(lambda i: csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]]), range(parameters['n_macroparticles']))	
 			# ~ elif outputFormat == 'pyOrbit':

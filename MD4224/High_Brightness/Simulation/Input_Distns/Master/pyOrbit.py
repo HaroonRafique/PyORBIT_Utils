@@ -161,18 +161,18 @@ if sts['turn'] < 0:
 
 		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
-						
-# Add Macrosize to bunch
-#-----------------------------------------------------------------------
-		bunch.addPartAttr("macrosize")
-		map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
-		ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
-		
+
 	else:
 # OR load bunch from file
 #-----------------------------------------------------------------------
 		path_to_distn = './../../Input_Distns/1p5E6/MD4224_Nominal_WP_Tomo_Distn.mat'
 		bunch = bunch_from_matfile(path_to_distn)
+		
+# Add Macrosize to bunch
+#-----------------------------------------------------------------------
+	bunch.addPartAttr("macrosize")
+	map(lambda i: bunch.partAttrValue("macrosize", i, 0, p['macrosize']), range(bunch.getSize()))
+	ParticleIdNumber().addParticleIdNumbers(bunch) # Give them unique number IDs
 
 # Dump and save as Matfile
 #-----------------------------------------------------------------------
@@ -265,6 +265,12 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
+output.addParameter('beta_x', lambda: bunchtwissanalysis.getBeta(0))
+output.addParameter('beta_y', lambda: bunchtwissanalysis.getBeta(1))
+output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
+output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
+output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
+output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
