@@ -160,6 +160,13 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
+output.addParameter('beta_x', lambda: bunchtwissanalysis.getBeta(0))
+output.addParameter('beta_y', lambda: bunchtwissanalysis.getBeta(1))
+output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
+output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
+output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
+output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
+
 ------------------------------------------------------------------------
 '''
 def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None):
@@ -181,6 +188,42 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 		ax1.set_title('Bunch Length');
 		figname = filename + '_' + parameter
 		
+	elif parameter is 'beta_x':
+		ylabel = r'$\beta_x$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective $\beta_x$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'beta_y':
+		ylabel = r'$\beta_y$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective $\beta_y$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'D_x':
+		ylabel = r'D$_x$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective D$_x$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'D_y':
+		ylabel = r'D$_y$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective D$_y$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'alpha_x':
+		ylabel = r'$\alpha_x$' 
+		yunit = '[-]'
+		ax1.set_title(r'Effective $\alpha_x$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'alpha_y':
+		ylabel = r'$\alpha_y$' 
+		yunit = '[-]'
+		ax1.set_title(r'Effective $\alpha_y$');
+		figname = filename + '_' + parameter	
+	
 	elif parameter is 'dpp_rms':
 		multiplier = 1./1E-3
 		ylabel = r'$\frac{\delta p}{p}$'
@@ -402,7 +445,7 @@ print 'Final data dictionary keys: ', dd.keys()
 		
 main_label = 'Slice_By_Slice'
 legend_label = 'Tune'
-turn_tot = 50
+turn_tot = None
 turns = [0, 1, 10, 100, 199, 874, 2185]
 
 '''
@@ -446,6 +489,15 @@ plot_parameter(dd, parameter = 'bunchlength', filename = main_label, percentage 
 
 plot_parameter(dd, parameter = 'dpp_rms', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 plot_parameter(dd, parameter = 'dpp_rms', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
 plot_mean_of_two_parameters(dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
 
