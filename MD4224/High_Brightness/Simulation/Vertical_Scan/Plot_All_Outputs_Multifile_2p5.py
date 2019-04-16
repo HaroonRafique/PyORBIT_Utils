@@ -345,6 +345,67 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 	plt.close()
 	return;
 
+
+def plot_effective_sigma(dd, filename, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None):
+	
+	if percentage:
+		print '\nPlotting ', parameter, ' percentage'
+	else:
+		print '\nPlotting ', parameter
+	
+	multiplier = 1.
+
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	if parameter is 'bunchlength':
+		multiplier = 1./1E-9
+		ylabel = r'$B_l$' 
+		yunit = '[ns]'
+		ax1.set_title('Bunch Length');
+		figname = filename + '_' + parameter
+		
+	
+
+
+	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
+	c_it = int(0)	
+	
+	if percentage:	
+		for key, value in sorted(dd.iteritems()):
+			ax1.plot(dd[key]['turn'][0], ((dd[key][parameter][0]/dd[key][parameter][0][0])*100)-100, label=key, color=colors[c_it]);
+			c_it = c_it + 1
+		ylabel = str(ylabel + ' percentage change [%]')		
+		figname = filename + '_' + parameter + '_percentage'
+	else:
+		for key, value in sorted(dd.iteritems()):			
+			ax1.plot(dd[key]['turn'][0], dd[key][parameter][0]*multiplier, label=key, color=colors[c_it]);
+			c_it = c_it + 1
+		ylabel = str(ylabel + ' ' + yunit)
+		
+	if ymin is not None:
+		ax1.set_ylim(bottom = ymin)	
+	if ymax is not None:
+		ax1.set_ylim(top = ymax)
+		
+	if turns is not None: 
+		ax1.set_xlim(left = 0)
+		ax1.set_xlim(right = turns)
+	
+	ax1.set_ylabel(ylabel);
+	ax1.set_xlabel('Turn [-]');
+	ax1.grid(True);
+	
+	figname = figname + '.png'
+	
+	if legend_label is not None: 
+		ax1.legend(title=legend_label)
+	else:
+		ax1.legend()
+		
+	fig1.savefig(figname);	
+	plt.close()
+	return;
 '''
 plot_mean_of_two_parameters: Required arguments:
 dd: dictionary of particle data dictionaries. key = user defined label
@@ -444,8 +505,10 @@ dd = add_input_file(dd, './610_2p5/output/output.mat', '6.10')
 print 'Final data dictionary keys: ', dd.keys()
 		
 main_label = '2.5D'
+main_label2 = '2.5D_zoom'
 legend_label = 'Tune'
 turn_tot = None
+zoom_turns = 15
 turns = [0, 1, 10, 100, 199, 874, 2185]
 
 '''
@@ -498,6 +561,15 @@ plot_parameter(dd, parameter = 'alpha_y', filename = main_label, percentage = Fa
 
 plot_parameter(dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'D_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'D_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
 plot_mean_of_two_parameters(dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
 

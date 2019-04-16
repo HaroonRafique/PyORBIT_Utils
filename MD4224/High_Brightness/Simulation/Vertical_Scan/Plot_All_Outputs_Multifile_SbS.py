@@ -444,8 +444,10 @@ dd = add_input_file(dd, './610_SbS/output/output.mat', '6.10')
 print 'Final data dictionary keys: ', dd.keys()
 		
 main_label = 'Slice_By_Slice'
+main_label2 = 'Slice_By_Slice_zoom'
 legend_label = 'Tune'
 turn_tot = None
+zoom_turns = 15
 turns = [0, 1, 10, 100, 199, 874, 2185]
 
 '''
@@ -475,10 +477,10 @@ plot_parameter(dd, parameter = 'mean_z', filename = main_label, percentage = Tru
 plot_parameter(dd, parameter = 'mean_dE', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 plot_parameter(dd, parameter = 'mean_dE', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.2)
+plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
 plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
 plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
 plot_parameter(dd, parameter = 'eps_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
@@ -499,6 +501,15 @@ plot_parameter(dd, parameter = 'alpha_y', filename = main_label, percentage = Fa
 plot_parameter(dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
+plot_parameter(dd, parameter = 'beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'D_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'D_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+
 plot_mean_of_two_parameters(dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
 
-plot_emittance(dd, main_label, turns, legend_label='Turn')#, ymin=0.6, ymax=3.8)
+plot_emittance(dd, main_label, turns, legend_label='Turn')
