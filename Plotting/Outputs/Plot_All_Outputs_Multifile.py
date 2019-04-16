@@ -1,5 +1,6 @@
 # Plots all available plottable data from output.mat as individual files
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import scipy.io as sio 
 import matplotlib.cm as cm
@@ -13,11 +14,117 @@ plt.rcParams['legend.fontsize'] = 'medium'
 plt.rcParams['lines.linewidth'] = 1
 
 '''
+add_input_file:
+dd: dictionary of particle data dictionaries. key = user defined label
+filename: input file name (with relative path from this file)
+label: file label e.g. 'case 1', 'case 2', ...
+'''
+def add_input_file(dd, filename, label):
+	f = filename
+	p = dict()
+	sio.loadmat(f, mdict=p)
+	dd[label] = p	
+	print '\n\tAdded output data from ', filename, '\t dictionary key: ', label
+	return dd
+
+'''
+plot_emittance: Required arguments:
+dd: 		dictionary of particle data dictionaries. key = user defined label
+filename:	e.g. 'Testing' gives Testing_Emittances.png.
+turns:		array of turns to plot at, default is 0,874,2185 which correspond to
+			c170, c172, c175 (WS measurement times for MD4224)
+
+Optional arguments:
+legend_label:	title for legend
+y limits are default unless 'ymin' and 'ymax' arguments are specified.
+One may provide a plot title using the 'tit' argument.
+'''
+def plot_emittance(dd, filename, turns=[0,874,2185], ymin=None, ymax=None, tit = None, legend_label = None):
+		
+	multiplier = 1./1E-6
+	
+	# First plot for epsn_x
+	fig1 = plt.figure(figsize=(8, 8), facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(211)	
+
+	colors = cm.rainbow(np.linspace(0, 1, len(turns)))
+	c_it = int(0)	
+	
+	ax1.set_xlabel(r'Q$_y$ [-]');
+	ax1.set_ylabel(r'$\epsilon_x^n$ [mm mrad]')
+	ax1.set_title('Emittances');
+	
+	custom_lines = []
+	custom_labels = []
+	
+	t_it = int(0)
+	for t in sorted(turns):
+		custom_lines.append(Line2D([0], [0], color=colors[t_it], lw=2))
+		custom_labels.append(t)
+		t_it = t_it +1		
+	
+	for t in sorted(turns):	
+		for key, value in sorted(dd.iteritems()):	
+			try:
+				ax1.scatter(key, dd[key]['epsn_x'][0][t]*multiplier, color=colors[c_it]);
+			except IndexError:
+				print 'plot_emittance: index ', t , ' out of range for tune ', key
+				continue
+		c_it = c_it + 1	
+			
+	if ymin is not None:
+		ax1.set_ylim(bottom = ymin)	
+	if ymax is not None:
+		ax1.set_ylim(top = ymax)
+	
+	ax1.grid(True);	
+	
+	if legend_label is not None: 		
+		ax1.legend(custom_lines, custom_labels, title=legend_label)
+	else:		
+		ax1.legend(custom_lines, custom_labels)
+	
+	# Second plot for epsn_y
+	ax2 = fig1.add_subplot(212)	
+	
+	colors = cm.rainbow(np.linspace(0, 1, len(turns)))
+	c_it = int(0)	
+	
+	ax2.set_xlabel(r'Q$_y$ [-]');
+	ax2.set_ylabel(r'$\epsilon_y^n$ [mm mrad]')
+	
+	for t in sorted(turns):	
+		for key, value in sorted(dd.iteritems()):	
+			try:
+				ax2.scatter(key, dd[key]['epsn_y'][0][t]*multiplier, color=colors[c_it]);
+			except IndexError:
+				# ~ print 'plot_emittance: index ', t , ' out of range for tune ', key
+				continue
+		c_it = c_it + 1	
+			
+	if ymin is not None:
+		ax2.set_ylim(bottom = ymin)	
+	if ymax is not None:
+		ax2.set_ylim(top = ymax)
+	
+	ax2.grid(True);	
+	
+	if legend_label is not None: 		
+		ax2.legend(custom_lines, custom_labels, title=legend_label)
+	else:		
+		ax2.legend(custom_lines, custom_labels)
+	
+	figname = filename + '_Emittances.png'
+	fig1.savefig(figname);	
+	plt.close()
+	
+	return;
+	
+'''
 plot_parameter: Required arguments:
+dd: dictionary of particle data dictionaries. key = user defined label
 parameter name: e.g. 'bunchlength'.
 filename: 		e.g. 'Testing' gives Testing_bunchlength.png.
-n_files: 		number of input files (int).
-labels:			labels for each input file (array of strings).
 
 Optional arguments:
 percentage:		switch used to plot raw or percentage change from initial value.
@@ -53,9 +160,16 @@ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(
 output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
+output.addParameter('beta_x', lambda: bunchtwissanalysis.getBeta(0))
+output.addParameter('beta_y', lambda: bunchtwissanalysis.getBeta(1))
+output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
+output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
+output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
+output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
+
 ------------------------------------------------------------------------
 '''
-def plot_parameter(parameter, filename, n_files, labels, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None):
+def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None):
 	
 	if percentage:
 		print '\nPlotting ', parameter, ' percentage'
@@ -74,6 +188,42 @@ def plot_parameter(parameter, filename, n_files, labels, percentage = False, ymi
 		ax1.set_title('Bunch Length');
 		figname = filename + '_' + parameter
 		
+	elif parameter is 'beta_x':
+		ylabel = r'$\beta_x$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective $\beta_x$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'beta_y':
+		ylabel = r'$\beta_y$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective $\beta_y$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'D_x':
+		ylabel = r'D$_x$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective D$_x$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'D_y':
+		ylabel = r'D$_y$' 
+		yunit = '[m]'
+		ax1.set_title(r'Effective D$_y$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'alpha_x':
+		ylabel = r'$\alpha_x$' 
+		yunit = '[-]'
+		ax1.set_title(r'Effective $\alpha_x$');
+		figname = filename + '_' + parameter	
+		
+	elif parameter is 'alpha_y':
+		ylabel = r'$\alpha_y$' 
+		yunit = '[-]'
+		ax1.set_title(r'Effective $\alpha_y$');
+		figname = filename + '_' + parameter	
+	
 	elif parameter is 'dpp_rms':
 		multiplier = 1./1E-3
 		ylabel = r'$\frac{\delta p}{p}$'
@@ -156,41 +306,19 @@ def plot_parameter(parameter, filename, n_files, labels, percentage = False, ymi
 		figname = filename + '_' + parameter
 
 
-	colors = cm.rainbow(np.linspace(0, 1, n_files))
-
-	if percentage:
-		if n_files > 0:	ax1.plot(particles_1['turn'][0], ((particles_1[parameter][0]/particles_1[parameter][0][0])*100)-100, label=labels[0], color=colors[0]);
-		if n_files > 1:	ax1.plot(particles_2['turn'][0], ((particles_2[parameter][0]/particles_2[parameter][0][0])*100)-100, label=labels[1], color=colors[1]);
-		if n_files > 2:	ax1.plot(particles_3['turn'][0], ((particles_3[parameter][0]/particles_3[parameter][0][0])*100)-100, label=labels[2], color=colors[2]);
-		if n_files > 3:	ax1.plot(particles_4['turn'][0], ((particles_4[parameter][0]/particles_4[parameter][0][0])*100)-100, label=labels[3], color=colors[3]);
-		if n_files > 4:	ax1.plot(particles_5['turn'][0], ((particles_5[parameter][0]/particles_5[parameter][0][0])*100)-100, label=labels[4], color=colors[4]);
-		if n_files > 5:	ax1.plot(particles_6['turn'][0], ((particles_6[parameter][0]/particles_6[parameter][0][0])*100)-100, label=labels[5], color=colors[5]);
-		if n_files > 6:	ax1.plot(particles_7['turn'][0], ((particles_7[parameter][0]/particles_7[parameter][0][0])*100)-100, label=labels[6], color=colors[6]);
-		if n_files > 7:	ax1.plot(particles_8['turn'][0], ((particles_8[parameter][0]/particles_8[parameter][0][0])*100)-100, label=labels[7], color=colors[7]);
-		if n_files > 8:	ax1.plot(particles_9['turn'][0], ((particles_9[parameter][0]/particles_9[parameter][0][0])*100)-100, label=labels[8], color=colors[8]);
-		if n_files > 9:	ax1.plot(particles_10['turn'][0], ((particles_10[parameter][0]/particles_10[parameter][0][0])*100)-100, label=labels[9], color=colors[9]);
-		if n_files > 10: 
-			print '\nWARNING: Number of files exceeds limit. Exiting.\n'
-			exit(0)
-			
+	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
+	c_it = int(0)	
+	
+	if percentage:	
+		for key, value in sorted(dd.iteritems()):
+			ax1.plot(dd[key]['turn'][0], ((dd[key][parameter][0]/dd[key][parameter][0][0])*100)-100, label=key, color=colors[c_it]);
+			c_it = c_it + 1
 		ylabel = str(ylabel + ' percentage change [%]')		
 		figname = filename + '_' + parameter + '_percentage'
 	else:
-		
-		if n_files > 0:	ax1.plot(particles_1['turn'][0], particles_1[parameter][0]*multiplier, label=labels[0], color=colors[0]);
-		if n_files > 1:	ax1.plot(particles_2['turn'][0], particles_2[parameter][0]*multiplier, label=labels[1], color=colors[1]);
-		if n_files > 2:	ax1.plot(particles_3['turn'][0], particles_3[parameter][0]*multiplier, label=labels[2], color=colors[2]);
-		if n_files > 3:	ax1.plot(particles_4['turn'][0], particles_4[parameter][0]*multiplier, label=labels[3], color=colors[3]);
-		if n_files > 4:	ax1.plot(particles_5['turn'][0], particles_5[parameter][0]*multiplier, label=labels[4], color=colors[4]);
-		if n_files > 5:	ax1.plot(particles_6['turn'][0], particles_6[parameter][0]*multiplier, label=labels[5], color=colors[5]);
-		if n_files > 6:	ax1.plot(particles_7['turn'][0], particles_7[parameter][0]*multiplier, label=labels[6], color=colors[6]);
-		if n_files > 7:	ax1.plot(particles_8['turn'][0], particles_8[parameter][0]*multiplier, label=labels[7], color=colors[7]);
-		if n_files > 8:	ax1.plot(particles_9['turn'][0], particles_9[parameter][0]*multiplier, label=labels[8], color=colors[8]);
-		if n_files > 9:	ax1.plot(particles_10['turn'][0], particles_10[parameter][0]*multiplier, label=labels[9], color=colors[9]);
-		if n_files > 10: 
-			print '\nWARNING: Number of files exceeds limit. Exiting.\n'
-			exit(0)
-			
+		for key, value in sorted(dd.iteritems()):			
+			ax1.plot(dd[key]['turn'][0], dd[key][parameter][0]*multiplier, label=key, color=colors[c_it]);
+			c_it = c_it + 1
 		ylabel = str(ylabel + ' ' + yunit)
 		
 	if ymin is not None:
@@ -219,12 +347,10 @@ def plot_parameter(parameter, filename, n_files, labels, percentage = False, ymi
 
 '''
 plot_mean_of_two_parameters: Required arguments:
+dd: dictionary of particle data dictionaries. key = user defined label
 parameter1 name: 	e.g. 'epsn_x'.
 parameter1 name: 	e.g. 'epsn_y'.
 filename: 			e.g. 'Testing' gives Testing_bunchlength.png.
-n_files: 			number of input files (int).
-labels:				labels for each input file (array of strings).
-
 Optional arguments:
 tit:				plot title
 ylab:				y-axis label
@@ -235,7 +361,7 @@ x limits may be changed with 'turns' argument.
 
 The only expected parameters are epsn_x and epsn_y
 '''
-def plot_mean_of_two_parameters(parameter1, parameter2, filename, n_files, labels, tit=None, ylab=None, yun='-', ymin=None, ymax=None, turns = None, legend_label = None):
+def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, ylab=None, yun='-', ymin=None, ymax=None, turns = None, legend_label = None):
 
 	print '\nPlotting mean of ', parameter1, 'and', parameter2,
 		
@@ -249,40 +375,30 @@ def plot_mean_of_two_parameters(parameter1, parameter2, filename, n_files, label
 	if tit is None:
 		tit = 'mean of ' + parameter1 + ' and ' + parameter2
 				
-	colors = cm.rainbow(np.linspace(0, 1, n_files))
+	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
+	c_it = int(0)	
+		
+	if parameter1 is parameter2:
+		print '\nWARNING: plot_mean_of_two_parameters has been given the same parameter ' + parameter1 + ' twice'
 		
 	if 'epsn' in parameter1 and parameter2:
 		multiplier = 1./1E-6
 		tit = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
 		ylabel = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
-		yun = '[mm mrad]'
+		yun = '[mm mrad]'		
 		
-		if n_files > 0:	ax1.plot(particles_1['turn'][0], (particles_1[parameter1][0]*multiplier + particles_1[parameter2][0]*multiplier)/2, label=labels[0], color=colors[0]);
-		if n_files > 1:	ax1.plot(particles_2['turn'][0], (particles_2[parameter1][0]*multiplier + particles_2[parameter2][0]*multiplier)/2, label=labels[1], color=colors[1]);
-		if n_files > 2:	ax1.plot(particles_3['turn'][0], (particles_3[parameter1][0]*multiplier + particles_3[parameter2][0]*multiplier)/2, label=labels[2], color=colors[2]);
-		if n_files > 3:	ax1.plot(particles_4['turn'][0], (particles_4[parameter1][0]*multiplier + particles_4[parameter2][0]*multiplier)/2, label=labels[3], color=colors[3]);
-		if n_files > 4:	ax1.plot(particles_5['turn'][0], (particles_5[parameter1][0]*multiplier + particles_5[parameter2][0]*multiplier)/2, label=labels[4], color=colors[4]);
-		if n_files > 5:	ax1.plot(particles_6['turn'][0], (particles_6[parameter1][0]*multiplier + particles_6[parameter2][0]*multiplier)/2, label=labels[5], color=colors[5]);
-		if n_files > 6:	ax1.plot(particles_7['turn'][0], (particles_7[parameter1][0]*multiplier + particles_7[parameter2][0]*multiplier)/2, label=labels[6], color=colors[6]);
-		if n_files > 7:	ax1.plot(particles_8['turn'][0], (particles_8[parameter1][0]*multiplier + particles_8[parameter2][0]*multiplier)/2, label=labels[7], color=colors[7]);
-		if n_files > 8:	ax1.plot(particles_9['turn'][0], (particles_9[parameter1][0]*multiplier + particles_9[parameter2][0]*multiplier)/2, label=labels[8], color=colors[8]);
-		if n_files > 9:	ax1.plot(particles_10['turn'][0], (particles_10[parameter1][0]*multiplier + particles_10[parameter2][0]*multiplier)/2, label=labels[9], color=colors[9]);
-		
+		for key, value in sorted(dd.iteritems()):		
+			ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier + dd[key][parameter2][0]*multiplier)/2, label=key, color=colors[c_it]);
+			c_it = c_it + 1
+	
 		ylabel = ylabel + ' ' + yun
 		ax1.set_ylabel(ylabel);
 		figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
 	else:
-		if n_files > 0:	ax1.plot(particles_1['turn'][0], (particles_1[parameter1][0] + particles_1[parameter2][0])/2, label=labels[0], color=colors[0]);
-		if n_files > 1:	ax1.plot(particles_2['turn'][0], (particles_2[parameter1][0] + particles_2[parameter2][0])/2, label=labels[1], color=colors[1]);
-		if n_files > 2:	ax1.plot(particles_3['turn'][0], (particles_3[parameter1][0] + particles_3[parameter2][0])/2, label=labels[2], color=colors[2]);
-		if n_files > 3:	ax1.plot(particles_4['turn'][0], (particles_4[parameter1][0] + particles_4[parameter2][0])/2, label=labels[3], color=colors[3]);
-		if n_files > 4:	ax1.plot(particles_5['turn'][0], (particles_5[parameter1][0] + particles_5[parameter2][0])/2, label=labels[4], color=colors[4]);
-		if n_files > 5:	ax1.plot(particles_6['turn'][0], (particles_6[parameter1][0] + particles_6[parameter2][0])/2, label=labels[5], color=colors[5]);
-		if n_files > 6:	ax1.plot(particles_7['turn'][0], (particles_7[parameter1][0] + particles_7[parameter2][0])/2, label=labels[6], color=colors[6]);
-		if n_files > 7:	ax1.plot(particles_8['turn'][0], (particles_8[parameter1][0] + particles_8[parameter2][0])/2, label=labels[7], color=colors[7]);
-		if n_files > 8:	ax1.plot(particles_9['turn'][0], (particles_9[parameter1][0] + particles_9[parameter2][0])/2, label=labels[8], color=colors[8]);
-		if n_files > 9:	ax1.plot(particles_10['turn'][0], (particles_10[parameter1][0] + particles_10[parameter2][0])/2, label=labels[9], color=colors[9]);
-		
+		for key, value in sorted(dd.iteritems()):		
+			ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier + dd[key][parameter2][0]*multiplier)/2, label=key, color=colors[c_it]);
+			c_it = c_it + 1
+	
 		ylabel = str( 'mean of ' + parameter1 + ' and ' + parameter2 + ' [' + yun + ']')
 		ax1.set_ylabel(ylabel);
 		figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
@@ -315,49 +431,22 @@ def plot_mean_of_two_parameters(parameter1, parameter2, filename, n_files, label
 ------------------------------------------------------------------------
 '''
 
-labels = ['6.09', '6.10', '6.11', '6.12', '6.13', '6.17', '6.19', '6.21', '6.22', '6.24']
-main_label = 'Testing'
+# Create dd dictionary
+dd = dict()
+dd = add_input_file(dd, './624_SbS/output/output.mat', '6.24')
+dd = add_input_file(dd, './622_SbS/output/output.mat', '6.22')
+dd = add_input_file(dd, './620_SbS/output/output.mat', '6.20')
+dd = add_input_file(dd, './618_SbS/output/output.mat', '6.18')
+dd = add_input_file(dd, './616_SbS/output/output.mat', '6.16')
+dd = add_input_file(dd, './614_SbS/output/output.mat', '6.14')
+dd = add_input_file(dd, './612_SbS/output/output.mat', '6.12')
+dd = add_input_file(dd, './610_SbS/output/output.mat', '6.10')
+print 'Final data dictionary keys: ', dd.keys()
+		
+main_label = 'Slice_By_Slice'
 legend_label = 'Tune'
-turn_tot = 2000
-files = 10
-
-if len(labels) != files:
-	print '\nWARNING: : Number of files is not equal to number of labels. Please check and correct. Exiting.\n'
-	exit(0)
-
-# Open File
-file_1='09/output/output.mat'
-file_2='10/output/output.mat'
-file_3='11/output/output.mat'
-file_4='12/output/output.mat'
-file_5='13/output/output.mat'
-file_6='17/output/output.mat'
-file_7='19/output/output.mat'
-file_8='21/output/output.mat'
-file_9='22/output/output.mat'
-file_10='24/output/output.mat'
-
-particles_1=dict()
-particles_2=dict()
-particles_3=dict()
-particles_4=dict()
-particles_5=dict()
-particles_6=dict()
-particles_7=dict()
-particles_8=dict()
-particles_9=dict()
-particles_10=dict()
-
-sio.loadmat(file_1, mdict=particles_1)
-sio.loadmat(file_2, mdict=particles_2)
-sio.loadmat(file_3, mdict=particles_3)
-sio.loadmat(file_4, mdict=particles_4)
-sio.loadmat(file_5, mdict=particles_5)
-sio.loadmat(file_6, mdict=particles_6)
-sio.loadmat(file_7, mdict=particles_7)
-sio.loadmat(file_8, mdict=particles_8)
-sio.loadmat(file_9, mdict=particles_9)
-sio.loadmat(file_10, mdict=particles_10)
+turn_tot = None
+turns = [0, 1, 10, 100, 199, 874, 2185]
 
 '''
 ------------------------------------------------------------------------
@@ -365,40 +454,51 @@ sio.loadmat(file_10, mdict=particles_10)
 ------------------------------------------------------------------------
 '''
 
-plot_parameter(parameter = 'intensity', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'intensity', filename = main_label, n_files = files, labels = labels,  percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'intensity', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'intensity', filename = main_label,  percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'mean_x', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'mean_x', filename = main_label, n_files = files, labels = labels,percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'mean_xp', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'mean_xp', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_xp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_xp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'mean_y', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'mean_y', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'mean_yp', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'mean_yp', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_yp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_yp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'mean_z', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'mean_z', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'mean_dE', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'mean_dE', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_dE', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'mean_dE', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'epsn_x', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'epsn_x', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.2)
+plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'epsn_y', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'epsn_y', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'eps_z', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'eps_z', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'eps_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'eps_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'bunchlength', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'bunchlength', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'bunchlength', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'bunchlength', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(parameter = 'dpp_rms', filename = main_label, n_files = files, labels = labels, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(parameter = 'dpp_rms', filename = main_label, n_files = files, labels = labels, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'dpp_rms', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'dpp_rms', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_mean_of_two_parameters(parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label, n_files = files, labels = labels, legend_label = legend_label)
+plot_parameter(dd, parameter = 'beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_mean_of_two_parameters(dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
+
+plot_emittance(dd, main_label, turns, legend_label='Turn')#, ymin=0.6, ymax=3.8)
