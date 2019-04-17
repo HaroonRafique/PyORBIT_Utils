@@ -607,10 +607,10 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 	ax2 = fig2.add_subplot(111)	
 		
 	if real: 
-		ax1.set_title('Vertical Bunch Size');
+		ax2.set_title('Vertical Bunch Size');
 		figname = filename + '_sigma_y'
 	else:
-		ax1.set_title('Effective Vertical Bunch Size');
+		ax2.set_title('Effective Vertical Bunch Size');
 		figname = filename + '_effective_sigma_y'
 	
 	multiplier = 1./1E-3
