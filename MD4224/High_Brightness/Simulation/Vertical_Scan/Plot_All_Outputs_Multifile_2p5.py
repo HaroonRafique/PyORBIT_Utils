@@ -363,7 +363,7 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 		ylabel = str(ylabel + ' percentage change [%]')		
 		figname = filename + '_' + parameter + '_percentage'
 	else:
-		for key, value in sorted(dd.iteritems()):			
+		for key, value in sorted(dd.iteritems()):	
 			ax1.plot(dd[key]['turn'][0], dd[key][parameter][0]*multiplier, label=key, color=colors[c_it]);
 			c_it = c_it + 1
 		ylabel = str(ylabel + ' ' + yunit)
@@ -432,6 +432,8 @@ output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(
 output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
 '''
 def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None):
+	
+	print 'Plotting ', parameter1, ' and' , parameter2
 	multiplier = 1.
 
 	fig1 = plt.figure(facecolor='w', edgecolor='k')
@@ -442,65 +444,65 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 		ylabel = r'$\beta_x$' 
 		yunit = '[m]'
 		ax1.set_title(r'$\beta_x$');
-		figname = filename + '_' + parameter	
+		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		
 	elif (parameter1 is 'beta_y' and parameter2 is 'eff_beta_y') or (parameter2 is 'beta_y' and parameter1 is 'eff_beta_y'):
 		ylabel = r'$\beta_y$' 
 		yunit = '[m]'
 		ax1.set_title(r' $\beta_y$');
-		figname = filename + '_' + parameter	
+		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		
 	elif 'beta' in parameter1 and parameter2:
 		ylabel = r'$\beta$' 
 		yunit = '[m]'
 		ax1.set_title(r' $\beta$');
-		figname = filename + '_' + parameter		
+		figname = filename + '_' + parameter1 + '_and_' + parameter2	
 
 	elif (parameter1 is 'epsn_x' and parameter2 is 'eff_epsn_x') or (parameter2 is 'epsn_x' and parameter1 is 'eff_epsn_x'):
 		multiplier = 1./1E-6
 		ylabel = r'$\epsilon_x^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Horizontal Emittance');
-		figname = filename + '_' + parameter
+		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		
 	elif (parameter1 is 'epsn_y' and parameter2 is 'eff_epsn_y') or (parameter2 is 'epsn_y' and parameter1 is 'eff_epsn_y'):
 		multiplier = 1./1E-6
 		ylabel = r'$\epsilon_y^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Vertical Emittance');
-		figname = filename + '_' + parameter
+		figname = filename + '_' + parameter1 + '_and_' + parameter2
 
 	elif 'epsn' in parameter1 and parameter2:		
 		multiplier = 1./1E-6
 		ylabel = r'$\epsilon^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Emittance');
-		figname = filename + '_' + parameter		
+		figname = filename + '_' + parameter1 + '_and_' + parameter2	
 		
 	elif (parameter1 is 'alpha_x' and parameter2 is 'eff_alpha_x') or (parameter2 is 'alpha_x' and parameter1 is 'eff_alpha_x'):
 		ylabel = r'$\alpha_x$' 
 		yunit = '[-]'
 		ax1.set_title(r'$\alpha_x$');
-		figname = filename + '_' + parameter	
+		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		
 	elif (parameter1 is 'alpha_y' and parameter2 is 'eff_alpha_y') or (parameter2 is 'alpha_y' and parameter1 is 'eff_alpha_y'):
 		ylabel = r'$\alpha_y$' 
 		yunit = '[-]'
 		ax1.set_title(r'$\alpha_y$');
-		figname = filename + '_' + parameter		
+		figname = filename + '_' + parameter1 + '_and_' + parameter2	
 		
 	elif 'alpha' in parameter1 and parameter2:
 		ylabel = r'$\alpha$' 
 		yunit = '[-]'
 		ax1.set_title(r'$\alpha$');
-		figname = filename + '_' + parameter
+		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		
 	else:
 		multiplier = multi
 		ylabel = ylab
 		yunit = yun
 		ax1.set_title(tit);
-		figname = filename + '_' + parameter
+		figname = filename + '_' + parameter1 + '_and_' + parameter2
 
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)	
@@ -559,13 +561,14 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 	
 	if real: 
 		ax1.set_title('Horizontal Bunch Size');
+		figname = filename + 'sigma'
 	else:
 		ax1.set_title('Effective Horizontal Bunch Size');
+		figname = filename + 'effective_sigma'
 		
 	multiplier = 1./1E-6
 	ylabel = r'$\sigma_x$' 
 	yunit = r'[\mu m]'
-	figname = filename + '_' + parameter
 
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)		
@@ -605,13 +608,14 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 		
 	if real: 
 		ax1.set_title('Vertical Bunch Size');
+		figname = filename + 'sigma'
 	else:
 		ax1.set_title('Effective Vertical Bunch Size');
+		figname = filename + 'effective_sigma'
 	
 	multiplier = 1./1E-6
 	ylabel = r'$\sigma_y$' 
 	yunit = r'[\mu m]'
-	figname = filename + '_' + parameter
 
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)		
@@ -731,7 +735,6 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	plt.close()	
 	return;
 
-
 '''
 ------------------------------------------------------------------------
 						Open files and read data
@@ -787,13 +790,13 @@ plot_parameter(dd, parameter = 'mean_dE', filename = main_label, percentage = Tr
 plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
 plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
 plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
 plot_parameter(dd, parameter = 'eff_epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
 plot_parameter(dd, parameter = 'eff_epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
 plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
 plot_parameter(dd, parameter = 'eps_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
