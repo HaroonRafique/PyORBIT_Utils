@@ -561,14 +561,14 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 	
 	if real: 
 		ax1.set_title('Horizontal Bunch Size');
-		figname = filename + 'sigma'
+		figname = filename + '_sigma_x'
 	else:
 		ax1.set_title('Effective Horizontal Bunch Size');
-		figname = filename + 'effective_sigma'
+		figname = filename + '_effective_sigma_x'
 		
-	multiplier = 1./1E-6
+	multiplier = 1./1E-3
 	ylabel = r'$\sigma_x$' 
-	yunit = r'[\mu m]'
+	yunit = r'[mm]'
 
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)		
@@ -608,14 +608,14 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 		
 	if real: 
 		ax1.set_title('Vertical Bunch Size');
-		figname = filename + 'sigma'
+		figname = filename + '_sigma_y'
 	else:
 		ax1.set_title('Effective Vertical Bunch Size');
-		figname = filename + 'effective_sigma'
+		figname = filename + '_effective_sigma_y'
 	
-	multiplier = 1./1E-6
+	multiplier = 1./1E-3
 	ylabel = r'$\sigma_y$' 
-	yunit = r'[\mu m]'
+	yunit = r'[mm]'
 
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)		
