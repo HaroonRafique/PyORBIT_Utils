@@ -271,6 +271,12 @@ output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
 output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
 output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
 output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
+output.addParameter('eff_beta_x', lambda: bunchtwissanalysis.getEffectiveBeta(0))
+output.addParameter('eff_beta_y', lambda: bunchtwissanalysis.getEffectiveBeta(1))
+output.addParameter('eff_epsn_x', lambda: bunchtwissanalysis.getEffectiveEmittance(0))
+output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittance(1))
+output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
+output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
