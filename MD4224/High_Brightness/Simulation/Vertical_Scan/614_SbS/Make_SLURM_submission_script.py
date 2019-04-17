@@ -22,9 +22,9 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 queue = 'be-short'
 
 # ~ n_nodes = 1		
-n_nodes = 2		
+# ~ n_nodes = 2		
 # ~ n_nodes = 3		
-# ~ n_nodes = 4		
+n_nodes = 4		
 
 # ~ jobname = 'PyORBIT'
 jobname = 'V_14_SbS'

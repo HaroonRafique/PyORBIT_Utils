@@ -28,7 +28,7 @@ use, sequence=PS;
  * beam wire scanner at the start of region 64. We then save the new 
  * sequence to a file.
  **********************************************************************/
-PR.BWSH65     :  MONITOR  , L = 0.0; 
+PR.BWSV64     :  MONITOR  , L = 0.0; 
 
 seqedit, sequence=PS;
 	flatten;
@@ -43,6 +43,7 @@ seqedit, sequence=PS;
 	cycle , start=PR.BWSV64;
 	flatten;
 endedit;
+
 save,file='./PS.seq';
 
 use, sequence=PS;

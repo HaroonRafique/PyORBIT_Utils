@@ -18,13 +18,13 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 
 # Must be chosen
 
-queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
-# ~ queue = 'be-short'
+# ~ queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
+queue = 'be-short'
 
-n_nodes = 1		
+# ~ n_nodes = 1		
 # ~ n_nodes = 2		
 # ~ n_nodes = 3		
-# ~ n_nodes = 4		
+n_nodes = 4		
 
 # ~ jobname = 'PyORBIT'
 # ~ jobname = 'V_24_SbS'

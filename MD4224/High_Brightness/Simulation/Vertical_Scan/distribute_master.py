@@ -1,8 +1,11 @@
 import shutil
 
-sbs = False
+pyorbit = True
+simulation_parameters = False
+
+sbs = True
 sbs_nolk = True
-twopfive = False
+twopfive = True
 
 master_directory = './Master'
 pyorbit_file = master_directory + '/pyOrbit.py'
@@ -39,18 +42,30 @@ twopfive_locations.append('./620_2p5/')
 twopfive_locations.append('./622_2p5/')
 twopfive_locations.append('./624_2p5/')
 
-if sbs:
-	for loc in sbs_locations:
-		newPath = shutil.copy(pyorbit_file, loc)
-		newPath = shutil.copy(sim_params_file, loc)
-		print pyorbit_file, ' copied to ', loc
-if sbs_nolk:
-	for loc in sbs_nlk_locations:
-		newPath = shutil.copy(pyorbit_file, loc)
-		newPath = shutil.copy(sim_params_file, loc)
-		print pyorbit_file, ' copied to ', loc
-if twopfive:
-	for loc in twopfive_locations:
-		newPath = shutil.copy(pyorbit_file, loc)
-		newPath = shutil.copy(sim_params_file, loc)
-		print pyorbit_file, ' copied to ', loc
+if pyorbit:
+	if sbs:
+		for loc in sbs_locations:
+			newPath = shutil.copy(pyorbit_file, loc)
+			print pyorbit_file, ' copied to ', loc
+	if sbs_nolk:
+		for loc in sbs_nlk_locations:
+			newPath = shutil.copy(pyorbit_file, loc)
+			print pyorbit_file, ' copied to ', loc
+	if twopfive:
+		for loc in twopfive_locations:
+			newPath = shutil.copy(pyorbit_file, loc)
+			print pyorbit_file, ' copied to ', loc
+
+if simulation_parameters:
+	if sbs:
+		for loc in sbs_locations:
+			newPath = shutil.copy(sim_params_file, loc)
+			print sim_params_file, ' copied to ', loc
+	if sbs_nolk:
+		for loc in sbs_nlk_locations:
+			newPath = shutil.copy(sim_params_file, loc)
+			print sim_params_file, ' copied to ', loc
+	if twopfive:
+		for loc in twopfive_locations:
+			newPath = shutil.copy(sim_params_file, loc)
+			print sim_params_file, ' copied to ', loc
