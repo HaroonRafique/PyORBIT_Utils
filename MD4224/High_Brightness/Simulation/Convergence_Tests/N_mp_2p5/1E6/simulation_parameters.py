@@ -22,11 +22,11 @@ n_macroparticles = int(1E6)
 turns_max = int(2200)	
 turns_update = range(-1, turns_max, 200)
 tu2 = range(10, 100, 10) 
-turns_update.append(tu2)
+turns_update = tu2 + turns_update  
 turns_update.append(874) # WS 172s
 turns_update.append(2185)# WS 175s
 turns_print = range(-1, turns_max, 200)
-turns_print.append(tu2)
+turns_print = tu2 + turns_print  
 turns_print.append(874)
 turns_print.append(2185)
 macrosize = intensity/float(n_macroparticles)
