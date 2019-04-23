@@ -744,7 +744,7 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 # Create dd dictionary
 dd = dict()
 dd = add_input_file(dd, './624_SbS/output/output.mat', '6.24')
-dd = add_input_file(dd, './622_SbS/output/output.mat', '6.22')
+# ~ dd = add_input_file(dd, './622_SbS/output/output.mat', '6.22')
 dd = add_input_file(dd, './620_SbS/output/output.mat', '6.20')
 dd = add_input_file(dd, './618_SbS/output/output.mat', '6.18')
 dd = add_input_file(dd, './616_SbS/output/output.mat', '6.16')
