@@ -48,6 +48,54 @@ echo 'Copying bunch_ouptut from HPC-Batch'
 scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/624_SbS/bunch_output .
 echo 'Copy complete'
 echo
+echo 'Entering 610_SbS_nLK/'
+cd ../610_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/610_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
+echo 'Entering 612_SbS_nLK/'
+cd ../612_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/612_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
+echo 'Entering 614_SbS_nLK/'
+cd ../614_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/614_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
+echo 'Entering 616_SbS_nLK/'
+cd ../616_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/616_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
+echo 'Entering 618_SbS_nLK/'
+cd ../618_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/618_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
+echo 'Entering 620_SbS_nLK/'
+cd ../620_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/620_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
+echo 'Entering 622_SbS_nLK/'
+cd ../622_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/622_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
+echo 'Entering 624_SbS_nLK/'
+cd ../624_SbS_nLK/
+echo 'Copying bunch_ouptut from HPC-Batch'
+scp -r harafiqu@hpc-batch.cern.ch:/hpcscratch/user/harafiqu/MD4224/Vertical_Scan/624_SbS_nLK/bunch_output .
+echo 'Copy complete'
+echo
 echo 'Entering 610_2p5/'
 cd ../610_2p5/
 echo 'Copying bunch_ouptut from HPC-Batch'
