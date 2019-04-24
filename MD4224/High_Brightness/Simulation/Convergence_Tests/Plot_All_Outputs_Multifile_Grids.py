@@ -25,7 +25,7 @@ def add_input_file(dd, filename, label):
 	p = dict()
 	sio.loadmat(f, mdict=p)
 	dd[label] = p	
-	print '\n\tAdded output data from ', filename, '\t dictionary key: ', label
+	print '\tAdded output data from ', filename, '\t dictionary key: ', label
 	return dd
 
 
@@ -178,12 +178,14 @@ output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(
 
 ------------------------------------------------------------------------
 '''
-def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None):
-	
+def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None, betagamma = None):
+		
 	if percentage:
-		print '\nPlotting ', parameter, ' percentage'
+		print 'Plotting ', parameter, ' percentage'
 	else:
-		print '\nPlotting ', parameter
+		print 'Plotting ', parameter
+	
+	if betagamma is None: betagamma = 2.492104532 * 0.9159915293879255
 	
 	multiplier = 1.
 
@@ -325,15 +327,16 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 		ax1.set_title('Vertical Emittance');
 		figname = filename + '_' + parameter
 		
-	elif parameter is 'eff_epsn_x':
-		multiplier = 1./1E-6
+	elif parameter is 'eff_epsn_x':		
+		multiplier = betagamma/1E-6
 		ylabel = r'Effective $\epsilon_x^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Effective Horizontal Emittance');
 		figname = filename + '_' + parameter
 		
 	elif parameter is 'eff_epsn_y':
-		multiplier = 1./1E-6
+		betagamma = 2.492104532 * 0.9159915293879255
+		multiplier = betagamma/1E-6
 		ylabel = r'Effective $\epsilon_y^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Effective Vertical Emittance');
@@ -431,10 +434,14 @@ output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittan
 output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
 output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
 '''
-def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None):
+def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None, betagamma = None):
 	
 	print 'Plotting ', parameter1, ' and' , parameter2
-	multiplier = 1.
+	
+	if betagamma is None: betagamma = 2.492104532 * 0.9159915293879255
+	
+	multiplier1 = 1.
+	multiplier2 = 1.
 
 	fig1 = plt.figure(facecolor='w', edgecolor='k')
 	ax1 = fig1.add_subplot(111)
@@ -445,57 +452,84 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 		yunit = '[m]'
 		ax1.set_title(r'$\beta_x$');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
+		print '\t beta_x and eff_beta_x'
 		
 	elif (parameter1 is 'beta_y' and parameter2 is 'eff_beta_y') or (parameter2 is 'beta_y' and parameter1 is 'eff_beta_y'):
 		ylabel = r'$\beta_y$' 
 		yunit = '[m]'
 		ax1.set_title(r' $\beta_y$');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
+		print '\t beta_y and eff_beta_y'
 		
 	elif 'beta' in parameter1 and parameter2:
 		ylabel = r'$\beta$' 
 		yunit = '[m]'
 		ax1.set_title(r' $\beta$');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2	
-
-	elif (parameter1 is 'epsn_x' and parameter2 is 'eff_epsn_x') or (parameter2 is 'epsn_x' and parameter1 is 'eff_epsn_x'):
-		multiplier = 1./1E-6
-		ylabel = r'$\epsilon_x^n$'
-		yunit = '[mm mrad]'
-		ax1.set_title('Horizontal Emittance');
-		figname = filename + '_' + parameter1 + '_and_' + parameter2
+		print '\t beta and beta'
 		
-	elif (parameter1 is 'epsn_y' and parameter2 is 'eff_epsn_y') or (parameter2 is 'epsn_y' and parameter1 is 'eff_epsn_y'):
-		multiplier = 1./1E-6
-		ylabel = r'$\epsilon_y^n$'
-		yunit = '[mm mrad]'
-		ax1.set_title('Vertical Emittance');
-		figname = filename + '_' + parameter1 + '_and_' + parameter2
-
-	elif 'epsn' in parameter1 and parameter2:		
-		multiplier = 1./1E-6
+	elif (parameter1 is 'epsn_x' and parameter2 is 'eff_epsn_x') or (parameter2 is 'epsn_x' and parameter1 is 'eff_epsn_x'):
+		if parameter1 is 'epsn_x' and parameter2 is 'eff_epsn_x':
+			multiplier1 = 1./1E-6
+			multiplier2 = betagamma/1E-6
+			print '\t epsn_x and eff_epsn_x'
+			
+		elif parameter2 is 'epsn_x' and parameter1 is 'eff_epsn_x':
+			multiplier1 = betagamma/1E-6
+			multiplier2 = 1./1E-6
+			print '\t eff_epsn_x and epsn_x'
+		
+		ax1.set_title('Horizontal Emittance');
 		ylabel = r'$\epsilon^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Emittance');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2	
+					
+	elif (parameter1 is 'epsn_y' and parameter2 is 'eff_epsn_y') or (parameter2 is 'epsn_y' and parameter1 is 'eff_epsn_y'):
+		if parameter1 is 'epsn_y' and parameter2 is 'eff_epsn_y':
+			multiplier1 = 1./1E-6
+			multiplier2 = betagamma/1E-6
+			print '\t epsn_y and eff_epsn_y'
+			
+		elif parameter2 is 'epsn_y' and parameter1 is 'eff_epsn_y':
+			multiplier1 = betagamma/1E-6
+			multiplier2 = 1./1E-6
+			print '\t eff_epsn_y and epsn_y'
+				
+		ax1.set_title('Vertical Emittance');
+		ylabel = r'$\epsilon^n$'
+		yunit = '[mm mrad]'
+		ax1.set_title('Emittance');
+		figname = filename + '_' + parameter1 + '_and_' + parameter2	
+
+	elif ('epsn' in parameter1 and parameter2) and ('eff' not in parameter1 or parameter2):		
+		multiplier1 = 1./1E-6
+		multiplier2 = 1./1E-6
+		ylabel = r'$\epsilon^n$'
+		yunit = '[mm mrad]'
+		ax1.set_title('Emittance');
+		figname = filename + '_' + parameter1 + '_and_' + parameter2			
 		
 	elif (parameter1 is 'alpha_x' and parameter2 is 'eff_alpha_x') or (parameter2 is 'alpha_x' and parameter1 is 'eff_alpha_x'):
 		ylabel = r'$\alpha_x$' 
 		yunit = '[-]'
 		ax1.set_title(r'$\alpha_x$');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
-		
+		print '\t alpha_x and eff_alpha_x'
+	
 	elif (parameter1 is 'alpha_y' and parameter2 is 'eff_alpha_y') or (parameter2 is 'alpha_y' and parameter1 is 'eff_alpha_y'):
 		ylabel = r'$\alpha_y$' 
 		yunit = '[-]'
 		ax1.set_title(r'$\alpha_y$');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2	
+		print '\t alpha_y and eff_alpha_y'
 		
 	elif 'alpha' in parameter1 and parameter2:
 		ylabel = r'$\alpha$' 
 		yunit = '[-]'
 		ax1.set_title(r'$\alpha$');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
+		print '\t alphas'
 		
 	else:
 		multiplier = multi
@@ -503,13 +537,14 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 		yunit = yun
 		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
+		print '\t Standard plot'
 
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)	
 	
 	for key, value in sorted(dd.iteritems()):			
-		ax1.plot(dd[key]['turn'][0], dd[key][parameter1][0]*multiplier, label=key, color=colors[c_it]);
-		ax1.plot(dd[key]['turn'][0], dd[key][parameter2][0]*multiplier, label=key, color=colors[c_it], linestyle='dashed');
+		ax1.plot(dd[key]['turn'][0], dd[key][parameter1][0]*multiplier1, label=key, color=colors[c_it]);
+		ax1.plot(dd[key]['turn'][0], dd[key][parameter2][0]*multiplier2, label=key, color=colors[c_it], linestyle='dashed');
 		c_it = c_it + 1
 	ylabel = str(ylabel + ' ' + yunit)
 		
@@ -550,9 +585,15 @@ legend_label:		title for legend
 y limits are default unless 'ymin' and 'ymax' arguments are specified.
 x limits may be changed with 'turns' argument.
 '''
-def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, turns = None, legend_label = None, real = False):
+def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, turns = None, legend_label = None, real = False, betagamma = None):
 
-	print '\nPlotting effective sigma'
+	if real:
+		print 'Plotting real sigma'
+	else:
+		print 'Plotting effective sigma'
+		
+	
+	if betagamma is None: betagamma = 2.492104532 * 0.9159915293879255
 	
 	multiplier = 1.
 
@@ -575,7 +616,7 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 
 	for key, value in sorted(dd.iteritems()):	
 		if real:		
-			ax1.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_x'][0] * dd[key]['epsn_x'][0])*multiplier, label=key, color=colors[c_it]);
+			ax1.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_x'][0] * (dd[key]['epsn_x'][0]/betagamma))*multiplier, label=key, color=colors[c_it]);
 		else:
 			ax1.plot(dd[key]['turn'][0], np.sqrt(dd[key]['eff_beta_x'][0] * dd[key]['eff_epsn_x'][0])*multiplier, label=key, color=colors[c_it]);
 		c_it = c_it + 1
@@ -622,7 +663,7 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 
 	for key, value in sorted(dd.iteritems()):			
 		if real:
-			ax2.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_y'][0] * dd[key]['epsn_y'][0])*multiplier, label=key, color=colors[c_it]);
+			ax2.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_y'][0] * (dd[key]['epsn_y'][0]/betagamma))*multiplier, label=key, color=colors[c_it]);
 		else:
 			ax2.plot(dd[key]['turn'][0], np.sqrt(dd[key]['eff_beta_y'][0] * dd[key]['eff_epsn_y'][0])*multiplier, label=key, color=colors[c_it]);
 		c_it = c_it + 1
@@ -649,8 +690,7 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 		ax2.legend()
 		
 	fig2.savefig(figname);	
-	plt.close()
-	
+	plt.close()	
 	
 	return;
 	
@@ -671,9 +711,11 @@ x limits may be changed with 'turns' argument.
 
 The only expected parameters are epsn_x and epsn_y
 '''
-def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, ylab=None, yun='-', ymin=None, ymax=None, turns = None, legend_label = None):
+def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, ylab=None, yun='-', ymin=None, ymax=None, turns = None, legend_label = None, betagamma = None):
 
-	print '\nPlotting mean of ', parameter1, 'and', parameter2,
+	print 'Plotting mean of ', parameter1, 'and', parameter2
+	
+	if betagamma is None: betagamma = 2.492104532 * 0.9159915293879255
 		
 	fig1 = plt.figure(figsize=(6,4))
 	ax1 = fig1.add_subplot(111)
@@ -689,8 +731,8 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	c_it = int(0)	
 		
 	if parameter1 is parameter2:
-		print '\nWARNING: plot_mean_of_two_parameters has been given the same parameter ' + parameter1 + ' twice'
-		
+		print '\tWARNING: plot_mean_of_two_parameters has been given the same parameter ' + parameter1 + ' twice'
+	
 	if 'epsn' in parameter1 and parameter2:
 		multiplier = 1./1E-6
 		tit = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
@@ -704,6 +746,35 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 		ylabel = ylabel + ' ' + yun
 		ax1.set_ylabel(ylabel);
 		figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
+		
+	elif 'eff' in parameter1 or parameter2: 
+		multiplier = 1./1E-6
+		tit = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
+		ylabel = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
+		yun = '[mm mrad]'	
+		
+		if 'eff' in parameter1 and parameter2:			
+			multiplier1 = betagamma/1E-6
+			for key, value in sorted(dd.iteritems()):		
+				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier1 + dd[key][parameter2][0]*multiplier1)/2, label=key, color=colors[c_it]);
+				c_it = c_it + 1
+			
+		elif 'eff' in parameter1:
+			multiplier1 = betagamma/1E-6
+			for key, value in sorted(dd.iteritems()):		
+				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier1 + dd[key][parameter2][0]*multiplier)/2, label=key, color=colors[c_it]);
+				c_it = c_it + 1
+			
+		elif 'eff' in parameter2:
+			multiplier2 = betagamma/1E-6
+			for key, value in sorted(dd.iteritems()):		
+				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier + dd[key][parameter2][0]*multiplier2)/2, label=key, color=colors[c_it]);
+				c_it = c_it + 1
+			
+		ylabel = ylabel + ' ' + yun
+		ax1.set_ylabel(ylabel);
+		figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
+			
 	else:
 		for key, value in sorted(dd.iteritems()):		
 			ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier + dd[key][parameter2][0]*multiplier)/2, label=key, color=colors[c_it]);
@@ -743,29 +814,36 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	
 # Create dd dictionary
 dd = dict()
-# ~ dd = add_input_file(dd, './Grid/32_32_16/output/output.mat', '32x32x16_SbS')
-# ~ dd = add_input_file(dd, './Grid/64_64_32/output/output.mat', '64x64x32_SbS')
-# ~ dd = add_input_file(dd, './Grid/128_128_64/output/output.mat', '128x128x64_SbS')
-# ~ dd = add_input_file(dd, './Grid/256_256_128/output/output.mat', '256x256x128_SbS')
+
+dd = add_input_file(dd, './Grid/32_32_16/output/output.mat', '32x32x16_SbS')
+dd = add_input_file(dd, './Grid/64_64_32/output/output.mat', '64x64x32_SbS')
+dd = add_input_file(dd, './Grid/128_128_64/output/output.mat', '128x128x64_SbS')
+dd = add_input_file(dd, './Grid/256_256_128/output/output.mat', '256x256x128_SbS')
+# ~ main_label = 'Convergence_GridSize_SbS'
+# ~ main_label2 = 'Convergence_GridSize_SbS_zoom'
 
 dd = add_input_file(dd, './Grid_2p5/32_32_16/output/output.mat', '32x32x16_2.5D')
 dd = add_input_file(dd, './Grid_2p5/64_64_32/output/output.mat', '64x64x32_2.5D')
 dd = add_input_file(dd, './Grid_2p5/128_128_64/output/output.mat', '128x128x64_2.5D')
 dd = add_input_file(dd, './Grid_2p5/256_256_128/output/output.mat', '256x256x128_2.5D')
+# ~ main_label = 'Convergence_GridSize_2p5'
+# ~ main_label2 = 'Convergence_GridSize_2p5_zoom'
 
-# ~ dd = add_input_file(dd, './Grid_nLK/32_32_16/output/output.mat', '32x32x16_nLK')
-# ~ dd = add_input_file(dd, './Grid_nLK/64_64_32/output/output.mat', '64x64x32_nLK')
-# ~ dd = add_input_file(dd, './Grid_nLK/128_128_64/output/output.mat', '128x128x64_nLK')
-# ~ dd = add_input_file(dd, './Grid_nLK/256_256_128/output/output.mat', '256x256x128_nLK')
+dd = add_input_file(dd, './Grid_nLK/32_32_16/output/output.mat', '32x32x16_nLK')
+dd = add_input_file(dd, './Grid_nLK/64_64_32/output/output.mat', '64x64x32_nLK')
+dd = add_input_file(dd, './Grid_nLK/128_128_64/output/output.mat', '128x128x64_nLK')
+dd = add_input_file(dd, './Grid_nLK/256_256_128/output/output.mat', '256x256x128_nLK')
+# ~ main_label = 'Convergence_GridSize_nLK'
+# ~ main_label2 = 'Convergence_GridSize_nLK_zoom'
 
-print 'Final data dictionary keys: ', dd.keys()
-		
-main_label = 'Convergence_GridSize_SbS'
-main_label2 = 'Convergence_GridSize_SbS_zoom'
+main_label = 'Convergence_GridSize'
+main_label2 = 'Convergence_GridSize_zoom'
+
 legend_label = 'Grid Size'
 turn_tot = None
 zoom_turns = 15
 turns = [0, 1, 10, 100, 199, 874, 2185]
+print 'Final data dictionary keys: ', dd.keys()
 
 '''
 ------------------------------------------------------------------------
