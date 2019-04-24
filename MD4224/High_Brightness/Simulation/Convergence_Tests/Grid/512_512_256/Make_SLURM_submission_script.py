@@ -24,7 +24,7 @@ queue = 'be-short'
 # ~ n_nodes = 1		
 # ~ n_nodes = 2		
 # ~ n_nodes = 3		
-n_nodes = 8		
+n_nodes = 16		
 
 jobname = '512x256SbS'
 # ~ jobname = 'V_24_SbS'
