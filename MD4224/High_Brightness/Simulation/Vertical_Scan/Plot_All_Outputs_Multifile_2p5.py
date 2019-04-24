@@ -325,19 +325,22 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 		ax1.set_title('Vertical Emittance');
 		figname = filename + '_' + parameter
 		
-	elif parameter is 'eff_epsn_x':
-		multiplier = 1./1E-6
+	elif parameter is 'eff_epsn_x':		
+		betagamma = 2.492104532 * 0.9159915293879255
+		multiplier = betagamma/1E-6
 		ylabel = r'Effective $\epsilon_x^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Effective Horizontal Emittance');
 		figname = filename + '_' + parameter
 		
 	elif parameter is 'eff_epsn_y':
-		multiplier = 1./1E-6
+		betagamma = 2.492104532 * 0.9159915293879255
+		multiplier = betagamma/1E-6
 		ylabel = r'Effective $\epsilon_y^n$'
 		yunit = '[mm mrad]'
 		ax1.set_title('Effective Vertical Emittance');
 		figname = filename + '_' + parameter
+	
 	
 	elif parameter is 'eps_z':
 		ylabel = r'$\epsilon_z$'
@@ -573,9 +576,11 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)		
 
+	betagamma = 2.492104532 * 0.9159915293879255
+
 	for key, value in sorted(dd.iteritems()):	
 		if real:		
-			ax1.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_x'][0] * dd[key]['epsn_x'][0])*multiplier, label=key, color=colors[c_it]);
+			ax1.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_x'][0] * (dd[key]['epsn_x'][0]/betagamma))*multiplier, label=key, color=colors[c_it]);
 		else:
 			ax1.plot(dd[key]['turn'][0], np.sqrt(dd[key]['eff_beta_x'][0] * dd[key]['eff_epsn_x'][0])*multiplier, label=key, color=colors[c_it]);
 		c_it = c_it + 1
@@ -622,7 +627,7 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 
 	for key, value in sorted(dd.iteritems()):			
 		if real:
-			ax2.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_y'][0] * dd[key]['epsn_y'][0])*multiplier, label=key, color=colors[c_it]);
+			ax2.plot(dd[key]['turn'][0], np.sqrt(dd[key]['beta_y'][0] * (dd[key]['epsn_y'][0]/betagamma))*multiplier, label=key, color=colors[c_it]);
 		else:
 			ax2.plot(dd[key]['turn'][0], np.sqrt(dd[key]['eff_beta_y'][0] * dd[key]['eff_epsn_y'][0])*multiplier, label=key, color=colors[c_it]);
 		c_it = c_it + 1
@@ -649,8 +654,7 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 		ax2.legend()
 		
 	fig2.savefig(figname);	
-	plt.close()
-	
+	plt.close()	
 	
 	return;
 	
@@ -734,7 +738,6 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	fig1.savefig(figname);
 	plt.close()	
 	return;
-
 
 '''
 ------------------------------------------------------------------------
