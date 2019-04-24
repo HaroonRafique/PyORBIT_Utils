@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p be-short
-#SBATCH --job-name 256x128nLK
+#SBATCH --job-name 512x256nLK
 #SBATCH -N 8
 #SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
@@ -11,7 +11,7 @@
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Convergence_Tests/Grid_nLK/256_256_128
+RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Convergence_Tests/Grid_nLK/512_512_256
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
