@@ -20,18 +20,21 @@ rf_voltage = 0.0212942055190595723
 # Simulation Parameters
 n_macroparticles = int(1.5E6)
 turns_max = int(2200)	
-turns_update = range(-1, turns_max, 200)
+turns_update = range(-1, turns_max, 100)
+tu2 = range(10, 100, 10) 
+turns_update.append(tu2)
 turns_update.append(874) # WS 172s
 turns_update.append(2185)# WS 175s
-turns_print = range(-1, turns_max, 200)
+turns_print = range(-1, turns_max, 100)
+turns_print.append(tu2)
 turns_print.append(874)
 turns_print.append(2185)
 macrosize = intensity/float(n_macroparticles)
 
 # Space Charge
-grid_x = 64
-grid_y = 64
-grid_z = 32
+grid_x = 128
+grid_y = 128
+grid_z = 64
 
 # PTC RF Table Parameters
 harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)

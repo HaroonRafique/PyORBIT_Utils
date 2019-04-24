@@ -10,7 +10,7 @@ import os
 script_name = "SLURM_submission_script.sh"
 
 # Switches
-hyperthreading = True	# Enable hyperthreading
+hyperthreading = False	# Enable hyperthreading
 exclusive = True		# Exclusive (see SLURM documentation)
 autotime = True			# 2 days for short queues, 2 weeks for long queues
 autotask = True			# Automatically set nodes to maximum tasks
@@ -24,7 +24,7 @@ queue = 'be-short'
 # ~ n_nodes = 1		
 # ~ n_nodes = 2		
 # ~ n_nodes = 3		
-n_nodes = 4		
+n_nodes = 8		
 
 # ~ jobname = 'PyORBIT'
 # ~ jobname = 'V_24_SbS'
