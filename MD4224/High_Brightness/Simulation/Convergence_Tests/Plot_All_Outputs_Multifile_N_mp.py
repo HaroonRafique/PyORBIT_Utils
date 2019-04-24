@@ -815,19 +815,19 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 # Create dd dictionary
 dd = dict()
 
-# ~ dd = add_input_file(dd, './N_mp/0p5E6/output/output.mat', '0.5E6_SbS')
-# ~ dd = add_input_file(dd, './N_mp/1E6/output/output.mat', '1E6_SbS')
-# ~ dd = add_input_file(dd, './N_mp/1p5E6/output/output.mat', '1.5E6_SbS')
-# ~ dd = add_input_file(dd, './N_mp/2E6/output/output.mat', '2E6_SbS')
-# ~ dd = add_input_file(dd, './N_mp/2p5E6/output/output.mat', '2.5E6_SbS')
+dd = add_input_file(dd, './N_mp/0p5E6/output/output.mat', '0.5E6_SbS')
+dd = add_input_file(dd, './N_mp/1E6/output/output.mat', '1E6_SbS')
+dd = add_input_file(dd, './N_mp/1p5E6/output/output.mat', '1.5E6_SbS')
+dd = add_input_file(dd, './N_mp/2E6/output/output.mat', '2E6_SbS')
+dd = add_input_file(dd, './N_mp/2p5E6/output/output.mat', '2.5E6_SbS')
 
 # ~ dd = add_input_file(dd, './N_mp/3E6/output/output.mat', '3E6_SbS')
 # ~ main_label = 'Convergence_N_mp_SbS'
 # ~ main_label2 = 'Convergence_N_mp_SbS_zoom'
 
-# ~ dd = add_input_file(dd, './N_mp_2p5/0p5E6/output/output.mat', '0.5E6_2.5D')
-# ~ dd = add_input_file(dd, './N_mp_2p5/1E6/output/output.mat', '1E6_2.5D')
-# ~ dd = add_input_file(dd, './N_mp_2p5/1p5E6/output/output.mat', '1.5E6_2.5D')
+dd = add_input_file(dd, './N_mp_2p5/0p5E6/output/output.mat', '0.5E6_2.5D')
+dd = add_input_file(dd, './N_mp_2p5/1E6/output/output.mat', '1E6_2.5D')
+dd = add_input_file(dd, './N_mp_2p5/1p5E6/output/output.mat', '1.5E6_2.5D')
 
 # ~ dd = add_input_file(dd, './N_mp_2p5/2E6/output/output.mat', '2E6_2.5D')
 # ~ dd = add_input_file(dd, './N_mp_2p5/2p5E6/output/output.mat', '2.5E6_2.5D')
@@ -842,13 +842,13 @@ dd = add_input_file(dd, './N_mp_nLK/1p5E6/output/output.mat', '1.5E6_nLK')
 # ~ dd = add_input_file(dd, './N_mp_nLK/2E6/output/output.mat', '2E6_nLK')
 # ~ dd = add_input_file(dd, './N_mp_nLK/2p5E6/output/output.mat', '2.5E6_nLK')
 # ~ dd = add_input_file(dd, './N_mp_nLK/3E6/output/output.mat', '3E6_nLK')
-main_label = 'Convergence_N_mp_nLK'
-main_label2 = 'Convergence_N_mp_nLK_zoom'
+# ~ main_label = 'Convergence_N_mp_nLK'
+# ~ main_label2 = 'Convergence_N_mp_nLK_zoom'
 
-# ~ main_label = 'Convergence_N_mp'
-# ~ main_label2 = 'Convergence_N_mp_zoom'
+main_label = 'Convergence_N_mp'
+main_label2 = 'Convergence_N_mp_zoom'
 
-legend_label = 'Grid Size'
+legend_label = 'Macroparticles'
 turn_tot = None
 zoom_turns = 15
 turns = [0, 1, 10, 100, 199, 874, 2185]
