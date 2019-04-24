@@ -1,13 +1,14 @@
 #!/bin/bash
 #SBATCH -p be-short
 #SBATCH --job-name V_18_nlk
-#SBATCH -N 4
-#SBATCH --ntasks-per-node 40
+#SBATCH -N 8
+#SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
 #SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive
+#SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
 RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Vertical_Scan/618_SbS_nLK
@@ -43,7 +44,7 @@ module load mpi/mvapich2/2.2
 tstart=$(date +%s)
 
 # Run the job
-srun ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
+srun --hint=nomultithread ${ORBIT_ROOT}/bin/pyORBIT ${RUN_DIR}/pyOrbit.py
 
 tend=$(date +%s)
 dt=$(($tend - $tstart))
