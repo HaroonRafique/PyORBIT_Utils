@@ -825,8 +825,8 @@ dd = add_input_file(dd, './612_SbS_nLK/output/output.mat', '6.12')
 dd = add_input_file(dd, './610_SbS_nLK/output/output.mat', '6.10')
 print 'Final data dictionary keys: ', dd.keys()
 		
-main_label = 'Slice_By_Slice__noLK'
-main_label2 = 'Slice_By_Slice__noLK_zoom'
+main_label = 'Slice_By_Slice_noLK'
+main_label2 = 'Slice_By_Slice_noLK_zoom'
 legend_label = 'Tune'
 turn_tot = None
 zoom_turns = 15
@@ -900,7 +900,16 @@ plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False,
 plot_effective_sigmas(dd, main_label, turns = turn_tot, legend_label = legend_label, real=False)
 plot_effective_sigmas(dd, main_label, turns = turn_tot, legend_label = legend_label, real=True)
 
+plot_effective_sigmas(dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=False)
+plot_effective_sigmas(dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=True)
+
 # Zoom plots
+
+plot_parameter(dd, parameter = 'epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'eff_epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
 plot_parameter(dd, parameter = 'eff_beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 plot_parameter(dd, parameter = 'eff_beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)

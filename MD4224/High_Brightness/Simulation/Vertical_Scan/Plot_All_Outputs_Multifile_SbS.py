@@ -900,7 +900,16 @@ plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False,
 plot_effective_sigmas(dd, main_label, turns = turn_tot, legend_label = legend_label, real=False)
 plot_effective_sigmas(dd, main_label, turns = turn_tot, legend_label = legend_label, real=True)
 
+plot_effective_sigmas(dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=False)
+plot_effective_sigmas(dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=True)
+
 # Zoom plots
+
+plot_parameter(dd, parameter = 'epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'eff_epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+
+plot_parameter(dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
 plot_parameter(dd, parameter = 'eff_beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 plot_parameter(dd, parameter = 'eff_beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
