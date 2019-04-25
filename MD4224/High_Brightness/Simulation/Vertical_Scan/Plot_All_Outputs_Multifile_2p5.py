@@ -733,7 +733,36 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	if parameter1 is parameter2:
 		print '\tWARNING: plot_mean_of_two_parameters has been given the same parameter ' + parameter1 + ' twice'
 	
-	if 'epsn' in parameter1 and parameter2:
+	if 'eff' in parameter1 and parameter2: 
+		print parameter1, parameter2
+		multiplier = 1./1E-6
+		tit = r'$\left(\frac{\epsilon_x^{eff\ n} + \epsilon_y^{eff\ n}}{2}\right)$'
+		ylabel = r'$\left(\frac{\epsilon_x^{eff\ n} + \epsilon_y^{eff\ n}}{2}\right)$'
+		yun = '[mm mrad]'	
+		
+		if 'eff' in parameter1 and parameter2:			
+			multiplier1 = betagamma/1E-6
+			for key, value in sorted(dd.iteritems()):		
+				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier1 + dd[key][parameter2][0]*multiplier1)/2, label=key, color=colors[c_it]);
+				c_it = c_it + 1
+			
+		elif 'eff' in parameter1:	
+			multiplier1 = betagamma/1E-6
+			for key, value in sorted(dd.iteritems()):		
+				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier1 + dd[key][parameter2][0]*multiplier)/2, label=key, color=colors[c_it]);
+				c_it = c_it + 1
+			
+		elif 'eff' in parameter2:	
+			multiplier1 = betagamma/1E-6
+			for key, value in sorted(dd.iteritems()):		
+				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier + dd[key][parameter2][0]*multiplier2)/2, label=key, color=colors[c_it]);
+				c_it = c_it + 1
+			
+		ylabel = ylabel + ' ' + yun
+		ax1.set_ylabel(ylabel);
+		figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
+		
+	elif 'epsn' in parameter1 and parameter2:
 		multiplier = 1./1E-6
 		tit = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
 		ylabel = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
@@ -747,33 +776,7 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 		ax1.set_ylabel(ylabel);
 		figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
 		
-	elif 'eff' in parameter1 or parameter2: 
-		multiplier = 1./1E-6
-		tit = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
-		ylabel = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
-		yun = '[mm mrad]'	
-		
-		if 'eff' in parameter1 and parameter2:			
-			multiplier1 = betagamma/1E-6
-			for key, value in sorted(dd.iteritems()):		
-				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier1 + dd[key][parameter2][0]*multiplier1)/2, label=key, color=colors[c_it]);
-				c_it = c_it + 1
-			
-		elif 'eff' in parameter1:
-			multiplier1 = betagamma/1E-6
-			for key, value in sorted(dd.iteritems()):		
-				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier1 + dd[key][parameter2][0]*multiplier)/2, label=key, color=colors[c_it]);
-				c_it = c_it + 1
-			
-		elif 'eff' in parameter2:
-			multiplier2 = betagamma/1E-6
-			for key, value in sorted(dd.iteritems()):		
-				ax1.plot(dd[key]['turn'][0], (dd[key][parameter1][0]*multiplier + dd[key][parameter2][0]*multiplier2)/2, label=key, color=colors[c_it]);
-				c_it = c_it + 1
-			
-		ylabel = ylabel + ' ' + yun
-		ax1.set_ylabel(ylabel);
-		figname = filename + '_mean_of_' + parameter1 + '_' + parameter2 + '_nodes.png'
+	
 			
 	else:
 		for key, value in sorted(dd.iteritems()):		
@@ -827,6 +830,7 @@ print 'Final data dictionary keys: ', dd.keys()
 		
 main_label = '2.5D'
 main_label2 = '2.5D_zoom'
+scaled_label = '2.5D_scaled'
 legend_label = 'Tune'
 turn_tot = None
 zoom_turns = 15
@@ -894,6 +898,13 @@ plot_parameter(dd, parameter = 'eff_alpha_y', filename = main_label, percentage 
 
 plot_parameter(dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+# Scaled
+
+plot_parameter(dd, parameter = 'epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(dd, parameter = 'epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(dd, parameter = 'eff_epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(dd, parameter = 'eff_epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
 
 # Effective Sigma
 
