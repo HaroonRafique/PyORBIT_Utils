@@ -794,7 +794,7 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 		
 	if turns is not None: 
 		ax1.set_xlim(left = 0)
-		ax1.set_xlim(right = turns)
+		ax1.set_xlim(right = turns) :
 		
 	if legend_label is not None: 
 		ax1.legend(title=legend_label)
@@ -809,6 +809,37 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	plt.close()	
 	return;
 
+def plot_optics(dd, filename):
+
+	ptc_optics = dict{}
+	#ptc_optics[float(tune)] = [(all floats) beta_x, beta_y, alpha_x, alpha_y, D_x, D_y]
+	ptc_optics[6.10] = [11.835, 24.924, 0.0115, -0.016, 2.86, 0.]
+	ptc_optics[6.12] = [11.917, 24.029, 0.0099, 0.0028, 2.83, 0.]
+	ptc_optics[6.14] = [12, 23.44, 0.0082, 0.0157, 2.8, 0.]
+	ptc_optics[6.16] = [12.083, 23.031, 0.0065, 0.0251, 2.77, 0.]
+	ptc_optics[6.18] = [12.165, 22.735, 0.0047, 0.0322, 2.74, 0.]
+	ptc_optics[6.20] = [12.247, 22.513, 0.0029, 0.0377, 2.71, 0.]
+	ptc_optics[6.22] = [12.328, 22.34, 0.0012, 0.0421, 2.68, 0.]
+	ptc_optics[6.24] = [12.409, 22.202, -0.00055, 0.0457, 2.65, 0.]
+	
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	# Beta functions
+	for key, value in sorted(dd.iteritems()):
+		plt.plot(float(key), np.mean(dd[key]['beta_x'][200:]), color='r');
+		plt.plot(float(key), np.mean(dd[key]['eff_beta_x'][200:]), color='b');
+		plt.plot(float(key), ptc_optics[float(key)][0], color='k');
+	
+	legend_elements2 = [Line2D([0], [0], color='r', lw=4, label=r'PyORBIT beta_x'),	Line2D([0], [0], color='b', lw=4, label=r'PyORBIT beta_x^{eff}'), Line2D([0], [0], color='k', lw=4, label='MAD-X PTC')]
+	ax1.legend(legend_elements2, [r'PyORBIT beta_x', r'PyORBIT beta_x^{eff}', 'MAD-X PTC'], loc=4, frameon=False, )
+	ax1.set_xlabel(r'Q_y');
+	ax1.set_title(r'\beta_x');
+	ax1.grid(True);	
+	figname = filename + '_optics_beta_x.png'
+	fig1.savefig(figname);
+	plt.close()	
+	return;
 
 '''
 ------------------------------------------------------------------------
