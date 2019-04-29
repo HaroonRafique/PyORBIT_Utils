@@ -18,7 +18,7 @@ dpp_rms = 8.7e-04
 rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
-n_macroparticles = int(1.5E6)
+n_macroparticles = int(0.5E6)
 turns_max = int(2)	
 turns_update = range(-1, turns_max, 200)
 turns_update.append(874) # WS 172s
