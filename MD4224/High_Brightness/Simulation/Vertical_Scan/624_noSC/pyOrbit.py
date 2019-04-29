@@ -165,8 +165,17 @@ if sts['turn'] < 0:
 	else:
 # OR load bunch from file
 #-----------------------------------------------------------------------
-		path_to_distn = './../../Input_Distns/1p5E6/MD4224_Nominal_WP_Tomo_Distn.mat'
-		bunch = bunch_from_matfile(path_to_distn)
+
+		if p['n_macroparticles'] == 1.5E6:
+			path_to_distn = './../../Input_Distns/1p5E6/MD4224_Nominal_WP_Tomo_Distn.mat'
+			bunch = bunch_from_matfile(path_to_distn)
+		elif p['n_macroparticles'] == 0.5E6:
+			path_to_distn = './../../Input_Distns/0p5E6/MD4224_Nominal_WP_Tomo_Distn.mat'
+			bunch = bunch_from_matfile(path_to_distn)
+		else:
+			print '\n\ts[\'CreateDistn\'] = False, p[\'n_macroparticles\'] does not correspond to available stored bunch sizes'
+			print '\n\tEXITING'
+			exit(0)		
 		
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
