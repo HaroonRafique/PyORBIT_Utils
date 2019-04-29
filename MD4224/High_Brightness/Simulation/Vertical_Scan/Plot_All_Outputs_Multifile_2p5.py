@@ -811,7 +811,7 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 
 def plot_optics(dd, filename):
 
-	ptc_optics = dict{}
+	ptc_optics = dict()
 	#ptc_optics[float(tune)] = [(all floats) beta_x, beta_y, alpha_x, alpha_y, D_x, D_y]
 	ptc_optics[6.10] = [11.835, 24.924, 0.0115, -0.016, 2.86, 0.]
 	ptc_optics[6.12] = [11.917, 24.029, 0.0099, 0.0028, 2.83, 0.]
