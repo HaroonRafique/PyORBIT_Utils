@@ -18,17 +18,20 @@ dpp_rms = 8.7e-04
 rf_voltage = 0.0212942055190595723
 
 # Simulation Parameters
-n_macroparticles = int(1.5E6)
+n_macroparticles = int(0.5E6)
 turns_max = int(2200)	
-turns_update = range(-1, turns_max, 100)
+tu1 = range(-1, turns_max, 200)
 tu2 = range(10, 100, 10) 
-turns_update.append(tu2)
-turns_update.append(874) # WS 172s
-turns_update.append(2185)# WS 175s
-turns_print = range(-1, turns_max, 100)
-turns_print.append(tu2)
-turns_print.append(874)
-turns_print.append(2185)
+tu = tu2 + tu1  
+tu.append(874) # WS 172s
+tu.append(2185)# WS 175s
+tp = range(-1, turns_max, 200)
+tp = tu2 + tu1  
+tp.append(874)
+tp.append(2185)
+
+turns_print = sorted(tp)
+turns_update = sorted(tu)
 macrosize = intensity/float(n_macroparticles)
 
 # Space Charge
