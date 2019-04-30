@@ -1160,7 +1160,7 @@ def plot_optics(sc, dd, filename):
 	
 # Create dd dictionary
 dd = dict()
-dd = add_input_file(dd, './624_SbS/output/output.mat', '6.24')
+# ~ dd = add_input_file(dd, './624_SbS/output/output.mat', '6.24')
 dd = add_input_file(dd, './622_SbS/output/output.mat', '6.22')
 dd = add_input_file(dd, './620_SbS/output/output.mat', '6.20')
 dd = add_input_file(dd, './618_SbS/output/output.mat', '6.18')
@@ -1306,4 +1306,3 @@ plot_mean_of_two_parameters(sc, dd, parameter1 = 'eff_epsn_x', parameter2 = 'eff
 # Emittances
 
 plot_emittance(sc, dd, main_label, turns, legend_label='Turn')
-
