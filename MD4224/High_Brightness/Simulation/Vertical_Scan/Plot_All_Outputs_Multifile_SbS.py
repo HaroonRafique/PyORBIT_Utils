@@ -31,6 +31,7 @@ def add_input_file(dd, filename, label):
 
 '''
 plot_emittance: Required arguments:
+sc:			string: space charge used (for plot titles only)
 dd: 		dictionary of particle data dictionaries. key = user defined label
 filename:	e.g. 'Testing' gives Testing_Emittances.png.
 turns:		array of turns to plot at, default is 0,874,2185 which correspond to
@@ -41,7 +42,7 @@ legend_label:	title for legend
 y limits are default unless 'ymin' and 'ymax' arguments are specified.
 One may provide a plot title using the 'tit' argument.
 '''
-def plot_emittance(dd, filename, turns=[0,874,2185], ymin=None, ymax=None, tit = None, legend_label = None):
+def plot_emittance(sc, dd, filename, turns=[0,874,2185], ymin=None, ymax=None, tit = None, legend_label = None):
 		
 	multiplier = 1./1E-6
 	
@@ -54,7 +55,8 @@ def plot_emittance(dd, filename, turns=[0,874,2185], ymin=None, ymax=None, tit =
 	
 	ax1.set_xlabel(r'Q$_y$ [-]');
 	ax1.set_ylabel(r'$\epsilon_x^n$ [mm mrad]')
-	ax1.set_title('Emittances');
+	tit1 = sc + ' ' + 'Emittances'
+	ax1.set_title(tit1);
 	
 	custom_lines = []
 	custom_labels = []
@@ -125,6 +127,7 @@ def plot_emittance(dd, filename, turns=[0,874,2185], ymin=None, ymax=None, tit =
 	
 '''
 plot_parameter: Required arguments:
+sc:			string: space charge used (for plot titles only)
 dd: dictionary of particle data dictionaries. key = user defined label
 parameter name: e.g. 'bunchlength'.
 filename: 		e.g. 'Testing' gives Testing_bunchlength.png.
@@ -178,7 +181,7 @@ output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(
 
 ------------------------------------------------------------------------
 '''
-def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None, betagamma = None):
+def plot_parameter(sc, dd, parameter, filename, percentage = False, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None, betagamma = None):
 		
 	if percentage:
 		print 'Plotting ', parameter, ' percentage'
@@ -196,142 +199,164 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 		multiplier = 1./1E-9
 		ylabel = r'$B_l$' 
 		yunit = '[ns]'
-		ax1.set_title('Bunch Length');
+		tit = sc + ' ' + 'Bunch Length'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 		
 	elif parameter is 'eff_beta_x':
 		ylabel = r'Effective $\beta_x$' 
 		yunit = '[m]'
-		ax1.set_title(r'Effective $\beta_x$');
+		tit = sc + ' ' + r'Effective $\beta_x$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'eff_beta_y':
 		ylabel = r'Effective $\beta_y$' 
 		yunit = '[m]'
-		ax1.set_title(r'Effective $\beta_y$');
+		tit = sc + ' ' + r'Effective $\beta_y$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'eff_alpha_x':
 		ylabel = r'Effective $\alpha_x$' 
 		yunit = '[-]'
-		ax1.set_title(r'Effective $\alpha_x$');
+		tit = sc + ' ' + r'Effective $\alpha_x$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'eff_alpha_y':
 		ylabel = r'Effective $\alpha_y$' 
 		yunit = '[-]'
-		ax1.set_title(r'Effective $\alpha_y$');
+		tit = sc + ' ' + r'Effective $\alpha_y$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'beta_x':
 		ylabel = r'$\beta_x$' 
 		yunit = '[m]'
-		ax1.set_title(r'$\beta_x$');
+		tit = sc + ' ' + r'$\beta_x$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'beta_y':
 		ylabel = r'$\beta_y$' 
 		yunit = '[m]'
-		ax1.set_title(r' $\beta_y$');
+		tit = sc + ' ' + r' $\beta_y$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'D_x':
 		ylabel = r'D$_x$' 
 		yunit = '[m]'
-		ax1.set_title(r'D$_x$');
+		tit = sc + ' ' + r'D$_x$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'D_y':
 		ylabel = r'D$_y$' 
 		yunit = '[m]'
-		ax1.set_title(r'D$_y$');
+		tit = sc + ' ' + r'D$_y$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'alpha_x':
 		ylabel = r'$\alpha_x$' 
 		yunit = '[-]'
-		ax1.set_title(r'$\alpha_x$');
+		tit = sc + ' ' + r'$\alpha_x$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 		
 	elif parameter is 'alpha_y':
 		ylabel = r'$\alpha_y$' 
 		yunit = '[-]'
-		ax1.set_title(r'$\alpha_y$');
+		tit = sc + ' ' + r'$\alpha_y$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter	
 	
 	elif parameter is 'dpp_rms':
 		multiplier = 1./1E-3
 		ylabel = r'$\frac{\delta p}{p}$'
 		yunit = '[MeV]'
-		ax1.set_title(r'$\frac{\delta p}{p}$');		
+		tit = sc + ' ' + r'$\frac{\delta p}{p}$'
+		ax1.set_title(tit);		
 		figname = filename + '_dpp_rms'
 		
 	elif parameter is 'mean_x':
 		multiplier = 1./1E-3
 		ylabel = '<x>' 
 		yunit = '[mm]'
-		ax1.set_title('Mean x');
+		tit = sc + ' ' + 'Mean x'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 	
 	elif parameter is 'mean_y':
 		multiplier = 1./1E-3
 		ylabel = '<y>' 
 		yunit = '[mm]'
-		ax1.set_title('Mean y');
+		tit = sc + ' ' + 'Mean y'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 	
 	elif parameter is 'mean_xp':
 		multiplier = 1./1E-3
 		ylabel = '<x\'>' 
 		yunit = '[mrad]'
-		ax1.set_title('Mean x\'');
+		tit = sc + ' ' + 'Mean x\''
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 	
 	elif parameter is 'mean_yp':
 		multiplier = 1./1E-3
 		ylabel = '<y\'>' 
 		yunit = '[mrad]'
-		ax1.set_title('Mean y\'');
+		tit = sc + ' ' + 'Mean y\''
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 		
 	elif parameter is 'mean_z':
 		ylabel = '<z>'
 		yunit = '[m]'
-		ax1.set_title('Mean z');
+		tit = sc + ' ' + 'Mean z'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 	
 	elif parameter is 'mean_dE':
 		multiplier = 1./1E-3
 		ylabel = '<dE>'
 		yunit = '[MeV]'
-		ax1.set_title('Mean dE');
+		tit = sc + ' ' + 'Mean dE'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 							
 	elif parameter is 'intensity':
 		ylabel = 'I'
 		yunit = '[protons]'
-		ax1.set_title('Intensity');
+		tit = sc + ' ' + 'Intensity'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 	
 	elif parameter is 'epsn_x':
 		multiplier = 1./1E-6
 		ylabel = r'$\epsilon_x^n$'
 		yunit = '[mm mrad]'
-		ax1.set_title('Horizontal Emittance');
+		tit = sc + ' ' + 'Horizontal Emittance'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 		
 	elif parameter is 'epsn_y':
 		multiplier = 1./1E-6
 		ylabel = r'$\epsilon_y^n$'
 		yunit = '[mm mrad]'
-		ax1.set_title('Vertical Emittance');
+		tit = sc + ' ' + 'Vertical Emittance'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 		
 	elif parameter is 'eff_epsn_x':		
 		multiplier = betagamma/1E-6
 		ylabel = r'Effective $\epsilon_x^n$'
 		yunit = '[mm mrad]'
-		ax1.set_title('Effective Horizontal Emittance');
+		tit = sc + ' ' + 'Effective Horizontal Emittance'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 		
 	elif parameter is 'eff_epsn_y':
@@ -339,20 +364,23 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 		multiplier = betagamma/1E-6
 		ylabel = r'Effective $\epsilon_y^n$'
 		yunit = '[mm mrad]'
-		ax1.set_title('Effective Vertical Emittance');
+		tit = sc + ' ' + 'Effective Vertical Emittance'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 	
 	elif parameter is 'eps_z':
 		ylabel = r'$\epsilon_z$'
 		yunit = '[eV s]'
-		ax1.set_title('Longitudinal Emittance');
+		tit = sc + ' ' + 'Longitudinal Emittance'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter
 
 	else:
 		multiplier = multi
 		ylabel = ylab
 		yunit = yun
-		ax1.set_title(tit);
+		tit1 = sc + ' ' + tit
+		ax1.set_title(tit1);
 		figname = filename + '_' + parameter
 
 
@@ -397,6 +425,7 @@ def plot_parameter(dd, parameter, filename, percentage = False, ymin=None, ymax=
 
 '''
 plot_two_parameters: Required arguments:
+sc:			string: space charge used (for plot titles only)
 dd: dictionary of particle data dictionaries. key = user defined label
 parameter1: 	e.g. 'epsn_x'.
 parameter1: 	e.g. 'eff_epsn_x'.
@@ -434,7 +463,7 @@ output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittan
 output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
 output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
 '''
-def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None, betagamma = None):
+def plot_two_parameters (sc, dd, parameter1, parameter2, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, multi=None, turns = None, legend_label = None, betagamma = None):
 	
 	print 'Plotting ', parameter1, ' and' , parameter2
 	
@@ -449,22 +478,25 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 	# betas, emittances, alphas
 	if (parameter1 is 'beta_x' and parameter2 is 'eff_beta_x') or (parameter2 is 'beta_x' and parameter1 is 'eff_beta_x'):
 		ylabel = r'$\beta_x$' 
-		yunit = '[m]'
-		ax1.set_title(r'$\beta_x$');
+		yunit = '[m]'		
+		tit = sc + ' ' + r'$\beta_x$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		print '\t beta_x and eff_beta_x'
 		
 	elif (parameter1 is 'beta_y' and parameter2 is 'eff_beta_y') or (parameter2 is 'beta_y' and parameter1 is 'eff_beta_y'):
 		ylabel = r'$\beta_y$' 
 		yunit = '[m]'
-		ax1.set_title(r' $\beta_y$');
+		tit = sc + ' ' + r' $\beta_y$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		print '\t beta_y and eff_beta_y'
 		
 	elif 'beta' in parameter1 and parameter2:
 		ylabel = r'$\beta$' 
 		yunit = '[m]'
-		ax1.set_title(r' $\beta$');
+		tit = sc + ' ' + r' $\beta$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2	
 		print '\t beta and beta'
 		
@@ -479,10 +511,10 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 			multiplier2 = 1./1E-6
 			print '\t eff_epsn_x and epsn_x'
 		
-		ax1.set_title('Horizontal Emittance');
+		tit = sc + ' ' + 'Horizontal Emittance'
+		ax1.set_title(tit);
 		ylabel = r'$\epsilon^n$'
 		yunit = '[mm mrad]'
-		ax1.set_title('Emittance');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2	
 					
 	elif (parameter1 is 'epsn_y' and parameter2 is 'eff_epsn_y') or (parameter2 is 'epsn_y' and parameter1 is 'eff_epsn_y'):
@@ -496,10 +528,10 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 			multiplier2 = 1./1E-6
 			print '\t eff_epsn_y and epsn_y'
 				
-		ax1.set_title('Vertical Emittance');
+		tit = sc + ' ' + 'Vertical Emittance'
+		ax1.set_title(tit);
 		ylabel = r'$\epsilon^n$'
 		yunit = '[mm mrad]'
-		ax1.set_title('Emittance');
 		figname = filename + '_' + parameter1 + '_and_' + parameter2	
 
 	elif ('epsn' in parameter1 and parameter2) and ('eff' not in parameter1 or parameter2):		
@@ -507,27 +539,31 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 		multiplier2 = 1./1E-6
 		ylabel = r'$\epsilon^n$'
 		yunit = '[mm mrad]'
-		ax1.set_title('Emittance');
+		tit = sc + ' ' + 'Emittance'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2			
 		
 	elif (parameter1 is 'alpha_x' and parameter2 is 'eff_alpha_x') or (parameter2 is 'alpha_x' and parameter1 is 'eff_alpha_x'):
 		ylabel = r'$\alpha_x$' 
 		yunit = '[-]'
-		ax1.set_title(r'$\alpha_x$');
+		tit = sc + ' ' + r'$\alpha_x$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		print '\t alpha_x and eff_alpha_x'
 	
 	elif (parameter1 is 'alpha_y' and parameter2 is 'eff_alpha_y') or (parameter2 is 'alpha_y' and parameter1 is 'eff_alpha_y'):
 		ylabel = r'$\alpha_y$' 
 		yunit = '[-]'
-		ax1.set_title(r'$\alpha_y$');
+		tit = sc + ' ' + r'$\alpha_y$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2	
 		print '\t alpha_y and eff_alpha_y'
 		
 	elif 'alpha' in parameter1 and parameter2:
 		ylabel = r'$\alpha$' 
 		yunit = '[-]'
-		ax1.set_title(r'$\alpha$');
+		tit = sc + ' ' + r'$\alpha$'
+		ax1.set_title(tit);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		print '\t alphas'
 		
@@ -535,7 +571,8 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 		multiplier = multi
 		ylabel = ylab
 		yunit = yun
-		ax1.set_title(tit);
+		tit1 = sc + ' ' + tit
+		ax1.set_title(tit1);
 		figname = filename + '_' + parameter1 + '_and_' + parameter2
 		print '\t Standard plot'
 
@@ -574,6 +611,7 @@ def plot_two_parameters (dd, parameter1, parameter2, filename, ymin=None, ymax=N
 
 '''
 plot_effective_sigmas: Required arguments:
+sc:			string: space charge used (for plot titles only)
 dd: dictionary of particle data dictionaries. key = user defined label
 filename: 			e.g. 'Testing' gives Testing_bunchlength.png.
 Optional arguments:
@@ -585,7 +623,7 @@ legend_label:		title for legend
 y limits are default unless 'ymin' and 'ymax' arguments are specified.
 x limits may be changed with 'turns' argument.
 '''
-def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, turns = None, legend_label = None, real = False, betagamma = None):
+def plot_effective_sigmas(sc, dd, filename, ymin=None, ymax=None, ylab=None, yun = None, tit = None, turns = None, legend_label = None, real = False, betagamma = None):
 
 	if real:
 		print 'Plotting real sigma'
@@ -601,10 +639,12 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 	ax1 = fig1.add_subplot(111)
 	
 	if real: 
-		ax1.set_title('Horizontal Bunch Size');
+		tit = sc + ' ' + 'Horizontal Bunch Size'
+		ax1.set_title(tit);
 		figname = filename + '_sigma_x'
 	else:
-		ax1.set_title('Effective Horizontal Bunch Size');
+		tit = sc + ' ' + 'Effective Horizontal Bunch Size'
+		ax1.set_title(tit);
 		figname = filename + '_effective_sigma_x'
 		
 	multiplier = 1./1E-3
@@ -648,10 +688,12 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 	ax2 = fig2.add_subplot(111)	
 		
 	if real: 
-		ax2.set_title('Vertical Bunch Size');
+		tit = sc + ' ' + 'Vertical Bunch Size'
+		ax2.set_title(tit);
 		figname = filename + '_sigma_y'
 	else:
-		ax2.set_title('Effective Vertical Bunch Size');
+		tit = sc + ' ' + 'Effective Vertical Bunch Size'
+		ax2.set_title(tit);
 		figname = filename + '_effective_sigma_y'
 	
 	multiplier = 1./1E-3
@@ -697,6 +739,7 @@ def plot_effective_sigmas(dd, filename, ymin=None, ymax=None, ylab=None, yun = N
 	
 '''
 plot_mean_of_two_parameters: Required arguments:
+sc:			string: space charge used (for plot titles only)
 dd: dictionary of particle data dictionaries. key = user defined label
 parameter1 name: 	e.g. 'epsn_x'.
 parameter1 name: 	e.g. 'epsn_y'.
@@ -711,7 +754,7 @@ x limits may be changed with 'turns' argument.
 
 The only expected parameters are epsn_x and epsn_y
 '''
-def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, ylab=None, yun='-', ymin=None, ymax=None, turns = None, legend_label = None, betagamma = None):
+def plot_mean_of_two_parameters(sc, dd, parameter1, parameter2, filename, tit=None, ylab=None, yun='-', ymin=None, ymax=None, turns = None, legend_label = None, betagamma = None):
 
 	print 'Plotting mean of ', parameter1, 'and', parameter2
 	
@@ -725,7 +768,7 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 		ylab = 'mean of ' + parameter1 + ' and ' + parameter2
 		
 	if tit is None:
-		tit = 'mean of ' + parameter1 + ' and ' + parameter2
+		tit = sc + ' ' + 'mean of ' + parameter1 + ' and ' + parameter2
 				
 	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
 	c_it = int(0)	
@@ -736,7 +779,7 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	if 'eff' in parameter1 and parameter2: 
 		print parameter1, parameter2
 		multiplier = 1./1E-6
-		tit = r'$\left(\frac{\epsilon_x^{eff\ n} + \epsilon_y^{eff\ n}}{2}\right)$'
+		tit = sc + ' ' + r'$\left(\frac{\epsilon_x^{eff\ n} + \epsilon_y^{eff\ n}}{2}\right)$'
 		ylabel = r'$\left(\frac{\epsilon_x^{eff\ n} + \epsilon_y^{eff\ n}}{2}\right)$'
 		yun = '[mm mrad]'	
 		
@@ -764,7 +807,7 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 		
 	elif 'epsn' in parameter1 and parameter2:
 		multiplier = 1./1E-6
-		tit = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
+		tit = sc + ' ' + r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
 		ylabel = r'$\left(\frac{\epsilon_x^n + \epsilon_y^n}{2}\right)$'
 		yun = '[mm mrad]'		
 		
@@ -809,6 +852,305 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 	plt.close()	
 	return;
 	
+'''
+plot_optics: Required arguments:
+sc:			string: space charge used (for plot titles only)
+dd: dictionary of particle data dictionaries. key = user defined label
+filename: 			e.g. 'Testing' gives Testing_bunchlength.png.
+Plots ptc (hardcoded), PyORBIT, and PyORBIT effective optics functions
+beta, alpha, dispersion, in x and y. Also creates two text files
+optics.txt : MAD-X TFS like file with all optics functions
+optics_2.txt: raw arrays for use elsewhere
+'''
+def plot_optics(sc, dd, filename):
+
+	print 'Plotting Optics, outputting optics files'
+
+	ptc_optics = dict()
+	#ptc_optics[float(tune)] = [(all floats) beta_x, beta_y, alpha_x, alpha_y, D_x, D_y]
+	ptc_optics[6.10] = [11.835, 24.924, 0.0115, -0.016, 2.86, 0.]
+	ptc_optics[6.12] = [11.917, 24.029, 0.0099, 0.0028, 2.83, 0.]
+	ptc_optics[6.14] = [12, 23.44, 0.0082, 0.0157, 2.8, 0.]
+	ptc_optics[6.16] = [12.083, 23.031, 0.0065, 0.0251, 2.77, 0.]
+	ptc_optics[6.18] = [12.165, 22.735, 0.0047, 0.0322, 2.74, 0.]
+	ptc_optics[6.20] = [12.247, 22.513, 0.0029, 0.0377, 2.71, 0.]
+	ptc_optics[6.22] = [12.328, 22.34, 0.0012, 0.0421, 2.68, 0.]
+	ptc_optics[6.24] = [12.409, 22.202, -0.00055, 0.0457, 2.65, 0.]
+		
+	# lists used for plotting
+	bx_x = []
+	bx = []
+	bx_eff = []
+	bx_ptc = []
+	
+	by_x = []
+	by = []
+	by_eff = []
+	by_ptc = []
+	
+	ax_x = []
+	ax = []
+	ax_eff = []
+	ax_ptc = []
+	
+	ay_x = []
+	ay = []
+	ay_eff = []
+	ay_ptc = []
+	
+	Dx_x = []
+	Dx = []
+	Dx_ptc = []
+	
+	Dy_x = []
+	Dy = []
+	Dy_ptc = []
+	
+	# Populate lists
+	for key, value in sorted(dd.iteritems()):
+		bx_x.append(float(key))
+		bx.append(np.nanmean(dd[key]['beta_x'][0][200:]))
+		bx_eff.append(np.nanmean(dd[key]['eff_beta_x'][0][200:]))
+		bx_ptc.append(ptc_optics[float(key)][0])		
+		
+		by_x.append(float(key))
+		by.append(np.nanmean(dd[key]['beta_y'][0][200:]))
+		by_eff.append(np.nanmean(dd[key]['eff_beta_y'][0][200:]))
+		by_ptc.append(ptc_optics[float(key)][1])		
+		
+		ax_x.append(float(key))
+		ax.append(np.nanmean(dd[key]['alpha_x'][0][200:]))
+		ax_eff.append(np.nanmean(dd[key]['eff_alpha_x'][0][200:]))
+		ax_ptc.append(ptc_optics[float(key)][2])		
+		
+		ay_x.append(float(key))
+		ay.append(np.nanmean(dd[key]['alpha_y'][0][200:]))
+		ay_eff.append(np.nanmean(dd[key]['eff_alpha_y'][0][200:]))
+		ay_ptc.append(ptc_optics[float(key)][3])		
+				
+		Dx_x.append(float(key))
+		Dx.append(np.nanmean(dd[key]['D_x'][0][200:]))
+		Dx_ptc.append(ptc_optics[float(key)][4])		
+		
+		Dy_x.append(float(key))
+		Dy.append(np.nanmean(dd[key]['D_y'][0][200:]))
+		Dy_ptc.append(ptc_optics[float(key)][5])		
+		
+	# Plots		
+	
+	
+	# BETA_X
+		
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	plt.plot(bx_x, bx_ptc, color='k', marker='x');
+	plt.plot(bx_x, bx, color='r', marker='x');
+	plt.plot(bx_x, bx_eff, color='b', marker='+');
+		
+	legend_elements2 = [Line2D([0], [0], color='r', lw=4),	Line2D([0], [0], color='b', lw=4), Line2D([0], [0], color='k', lw=4)]
+	ax1.legend(legend_elements2, [r'PyORBIT $\beta_x$', r'PyORBIT $\beta_x^{eff}$', 'MAD-X PTC'], frameon=False)
+	ax1.set_xlabel(r'Q$_y$');
+	ax1.set_ylabel(r'$\beta_x$ [m]');
+	tit = sc + ' ' + r'$\beta_x$'	
+	ax1.set_title(tit);
+	ax1.grid(True);	
+	figname = filename + '_optics_beta_x.png'
+	fig1.savefig(figname);
+	plt.close()	
+	
+	# BETA_Y
+		
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	plt.plot(by_x, by_ptc, color='k', marker='x');
+	plt.plot(by_x, by, color='r', marker='x');
+	plt.plot(by_x, by_eff, color='b', marker='+');
+		
+	legend_elements2 = [Line2D([0], [0], color='r', lw=4),	Line2D([0], [0], color='b', lw=4), Line2D([0], [0], color='k', lw=4)]
+	ax1.legend(legend_elements2, [r'PyORBIT $\beta_y$', r'PyORBIT $\beta_y^{eff}$', 'MAD-X PTC'], frameon=False)
+	ax1.set_xlabel(r'Q$_y$');
+	ax1.set_ylabel(r'$\beta_y$ [m]');
+	tit = sc + ' ' + r'$\beta_y$'	
+	ax1.set_title(tit);
+	ax1.grid(True);	
+	figname = filename + '_optics_beta_y.png'
+	fig1.savefig(figname);
+	plt.close()	
+	
+	# ALPHA_X
+		
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	plt.plot(ax_x, ax_ptc, color='k', marker='x');
+	plt.plot(ax_x, ax, color='r', marker='x');
+	plt.plot(ax_x, ax_eff, color='b', marker='+');
+		
+	legend_elements2 = [Line2D([0], [0], color='r', lw=4),	Line2D([0], [0], color='b', lw=4), Line2D([0], [0], color='k', lw=4)]
+	ax1.legend(legend_elements2, [r'PyORBIT $\alpha_x$', r'PyORBIT $\alpha_x^{eff}$', 'MAD-X PTC'], frameon=False)
+	ax1.set_xlabel(r'Q$_y$');
+	ax1.set_ylabel(r'$\alpha_x$ [-]');
+	tit = sc + ' ' + r'$\alpha_x$'	
+	ax1.set_title(tit);
+	ax1.grid(True);	
+	figname = filename + '_optics_alpha_x.png'
+	fig1.savefig(figname);
+	plt.close()	
+	
+	# ALPHA_Y
+		
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	plt.plot(ay_x, ay_ptc, color='k', marker='x');
+	plt.plot(ay_x, ay, color='r', marker='x');
+	plt.plot(ay_x, ay_eff, color='b', marker='+');
+		
+	legend_elements2 = [Line2D([0], [0], color='r', lw=4),	Line2D([0], [0], color='b', lw=4), Line2D([0], [0], color='k', lw=4)]
+	ax1.legend(legend_elements2, [r'PyORBIT $\alpha_y$', r'PyORBIT $\alpha_y^{eff}$', 'MAD-X PTC'], frameon=False)
+	ax1.set_xlabel(r'Q$_y$');
+	ax1.set_ylabel(r'$\alpha_yx$ [-]');
+	tit = sc + ' ' + r'$\alpha_y$'	
+	ax1.set_title(tit);
+	ax1.grid(True);	
+	figname = filename + '_optics_alpha_y.png'
+	fig1.savefig(figname);
+	plt.close()	
+	
+	# D_X
+		
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	plt.plot(Dx_x, Dx_ptc, color='k', marker='x');
+	plt.plot(Dx_x, Dx, color='r', marker='x');
+		
+	legend_elements2 = [Line2D([0], [0], color='r', lw=4),	Line2D([0], [0], color='k', lw=4)]
+	ax1.legend(legend_elements2, [r'PyORBIT $D_x$', 'MAD-X PTC'], frameon=False)
+	ax1.set_xlabel(r'Q$_y$');
+	ax1.set_ylabel(r'$D_x$ [m]');
+	tit = sc + ' ' + r'$D_x$'	
+	ax1.set_title(tit);
+	ax1.grid(True);	
+	figname = filename + '_optics_D_x.png'
+	fig1.savefig(figname);
+	plt.close()	
+	
+	# D_Y
+		
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)
+	
+	plt.plot(Dy_x, Dy_ptc, color='k', marker='x');
+	plt.plot(Dy_x, Dy, color='r', marker='x');
+		
+	legend_elements2 = [Line2D([0], [0], color='r', lw=4),	Line2D([0], [0], color='k', lw=4)]
+	ax1.legend(legend_elements2, [r'PyORBIT $D_y$', 'MAD-X PTC'], frameon=False)
+	ax1.set_xlabel(r'Q$_y$');
+	ax1.set_ylabel(r'$D_y$ [m]');
+	tit = sc + ' ' + r'$D_y$'	
+	ax1.set_title(tit);
+	ax1.grid(True);	
+	figname = filename + '_optics_D_y.png'
+	fig1.savefig(figname);
+	plt.close()	
+	
+	# Save data to file for future reference
+	f = open("optics.txt","w")
+ 
+	f.write('#\tQy\tbeta_x_ptc\tbeta_x\tbeta_x_eff\tbeta_y_ptc\tbeta_y\tbeta_y_eff\talpha_x_ptc\talpha_x\talpha_x_eff\talpha_y_ptc\talpha_y\talpha_y_eff\tD_x_ptc\tD_x\tD_y_ptc\tD_y\n')
+	for i in xrange(len(bx_x)):
+		f.write(str(bx_x[i]))
+		f.write('\t')
+		
+		f.write(str(bx_ptc[i]))
+		f.write('\t')
+		f.write(str(bx[i]))
+		f.write('\t')
+		f.write(str(bx_eff[i]))
+		f.write('\t')
+		
+		f.write(str(by_ptc[i]))
+		f.write('\t')
+		f.write(str(by[i]))
+		f.write('\t')
+		f.write(str(by_eff[i]))
+		f.write('\t')
+				
+		f.write(str(ax_ptc[i]))
+		f.write('\t')
+		f.write(str(ax[i]))
+		f.write('\t')
+		f.write(str(ax_eff[i]))
+		f.write('\t')
+		
+		f.write(str(ay_ptc[i]))
+		f.write('\t')
+		f.write(str(ay[i]))
+		f.write('\t')
+		f.write(str(ay_eff[i]))
+		f.write('\t')
+				
+		f.write(str(Dx_ptc[i]))
+		f.write('\t')
+		f.write(str(Dx[i]))
+		f.write('\t')
+		
+		f.write(str(Dy_ptc[i]))
+		f.write('\t')
+		f.write(str(Dy[i]))
+		f.write('\n')	
+ 
+	f.close() 
+	
+	g = open("optics_2.txt","w")
+ 
+	g.write('#\tQy\n')
+	g.write(str(bx_x))
+	
+	g.write('\n#\tbeta_x_ptc\n')
+	g.write(str(bx_ptc))
+	g.write('\n#\tbeta_x\n')
+	g.write(str(bx))
+	g.write('\n#\tbeta_x_eff\n')
+	g.write(str(bx_eff))
+	
+	g.write('\n#\tbeta_y_ptc\n')
+	g.write(str(by_ptc))
+	g.write('\n#\tbeta_y\n')
+	g.write(str(by))
+	g.write('\n#\tbeta_y_eff\n')
+	g.write(str(by_eff))
+	
+	g.write('\n#\talpha_x_ptc\n')
+	g.write(str(ax_ptc))
+	g.write('\n#\talpha_x\n')
+	g.write(str(ax))
+	g.write('\n#\talpha_x_eff\n')
+	g.write(str(ax_eff))
+	
+	g.write('\n#\talpha_y_ptc\n')
+	g.write(str(ay_ptc))
+	g.write('\n#\talpha_y\n')
+	g.write(str(ay))
+	g.write('\n#\talpha_y_eff\n')
+	g.write(str(ay_eff))
+	
+	g.write('\n#\tD_x_ptc\n')
+	g.write(str(Dx_ptc))
+	g.write('\n#\tD_x\n')
+	g.write(str(Dx))
+	
+	g.write('\n#\tD_y_ptc\n')
+	g.write(str(Dy_ptc))
+	g.write('\n#\tD_y\n')
+	g.write(str(Dy))	
+	
+	g.close() 
+	
+	return;
 
 '''
 ------------------------------------------------------------------------
@@ -819,19 +1161,20 @@ def plot_mean_of_two_parameters(dd, parameter1, parameter2, filename, tit=None, 
 # Create dd dictionary
 dd = dict()
 dd = add_input_file(dd, './624_SbS/output/output.mat', '6.24')
-# ~ dd = add_input_file(dd, './622_SbS/output/output.mat', '6.22')
+dd = add_input_file(dd, './622_SbS/output/output.mat', '6.22')
 dd = add_input_file(dd, './620_SbS/output/output.mat', '6.20')
 dd = add_input_file(dd, './618_SbS/output/output.mat', '6.18')
 dd = add_input_file(dd, './616_SbS/output/output.mat', '6.16')
 dd = add_input_file(dd, './614_SbS/output/output.mat', '6.14')
 dd = add_input_file(dd, './612_SbS/output/output.mat', '6.12')
 dd = add_input_file(dd, './610_SbS/output/output.mat', '6.10')
-print 'Final data dictionary keys: ', dd.keys()
+print 'Final data dictionary keys: ', sorted(dd.keys())
 		
+sc = 'Slice-by-Slice'
 main_label = 'Slice_By_Slice'
 main_label2 = 'Slice_By_Slice_zoom'
 scaled_label = 'Slice_By_Slice_scaled'
-legend_label = 'Tune'
+legend_label = r'$Q_y$'
 turn_tot = None
 zoom_turns = 15
 turns = [0, 1, 10, 100, 199, 874, 2185]
@@ -841,120 +1184,126 @@ turns = [0, 1, 10, 100, 199, 874, 2185]
 								Plot
 ------------------------------------------------------------------------
 '''
+# Optics
 
-plot_parameter(dd, parameter = 'intensity', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'intensity', filename = main_label,  percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_optics(sc, dd, main_label)
 
-plot_parameter(dd, parameter = 'mean_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'mean_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# Parameters
 
-plot_parameter(dd, parameter = 'mean_xp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'mean_xp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'intensity', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'intensity', filename = main_label,  percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'mean_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'mean_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'mean_yp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'mean_yp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_xp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_xp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'mean_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'mean_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'mean_dE', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'mean_dE', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_yp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_yp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
-plot_parameter(dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
-plot_parameter(dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eff_epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
-plot_parameter(dd, parameter = 'eff_epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
-plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eps_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'eps_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'bunchlength', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'bunchlength', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'dpp_rms', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'dpp_rms', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eps_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eps_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'bunchlength', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'bunchlength', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'dpp_rms', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'dpp_rms', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eff_beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'eff_beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eff_alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'eff_alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(sc, dd, parameter = 'eff_alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(sc, dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
 # Scaled
 
-plot_parameter(dd, parameter = 'epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
-plot_parameter(dd, parameter = 'epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
-plot_parameter(dd, parameter = 'eff_epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
-plot_parameter(dd, parameter = 'eff_epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
 
 # Effective Sigma
 
-plot_effective_sigmas(dd, main_label, turns = turn_tot, legend_label = legend_label, real=False)
-plot_effective_sigmas(dd, main_label, turns = turn_tot, legend_label = legend_label, real=True)
+plot_effective_sigmas(sc, dd, main_label, turns = turn_tot, legend_label = legend_label, real=False)
+plot_effective_sigmas(sc, dd, main_label, turns = turn_tot, legend_label = legend_label, real=True)
 
-plot_effective_sigmas(dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=False)
-plot_effective_sigmas(dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=True)
+plot_effective_sigmas(sc, dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=False)
+plot_effective_sigmas(sc, dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=True)
 
 # Zoom plots
 
-plot_parameter(dd, parameter = 'epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(dd, parameter = 'eff_epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(dd, parameter = 'eff_epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eff_beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(dd, parameter = 'eff_beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'eff_alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(dd, parameter = 'eff_alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'eff_alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(dd, parameter = 'beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(dd, parameter = 'alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(dd, parameter = 'D_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(dd, parameter = 'D_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'D_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'D_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
 # Two parameter plots
 
-plot_two_parameters(dd, 'epsn_x', 'eff_epsn_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
-plot_two_parameters(dd, 'epsn_y', 'eff_epsn_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
+plot_two_parameters(sc, dd, 'epsn_x', 'eff_epsn_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
+plot_two_parameters(sc, dd, 'epsn_y', 'eff_epsn_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
 
-plot_two_parameters(dd, 'beta_x', 'eff_beta_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
-plot_two_parameters(dd, 'beta_y', 'eff_beta_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
+plot_two_parameters(sc, dd, 'beta_x', 'eff_beta_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
+plot_two_parameters(sc, dd, 'beta_y', 'eff_beta_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
 
-plot_two_parameters(dd, 'alpha_x', 'eff_alpha_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
-plot_two_parameters(dd, 'alpha_y', 'eff_alpha_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
+plot_two_parameters(sc, dd, 'alpha_x', 'eff_alpha_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
+plot_two_parameters(sc, dd, 'alpha_y', 'eff_alpha_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
 
 
 # Mean of epsn_x and epsn_y
 
-plot_mean_of_two_parameters(dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
+plot_mean_of_two_parameters(sc, dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
 
-plot_mean_of_two_parameters(dd, parameter1 = 'eff_epsn_x', parameter2 = 'eff_epsn_y', filename = main_label,  legend_label = legend_label)
+plot_mean_of_two_parameters(sc, dd, parameter1 = 'eff_epsn_x', parameter2 = 'eff_epsn_y', filename = main_label,  legend_label = legend_label)
 
 # Emittances
 
-plot_emittance(dd, main_label, turns, legend_label='Turn')
+plot_emittance(sc, dd, main_label, turns, legend_label='Turn')
+
