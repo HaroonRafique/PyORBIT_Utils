@@ -1168,7 +1168,7 @@ dd = add_input_file(dd, './616_SbS/output/output.mat', '6.16')
 dd = add_input_file(dd, './614_SbS/output/output.mat', '6.14')
 dd = add_input_file(dd, './612_SbS/output/output.mat', '6.12')
 dd = add_input_file(dd, './610_SbS/output/output.mat', '6.10')
-print 'Final data dictionary keys: ', dd.keys()
+print 'Final data dictionary keys: ', sorted(dd.keys())
 		
 sc = 'Slice-by-Slice'
 main_label = 'Slice_By_Slice'

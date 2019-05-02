@@ -1168,7 +1168,7 @@ dd = add_input_file(dd, './616_2p5/output/output.mat', '6.16')
 dd = add_input_file(dd, './614_2p5/output/output.mat', '6.14')
 dd = add_input_file(dd, './612_2p5/output/output.mat', '6.12')
 dd = add_input_file(dd, './610_2p5/output/output.mat', '6.10')
-print 'Final data dictionary keys: ', dd.keys()
+print 'Final data dictionary keys: ', sorted(dd.keys())
 		
 sc = '2.5D'
 main_label = '2.5D'
