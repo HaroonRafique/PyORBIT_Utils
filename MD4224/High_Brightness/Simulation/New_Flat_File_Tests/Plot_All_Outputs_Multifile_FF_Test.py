@@ -1167,7 +1167,7 @@ def plot_optics(sc, dd, filename):
 	
 # Create dd dictionary
 dd = dict()
-dd = add_input_file(dd, '../Vertical_Scan/610_SbS/output/output.mat', '8')
+dd = add_input_file(dd, '../Vertical_Scan/Test_New_Flat_File/output/output.mat', '8')
 dd = add_input_file(dd, './1/output/output.mat', '1')
 dd = add_input_file(dd, './2/output/output.mat', '2')
 dd = add_input_file(dd, './3/output/output.mat', '3')
