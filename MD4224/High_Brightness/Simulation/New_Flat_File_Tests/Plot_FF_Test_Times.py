@@ -39,7 +39,7 @@ def add_input_file(dd, filename, label):
 
 # Create dd dictionary
 dd = dict()
-dd = add_input_file(dd, '../Vertical_Scan/610_SbS/output/output.mat', '8')
+dd = add_input_file(dd, '../Vertical_Scan/Test_New_Flat_File/output/output.mat', '8')
 dd = add_input_file(dd, './1/output/output.mat', '1')
 dd = add_input_file(dd, './2/output/output.mat', '2')
 dd = add_input_file(dd, './3/output/output.mat', '3')
@@ -182,9 +182,9 @@ plot_cumulative_time(dd, main_label)
 plot_cumulative_time_grouped(dd, main_label)
 
 plot_turn_duration(dd, main_label)
-plot_turn_duration(dd, str(main_label+'_zoom'), 500, 15, 120)
+plot_turn_duration(dd, str(main_label+'_zoom'), 15)
 
 plot_turn_duration_grouped(dd, main_label)
-plot_turn_duration_grouped(dd, str(main_label+'_zoom'), 500, 15, 120)
+plot_turn_duration_grouped(dd, str(main_label+'_zoom'), 15)
 
 print '\n\n\tFinished Plotting'

@@ -18,8 +18,8 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 
 # Must be chosen
 
-# ~ queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
-queue = 'be-short'
+queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
+# ~ queue = 'be-short'
 
 # ~ n_nodes = 1		
 # ~ n_nodes = 2		

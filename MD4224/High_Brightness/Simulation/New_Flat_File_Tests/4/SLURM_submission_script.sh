@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH -p be-short
+#SBATCH -p be-long
 #SBATCH --job-name NFFT_4
 #SBATCH -N 4
 #SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
-#SBATCH -t 1-23:59
+#SBATCH -t 14-00:00
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive
