@@ -39,7 +39,8 @@ def add_input_file(dd, filename, label):
 
 # Create dd dictionary
 dd = dict()
-dd = add_input_file(dd, '../Vertical_Scan/Test_New_Flat_File/output/output.mat', '8')
+# ~ dd = add_input_file(dd, '../Vertical_Scan/Test_New_Flat_File/output/output.mat', '8')
+dd = add_input_file(dd, '../Vertical_Scan/610_SbS_nLK/output/output.mat', '9')
 dd = add_input_file(dd, './1/output/output.mat', '1')
 dd = add_input_file(dd, './2/output/output.mat', '2')
 dd = add_input_file(dd, './3/output/output.mat', '3')
@@ -47,6 +48,7 @@ dd = add_input_file(dd, './4/output/output.mat', '4')
 dd = add_input_file(dd, './5/output/output.mat', '5')
 dd = add_input_file(dd, './6/output/output.mat', '6')
 dd = add_input_file(dd, './7/output/output.mat', '7')
+dd = add_input_file(dd, './8/output/output.mat', '8')
 print 'Final data dictionary keys: ', sorted(dd.keys())
 
 '''
@@ -60,7 +62,7 @@ def plot_cumulative_time_grouped(dd, ml):
 	fig1 = plt.figure(facecolor='w', edgecolor='k')
 	ax1 = fig1.add_subplot(111)
 	
-	num_N = 8
+	num_N = 9
 	
 	colors = cm.rainbow(np.linspace(0, 1, num_N))
 	
@@ -114,7 +116,7 @@ def plot_turn_duration_grouped(dd, ml, turns=None, ymin=None, ymax=None):
 	fig1 = plt.figure(facecolor='w', edgecolor='k')
 	ax1 = fig1.add_subplot(111)
 			
-	num_N = 8
+	num_N = 9
 	
 	colors = cm.rainbow(np.linspace(0, 1, num_N))
 	
