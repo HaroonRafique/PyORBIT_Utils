@@ -4,6 +4,7 @@ from matplotlib.lines import Line2D
 import numpy as np
 import scipy.io as sio 
 import matplotlib.cm as cm
+import os
 
 plt.rcParams['figure.figsize'] = [8.0, 4.0]
 plt.rcParams['figure.dpi'] = 300
