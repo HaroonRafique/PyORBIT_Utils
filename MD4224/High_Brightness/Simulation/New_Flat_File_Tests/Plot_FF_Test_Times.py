@@ -51,6 +51,44 @@ dd = add_input_file(dd, './7/output/output.mat', '7')
 dd = add_input_file(dd, './8/output/output.mat', '8')
 print 'Final data dictionary keys: ', sorted(dd.keys())
 
+def plot_average_turn_duration(dd, ml, turns=None, ymin=None, ymax=None):
+	
+	fig1 = plt.figure(facecolor='w', edgecolor='k')
+	ax1 = fig1.add_subplot(111)	
+	
+	colors = cm.rainbow(np.linspace(0, 1, len(dd.keys())))
+	c_it = int(0)
+	
+	x_dat = []
+	y_dat = []
+	
+	for key, value in sorted(dd.iteritems()):
+		
+		x_dat.append(float(key.split(' ')[0]))
+		y_dat.append(np.mean(dd[key]['turn_duration'][0]))
+		
+	for key, value in sorted(dd.iteritems()):
+		ax1.scatter(x_dat, y_dat)	
+		
+	ax1.legend(frameon=False, loc=4)
+	ax1.set_xlabel('Nodes [-]');
+	ax1.set_ylabel('Time [seconds]')
+	ax1.set_title('Average Turn Duration');
+	ax1.grid(True);
+	
+	if turns is not None: 
+		ax1.set_xlim(left = 0)
+		ax1.set_xlim(right = turns)
+	if ymin is not None:
+		ax1.set_ylim(bottom = ymin)	
+	if ymax is not None:
+		ax1.set_ylim(top = ymax)
+	
+	figname = ml + '_average_turn_duration.png'
+	fig1.savefig(figname);	
+	
+	return
+
 '''
 plot_cumulative_time
 dd: dictionary of particle data dictionaries. key = user defined label
@@ -179,6 +217,8 @@ def plot_turn_duration(dd, ml, turns=None, ymin=None, ymax=None):
 	return
 
 main_label = 'MD4224_New_FF_Test'
+
+plot_average_turn_duration(dd, main_label)
 
 plot_cumulative_time(dd, main_label)
 plot_cumulative_time_grouped(dd, main_label)
