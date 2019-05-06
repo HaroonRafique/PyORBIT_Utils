@@ -21,11 +21,17 @@ filename: input file name (with relative path from this file)
 label: file label e.g. 'case 1', 'case 2', ...
 '''
 def add_input_file(dd, filename, label):
-	f = filename
-	p = dict()
-	sio.loadmat(f, mdict=p)
-	dd[label] = p	
-	print '\tAdded output data from ', filename, '\t dictionary key: ', label
+	
+	exists = os.path.isfile(filename)
+	if exists:
+		f = filename
+		p = dict()
+		sio.loadmat(f, mdict=p)
+		dd[label] = p	
+		print '\tadd_input_file::Added output data from ', filename, '\t dictionary key: ', label
+	else:
+		print '\tadd_input_file::File ', filename, 'not found'		
+	
 	return dd
 
 

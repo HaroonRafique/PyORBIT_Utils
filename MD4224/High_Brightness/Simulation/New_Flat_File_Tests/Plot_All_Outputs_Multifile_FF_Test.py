@@ -1195,7 +1195,7 @@ turns = [0, 1, 10, 100, 199, 874, 2185]
 '''
 # Optics
 
-# ~ plot_optics(sc, dd, main_label)
+plot_optics(sc, dd, main_label)
 
 # Parameters
 
