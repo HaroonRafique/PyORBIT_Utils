@@ -1,7 +1,8 @@
 import shutil
 
-pyorbit = True
+pyorbit = False
 simulation_parameters = False
+flat_files = True
 
 sbs = True
 sbs_nolk = True
@@ -11,6 +12,7 @@ no_SC = True
 master_directory = './Master'
 pyorbit_file = master_directory + '/pyOrbit.py'
 sim_params_file = master_directory + '/simulation_parameters.py'
+flat_file = master_directory + '/Flat_file.madx'
 
 sbs_locations = []
 twopfive_locations = []
@@ -87,4 +89,22 @@ if simulation_parameters:
 	if no_SC:
 		for loc in no_SC_locations:
 			newPath = shutil.copy(sim_params_file, loc)
+			print sim_params_file, ' copied to ', loc
+
+if flat_files:
+	if sbs:
+		for loc in sbs_locations:
+			newPath = shutil.copy(flat_file, loc)
+			print sim_params_file, ' copied to ', loc
+	if sbs_nolk:
+		for loc in sbs_nlk_locations:
+			newPath = shutil.copy(flat_file, loc)
+			print sim_params_file, ' copied to ', loc
+	if twopfive:
+		for loc in twopfive_locations:
+			newPath = shutil.copy(flat_file, loc)
+			print sim_params_file, ' copied to ', loc
+	if no_SC:
+		for loc in no_SC_locations:
+			newPath = shutil.copy(flat_file, loc)
 			print sim_params_file, ' copied to ', loc
