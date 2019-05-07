@@ -91,9 +91,9 @@ def plot_emittance(sc, dd, filename, turns=[0,874,2185], ymin=None, ymax=None, t
 	ax1.grid(True);	
 	
 	if legend_label is not None: 		
-		ax1.legend(custom_lines, custom_labels, title=legend_label)
+		ax1.legend(custom_lines, custom_labels, title=legend_label, frameon = False)
 	else:		
-		ax1.legend(custom_lines, custom_labels)
+		ax1.legend(custom_lines, custom_labels, frameon = False)
 	
 	# Second plot for epsn_y
 	ax2 = fig1.add_subplot(212)	
@@ -121,9 +121,9 @@ def plot_emittance(sc, dd, filename, turns=[0,874,2185], ymin=None, ymax=None, t
 	ax2.grid(True);	
 	
 	if legend_label is not None: 		
-		ax2.legend(custom_lines, custom_labels, title=legend_label)
+		ax2.legend(custom_lines, custom_labels, title=legend_label, frameon = False)
 	else:		
-		ax2.legend(custom_lines, custom_labels)
+		ax2.legend(custom_lines, custom_labels, frameon = False)
 	
 	figname = filename + '_Emittances.png'
 	fig1.savefig(figname);	
