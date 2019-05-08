@@ -18,10 +18,10 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 
 # Must be chosen
 
-queue = 'be-long' #'be-long', 'be-short', 'batch-long', 'batch-short'
-# ~ queue = 'be-short'
+# ~ queue = 'inf-long' #'inf-long', 'inf-short', 'batch-long', 'batch-short'
+queue = 'inf-short'
 
-n_nodes = 2		
+n_nodes = 2			
 
 jobname = 'V_22_SbS'
 
@@ -44,14 +44,14 @@ n_tasks = 0
 if autotask:
 	if hyperthreading:	
 		if 'batch' in queue: n_tasks = 32
-		elif 'be' in queue: n_tasks = 40
+		elif 'inf' in queue: n_tasks = 40
 		else: 
 			print 'queue not recognised'
 			exit(0)
 
 	else:	
 		if 'batch' in queue: n_tasks = 16
-		elif 'be' in queue: n_tasks = 20
+		elif 'inf' in queue: n_tasks = 20
 		else: 
 			print 'queue not recognised'
 			exit(0)
