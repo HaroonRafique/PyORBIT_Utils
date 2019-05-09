@@ -1,17 +1,17 @@
 #!/bin/bash
-#SBATCH -p be-short
+#SBATCH -p inf-long
 #SBATCH --job-name V_11_PFW
 #SBATCH -N 2
 #SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
-#SBATCH -t 1-23:59
+#SBATCH -t 14-00:00
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/PFW_Tune_Scan/611_SbS
+RUN_DIR=/hpcscratch/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/PFW_Tune_Scan/611_SbS
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
