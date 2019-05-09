@@ -37,7 +37,7 @@ macrosize = intensity/float(n_macroparticles)
 # Space Charge
 grid_x = 32
 grid_y = 32
-grid_z = 12
+grid_z = 16
 
 # PTC RF Table Parameters
 harmonic_factors = [1] # this times the base harmonic defines the RF harmonics (for SPS = 4620, PS 10MHz 7, 8, or 9)

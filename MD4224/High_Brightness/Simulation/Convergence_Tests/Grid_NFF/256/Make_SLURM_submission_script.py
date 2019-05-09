@@ -18,11 +18,11 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 
 # Must be chosen
 
-queue = 'inf-long' #'inf-long', 'inf-short', 'batch-long', 'batch-short'
+queue = 'inf-short' #'inf-long', 'inf-short', 'batch-long', 'batch-short'
 
-n_nodes = 2		
+n_nodes = 16		
 
-jobname = 'PyORBIT'
+jobname = 'Grid_256'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
