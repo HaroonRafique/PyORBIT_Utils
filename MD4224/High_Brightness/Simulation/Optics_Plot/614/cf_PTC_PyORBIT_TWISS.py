@@ -16,8 +16,8 @@ plt.rcParams['lines.linewidth'] = 0.5
 
 # Open Files
 
-ptc_file='../ptc_twiss'
-pyorbit_file='../output/StatLats.dat'
+ptc_file='ptc_twiss'
+pyorbit_file='output/StatLats.dat'
 
 fin1=open(pyorbit_file,'r').readlines()[8:]
 # ~ firstLine = fin1.pop(8)
@@ -81,8 +81,9 @@ fig, ax1 = plt.subplots();
 
 plt.title("PTC vs PyORBIT Beta x");
 
-ax1.plot(s_po, betx_po, 'b', label=r'PyORBIT $\beta_x$', linewidth=2);
-ax1.plot(s, betx, 'k', label=r'PTC $\beta_x$', linewidth=1);
+# ~ ax1.scatter(s_po, betx_po, 'b', label=r'PyORBIT $\beta_x$', linewidth=2);
+ax1.scatter(s_po, betx_po, 'b', label=r'PyORBIT $\beta_x$');
+ax1.scatter(s, betx, 'k', label=r'PTC $\beta_x$', linewidth=1);
 
 ax1.set_xlabel("s [m]");
 ax1.set_ylabel(r"$\beta_x$ [m]", color='b');
@@ -110,8 +111,8 @@ fig, ax1 = plt.subplots();
 
 plt.title("PTC vs PyORBIT Beta x");
 
-ax1.plot(s_po, betx_po, 'b', label=r'PyORBIT $\beta_x$', linewidth=2);
-ax1.plot(s, betx, 'k', label=r'PTC $\beta_x$', linewidth=1);
+ax1.scatter(s_po, betx_po, 'b', label=r'PyORBIT $\beta_x$', linewidth=2);
+ax1.scatter(s, betx, 'k', label=r'PTC $\beta_x$', linewidth=1);
 
 ax1.set_xlabel("s [m]");
 ax1.set_ylabel(r"$\beta_x$ [m]", color='b');

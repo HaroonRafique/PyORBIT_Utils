@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-plt.rcParams['figure.figsize'] = [8.0, 6.0]
+plt.rcParams['figure.figsize'] = [8.0, 4.0]
 plt.rcParams['figure.dpi'] = 300
 plt.rcParams['savefig.dpi'] = 300
 
@@ -16,9 +16,9 @@ plt.rcParams['lines.linewidth'] = 0.5
 
 # Open Files
 
-ptc_file='../ptc_twiss'
-pyorbit_file='../output/StatLats.dat'
-ptc_from_pyorbit_file = '../lattice/PTC_Lattice_Parameters_turn_-1.dat'
+ptc_file='ptc_twiss'
+pyorbit_file='output/StatLats.dat'
+ptc_from_pyorbit_file = 'lattice/PTC_Lattice_Parameters_turn_-1.dat'
 
 fin1=open(pyorbit_file,'r').readlines()[8:]
 # ~ firstLine = fin1.pop(8)
@@ -106,8 +106,8 @@ fig, ax1 = plt.subplots();
 plt.title("PTC vs PyORBIT Beta x");
 
 ax1.plot(s, betx, 'k', label=r'PTC $\beta_x$', linewidth=1);
-ax1.scatter(s_po, betx_po, color='b', marker ='d', label=r'PyORBIT $\beta_x$');
-ax1.scatter(s_po_ptc, betx_po_ptc, color='r', marker ='d',  label=r'PTC from PyORBIT $\beta_x$');
+ax1.plot(s_po, betx_po, color='b', marker ='x', label=r'PyORBIT $\beta_x$');
+ax1.plot(s_po_ptc, betx_po_ptc, color='r', marker ='x',  label=r'PTC from PyORBIT $\beta_x$');
 
 ax1.set_xlabel("s [m]");
 ax1.set_ylabel(r"$\beta_x$ [m]", color='b');
@@ -136,8 +136,8 @@ fig, ax1 = plt.subplots();
 plt.title("PTC vs PyORBIT Beta x");
 
 ax1.plot(s, betx, 'k', label=r'PTC $\beta_x$', linewidth=1);
-ax1.scatter(s_po, betx_po, color='b', marker='d', label=r'PyORBIT $\beta_x$', linewidth=1);
-ax1.scatter(s_po_ptc, betx_po_ptc, color='r', marker='d', label=r'PTC from PyORBIT $\beta_x$', linewidth=1);
+ax1.plot(s_po, betx_po, color='b', marker='x', label=r'PyORBIT $\beta_x$', linewidth=1);
+ax1.plot(s_po_ptc, betx_po_ptc, color='r', marker='x', label=r'PTC from PyORBIT $\beta_x$', linewidth=1);
 
 ax1.set_xlabel("s [m]");
 ax1.set_ylabel(r"$\beta_x$ [m]", color='b');
