@@ -171,6 +171,11 @@ git clone https://gitlab.cern.ch/pyorbit/pyorbit_examples.git .
 
 cd Machines/PS
 
+testdir=`date +%Y%m%dT%H%M%S`
+
+mkdir testdir
+cd testdir
+
 echo "Duplicate PS example for HTCondor submission"
 echo "--------------------------------------------"
 
@@ -179,7 +184,7 @@ Duplicate_and_Submit(){
 	
 	for (( c=1; c<=$1; c++ )) ; do
 		echo "Duplicating PS_1p4GeV_Injection into directory $c"
-		cp -r PS_1p4GeV_Injection $c
+		cp -r $PATHTEST/examples/Machines/PS/PS_1p4GeV_Injection $c
 		cd $c
 		
 		echo "Edit setup_environment.sh to point to this installed version of PyORBIT"
