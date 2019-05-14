@@ -3,8 +3,18 @@
 #######################################################################
 #   Script to test PTC-PyORBIT on EOS
 #######################################################################
+# The following files should be present in the directory $PATHTEST for
+# the examples to run
+#
+# setup_ifort.sh
+# CheckGitStatus.sh
+#
+# these files can be found here:
+# runfiles="/afs/cern.ch/user/p/pyorbit/public/pyorbit_examples_repository/AFS_Phaseout_Test"
+# Let's assume you already have these from the examples repository
+runfiles=$(pwd)
 
-PATHTEST="/afs/cern.ch/work/p/pyorbit/private/AFS_Phaseout_Test/Test_Dir"
+PATHTEST="/afs/cern.ch/work/p/pyorbit/private/AFS_Phaseout_Test_2"
 
 # The script will stop on the first error 
 set -e
@@ -12,6 +22,10 @@ set -e
 # Create the test folder
 mkdir $PATHTEST
 cd $PATHTEST
+
+# copy required files
+cp $runfiles/setup_ifort.sh .
+cp $runfiles/CheckGitStatus.sh .
 
 # Source intel fortran libraries
 source /cvmfs/projects.cern.ch/intelsw/psxe/linux/setup.sh
@@ -95,6 +109,9 @@ cd virtualenvs
 cd py2.7/bin
 source activate
 
+echo "Installing Python packages"
+echo "--------------------------"
+
 # Install python packages
 echo "installing numpy..."
 ./pip install numpy
@@ -140,34 +157,61 @@ echo
 cd $pyorbit_dir
 make clean
 make
+echo "pyORBIT Buit"
+echo "-------------------"
 
-# Clone examples repository
+
+echo "Cloning pyORBIT examples repository"
+echo "-----------------------------------"
+
 cd $PATHTEST
 mkdir examples
 cd examples
 git clone https://gitlab.cern.ch/pyorbit/pyorbit_examples.git .
 
-# duplicate folder for HTCondor job
-cd Machines
-cd PS
-cp -r PS_1p4GeV_Injection PS_1p4GeV_Injection_HTCondor
-cd PS_1p4GeV_Injection_HTCondor
+cd Machines/PS
+
+echo "Duplicate PS example for HTCondor submission"
+echo "--------------------------------------------"
+
+# Function creates N duplicate folders and submits N jobs to HTCondor
+Duplicate_and_Submit(){
+	
+	for (( c=1; c<=$1; c++ )) ; do
+		echo "Duplicating PS_1p4GeV_Injection into directory $c"
+		cp -r PS_1p4GeV_Injection $c
+		cd $c
+		
+		echo "Edit setup_environment.sh to point to this installed version of PyORBIT"
+		echo "-----------------------------------------------------------------------"
+		old_po_dir="/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit"
+		new_po_dir="$PATHTEST/py-orbit"
+		sed -i "s|pyOrbit_dir=$old_po_dir|pyOrbit_dir=$new_po_dir|" setup_environment.sh
+				
+		echo "Submitting Condor Job"
+		echo "---------------------"
+		condor_submit htcond.sub		
+		cd ..
+		
+	done
+}
+
+#####################################################
+# Change No of duplicate HTCondor simulations here: #
+#####################################################
+Number_of_duplicates=3
+Duplicate_and_Submit $Number_of_duplicates
+
+# run local job
+echo "Starting Local Job"
+echo "---------------------"
+
+cd $PATHTEST/examples/Machines/PS/PS_1p4GeV_Injection
 
 # Edit the setup_environment file
 old_po_dir="/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit"
 new_po_dir="$PATHTEST/py-orbit"
-
-sed -i "s|pyOrbit_dir=$old_po_dir|pyOrbit_dir=$new_po_dir|" setup_environment.sh
-
-# submit condor job
-condor_submit htcond.sub
-
-# run local job
-cd ../PS_1p4GeV_Injection
-
-# Edit the setup_environment file
-
 sed -i "s|pyOrbit_dir=$old_po_dir|pyOrbit_dir=$new_po_dir|" setup_environment.sh
 
 # setup environment manually
-./START_local.sh pyOrbit.py 1
+./START_local.sh pyOrbit.py 4
