@@ -237,7 +237,6 @@ def generate_initial_distribution_from_tomo_manual_Twiss(parameters, matfile=0, 
 	phi = np.zeros(parameters['n_macroparticles'])
 	dE = np.zeros(parameters['n_macroparticles'])
 
-
 	# Instatiate the classes for longitudinal and transverse distns
 	Transverse_distribution = GaussDist2D(twissX, twissY, cut_off=parameters['TransverseCut'])
 	Longitudinal_distribution = LongitudinalDistributionFromTomoscope(parameters['tomo_file'], matfile)
