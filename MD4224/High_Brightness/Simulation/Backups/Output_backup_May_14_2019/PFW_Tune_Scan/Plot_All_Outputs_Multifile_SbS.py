@@ -1274,7 +1274,8 @@ scaled_label = main_label + '_scaled'
 legend_label = r'$Q_y$'
 turn_tot = None
 zoom_turns = 50
-turns = [0, 1, 10, 100, 199, 874, 2185]
+# ~ turns = [0, 1, 10, 100, 199, 874, 2185]
+turns = [874]
 
 '''
 ------------------------------------------------------------------------
@@ -1402,5 +1403,5 @@ plot_mean_of_two_parameters(sc, dd, parameter1 = 'eff_epsn_x', parameter2 = 'eff
 
 # Emittances
 
-plot_emittance(sc, dd, main_label, turns, legend_label='Turn')
+plot_emittance(sc, dd, main_label, turns, legend_label='Turn', ymin=0, ymax=4)
 

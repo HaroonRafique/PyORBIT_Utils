@@ -1274,7 +1274,8 @@ scaled_label = main_label + '_scaled'
 legend_label = r'$Q_y$'
 turn_tot = None
 zoom_turns = 50
-turns = [0, 1, 10, 100, 199, 874, 2185]
+# ~ turns = [0, 1, 10, 100, 199, 874, 2185]
+turns = [874]
 
 '''
 ------------------------------------------------------------------------
@@ -1283,124 +1284,124 @@ turns = [0, 1, 10, 100, 199, 874, 2185]
 '''
 # Optics
 
-plot_optics(sc, dd, main_label)
+# ~ plot_optics(sc, dd, main_label)
 
-# Parameters
+# ~ # Parameters
 
-plot_parameter(sc, dd, parameter = 'intensity', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'intensity', filename = main_label,  percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'intensity', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'intensity', filename = main_label,  percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'mean_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'mean_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'mean_xp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'mean_xp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_xp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_xp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'mean_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'mean_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'mean_yp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'mean_yp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_yp', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_yp', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'mean_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'mean_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
-plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.2)
-plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.2)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
-plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
-plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'eps_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'eps_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eps_z', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eps_z', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'bunchlength', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'bunchlength', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'bunchlength', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'bunchlength', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'dpp_rms', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'dpp_rms', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'dpp_rms', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'dpp_rms', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'eff_beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'eff_beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_beta_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_beta_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'eff_alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'eff_alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_alpha_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_alpha_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'D_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'D_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 
-# Scaled
+# ~ # Scaled
 
-plot_parameter(sc, dd, parameter = 'epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
-plot_parameter(sc, dd, parameter = 'epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
-plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
-plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = scaled_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.5)
 
-# Effective Sigma
+# ~ # Effective Sigma
 
-plot_effective_sigmas(sc, dd, main_label, turns = turn_tot, legend_label = legend_label, real=False)
-plot_effective_sigmas(sc, dd, main_label, turns = turn_tot, legend_label = legend_label, real=True)
+# ~ plot_effective_sigmas(sc, dd, main_label, turns = turn_tot, legend_label = legend_label, real=False)
+# ~ plot_effective_sigmas(sc, dd, main_label, turns = turn_tot, legend_label = legend_label, real=True)
 
-plot_effective_sigmas(sc, dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=False)
-plot_effective_sigmas(sc, dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=True)
+# ~ plot_effective_sigmas(sc, dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=False)
+# ~ plot_effective_sigmas(sc, dd, main_label2, turns = zoom_turns, legend_label = legend_label, real=True)
 
-# Zoom plots
+# ~ # Zoom plots
 
-plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'eff_beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'eff_beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'eff_alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'eff_alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'eff_alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'beta_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'alpha_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'alpha_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'D_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
-plot_parameter(sc, dd, parameter = 'D_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'D_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+# ~ plot_parameter(sc, dd, parameter = 'D_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-# Two parameter plots
+# ~ # Two parameter plots
 
-plot_two_parameters(sc, dd, 'epsn_x', 'eff_epsn_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
-plot_two_parameters(sc, dd, 'epsn_y', 'eff_epsn_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
+# ~ plot_two_parameters(sc, dd, 'epsn_x', 'eff_epsn_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
+# ~ plot_two_parameters(sc, dd, 'epsn_y', 'eff_epsn_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
 
-plot_two_parameters(sc, dd, 'beta_x', 'eff_beta_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
-plot_two_parameters(sc, dd, 'beta_y', 'eff_beta_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
+# ~ plot_two_parameters(sc, dd, 'beta_x', 'eff_beta_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
+# ~ plot_two_parameters(sc, dd, 'beta_y', 'eff_beta_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
 
-plot_two_parameters(sc, dd, 'alpha_x', 'eff_alpha_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
-plot_two_parameters(sc, dd, 'alpha_y', 'eff_alpha_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
+# ~ plot_two_parameters(sc, dd, 'alpha_x', 'eff_alpha_x', filename = main_label, turns = turn_tot, legend_label = legend_label)
+# ~ plot_two_parameters(sc, dd, 'alpha_y', 'eff_alpha_y', filename = main_label, turns = turn_tot, legend_label = legend_label)
 
 
-# Mean of epsn_x and epsn_y
+# ~ # Mean of epsn_x and epsn_y
 
-plot_mean_of_two_parameters(sc, dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
+# ~ plot_mean_of_two_parameters(sc, dd, parameter1 = 'epsn_x', parameter2 = 'epsn_y', filename = main_label,  legend_label = legend_label)
 
-plot_mean_of_two_parameters(sc, dd, parameter1 = 'eff_epsn_x', parameter2 = 'eff_epsn_y', filename = main_label,  legend_label = legend_label)
+# ~ plot_mean_of_two_parameters(sc, dd, parameter1 = 'eff_epsn_x', parameter2 = 'eff_epsn_y', filename = main_label,  legend_label = legend_label)
 
 # Emittances
 
-plot_emittance(sc, dd, main_label, turns, legend_label='Turn')
+plot_emittance(sc, dd, main_label, turns, legend_label='Turn', ymin=0, ymax=4)
 
