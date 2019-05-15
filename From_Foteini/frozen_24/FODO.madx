@@ -1,0 +1,76 @@
+!********* Definitions *********!
+
+  set,format="16.12f";
+  BEAM, PARTICLE=PROTON, pc=1.1417;
+ 
+  Ncells = 25;
+    
+  Ndip=Ncells*2;
+  Lbend = 8.2;
+  MB:  SBEND, L:=Lbend, ANGLE:=2*Pi/Ndip; 
+
+  KQF = +1;
+  KQD = -1;
+  Lquad = 0.1;
+  Lcav=1;
+  QF  : QUADRUPOLE, L = Lquad, K1:=KQF,APERTYPE = ellipse, APERTURE = {7e-2, 3.5e-2};
+  QD  : QUADRUPOLE, L = Lquad, K1:=KQD,APERTYPE = ellipse, APERTURE = {7e-2, 3.5e-2};
+  C10 : RFCAVITY,   L=Lcav,       VOLT:=0.025, LAG=0,  HARMON=7;
+  D1  : DRIFT, 	    L = Lbend/4;
+
+!********* Sequences *********!
+
+  HalfFODO1 : LINE=(QF,D1,MB, D1);
+  HalfFODO2 : LINE=(QD,D1,MB, D1);
+
+
+  
+  FODO : LINE=(HalfFODO1, HalfFODO2); 
+  generateARC(Ncells): macro = {ARC : LINE=(Ncells*FODO);};
+  exec, generateARC($Ncells);
+
+  use, sequence=ARC;
+  save,sequence=ARC,file=sequence.seq;
+  call, file=sequence.seq;
+  use, sequence=ARC;
+
+  seqedit, sequence=ARC;
+  flatten;
+  install, element=C10, at=Lquad/2+Lcav/2, from=QF[1];
+  flatten;
+  endedit;
+
+  use, sequence=ARC;
+
+  
+  
+
+
+!********* Matching *********!
+
+  Qx = 6.20;
+  Qy = 6.24;
+
+  MATCH, SEQUENCE=ARC;
+    VARY, NAME=KQD,  STEP=1.E-8;
+    VARY, NAME=KQF,  STEP=1.E-8;
+    GLOBAL, Q1=Qx, Q2=Qy;
+    LMDIF, CALLS=1000, TOLERANCE=1.E-22;
+  ENDMATCH;
+  
+  twiss;
+
+!plot, HAXIS=S, VAXIS1=BETX,BETY,DX, COLOUR=100, HMIN=0, HMAX= table(summ,length)/Ncells*2,interpolate;
+ptc_create_universe;
+ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
+ptc_script, file="./print_flat_file.ptc"; 
+ptc_end;
+
+
+
+ptc_create_universe;
+ptc_create_layout,time=true, model=2, exact=true, method=6, nst=3;
+select, flag=ptc_twiss, clear;
+select, flag=ptc_twiss, column=name,  betx, px, bety, py, disp3, disp3p, disp1, disp1p;
+ptc_twiss, icase=5, no=4, deltap_dependency, closed_orbit, file=ptc_twiss, table=ptc_twiss;
+ptc_end;

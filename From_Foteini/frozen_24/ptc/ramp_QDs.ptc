@@ -1,0 +1,218 @@
+SET ORBIT RAMPING 
+ ramp
+ QD.52110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.52310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.52510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.52710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.52910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.53110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.53310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.53510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.60110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.60310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.60510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.60710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.60910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.61110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.61310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.61510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QDA.61710	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QDA.61910	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QD.62110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.62310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.62510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.62710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.62910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.63110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.63310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.63510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.10110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.10310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.10510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.10710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.10910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.11110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.11310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.11510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QDA.11710	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QDA.11910	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QD.12110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.12310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.12510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.12710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.12910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.13110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.13310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.13510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.20110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.20310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.20510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.20710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.20910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.21110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.21310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.21510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QDA.21710	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QDA.21910	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QD.22110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.22310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.22510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.22710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.22910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.23110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.23310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.23510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.30110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.30310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.30510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.30710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.30910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.31110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.31310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.31510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.31710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.31910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.32110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.32310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.32510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.32710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.32910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.33110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.33310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.33510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.40110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.40310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.40510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.40710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.40910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.41110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.41310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.41510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QDA.41710	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QDA.41910	"input/QD_table.ptc"	0.818181818 
+ ramp
+ QD.42110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.42310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.42510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.42710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.42910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.43110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.43310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.43510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.50110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.50310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.50510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.50710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.50910	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.51110	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.51310	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.51510	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.51710	"input/QD_table.ptc"	1.000000000 
+ ramp
+ QD.51910	"input/QD_table.ptc"	1.000000000 
+return

@@ -1,0 +1,53 @@
+!--------------------------------------------------------------------------
+! create flat file for PTC-ORBIT
+!--------------------------------------------------------------------------
+
+ ptc_open_gino, command=opengino; 
+
+ ptc_create_universe;
+	ptc_create_layout,model=2,method=2, nst=1; 		!,exact;  
+	ptc_setswitch, debuglevel=0, nocavity=false, fringe=true, exact_mis=true, time=true, totalpath=true;
+	PTC_ALIGN;
+	
+	//Cutting procedure
+	ptc_script, file="ptc/makethinner4.txt";
+
+	select,flag=ptc_twiss,column=name,s,alfa11,beta11,beta21,beta12,alfa22,beta22,disp1,disp2,disp3,disp4,x,px,y,py;
+	ptc_twiss,deltap=0,closed_orbit,icase=5,table=ptc_twiss,no=6, SUMMARY_TABLE=ptc_twiss_summary;
+	alfxstart=table(ptc_twiss,alfa11,1);
+	betxstart=table(ptc_twiss,beta11,1);	
+	alfystart=table(ptc_twiss,alfa22,1);
+	betystart=table(ptc_twiss,beta22,1);
+	x0=table(ptc_twiss,x,1);
+	xp0=table(ptc_twiss,px,1);
+	y0=table(ptc_twiss,y,1);
+	yp0=table(ptc_twiss,py,1);
+	dxstart=table(ptc_twiss,disp1,1);
+	dxpstart=table(ptc_twiss,disp2,1);
+	dystart=table(ptc_twiss,disp3,1);
+	dypstart=table(ptc_twiss,disp4,1);
+	dqx=table(ptc_twiss_summary,dq1);
+	dqy=table(ptc_twiss_summary,dq2);
+	gamma_transition=table(ptc_twiss_summary,gamma_tr);
+	circumference = table(ptc_twiss_summary,length);
+ ptc_end;
+
+ rf_voltage = 1e6*rf_voltage_MV;
+
+ emit;
+ TWISS;
+ Qx = table(summ, q1);
+ Qy = table(summ, q2);
+ rf_voltage = 1e6*acta.31637->volt;
+ phaselag = acta.31637->lag;
+
+ assign, echo="input/optics_ptc.txt";
+ value, Qx,Qy,dqx,dqy,alfxstart,betxstart,alfystart,betystart,x0,xp0,y0,yp0,dxstart,dxpstart,dystart,dypstart,rf_voltage, gamma_transition, harmonic_number,phaselag, KQF1, KQD;
+ assign, echo=terminal;
+
+ select, flag=twiss, clear;
+ select, flag=twiss, column=NAME,KEYWORD,S,L,ANGLE,K0L,K1L,BETX,ALFX,MUX,DX,DPX,BETY,ALFY,MUY,DY,DPY,X,Y,APER_1,APER_2;
+ twiss, file="input/SPS_for_ORBIT.tfs";
+
+
+
