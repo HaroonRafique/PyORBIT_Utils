@@ -1,0 +1,4 @@
+SET ORBIT RAMPING 
+ ramp
+ LSE.10602	"input/LSE10602_table.ptc"	1.000000000 
+return

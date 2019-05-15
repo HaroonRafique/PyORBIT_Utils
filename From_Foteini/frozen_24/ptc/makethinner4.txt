@@ -1,0 +1,33 @@
+! for Dymanic Aperture tracking limit
+ABSOLUTEAPERTURE
+ 5
+GLOBAL APERTURE FLAG
+t
+DEFAULT         
+!
+! modifies default to skip cavities if any (becomes drifts)
++nocavity       
+SELECTLAYOUT    
+1
+CUTTING ALGORITHM
+2
+LIMIT FOR CUTTING
+10000 10000
+thin lens =1
+lmax
+7.0d0
+fuzzylmax
+0.1
+!THIN LENS
+even THIN LENS
+111.0
+
+GETCHROMATICITY
+
+!=================
+!FITBENDS
+! KIND7WITHMETHOD1
+!GETCHROMATICITY
+PRINT FLAT FILE
+"input/SPS_PTC_ORBIT.FLAT"
+return
