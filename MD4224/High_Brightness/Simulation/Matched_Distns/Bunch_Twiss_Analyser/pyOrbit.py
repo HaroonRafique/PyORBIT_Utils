@@ -10,10 +10,6 @@ import os
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
-slicebyslice = s['SliceBySlice']        # Slice by slice space charge
-twopointfived = s['TwoPointFiveD']        # 2.5D space charge
-
-if twopointfived: slicebyslice = 0
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
@@ -39,10 +35,7 @@ from ext.ptc_orbit.ptc_orbit import trackBunchThroughLatticePTC, trackBunchInRan
 from orbit.aperture import TeapotApertureNode
 
 # transverse space charge
-if slicebyslice:
-	from spacecharge import SpaceChargeCalcSliceBySlice2D
-elif twopointfived:
-	from spacecharge import SpaceChargeCalc2p5D
+from spacecharge import SpaceChargeCalcSliceBySlice2D
 	
 from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
 from spacecharge import SpaceChargeCalcAnalyticGaussian
@@ -127,7 +120,7 @@ for node in Lattice.getNodes():
 	position += node.getLength()
 	
 # Load bunch from previously run simulation
-path_to_distn = 'mainbunch_000874.mat'
+path_to_distn = 'Input_Distns/V_614/mainbunch_000874.mat'
 bunch = bunch_from_matfile(path_to_distn)
 
 lostbunch = Bunch()
@@ -193,12 +186,51 @@ twiss_dict['gamma_transition'] 	= Lattice.gammaT
 twiss_dict['circumference']    	= Lattice.getLength()
 twiss_dict['length'] 			= Lattice.getLength()/Lattice.nHarm
 
-for i in twiss_dict:
-	print '\t', str(i), '\t = \t', twiss_dict[i]
+if not rank:
+	for i in twiss_dict:
+		print '\t', str(i), '\t = \t', twiss_dict[i]
 
 # Make new distn
 print '\ngenerate_initial_distribution on MPI process: ', rank
 Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 
-saveBunchAsMatfile(bunch, "bunch_output/mainbunch_Tomo_Twiss_Test")
+matched_bunch_dir = "bunch_output/mainbunch_Tomo_Twiss_Test"
+
+saveBunchAsMatfile(bunch, matched_bunch_dir)
+
+# Load the newly created bunch, track one turn, compare twiss dictionary
+
+print '\nLoad matched bunch on MPI process: ', rank
+matched_bunch = bunch_from_matfile(matched_bunch_dir)
+
+
+print '\nTrack matched bunch on MPI process: ', rank
+paramsDict["bunch"]= matched_bunch
+Lattice.trackBunch(matched_bunch, paramsDict)
+bunchtwissanalysis.analyzeBunch(matched_bunch)
+
+twiss_dict2 = dict()
+twiss_dict2['alpha_x'] 			= bunchtwissanalysis.getAlpha(0)
+twiss_dict2['alpha_y'] 			= bunchtwissanalysis.getAlpha(1)
+twiss_dict2['beta_x'] 			= bunchtwissanalysis.getBeta(0)
+twiss_dict2['beta_y'] 			= bunchtwissanalysis.getBeta(1)
+twiss_dict2['D_x'] 				= bunchtwissanalysis.getDispersion(0)
+twiss_dict2['D_y'] 				= bunchtwissanalysis.getDispersion(1)
+twiss_dict2['D_xp'] 			= bunchtwissanalysis.getDispersionDerivative(0)
+twiss_dict2['D_yp'] 			= bunchtwissanalysis.getDispersionDerivative(1)
+twiss_dict2['x0'] 				= Lattice.orbitx0
+twiss_dict2['xp0'] 				= Lattice.orbitpx0
+twiss_dict2['y0'] 				= Lattice.orbity0
+twiss_dict2['yp0'] 				= Lattice.orbitpy0
+twiss_dict2['gamma_transition'] = Lattice.gammaT
+twiss_dict2['circumference']    = Lattice.getLength()
+twiss_dict2['length'] 			= Lattice.getLength()/Lattice.nHarm
+
+print '\nCompare Twiss on MPI process: ', rank
+
+if not rank:
+	for i in twiss_dict2:
+		print '\t', str(i), '\t = \t', twiss_dict2[i]
+	
+print '\nSimulation complete'

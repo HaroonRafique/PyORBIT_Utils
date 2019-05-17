@@ -118,7 +118,7 @@ match,use_macro;
         vary,name=PFKI3D;
         use_macro,name=ptc_chrom_macro;
         constraint,expr= qx0= 1*MQx0;
-	constraint,expr= qy0= 1*MQy0;
+		constraint,expr= qy0= 1*MQy0;
         constraint,expr= qx1= 1*MQx1;	
         constraint,expr= qy1= 1*MQy1;	
         constraint,expr= qx2= 2*MQx2;
@@ -141,7 +141,7 @@ value,qy0,qy1,qy2/2;
  * Using model=2, exact=true is recommended.
  **********************************************************************/
 tune_x = 0.21;
-tune_y = 0.10;
+tune_y = 0.14;
  
 ptc_twiss_tune_macro_false_split: macro={
   ptc_create_universe;

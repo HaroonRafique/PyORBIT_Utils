@@ -22,7 +22,7 @@ rm -r input
 rm PS.seq
 rm ptc_twiss
 rm madx_twiss.tfs
-rm PTC-PyORBIT_flat_file.flt
+#~ rm PTC-PyORBIT_flat_file.flt
 rm tunespread.dat
 
 . clean_junk.sh
