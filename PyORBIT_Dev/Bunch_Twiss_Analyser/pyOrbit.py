@@ -130,6 +130,13 @@ for node in Lattice.getNodes():
 path_to_distn = 'mainbunch_000874.mat'
 bunch = bunch_from_matfile(path_to_distn)
 
+lostbunch = Bunch()
+bunch.copyEmptyBunchTo(lostbunch)
+lostbunch.addPartAttr('ParticlePhaseAttributes')
+lostbunch.addPartAttr("LostParticleAttributes")	
+saveBunchAsMatfile(lostbunch, "input/lostbunch")
+paramsDict["lostbunch"]=lostbunch
+
 # Add space charge
 #-----------------------------------------------------------------------
 print '\nAdding slice-by-slice space charge nodes on MPI process: ', rank
@@ -186,7 +193,7 @@ twiss_dict['length'] 			= Lattice.getLength()/Lattice.nHarm
 
 # Make new distn
 print '\ngenerate_initial_distribution on MPI process: ', rank
-Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, 1, twiss_dict, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 
 saveBunchAsMatfile(bunch, "bunch_output/mainbunch_Tomo_Twiss_Test")

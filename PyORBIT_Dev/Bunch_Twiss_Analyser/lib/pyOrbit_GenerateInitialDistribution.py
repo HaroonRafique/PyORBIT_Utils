@@ -201,7 +201,7 @@ class LongitudinalJohoDistributionSingleHarmonic():
 				break
 		return phi, dE
 	
-def generate_initial_distribution_from_tomo_manual_Twiss(parameters, matfile=0, TwissDict, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
+def generate_initial_distribution_from_tomo_manual_Twiss(parameters, TwissDict, matfile=0, output_file='ParticleDistribution.in', outputFormat='pyOrbit', summary_file='ParticleDistribution_summary.txt', summary_mat_file=None):
 	
 	# Get parameters from the TwissDict dictionary
 	parameters['alphax0'] = TwissDict['alpha_x']
