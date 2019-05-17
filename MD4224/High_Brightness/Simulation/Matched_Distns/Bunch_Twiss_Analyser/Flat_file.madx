@@ -141,7 +141,7 @@ value,qy0,qy1,qy2/2;
  * Using model=2, exact=true is recommended.
  **********************************************************************/
 tune_x = 0.21;
-tune_y = 0.14;
+tune_y = 0.15;
  
 ptc_twiss_tune_macro_false_split: macro={
   ptc_create_universe;
