@@ -14,7 +14,7 @@
 # Let's assume you already have these from the examples repository
 runfiles=$(pwd)
 
-PATHTEST="/afs/cern.ch/work/p/pyorbit/private/AFS_Phaseout_Test_2"
+PATHTEST="/afs/cern.ch/work/p/pyorbit/private/AFS_Phaseout_Test_5"
 
 # The script will stop on the first error 
 set -e
@@ -107,7 +107,7 @@ mkdir virtualenvs
 cd virtualenvs
 ../bin/virtualenv py2.7 --python=../bin/python
 cd py2.7/bin
-source activate
+source $PATHTEST/virtualenvs/py2.7/bin/activate
 
 echo "Installing Python packages"
 echo "--------------------------"
@@ -160,7 +160,6 @@ make
 echo "pyORBIT Buit"
 echo "-------------------"
 
-
 echo "Cloning pyORBIT examples repository"
 echo "-----------------------------------"
 
@@ -169,12 +168,14 @@ mkdir examples
 cd examples
 git clone https://gitlab.cern.ch/pyorbit/pyorbit_examples.git .
 
-cd Machines/PS
+cd $PATHTEST
+test_run_dir='Simulation_Test_Runs'
+mkdir $test_run_dir
+cd $test_run_dir
 
 testdir=`date +%Y%m%dT%H%M%S`
-
-mkdir testdir
-cd testdir
+mkdir $testdir
+cd $testdir
 
 echo "Duplicate PS example for HTCondor submission"
 echo "--------------------------------------------"
@@ -211,7 +212,9 @@ Duplicate_and_Submit $Number_of_duplicates
 echo "Starting Local Job"
 echo "---------------------"
 
-cd $PATHTEST/examples/Machines/PS/PS_1p4GeV_Injection
+cp -r $PATHTEST/examples/Machines/PS/PS_1p4GeV_Injection $PATHTEST/$test_run_dir/$testdir
+
+cd $PATHTEST/$test_run_dir/$testdir/PS_1p4GeV_Injection
 
 # Edit the setup_environment file
 old_po_dir="/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit"
