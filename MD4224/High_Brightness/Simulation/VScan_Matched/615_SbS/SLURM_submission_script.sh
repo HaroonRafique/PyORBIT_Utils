@@ -1,17 +1,17 @@
 #!/bin/bash
-#SBATCH -p batch-long
+#SBATCH -p inf-short
 #SBATCH --job-name V_15_SbS
 #SBATCH -N 3
-#SBATCH --ntasks-per-node 16
+#SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
-#SBATCH -t 14-00:00
+#SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/hpcscratch/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/VScan/615_SbS
+RUN_DIR=/hpcscratch/bescratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/VScan_Matched/615_SbS
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file

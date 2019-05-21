@@ -203,7 +203,7 @@ paramsDict["bunch"]= bunch
 
 # Add space charge nodes
 #----------------------------------------------------
-if p['SliceBySlice']:
+if s['SliceBySlice']:
 	print '\nAdding slice-by-slice space charge nodes on MPI process: ', rank
 	# Make a SC solver
 	calcsbs = SpaceChargeCalcSliceBySlice2D(s['GridSizeX'], s['GridSizeY'], s['GridSizeZ'], useLongitudinalKick=s['LongitudinalKick'])

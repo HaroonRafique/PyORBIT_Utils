@@ -1,10 +1,10 @@
 import shutil
 
-pyorbit = False
-simulation_parameters = True
+pyorbit = True
+simulation_parameters = False
 flat_files = False
 
-sbs = False
+sbs = True
 noSC = True
 
 master_directory = './Master'
