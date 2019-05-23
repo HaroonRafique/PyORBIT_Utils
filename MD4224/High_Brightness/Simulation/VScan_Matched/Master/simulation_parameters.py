@@ -1,7 +1,7 @@
 import numpy as np
 
 tomo_file = 'PyORBIT_Tomo_file_MD4224_HB.mat'
-input_distn_dir = '../../Matched_Distns/V/V_610_Matched_Distn.mat'
+input_distn_dir = '../../Matched_Distns/V/V_624_Matched_Distn.mat'
 
 # PS Injection 1.4 GeV
 gamma = 2.49253731343
@@ -30,6 +30,9 @@ tu.append(2185)# WS 175s
 turns_print = sorted(tu)
 turns_update = sorted(tu)
 macrosize = intensity/float(n_macroparticles)
+
+# Tune
+Qy = 6.24
 
 # Space Charge
 grid_x = 128
@@ -80,8 +83,9 @@ tunespread = {
 }
 
 switches = {
-	'SliceBySlice': False,
-	'CreateDistn': False,
+	'Qy': Qy,
+	'SliceBySlice': True,
+	'CreateDistn': True,
 	'ImportFromTomo': True,
 	'LongitudinalKick': True,
 	'GridSizeX': grid_x,
