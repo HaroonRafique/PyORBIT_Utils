@@ -120,7 +120,7 @@ for node in Lattice.getNodes():
 	position += node.getLength()
 	
 # Load bunch from previously run simulation
-path_to_distn = 'Input_Distns/V_615/mainbunch_000874.mat'
+path_to_distn = 'Input_Distns/V_624/mainbunch_000874.mat'
 bunch = bunch_from_matfile(path_to_distn)
 
 lostbunch = Bunch()
