@@ -168,6 +168,7 @@ if sts['turn'] < 0:
 		twiss_dict['D_y'] 				= D_y[index]
 		twiss_dict['D_xp'] 				= 0.
 		twiss_dict['D_yp'] 				= 0.
+		twiss_dict['x0'] 				= 0.
 		twiss_dict['xp0'] 				= 0.
 		twiss_dict['y0'] 				= 0.
 		twiss_dict['yp0'] 				= 0.
