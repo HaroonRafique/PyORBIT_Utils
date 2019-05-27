@@ -146,9 +146,43 @@ if sts['turn'] < 0:
 	if s['CreateDistn']:
 # Create the initial distribution 
 #-----------------------------------------------------------------------
+
+# Statistical TWISS for vertical scan
+#-----------------------------------------------------------------------
+		Qy = [6.1, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18, 6.19, 6.2, 6.21, 6.22, 6.23, 6.24]
+		beta_x = [11.49778505297269, 11.561142423712235, 11.621563324253549, 11.685935519233954, 11.751842101341309, 11.814969760172527, 11.881700649427966, 11.95004290783458, 12.019275059276143, 12.088030476076925, 12.155710632377403, 12.221621917895586, 12.286487536379424, 12.351762866387576, 12.417282383224189]
+		beta_y = [28.75775445834396, 27.90144543045776, 27.212978421993824, 26.553042781979897, 25.951033704906294, 25.466970667392626, 24.98572526966874, 24.5426713186873, 24.14864962809185, 23.812528441798015, 23.52879541212273, 23.279974969296187, 23.06731554922815, 22.898782875976057, 22.76466764380734]
+		alpha_x = [0.02014978739106865, 0.01884353267781308, 0.0176321165229806, 0.01632333418125009, 0.014992854402007878, 0.013722998740755193, 0.012370060599780954, 0.010974386278459366, 0.009550692532226783, 0.008136163625900179, 0.006746557075054912, 0.005404514030477649, 0.004084683524410341, 0.002744221041003115, 0.0014013797790392067]
+		alpha_y = [-0.07598190386654523, -0.06027204495860171, -0.04710560230957663, -0.0343755121739445, -0.022682599980032053, -0.012833165361499773, -0.003150414126168016, 0.0057881913916622545, 0.013799265862888191, 0.020722423649612087, 0.026638655754386516, 0.03178723390800505, 0.03618752176467799, 0.03980909595245627, 0.042823804527384185]
+		D_x = [2.7232670487812256, 2.7116367856049948, 2.699599403210768, 2.6866790770377817, 2.673327070935468, 2.6599658661567056, 2.6455621037343575, 2.6305947070915603, 2.6152952481238847, 2.5997619799223886, 2.5841333492637544, 2.568298718241905, 2.5524105212520656, 2.536511996336176, 2.5204240966552374]
+		D_y = [0.0003049303533906463, -0.00021647828752590061, 2.2236469376601038e-05, -0.00018742393285385114, 0.0009018831296542939, 0.0001287717460281074, -0.0002843418052139658, -5.639666617722505e-05, -5.102220215645195e-05, -8.77117650922447e-05, -6.350368017957502e-05, 1.1645739917172323e-05, -2.6525086555896508e-05, -1.0174844481937915e-05, -9.055730919930321e-06]
+
+		index = Qy.index(s['Qy'])
+
+		twiss_dict = dict()
+		twiss_dict['alpha_x'] 			= alpha_x[index]
+		twiss_dict['alpha_y'] 			= alpha_y[index]
+		twiss_dict['beta_x'] 			= beta_x[index]
+		twiss_dict['beta_y'] 			= beta_y[index]
+		twiss_dict['D_x'] 				= D_x[index]
+		twiss_dict['D_y'] 				= D_y[index]
+		twiss_dict['D_xp'] 				= 0.
+		twiss_dict['D_yp'] 				= 0.
+		twiss_dict['x0'] 				= 0.
+		twiss_dict['xp0'] 				= 0.
+		twiss_dict['y0'] 				= 0.
+		twiss_dict['yp0'] 				= 0.
+		twiss_dict['gamma_transition'] 	= Lattice.gammaT
+		twiss_dict['circumference']    	= Lattice.getLength()
+		twiss_dict['length'] 			= Lattice.getLength()/Lattice.nHarm
+
+		if not rank:
+			for i in twiss_dict:
+				print '\t', str(i), '\t = \t', twiss_dict[i]
+	
 		print '\ngenerate_initial_distribution on MPI process: ', rank
 		if s['ImportFromTomo']:
-			Particle_distribution_file = generate_initial_distribution_from_tomo(p, 1, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+			Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, 1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 		else:
 			Particle_distribution_file = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
