@@ -31,6 +31,9 @@ turns_print = sorted(tu)
 turns_update = sorted(tu)
 macrosize = intensity/float(n_macroparticles)
 
+# Tune
+Qy = 6.18
+
 # Space Charge
 grid_x = 128
 grid_y = 128
