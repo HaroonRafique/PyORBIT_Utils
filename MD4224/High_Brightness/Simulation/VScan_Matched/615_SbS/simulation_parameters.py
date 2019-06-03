@@ -23,7 +23,8 @@ n_macroparticles = int(0.5E6)
 turns_max = int(2200)	
 tu1 = range(-1, turns_max, 200)
 tu2 = range(10, 100, 10) 
-tu = tu2 + tu1  
+tu3 = range(1, 9)
+tu = tu2 + tu1 + tu3 
 tu.append(874) # WS 172s
 tu.append(2185)# WS 175s
 
