@@ -422,9 +422,9 @@ def plot_parameter(sc, dd, parameter, filename, percentage = False, ymin=None, y
 	figname = figname + '.png'
 	
 	if legend_label is not None: 
-		ax1.legend(title=legend_label)
+		ax1.legend(title=legend_label, fontsize='x-small')
 	else:
-		ax1.legend()
+		ax1.legend(fontsize='x-small')
 		
 	fig1.savefig(figname);	
 	plt.close()
@@ -608,9 +608,9 @@ def plot_two_parameters (sc, dd, parameter1, parameter2, filename, ymin=None, ym
 	figname = figname + '.png'
 	
 	if legend_label is not None: 
-		ax1.legend(title=legend_label)
+		ax1.legend(title=legend_label, fontsize='x-small')
 	else:
-		ax1.legend()
+		ax1.legend(fontsize='x-small')
 		
 	fig1.savefig(figname);	
 	plt.close()
@@ -875,21 +875,40 @@ def plot_optics(sc, dd, filename):
 
 	ptc_optics = dict()
 	#ptc_optics[float(tune)] = [(all floats) beta_x, beta_y, alpha_x, alpha_y, D_x, D_y]
-	ptc_optics[6.10] = [12.795, 22.226, -0.006969, 0.059026, 2.542529021, 0.]
-	ptc_optics[6.11] = [12.792, 22.216, -0.007001, 0.05864, 2.54230112, 0.]	
-	ptc_optics[6.12] = [12.78866016, 22.20287682, -0.007032, 0.058305, 2.542073286, 0.]
-	ptc_optics[6.13] = [12.78549301, 22.18837837, -0.007063, 0.0580095, 2.541845521, 0.]
-	ptc_optics[6.14] = [12.78232607, 22.17243442, -0.007095, 0.057745, 2.541617825, 0.]
-	ptc_optics[6.15] = [12.77915936, 22.15534784, -0.007126, 0.057507, 2.541390199, 0.]
-	ptc_optics[6.16] = [12.77599288, 22.13734538, -0.007157, 0.057291, 2.541162643, 0.]
-	ptc_optics[6.17] = [12.77282664, 22.11859993, -0.007188, 0.057093, 2.540935158, 0.]
-	ptc_optics[6.18] = [12.76966065, 22.09924535, -0.007220, 0.056912, 2.540707745, 0.]
-	ptc_optics[6.19] = [12.76649491, 22.07938659, -0.007251, 0.056746, 2.540480403, 0.]
-	ptc_optics[6.20] = [12.76332945, 22.05910677, -0.007282, 0.056592, 2.540253134, 0.]	
-	ptc_optics[6.21] = [12.76016425, 22.03847225, -0.007314, 0.056449, 2.540025937, 0.]
-	ptc_optics[6.22] = [12.75699934, 22.01753625, -0.007345, 0.056316, 2.539798815, 0.]	
-	ptc_optics[6.23] = [12.75383472, 21.9963415, -0.007376, 0.056193, 2.539571766, 0.]	
-	ptc_optics[6.24] = [12.7506704, 21.97492223, -0.007408, 0.056078, 2.539344792, 0.]
+	
+	# PFW
+	# ~ ptc_optics[6.10] = [12.795, 22.226, -0.006969, 0.059026, 2.542529021, 0.]
+	# ~ ptc_optics[6.11] = [12.792, 22.216, -0.007001, 0.05864, 2.54230112, 0.]	
+	# ~ ptc_optics[6.12] = [12.78866016, 22.20287682, -0.007032, 0.058305, 2.542073286, 0.]
+	# ~ ptc_optics[6.13] = [12.78549301, 22.18837837, -0.007063, 0.0580095, 2.541845521, 0.]
+	# ~ ptc_optics[6.14] = [12.78232607, 22.17243442, -0.007095, 0.057745, 2.541617825, 0.]
+	# ~ ptc_optics[6.15] = [12.77915936, 22.15534784, -0.007126, 0.057507, 2.541390199, 0.]
+	# ~ ptc_optics[6.16] = [12.77599288, 22.13734538, -0.007157, 0.057291, 2.541162643, 0.]
+	# ~ ptc_optics[6.17] = [12.77282664, 22.11859993, -0.007188, 0.057093, 2.540935158, 0.]
+	# ~ ptc_optics[6.18] = [12.76966065, 22.09924535, -0.007220, 0.056912, 2.540707745, 0.]
+	# ~ ptc_optics[6.19] = [12.76649491, 22.07938659, -0.007251, 0.056746, 2.540480403, 0.]
+	# ~ ptc_optics[6.20] = [12.76332945, 22.05910677, -0.007282, 0.056592, 2.540253134, 0.]	
+	# ~ ptc_optics[6.21] = [12.76016425, 22.03847225, -0.007314, 0.056449, 2.540025937, 0.]
+	# ~ ptc_optics[6.22] = [12.75699934, 22.01753625, -0.007345, 0.056316, 2.539798815, 0.]	
+	# ~ ptc_optics[6.23] = [12.75383472, 21.9963415, -0.007376, 0.056193, 2.539571766, 0.]	
+	# ~ ptc_optics[6.24] = [12.7506704, 21.97492223, -0.007408, 0.056078, 2.539344792, 0.]
+	
+	#LEQ
+	ptc_optics[6.10] = [11.83456792, 24.92373871, 0.011513, -0.015862, 2.858624854, 0.]
+	ptc_optics[6.11] = [11.87596148, 24.42660692, 0.010690, -0.005660, 2.844314013, 0.]
+	ptc_optics[6.12] = [11.91741726, 24.02924164, 0.009857, 0.002752, 2.829919074, 0.]
+	ptc_optics[6.13] = [11.95887931, 23.70631133, 0.009017, 0.009781, 2.815459752, 0.]
+	ptc_optics[6.14] = [12.00030736, 23.44016924, 0.008170, 0.015724, 2.800950597, 0.]
+	ptc_optics[6.15] = [12.04167193, 23.21815984, 0.007316, 0.020797, 2.786402598, 0.]
+	ptc_optics[6.16] = [12.08295116, 23.03097747, 0.006457, 0.025166, 2.771824228, 0.]
+	ptc_optics[6.17] = [12.12412865, 22.87162883, 0.005594, 0.028959, 2.757222142, 0.]	
+	ptc_optics[6.18] = [12.16519202, 22.7347561, 0.004726, 0.032276, 2.742601663, 0.]	
+	ptc_optics[6.19] = [12.20613183, 22.61618278, 0.003854, 0.035195, 2.727967112, 0.]	
+	ptc_optics[6.20] = [12.24694093, 22.51260139, 0.002979, 0.037780, 2.71332205, 0.]
+	ptc_optics[6.21] = [12.28761386, 22.42135386, 0.002101, 0.040084, 2.698669456, 0.]	
+	ptc_optics[6.22] = [12.32814649, 22.34027393, 0.001221, 0.042150, 2.684011849, 0.]	
+	ptc_optics[6.23] = [12.36853572, 22.26757179, 0.000338, 0.044012, 2.66935139, 0.]	
+	ptc_optics[6.24] = [12.40877927, 22.20174814, -0.000546, 0.045702, 2.654689951, 0.]
 	
 	# TODO: 6.21 22 23 24
 	
@@ -1018,6 +1037,8 @@ def plot_optics(sc, dd, filename):
 	
 	plt.plot(by_x, by, color='r', marker='x');
 	plt.plot(by_x, by_ptc, color='k', marker='x');
+	
+	ax1.set_ylim(20, 30)
 		
 	legend_elements2 = [Line2D([0], [0], color='r', lw=4),	Line2D([0], [0], color='k', lw=4)]
 	ax1.legend(legend_elements2, ['Bunch Statistics', 'Linear Optics (No Space Charge)'], frameon=False)
@@ -1305,10 +1326,10 @@ plot_parameter(sc, dd, parameter = 'mean_z', filename = main_label, percentage =
 plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
 plot_parameter(sc, dd, parameter = 'mean_dE', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.2)
 plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
+plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label, ymin=1, ymax=2.2)
 plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label, percentage = True, turns = turn_tot, legend_label = legend_label)
 
 plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)#, ymin=1, ymax=2.5)
