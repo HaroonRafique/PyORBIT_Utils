@@ -6,7 +6,7 @@ Qy = 6.10
 # Input files
 in_str = str(Qy)
 frac_tune = in_str.split('.')[1]
-input_distn_dir = str('../../Matched_Distns/V/V_6' + frac_tune + '_Matched_Distn.mat')
+input_distn_dir = str('../../Matched_Distns/V/V_610_Matched_Distn.mat')
 tomo_file = 'PyORBIT_Tomo_file_MD4224_HB.mat'
 
 # PS Injection 1.4 GeV
