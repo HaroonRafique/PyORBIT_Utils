@@ -77,7 +77,10 @@ else:
 #-----------------------------------------------------------------------
 print '\nStart MADX on MPI process: ', rank
 if not rank:
-	os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
+	if os.path.exists('PTC-PyORBIT_flat_file.flt'):
+		pass
+	else:
+		os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
 orbit_mpi.MPI_Barrier(comm)
 
 # Print Tunespread data
