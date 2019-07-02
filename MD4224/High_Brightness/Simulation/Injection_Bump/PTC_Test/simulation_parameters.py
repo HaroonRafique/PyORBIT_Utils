@@ -21,7 +21,8 @@ rf_voltage = 0.0212942055190595723
 # Simulation Parameters
 # ~ n_macroparticles = int(0.5E6)
 n_macroparticles = int(0.5E5)
-turns_max = int(2200)	
+# ~ turns_max = int(2200)	
+turns_max = int(2)	
 tu1 = range(-1, turns_max, 200)
 tu2 = range(10, 100, 10) 
 tu3 = range(1, 9)
