@@ -77,7 +77,11 @@ else:
 #-----------------------------------------------------------------------
 print '\nStart MADX on MPI process: ', rank
 if not rank:
-	os.system("./Create_FF_and_Tables.sh")
+	# ~ os.system("./Create_FF_and_Tables.sh")
+	if os.path.exists('PTC-PyORBIT_flat_file.flt'):
+		pass
+	else:
+		os.system("./Create_FF_and_Tables.sh")
 	# ~ if os.path.exists('PTC-PyORBIT_flat_file.flt'):
 		# ~ pass
 	# ~ else:
@@ -107,8 +111,8 @@ Lattice.readPTC(PTC_File)
 
 readScriptPTC_noSTDOUT('PTC/fringe.ptc')
 readScriptPTC_noSTDOUT('PTC/time.ptc')
-readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_magnet.ptc')
+readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
