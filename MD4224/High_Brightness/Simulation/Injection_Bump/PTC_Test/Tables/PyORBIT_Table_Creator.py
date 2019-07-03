@@ -7,6 +7,7 @@
 import numpy as np
 import os
 from math import log10, floor
+from scipy.misc import factorial
 
 # From Hannes Bartosik
 def write_PTCtable(filename, multipole_orders, time, normal_components, skew_components):
@@ -30,7 +31,7 @@ def write_PTCtable(filename, multipole_orders, time, normal_components, skew_com
 def round_sig(x, sig=5):
 	return round(x, sig-int(floor(log10(abs(x))))-1)
 
-# For each element, create a PTC table
+# For each element, create a PTC table - Note for some reason this doesn't work - use above function
 def Create_PTC_Table(name, multipole_order, time, normal, skew):
 
 	f = open(name, 'w')
@@ -102,36 +103,40 @@ B_40 = Read_TFS_Return_Data('../MADX/BSEXT40.tfs')
 print '\n Create timing for ../MADX/BSEXT40.tfs'
 B_40_final = Create_Timing(5E-4, 5.0314E-3, B_40)
 print '\n Create table ../Tables/BSEXT40.dat'
-Create_PTC_Table('../Tables/BSEXT40.dat', 3, B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
+# ~ Create_PTC_Table('../Tables/BSEXT40.dat', 3, B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
+write_PTCtable('../Tables/BSEXT40.dat',  3, B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
 
 print '\n Reading ../MADX/BSEXT42.tfs'
 B_42 = Read_TFS_Return_Data('../MADX/BSEXT42.tfs')
 print '\n Create timing for ../MADX/BSEXT42.tfs'
 B_42_final = Create_Timing(5E-4, 5.0314E-3, B_42)
 print '\n Create table ../Tables/BSEXT42.dat'
-Create_PTC_Table('../Tables/BSEXT42.dat', 3, B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
+# ~ Create_PTC_Table('../Tables/BSEXT42.dat', 3, B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
+write_PTCtable('../Tables/BSEXT42.dat',  3, B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
 
 print '\n Reading ../MADX/BSEXT43.tfs'
 B_43 = Read_TFS_Return_Data('../MADX/BSEXT43.tfs')
 print '\n Create timing for ../MADX/BSEXT43.tfs'
 B_43_final = Create_Timing(5E-4, 5.0314E-3, B_43)
 print '\n Create table ../Tables/BSEXT43.dat'
-Create_PTC_Table('../Tables/BSEXT43.dat', 3, B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
+# ~ Create_PTC_Table('../Tables/BSEXT43.dat', 3, B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
+write_PTCtable('../Tables/BSEXT43.dat',  3, B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
 
 print '\n Reading ../MADX/BSEXT44.tfs'
 B_44 = Read_TFS_Return_Data('../MADX/BSEXT44.tfs')
 print '\n Create timing for ../MADX/BSEXT44.tfs'
 B_44_final = Create_Timing(5E-4, 5.0314E-3, B_44)
 print '\n Create table ../Tables/BSEXT44.dat'
-Create_PTC_Table('../Tables/BSEXT44.dat', 3, B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
+# ~ Create_PTC_Table('../Tables/BSEXT44.dat', 3, B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
+write_PTCtable('../Tables/BSEXT44.dat',  3, B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
 
 print '\n Reading ../MADX/PI.BSM40.1.tfs'
 BSM40 = Read_TFS_Return_Data('../MADX/PI.BSM40.1.tfs')
 print '\n Create timing for ../MADX/PI.BSM40.1.tfs'
 BSM40_final = Create_Timing(5E-4, 5.0314E-3, BSM40)
 print '\n Create table ../Tables/BSM40.da'
-Create_PTC_Table('../Tables/BSM40.dat', 2, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
-# ~ write_PTCtable('../Tables/BSM40.dat',  2, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
+# ~ Create_PTC_Table('../Tables/BSM40.dat', 2, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
+write_PTCtable('../Tables/BSM40.dat',  2, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
 
 
 
