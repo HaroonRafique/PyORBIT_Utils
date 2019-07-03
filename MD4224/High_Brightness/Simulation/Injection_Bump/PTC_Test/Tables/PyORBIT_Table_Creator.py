@@ -8,22 +8,40 @@ import numpy as np
 import os
 from math import log10, floor
 
+# From Hannes Bartosik
+def write_PTCtable(filename, multipole_orders, time, normal_components, skew_components):
+	multipole_orders = np.atleast_1d(multipole_orders)
+	factors = 1./factorial(multipole_orders-1) # the factorial factor is needed to be consistent with MADX
+	normal_components = (factors.T * np.atleast_2d(normal_components).T)
+	skew_components   = (factors.T * np.atleast_2d(skew_components).T)
+	arr = np.empty((normal_components.shape[0], 1+normal_components.shape[1]*2), dtype=normal_components.dtype)
+	arr[:,0] = time
+	arr[:,1::2] = normal_components
+	arr[:,2::2] = skew_components
+	n_lines = len(time)
+	n_multipoles = len(multipole_orders) # number of multipole orders to be changed
+	with open(filename, 'w') as fid:
+		fid.write('%d  1  %d\n'%(n_lines, n_multipoles))
+		fid.write(' '.join(map(lambda i: '%d'%i, multipole_orders)) + '\n')
+		for j in xrange(n_lines):
+			fid.write('\t'.join(map(lambda i: '%+1.11f'%i, arr[j, :]))+'\n')
+	return
+
 def round_sig(x, sig=5):
 	return round(x, sig-int(floor(log10(abs(x))))-1)
 
 # For each element, create a PTC table
 def Create_PTC_Table(name, multipole_order, time, normal, skew):
+
+	f = open(name, 'w')
 	
-	filename = str(name) + str('.dat')
-	f = open(filename, 'w')
+	n_lines = len(time)
 	
-	n_lines = len(time) + 2
-	
-	f.write('%i 1 %i \n' % (n_lines, multipole_order))
+	f.write('%i  1  %i\n' % (n_lines, multipole_order))
 	f.write('%i\n' % (multipole_order))
 	
 	for i in xrange(len(time)):
-		f.write('%1.11f %1.11f %1.11f\n' % (time[i], normal[i], skew[i]))	
+		f.write('%+1.11f\t%+1.11f\t%+1.11f\n' % (time[i], normal[i], skew[i]))	
 	
 	return
 
@@ -111,11 +129,9 @@ print '\n Reading ../MADX/PI.BSM40.1.tfs'
 BSM40 = Read_TFS_Return_Data('../MADX/PI.BSM40.1.tfs')
 print '\n Create timing for ../MADX/PI.BSM40.1.tfs'
 BSM40_final = Create_Timing(5E-4, 5.0314E-3, BSM40)
-print '\n Create table ../Tables/PI.BSM40.1.dat'
+print '\n Create table ../Tables/BSM40.da'
 Create_PTC_Table('../Tables/BSM40.dat', 2, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
-
-
-
+# ~ write_PTCtable('../Tables/BSM40.dat',  2, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
 
 
 
