@@ -1,0 +1,73 @@
+readlink: missing operand
+Try 'readlink --help' for more information.
+rm: cannot remove ‘fort.18’: No such file or directory
+rm: cannot remove ‘Maxwellian_bend_for_ptc.txt’: No such file or directory
+rm: cannot remove ‘PS.seq’: No such file or directory
+rm: cannot remove ‘madx.ps’: No such file or directory
+rm: cannot remove ‘BSEXT40.tfs’: No such file or directory
+rm: cannot remove ‘BSEXT42.tfs’: No such file or directory
+rm: cannot remove ‘BSEXT43.tfs’: No such file or directory
+rm: cannot remove ‘BSEXT44.tfs’: No such file or directory
+rm: cannot remove ‘BSEXT_Out.tfs’: No such file or directory
+rm: cannot remove ‘PI.BSM40.1.tfs’: No such file or directory
+rm: cannot remove ‘madx_twiss.tfs’: No such file or directory
+rm: cannot remove ‘ptc_twiss’: No such file or directory
+rm: cannot remove ‘PTC-PyORBIT_flat_file.flt’: No such file or directory
+rm: cannot remove ‘Tables/*.dat’: No such file or directory
+rm: cannot remove ‘Tables/*.ptc’: No such file or directory
+clean_run.sh: line 11: [: too many arguments
+rm: cannot remove ‘output’: No such file or directory
+rm: cannot remove ‘bunch_output’: No such file or directory
+rm: cannot remove ‘lost’: No such file or directory
+rm: cannot remove ‘input’: No such file or directory
+rm: cannot remove ‘PS.seq’: No such file or directory
+rm: cannot remove ‘ptc_twiss’: No such file or directory
+rm: cannot remove ‘madx_twiss.tfs’: No such file or directory
+rm: cannot remove ‘PTC-PyORBIT_flat_file.flt’: No such file or directory
+rm: cannot remove ‘tunespread.dat’: No such file or directory
+rm: cannot remove ‘PTC/*~’: No such file or directory
+rm: cannot remove ‘Input/*~’: No such file or directory
+rm: cannot remove ‘lib/*~’: No such file or directory
+rm: cannot remove ‘lib/spacecharge_tunespread/*.pyc’: No such file or directory
+rm: cannot remove ‘lib/*.pyc’: No such file or directory
+rm: cannot remove ‘*.pyc’: No such file or directory
+rm: cannot remove ‘junk.txt’: No such file or directory
+rm: cannot remove ‘Maxwellian_bend_for_ptc.txt’: No such file or directory
+rm: cannot remove ‘Negative_node.OUT’: No such file or directory
+rm: cannot remove ‘internal_mag_pot.txt’: No such file or directory
+rm: cannot remove ‘fort.18’: No such file or directory
+rm: cannot remove ‘PTC/*~’: No such file or directory
+rm: cannot remove ‘Input/*~’: No such file or directory
+rm: cannot remove ‘lib/*~’: No such file or directory
+rm: cannot remove ‘lib/spacecharge_tunespread/*.pyc’: No such file or directory
+rm: cannot remove ‘lib/*.pyc’: No such file or directory
+rm: cannot remove ‘*.pyc’: No such file or directory
+rm: cannot remove ‘junk.txt’: No such file or directory
+rm: cannot remove ‘Maxwellian_bend_for_ptc.txt’: No such file or directory
+rm: cannot remove ‘Negative_node.OUT’: No such file or directory
+rm: cannot remove ‘internal_mag_pot.txt’: No such file or directory
+rm: cannot remove ‘fort.18’: No such file or directory
+rm: cannot remove ‘Condor_Logfiles’: No such file or directory
+[hpc157.cern.ch:mpi_rank_32][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_33][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_34][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_35][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_36][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_37][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_38][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_39][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_40][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_41][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_42][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_43][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_44][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_45][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_46][error_sighandler] Caught error: Segmentation fault (signal 11)
+[hpc157.cern.ch:mpi_rank_47][error_sighandler] Caught error: Segmentation fault (signal 11)
+srun: error: hpc157: tasks 32-47: Segmentation fault (core dumped)
+srun: Terminating job step 81104.0
+slurmstepd: error: *** STEP 81104.0 ON hpc155 CANCELLED AT 2019-07-05T09:03:46 ***
+srun: error: hpc155: tasks 0-15: Terminated
+srun: error: hpc158: tasks 48-63: Terminated
+srun: error: hpc156: tasks 16-31: Terminated
+srun: Force Terminated job step 81104.0
