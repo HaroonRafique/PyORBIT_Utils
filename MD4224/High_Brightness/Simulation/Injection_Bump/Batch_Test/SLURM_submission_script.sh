@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH -p batch-long
+#SBATCH -p inf-short
 #SBATCH --job-name Inj_Test
 #SBATCH -N 4
-#SBATCH --ntasks-per-node 16
+#SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
-#SBATCH -t 14-00:00
+#SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
 #SBATCH -e slurm.%N.%j.err
 #SBATCH --exclusive
