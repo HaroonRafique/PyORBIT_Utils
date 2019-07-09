@@ -114,6 +114,10 @@ readScriptPTC_noSTDOUT('PTC/time.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_magnet.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
 readScriptPTC_noSTDOUT('PTC/tunes.ptc')
+readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
+# ~ readScriptPTC_noSTDOUT('PTC/energize_lattice.ptc')
+if sts['turn'] >= 0:
+	readScriptPTC_noSTDOUT('PTC/read_FINAL_SETTINGS.ptc')
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
