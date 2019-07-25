@@ -1263,7 +1263,7 @@ main_label2 = main_label + '_zoom'
 scaled_label = main_label + '_scaled'
 legend_label = r'$Q_y$'
 turn_tot = None
-zoom_turns = 15
+zoom_turns = 300
 turns = [0, 1, 10, 100, 199, 874, 2185]
 
 '''
@@ -1354,7 +1354,7 @@ plot_effective_sigmas(sc, dd, main_label2, turns = zoom_turns, legend_label = le
 plot_parameter(sc, dd, parameter = 'epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 plot_parameter(sc, dd, parameter = 'eff_epsn_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
-plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label, ymin=0.995, ymax=1.025)
 plot_parameter(sc, dd, parameter = 'eff_epsn_y', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
 
 plot_parameter(sc, dd, parameter = 'eff_beta_x', filename = main_label2, percentage = False, turns = zoom_turns, legend_label = legend_label)
