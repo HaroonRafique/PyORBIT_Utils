@@ -103,3 +103,22 @@ class PTCLatticeFunctionsDictionary(object):
 	def ReturnTwissDict(self): return self.twiss_dict
 	
 	def ReturnTurnList(self): return self.turn_list
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

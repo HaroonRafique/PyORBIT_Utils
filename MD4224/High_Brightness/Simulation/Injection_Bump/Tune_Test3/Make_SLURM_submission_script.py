@@ -23,7 +23,7 @@ queue = 'batch-short'
 
 n_nodes = 1			
 
-jobname = 'Tune_Test2'
+jobname = 'TT_3'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 

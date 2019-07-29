@@ -65,6 +65,8 @@ print 'Start on MPI process: ', rank
 #-----------------------------------------------------------------------
 print '\nmkdir on MPI process: ', rank
 from lib.mpi_helpers import mpi_mkdir_p
+mpi_mkdir_p('Plots')
+mpi_mkdir_p('All_Twiss')
 mpi_mkdir_p('input')
 mpi_mkdir_p('bunch_output')
 mpi_mkdir_p('output')
@@ -377,7 +379,7 @@ orbit_mpi.MPI_Barrier(comm)
 # Plotting
 #-----------------------------------------------------------------------
 if not rank:
-
+	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
 	TwissDict = PTC_Twiss.ReturnTwissDict()
 	TurnList = PTC_Twiss.ReturnTurnList()
 
@@ -399,7 +401,7 @@ if not rank:
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('horizontal CO (mm)')
 	ax.set_xlim(-15,15)
-	savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+	savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
 
@@ -413,7 +415,7 @@ if not rank:
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('beta_x (m)')
 	ax.set_ylim(bottom=0)
-	savename = str('png/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
+	savename = str('Plots/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
 
@@ -423,7 +425,7 @@ if not rank:
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('beta_y (m)')
 	ax.set_ylim(bottom=0)
-	savename = str('png/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
+	savename = str('Plots/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
 
@@ -434,7 +436,7 @@ if not rank:
 		ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('beta_y (m)')
-	savename = str('png/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	savename = str('Plots/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
 
@@ -445,7 +447,7 @@ if not rank:
 		ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('beta_y (m)')
-	savename = str('png/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	savename = str('Plots/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
 

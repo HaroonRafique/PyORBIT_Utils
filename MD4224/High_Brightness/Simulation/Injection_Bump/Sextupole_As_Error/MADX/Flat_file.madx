@@ -227,22 +227,6 @@ K2_S44 := -BSStren*(BSW44/BSW42);
 ! Set kicker strengths as errors (with sextupole component)
 ! N.B. if 'use' command is used after these, errors will be erased
 
-SELECT,FLAG=ERROR,CLEAR;
-SELECT,FLAG=ERROR,PATTERN=PI.BSM40;
-EFCOMP, DKN:={BSW40, 0, K2_S40}; 
-
-SELECT,FLAG=ERROR,CLEAR;
-SELECT,FLAG=ERROR,PATTERN=PI.BSM42;
-EFCOMP, DKN:={BSW42, 0, K2_S42}; 
-
-SELECT,FLAG=ERROR,CLEAR;
-SELECT,FLAG=ERROR,PATTERN=PI.BSM43;
-EFCOMP, DKN:={BSW43, 0, K2_S43}; 
-
-SELECT,FLAG=ERROR,CLEAR;
-SELECT,FLAG=ERROR,PATTERN=PI.BSM44;
-EFCOMP, DKN:={BSW44, 0, K2_S44}; 
-
 create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, Qx, Qy, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
 
 create, table=TPI.BSM40.1, column=BSEXT_t, BUMP_40;
@@ -279,6 +263,23 @@ while(row<nrows){
 	option, warn;
 	option, -info;
 	
+	
+	SELECT,FLAG=ERROR,CLEAR;
+	SELECT,FLAG=ERROR,PATTERN=PI.BSM40;
+	EFCOMP, DKN:={BSW40, 0, K2_S40}; 
+
+	SELECT,FLAG=ERROR,CLEAR;
+	SELECT,FLAG=ERROR,PATTERN=PI.BSM42;
+	EFCOMP, DKN:={BSW42, 0, K2_S42}; 
+
+	SELECT,FLAG=ERROR,CLEAR;
+	SELECT,FLAG=ERROR,PATTERN=PI.BSM43;
+	EFCOMP, DKN:={BSW43, 0, K2_S43}; 
+
+	SELECT,FLAG=ERROR,CLEAR;
+	SELECT,FLAG=ERROR,PATTERN=PI.BSM44;
+	EFCOMP, DKN:={BSW44, 0, K2_S44}; 
+	
 	twiss;
 	fill, table=mytable;	
 	fill, table=TPI.BSM40.1;	
@@ -287,6 +288,10 @@ while(row<nrows){
 	fill, table=TBSEXT43;	
 	fill, table=TBSEXT44;	
 };
+
+
+SELECT, FLAG = ERROR, FULL;
+ESAVE, FILE = errors.dat;
 
 
 /***********************************************************************
