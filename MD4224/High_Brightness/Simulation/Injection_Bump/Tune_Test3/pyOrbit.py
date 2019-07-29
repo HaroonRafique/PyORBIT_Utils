@@ -11,6 +11,10 @@ import os
 #-------------------------------------------------------------
 from simulation_parameters import switches as s
 
+# plotting 
+import matplotlib.pylab as plt
+import matplotlib.cm as cm
+
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
 from orbit.utils.consts import mass_proton, speed_of_light, pi
@@ -41,6 +45,7 @@ from orbit.space_charge.sc2p5d import scAccNodes, scLatticeModifications
 from spacecharge import SpaceChargeCalcAnalyticGaussian
 from spacecharge import InterpolatedLineDensityProfile
 
+# User libs
 from lib.pyOrbit_PrintLatticeFunctionsFromPTC import *
 from lib.pyOrbit_PTCLatticeFunctionsDictionary import *
 from lib.output_dictionary import *
@@ -322,6 +327,10 @@ output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
+	
+# Lattice function dictionary to print closed orbit
+#-----------------------------------------------------------------------
+PTC_Twiss = PTCLatticeFunctionsDictionary()
 
 # Track
 #-----------------------------------------------------------------------
@@ -333,10 +342,10 @@ last_time = time.time()
 for turn in range(sts['turn']+1, sts['turns_max']):
 	
 	if not rank: 
-		readScriptPTC_noSTDOUT('PTC/tunes.ptc')
-		readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
-		rename_command = 'mv TWISS_PTC_table.OUT TWISS_' + str(turn) + '.tfs'
-		os.system(rename_command)
+		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
+		#readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
+		#rename_command = 'mv TWISS_PTC_table.OUT TWISS_' + str(turn) + '.tfs'
+		#os.system(rename_command)
 		last_time = time.time()
 	
 	if turn == 0:		
@@ -361,3 +370,83 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
+
+# make sure simulation terminates properly
+orbit_mpi.MPI_Barrier(comm)
+
+# Plotting
+#-----------------------------------------------------------------------
+if not rank:
+
+	TwissDict = PTC_Twiss.ReturnTwissDict()
+	TurnList = PTC_Twiss.ReturnTurnList()
+
+	colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
+
+	# some gymnastics to avoid plotting offset elements ...
+	roll = 284
+	circumference = 25*2*np.pi
+	s = TwissDict[0]['s']
+	s[roll:] -= circumference
+	s[roll] = np.nan
+	i2plot = range(len(s))
+	for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
+
+
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('horizontal CO (mm)')
+	ax.set_xlim(-15,15)
+	savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+
+	i2plot = range(len(s))
+	for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
+
+
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_x (m)')
+	ax.set_ylim(bottom=0)
+	savename = str('png/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	ax.set_ylim(bottom=0)
+	savename = str('png/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+
+	f, ax = plt.subplots()
+	for t in TurnList:
+		beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
+		beta_y = np.array(TwissDict[t]['beta_y'])
+		ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	savename = str('png/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+
+	f, ax = plt.subplots()
+	for t in TurnList:
+		beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
+		beta_x = np.array(TwissDict[t]['beta_x'])
+		ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	savename = str('png/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+
+	plt.close('all')
