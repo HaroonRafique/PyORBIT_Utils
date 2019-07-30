@@ -1172,8 +1172,8 @@ print 'Final data dictionary keys: ', dd.keys()
 		
 sc = 'Slice-by-Slice'
 main_label = 'Slice_By_Slice'
-main_label2 = 'Slice_By_Slice_zoom'
-scaled_label = 'Slice_By_Slice_scaled'
+main_label2 = main_label + '_zoom'
+scaled_label = main_label + '_scaled'
 legend_label = r'$Q_y$'
 turn_tot = None
 zoom_turns = 15
