@@ -101,7 +101,7 @@ def Create_Timing(ramp_stop_time, simulation_stop_time, data):
 # 500 turns = 1.1435E-3 s
 
 print '\n Reading ../MADX/BSEXT40.tfs'
-B_40 = Read_TFS_Return_Data('../MADX/BSEXT40.tfs', fudge=20.)
+B_40 = Read_TFS_Return_Data('../MADX/BSEXT40.tfs', fudge=1.)
 print B_40
 print '\n Create timing for ../MADX/BSEXT40.tfs'
 B_40_final = Create_Timing(1.1435E-3, 5.0314E-3, B_40)
@@ -111,7 +111,7 @@ print '\n Create table ../Tables/BSEXT40.dat'
 write_PTCtable('../Tables/BSEXT40.dat',  3, B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
 
 print '\n Reading ../MADX/BSEXT42.tfs'
-B_42 = Read_TFS_Return_Data('../MADX/BSEXT42.tfs', fudge=20.)
+B_42 = Read_TFS_Return_Data('../MADX/BSEXT42.tfs', fudge=1.)
 print '\n Create timing for ../MADX/BSEXT42.tfs'
 B_42_final = Create_Timing(1.1435E-3, 5.0314E-3, B_42)
 print '\n Create table ../Tables/BSEXT42.dat'
@@ -119,7 +119,7 @@ print '\n Create table ../Tables/BSEXT42.dat'
 write_PTCtable('../Tables/BSEXT42.dat',  3, B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
 
 print '\n Reading ../MADX/BSEXT43.tfs'
-B_43 = Read_TFS_Return_Data('../MADX/BSEXT43.tfs', fudge=20.)
+B_43 = Read_TFS_Return_Data('../MADX/BSEXT43.tfs', fudge=1.)
 print '\n Create timing for ../MADX/BSEXT43.tfs'
 B_43_final = Create_Timing(1.1435E-3, 5.0314E-3, B_43)
 print '\n Create table ../Tables/BSEXT43.dat'
@@ -127,7 +127,7 @@ print '\n Create table ../Tables/BSEXT43.dat'
 write_PTCtable('../Tables/BSEXT43.dat',  3, B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
 
 print '\n Reading ../MADX/BSEXT44.tfs'
-B_44 = Read_TFS_Return_Data('../MADX/BSEXT44.tfs', fudge=20.)
+B_44 = Read_TFS_Return_Data('../MADX/BSEXT44.tfs', fudge=1.)
 print '\n Create timing for ../MADX/BSEXT44.tfs'
 B_44_final = Create_Timing(1.1435E-3, 5.0314E-3, B_44)
 print '\n Create table ../Tables/BSEXT44.dat'
