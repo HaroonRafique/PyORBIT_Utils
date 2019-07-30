@@ -173,16 +173,12 @@ pfki5d =                  0 ;
    PR.ONO39      , knl  :=  {0,0,0,K3OCT39};
    PR.XNO39.B    , knl  :=  {0,0,-Ixct39*CC608};
    PR.QFN39      , knl  :=  {0, CC401*Iqf};
-   PI.BSW40      , KICK := +BSW40 * CC209;
    PR.ODN40      , knl  :=  {0,0,0,-ODE40*CC802};
    PR.QDN40      , knl  :=  {0,-CC401*Iqd};
    PR.QTRTA41    , K1   := -ITRIPA*CC407;
    PR.QSK41      , ksl  :=  {0, CC404*IQS};
-   PI.BSW42      , KICK := -BSW42 * CC209;
    PR.QSK42      , ksl  :=  {0,-CC404*IQS};
-   PI.BSW43      , KICK := +BSW43 * CC209;
    PR.QSK43      , ksl  :=  {0, CC404*IQS};
-   PI.BSW44      , KICK := -BSW44 * CC209;
    PR.QSK44      , ksl  :=  {0,-CC403*IQS};
    PR.DVT44      , KICK :=  kDVT44;
    PR.QFN45      , knl  :=  {0, CC401*Iqf};
@@ -273,15 +269,15 @@ pfki5d =                  0 ;
    PE.KFA21      , KICK :=  KKFA21;
    
 ! SS 40
-   !PI.BSM40   , KICK := BSW40; 
+   PI.BSM40   , KICK := BSW40; 
 
 ! SS 42
-   !PI.BSM42   , KICK := BSW42;
+   PI.BSM42   , KICK := BSW42;
 
 ! SS 43
-   !PI.BSM43   , KICK := BSW43;
+   PI.BSM43   , KICK := BSW43;
 
 ! SS 44
-   !PI.BSM44   , KICK := BSW44;
+   PI.BSM44   , KICK := BSW44;
    
 RETURN;

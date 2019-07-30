@@ -129,11 +129,11 @@ match,use_macro;
         vary,name=PFKI3D;
         use_macro,name=ptc_chrom_macro;
         constraint,expr= qx0= 1*MQx0;
-	constraint,expr= qy0= 1*MQy0;
-        constraint,expr= qx1= 1*MQx1;	
-        constraint,expr= qy1= 1*MQy1;	
+        constraint,expr= qy0= 1*MQy0;
+        constraint,expr= qx1= 1*MQx1;
+        constraint,expr= qy1= 1*MQy1;
         constraint,expr= qx2= 2*MQx2;
-        constraint,expr= qy2= 2*MQy2;		
+        constraint,expr= qy2= 2*MQy2;
 jacobian,calls=50000,bisec=3;
 ENDMATCH;
 
@@ -197,7 +197,7 @@ ptc_end;
  **********************************************************************/
 
 select, flag=twiss, clear;
-select, flag=twiss, column=NAME, KEYWORD, S, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY;
+select, flag=twiss, column=NAME, KEYWORD, S, BETX, BETY, ALFX, ALFY, MUX, MUY, DX, DY, X, Y;
 set,    format="12.6f";
 twiss,  sequence=PS, file=madx_twiss.tfs, save;
 
@@ -224,17 +224,12 @@ K2_S42 := -BSStren*(BSW42/BSW42);
 K2_S43 := -BSStren*(BSW43/BSW42);
 K2_S44 := -BSStren*(BSW44/BSW42);
 
-! Set kicker strengths as errors (with sextupole component)
-! N.B. if 'use' command is used after these, errors will be erased
+create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, Qx, Qy, Qx0, Qy0, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
 
-create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, Qx, Qy, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
-
-create, table=TPI.BSM40.1, column=BSEXT_t, BUMP_40;
-
-create, table=TBSEXT40, column=BSEXT_t, K2_S40;
-create, table=TBSEXT42, column=BSEXT_t, K2_S42;
-create, table=TBSEXT43, column=BSEXT_t, K2_S43;
-create, table=TBSEXT44, column=BSEXT_t, K2_S44;
+create, table=TBSEXT40, column=BSEXT_t, BSW40, K2_S40;
+create, table=TBSEXT42, column=BSEXT_t, BSW42, K2_S42;
+create, table=TBSEXT43, column=BSEXT_t, BSW43, K2_S43;
+create, table=TBSEXT44, column=BSEXT_t, BSW44, K2_S44;
 
 /***********************************************************************
  * Read input table
@@ -248,57 +243,58 @@ row = 0;
 /***********************************************************************
  * Iterate over steps from input table
  **********************************************************************/
- 
+EOPTION, ADD=false;
 while(row<nrows){
+!while(row<3){
 	row = row + 1;
 	iteration = 0;
-
 	value, iteration;
 
 	SETVARS, TABLE=BSWTABLE, ROW=row;
 
-	!iqf = -1.476984595 ; ! new running the matching once
-	!iqd = -2.205012404 ;
-
 	option, warn;
 	option, -info;
-	
-	
+
+	! Set kicker strengths as errors (with sextupole component)
+	! N.B. if 'use' command is used after these, errors will be erased
+
 	SELECT,FLAG=ERROR,CLEAR;
 	SELECT,FLAG=ERROR,PATTERN=PI.BSM40;
-	EFCOMP, DKN:={BSW40, 0, K2_S40}; 
+	EFCOMP, DKN:={0,0,K2_S40}; 
 
 	SELECT,FLAG=ERROR,CLEAR;
 	SELECT,FLAG=ERROR,PATTERN=PI.BSM42;
-	EFCOMP, DKN:={BSW42, 0, K2_S42}; 
+	EFCOMP, DKN:={0,0,K2_S42}; 
 
 	SELECT,FLAG=ERROR,CLEAR;
 	SELECT,FLAG=ERROR,PATTERN=PI.BSM43;
-	EFCOMP, DKN:={BSW43, 0, K2_S43}; 
+	EFCOMP, DKN:={0,0,K2_S43}; 
 
 	SELECT,FLAG=ERROR,CLEAR;
 	SELECT,FLAG=ERROR,PATTERN=PI.BSM44;
-	EFCOMP, DKN:={BSW44, 0, K2_S44}; 
-	
-	twiss;
-	fill, table=mytable;	
-	fill, table=TPI.BSM40.1;	
-	fill, table=TBSEXT40;	
-	fill, table=TBSEXT42;	
-	fill, table=TBSEXT43;	
-	fill, table=TBSEXT44;	
-};
+	EFCOMP, DKN:={0,0,K2_S44}; 
 
+	twiss;
+	exec, ptc_twiss_tune_macro_false_split;
+	!plot, haxis=S, vaxis1=X,Y, colour=100;
+	
+	fill, table=mytable;
+	fill, table=TBSEXT40;
+	fill, table=TBSEXT42;
+	fill, table=TBSEXT43;
+	fill, table=TBSEXT44;
+};
 
 SELECT, FLAG = ERROR, FULL;
 ESAVE, FILE = errors.dat;
 
-
 /***********************************************************************
  * Create plot of closed orbit and tunes
  **********************************************************************/
- 
+
 plot, table=mytable, haxis=BSEXT_t, vaxis=xmax;
+plot, table=mytable, haxis=BSEXT_t, vaxis=Qx0;
+plot, table=mytable, haxis=BSEXT_t, vaxis=Qy0;
 plot, table=mytable, haxis=BSEXT_t, vaxis=Qx;
 plot, table=mytable, haxis=BSEXT_t, vaxis=Qy;
 plot, table=mytable, haxis=BSEXT_t, vaxis=K2_S40, K2_S42, K2_S43;
