@@ -48,7 +48,7 @@ def Create_PTC_Table(name, multipole_order, time, normal, skew):
 
 # Read TFS table to obtain our dipole kick or quadrupole gradient
 # We ignore the time column
-def Read_TFS_Return_Data(file_in, fudge=1.):
+def Read_Single_Column_TFS_Return_Data(file_in, fudge=1.):
 	fi = open(file_in, 'r')
 	contents = fi.readlines()
 
@@ -59,6 +59,25 @@ def Read_TFS_Return_Data(file_in, fudge=1.):
 		else:
 			# ~ data.append(float(l.split()[1]))
 			data.append(float(l.split()[1])*fudge)
+
+	return data
+
+# Read TFS table to obtain our dipole kick or quadrupole gradient
+# We ignore the time column
+def Read_Double_Column_TFS_Return_Data(file_in, fudge=1.):
+	fi = open(file_in, 'r')
+	contents = fi.readlines()
+
+	data = np.empty(shape=0)
+	print data
+	for l in contents:
+		if ('@' in l) or ('$' in l) or ('*' in l):
+			pass
+		else:
+			# ~ data.append(float(l.split()[1]))
+			x = np.ndarray([float(l.split()[1])*fudge, float(l.split()[2])*fudge])
+			print x
+			np.concatenate(data, x)
 
 	return data
 	
@@ -101,52 +120,38 @@ def Create_Timing(ramp_stop_time, simulation_stop_time, data):
 # 500 turns = 1.1435E-3 s
 
 print '\n Reading ../MADX/BSEXT40.tfs'
-B_40 = Read_TFS_Return_Data('../MADX/BSEXT40.tfs', fudge=1.)
+B_40 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT40.tfs')
 print B_40
 print '\n Create timing for ../MADX/BSEXT40.tfs'
 B_40_final = Create_Timing(1.1435E-3, 5.0314E-3, B_40)
 # ~ print B_40_final
 print '\n Create table ../Tables/BSEXT40.dat'
 # ~ Create_PTC_Table('../Tables/BSEXT40.dat', 3, B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
-write_PTCtable('../Tables/BSEXT40.dat',  3, B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
+write_PTCtable('../Tables/BSEXT40.dat', (1,3), B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
 
 print '\n Reading ../MADX/BSEXT42.tfs'
-B_42 = Read_TFS_Return_Data('../MADX/BSEXT42.tfs', fudge=1.)
+B_42 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT42.tfs')
 print '\n Create timing for ../MADX/BSEXT42.tfs'
 B_42_final = Create_Timing(1.1435E-3, 5.0314E-3, B_42)
 print '\n Create table ../Tables/BSEXT42.dat'
 # ~ Create_PTC_Table('../Tables/BSEXT42.dat', 3, B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
-write_PTCtable('../Tables/BSEXT42.dat',  3, B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
+write_PTCtable('../Tables/BSEXT42.dat', (1,3), B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
 
 print '\n Reading ../MADX/BSEXT43.tfs'
-B_43 = Read_TFS_Return_Data('../MADX/BSEXT43.tfs', fudge=1.)
+B_43 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT43.tfs')
 print '\n Create timing for ../MADX/BSEXT43.tfs'
 B_43_final = Create_Timing(1.1435E-3, 5.0314E-3, B_43)
 print '\n Create table ../Tables/BSEXT43.dat'
 # ~ Create_PTC_Table('../Tables/BSEXT43.dat', 3, B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
-write_PTCtable('../Tables/BSEXT43.dat',  3, B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
+write_PTCtable('../Tables/BSEXT43.dat', (1,3), B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
 
 print '\n Reading ../MADX/BSEXT44.tfs'
-B_44 = Read_TFS_Return_Data('../MADX/BSEXT44.tfs', fudge=1.)
+B_44 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT44.tfs')
 print '\n Create timing for ../MADX/BSEXT44.tfs'
 B_44_final = Create_Timing(1.1435E-3, 5.0314E-3, B_44)
 print '\n Create table ../Tables/BSEXT44.dat'
 # ~ Create_PTC_Table('../Tables/BSEXT44.dat', 3, B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
-write_PTCtable('../Tables/BSEXT44.dat',  3, B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
-
-print '\n Reading ../MADX/PI.BSM40.1.tfs'
-BSM40 = Read_TFS_Return_Data('../MADX/PI.BSM40.1.tfs')
-print '\n Create timing for ../MADX/PI.BSM40.1.tfs'
-BSM40_final = Create_Timing(1.1435E-3, 5.0314E-3, BSM40)
-print '\n Create table ../Tables/BSM40.da'
-# ~ Create_PTC_Table('../Tables/BSM40.dat', 2, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
-write_PTCtable('../Tables/BSM40.dat',  1, BSM40_final[0], BSM40_final[1], np.zeros(len(BSM40_final[0])))
-
-
-
-
-
-
+write_PTCtable('../Tables/BSEXT44.dat', (1,3), B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
 
 
 

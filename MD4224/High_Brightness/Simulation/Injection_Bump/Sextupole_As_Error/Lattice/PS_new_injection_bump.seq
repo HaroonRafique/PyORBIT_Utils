@@ -331,7 +331,7 @@ ENDSEQUENCE;
 
 PS40: SEQUENCE, L= 1.0;
 
-   PI.BSM40      :  Bump_Kicker, AT = 0.45;
+   PI.BSM40      :  Bump_Kicker, AT = 0.5;
    PR.QDN40      :  QND    , AT = 1.0;
 
 ENDSEQUENCE;
@@ -360,7 +360,7 @@ ENDSEQUENCE;
 
 PS43: SEQUENCE, L= 1.0;
 
-   PI.BSM43      :  Bump_Kicker   , AT = 0.35;
+   PI.BSM43      :  Bump_Kicker   , AT = 0.4;
    PR.QSK43      :  QLSF   , AT = 1.0;
  
 ENDSEQUENCE;
@@ -369,7 +369,7 @@ ENDSEQUENCE;
 
 PS44: SEQUENCE, L= 1.0;
 
-   PI.BSM44      :  Bump_Kicker   , AT = 0.65;
+   PI.BSM44      :  Bump_Kicker   , AT = 0.7;
    PR.QSK44      :  QNSD   , AT = 1.0;
  
 ENDSEQUENCE;

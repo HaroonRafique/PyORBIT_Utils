@@ -66,6 +66,7 @@ print 'Start on MPI process: ', rank
 print '\nmkdir on MPI process: ', rank
 from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('Plots')
+mpi_mkdir_p('All_Twiss')
 mpi_mkdir_p('input')
 mpi_mkdir_p('bunch_output')
 mpi_mkdir_p('output')
@@ -378,7 +379,7 @@ orbit_mpi.MPI_Barrier(comm)
 # Plotting
 #-----------------------------------------------------------------------
 if not rank:
-
+	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
 	TwissDict = PTC_Twiss.ReturnTwissDict()
 	TurnList = PTC_Twiss.ReturnTurnList()
 

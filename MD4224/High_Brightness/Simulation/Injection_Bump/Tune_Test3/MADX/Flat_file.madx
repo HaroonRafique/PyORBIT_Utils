@@ -197,7 +197,7 @@ ptc_end;
  **********************************************************************/
 
 select, flag=twiss, clear;
-select, flag=twiss, column=NAME, KEYWORD, S, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY;
+select, flag=twiss, column=NAME, KEYWORD, S, BETX, BETY, ALFX ,ALFY, MUX, MUY, DX, DY, X, Y;
 set,    format="12.6f";
 twiss,  sequence=PS, file=madx_twiss.tfs, save;
 
@@ -211,22 +211,37 @@ xmax := table(summ, xcomax);
 Qx := table(summ, Q1);
 Qy := table(summ, Q2);
 
+BSStren : = BSS;
 BSW40 := BSW40_K0;
 BSW42 := BSW42_K0;
 BSW43 := BSW43_K0;
 BSW44 := BSW44_K0;
-BSStren : = BSS;
+
+!BSW40 := 0;
+!BSW42 := 0;
+!BSW43 := 0;
+!BSW44 := 0;
 
 BUMP_40 := 28.E-6/(BRHO); != 3.919331935e-06
 
-K2_S40 := -BSStren*(BSW40/BSW42);
-K2_S42 := -BSStren*(BSW42/BSW42);
-K2_S43 := -BSStren*(BSW43/BSW42);
-K2_S44 := -BSStren*(BSW44/BSW42);
+K2_S40 := -BSStren*(BSW40_K0/BSW42_K0);
+K2_S42 := -BSStren*(BSW42_K0/BSW42_K0);
+K2_S43 := -BSStren*(BSW43_K0/BSW42_K0);
+K2_S44 := -BSStren*(BSW44_K0/BSW42_K0);
 
-create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, Qx, Qy, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
+!K2_S40 := -BSStren*(BSW40/BSW42);
+!K2_S42 := -BSStren*(BSW42/BSW42);
+!K2_S43 := -BSStren*(BSW43/BSW42);
+!K2_S44 := -BSStren*(BSW44/BSW42);
 
-create, table=TPI.BSM40.1, column=BSEXT_t, BUMP_40;
+!K2_S40 := 0;
+!K2_S42 := 0;
+!K2_S43 := 0;
+!K2_S44 := 0;
+
+create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, Qx, Qy, Qx0, Qy0, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
+
+create, table=TPI.BSM40.1, column=BSEXT_t, BSW40;
 
 create, table=TBSEXT40, column=BSEXT_t, K2_S40;
 create, table=TBSEXT42, column=BSEXT_t, K2_S42;
@@ -247,7 +262,7 @@ row = 0;
  **********************************************************************/
  
 while(row<nrows){
-!while(row<10){
+!while(row<3){
 	row = row + 1;
 	iteration = 0;
 
@@ -262,12 +277,19 @@ while(row<nrows){
 	option, -info;
 	
 	twiss;
+	exec, ptc_twiss_tune_macro_false_split;
+	!plot, haxis=S, vaxis1=X,Y, colour=100;
+	
 	fill, table=mytable;	
 	fill, table=TPI.BSM40.1;	
 	fill, table=TBSEXT40;	
 	fill, table=TBSEXT42;	
 	fill, table=TBSEXT43;	
 	fill, table=TBSEXT44;	
+	
+	show, PI.BSM40.1;
+	show, BSEXT40;
+	show, PI.BSM40.2;
 };
 
 
@@ -276,6 +298,8 @@ while(row<nrows){
  **********************************************************************/
  
 plot, table=mytable, haxis=BSEXT_t, vaxis=xmax;
+plot, table=mytable, haxis=BSEXT_t, vaxis=Qx0;
+plot, table=mytable, haxis=BSEXT_t, vaxis=Qy0;
 plot, table=mytable, haxis=BSEXT_t, vaxis=Qx;
 plot, table=mytable, haxis=BSEXT_t, vaxis=Qy;
 plot, table=mytable, haxis=BSEXT_t, vaxis=K2_S40, K2_S42, K2_S43;
