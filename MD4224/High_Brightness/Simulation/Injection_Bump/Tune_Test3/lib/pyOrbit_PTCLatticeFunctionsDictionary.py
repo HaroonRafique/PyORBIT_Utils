@@ -62,7 +62,7 @@ class PTCLatticeFunctionsDictionary(object):
 				filename = lattice_folder + '/PTC_Twiss_turn_' + str(turn) + '.dat'
 				
 			# Check that the particle exists
-			if n not in self.turn_list:
+			if turn not in self.turn_list:
 				print "PTCLatticeFunctionsDictionary::PrintPTCTwissForTurn: Turn not stored, use UpdatePTCTwiss function on this turn to store."
 			else:
 				# if file exists then overwrite
