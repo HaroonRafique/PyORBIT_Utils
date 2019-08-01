@@ -374,6 +374,20 @@ def plot_parameter(sc, dd, parameter, filename, percentage = False, ymin=None, y
 		tit = sc + ' ' + 'Longitudinal Emittance'
 		ax1.set_title(tit);
 		figname = filename + '_' + parameter
+		
+	elif parameter is 'Qx':
+		ylabel = r'$Q_x$'
+		yunit = '[-]'
+		tit = sc + ' ' + 'Horizontal Tune'
+		ax1.set_title(tit);
+		figname = filename + '_' + parameter
+		
+	elif parameter is 'Qy':
+		ylabel = r'$Q_y$'
+		yunit = '[-]'
+		tit = sc + ' ' + 'Vertical Tune'
+		ax1.set_title(tit);
+		figname = filename + '_' + parameter
 
 	else:
 		multiplier = multi
@@ -1184,6 +1198,9 @@ plot_optics(sc, dd, main_label)
 # Parameters
 
 plot_parameter(sc, dd, parameter = 'Qx', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+plot_parameter(sc, dd, parameter = 'Qy', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
+
+plot_parameter(sc, dd, parameter = 'Qx', filename = main_label,  percentage = True, turns = turn_tot, legend_label = legend_label)
 plot_parameter(sc, dd, parameter = 'Qy', filename = main_label,  percentage = True, turns = turn_tot, legend_label = legend_label)
 
 plot_parameter(sc, dd, parameter = 'intensity', filename = main_label, percentage = False, turns = turn_tot, legend_label = legend_label)
