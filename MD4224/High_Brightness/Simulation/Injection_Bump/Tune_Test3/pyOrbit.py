@@ -392,6 +392,7 @@ if not rank:
 	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
 	TwissDict = PTC_Twiss.ReturnTwissDict()
 	TurnList = PTC_Twiss.ReturnTurnList()
+	print TurnList
 
 	colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
