@@ -78,10 +78,19 @@ mpi_mkdir_p('PTC_Twiss')
 import pickle # HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
 status_file = 'input/simulation_status.pkl'
 if not os.path.exists(status_file):
-        sts = {'turn': -1}
+	sts = {'turn': -1}
 else:
-        with open(status_file) as fid:
-                sts = pickle.load(fid)
+	with open(status_file) as fid:
+		sts = pickle.load(fid)
+
+# Lattice function dictionary to print closed orbit
+#-----------------------------------------------------------------------
+ptc_dictionary_file = 'input/ptc_dictionary.pkl'
+if not os.path.exists(ptc_dictionary_file):        
+	PTC_Twiss = PTCLatticeFunctionsDictionary()
+else:
+	with open(ptc_dictionary_file) as sid:
+		PTC_Twiss = pickle.load(sid)
 
 # Generate Lattice (MADX + PTC) - Use MPI to run on only one 'process'
 #-----------------------------------------------------------------------
@@ -123,6 +132,9 @@ readScriptPTC_noSTDOUT('PTC/fringe.ptc')
 readScriptPTC_noSTDOUT('PTC/time.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_magnet.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
+if sts['turn'] >= 0:
+	readScriptPTC_noSTDOUT('PTC/read_FINAL_SETTINGS.ptc')
+readScriptPTC_noSTDOUT('PTC/energize_lattice.ptc')
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
@@ -330,9 +342,6 @@ output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
 	
-# Lattice function dictionary to print closed orbit
-#-----------------------------------------------------------------------
-PTC_Twiss = PTCLatticeFunctionsDictionary()
 
 # Track
 #-----------------------------------------------------------------------
@@ -372,6 +381,10 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
+			with open(ptc_dictionary_file, 'w') as sid:
+				pickle.dump(PTC_Twiss, sid)
+				
+				
 
 # make sure simulation terminates properly
 orbit_mpi.MPI_Barrier(comm)
@@ -400,7 +413,7 @@ if not rank:
 		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('horizontal CO (mm)')
-	ax.set_xlim(-15,15)
+	# ~ ax.set_xlim(-15,15)
 	savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
