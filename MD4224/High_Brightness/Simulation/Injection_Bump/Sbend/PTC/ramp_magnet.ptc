@@ -1,10 +1,10 @@
 SET ORBIT RAMPING
 ramp
-PI.BSM40     "Tables/BSM40.dat"      1
+PI.BSM40     "Tables/BSEXT40.dat"      1
 ramp
-PI.BSM42     "Tables/BSM40.dat"      1
+PI.BSM42     "Tables/BSEXT42.dat"      1
 ramp
-PI.BSM43     "Tables/BSM40.dat"      1
+PI.BSM43     "Tables/BSEXT43.dat"      1
 ramp
-PI.BSM44     "Tables/BSM40.dat"      1
+PI.BSM44     "Tables/BSEXT44.dat"      1
 return
