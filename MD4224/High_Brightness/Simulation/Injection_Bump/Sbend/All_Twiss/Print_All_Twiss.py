@@ -8,7 +8,7 @@ import matplotlib.cm as cm
 import os
 
 plot_CO = True
-plot_beta = False
+plot_beta = True
 plot_alpha = False
 plot_dispersion = False
 
@@ -115,7 +115,7 @@ if plot_CO:
 
 # Iterate through files by turn, open file, read data
 for f in sorted_list_of_files:
-	print 'Plotting file ', f
+	print 'Plotting turn ', f[-5]
 	if plot_CO: 
 		ReadAndPlot(f, ax3, 9, colors)
 		ReadAndPlot(f, ax4, 11, colors)	

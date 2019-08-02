@@ -132,6 +132,9 @@ readScriptPTC_noSTDOUT('PTC/fringe.ptc')
 readScriptPTC_noSTDOUT('PTC/time.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_magnet.ptc')
 readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
+if sts['turn'] >= 0:
+	readScriptPTC_noSTDOUT('PTC/read_FINAL_SETTINGS.ptc')
+readScriptPTC_noSTDOUT('PTC/energize_lattice.ptc')
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
@@ -389,7 +392,7 @@ orbit_mpi.MPI_Barrier(comm)
 # Plotting
 #-----------------------------------------------------------------------
 if not rank:
-	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
+	# ~ PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
 	TwissDict = PTC_Twiss.ReturnTwissDict()
 	TurnList = PTC_Twiss.ReturnTurnList()
 
@@ -410,7 +413,7 @@ if not rank:
 		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('horizontal CO (mm)')
-	ax.set_xlim(-15,15)
+	# ~ ax.set_xlim(-15,15)
 	savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
