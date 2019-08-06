@@ -7,6 +7,10 @@ import numpy as np
 import scipy.io as sio
 import os
 
+# plotting 
+import matplotlib.pylab as plt
+import matplotlib.cm as cm
+
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
 from orbit.utils.consts import mass_proton, speed_of_light, pi
@@ -68,6 +72,8 @@ rank = orbit_mpi.MPI_Comm_rank(comm)
 from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('input')
 mpi_mkdir_p('output')
+mpi_mkdir_p('All_Twiss')
+mpi_mkdir_p('Plots')
 lattice_folder = 'lattice'
 mpi_mkdir_p(lattice_folder)
 
@@ -87,7 +93,7 @@ else:
 #----------------------------------------------
 # Simulation Parameters
 #----------------------------------------------
-sts['turns_max'] = 5000
+sts['turns_max'] = 10
 # ~ sts['turns_max'] = 1000
 sts['turns_print'] = xrange(-1, sts['turns_max'], 2000000)
 sts['turns_injection'] = np.arange(1)
@@ -302,80 +308,122 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 # make sure simulation terminates properly
 orbit_mpi.MPI_Barrier(comm)
 
-TwissDict = PTC_Twiss.ReturnTwissDict()
-TurnList = PTC_Twiss.ReturnTurnList()
-
-# plotting 
-import matplotlib.pylab as plt
-import matplotlib.cm as cm
-
-colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
-
-
-# some gymnastics to avoid plotting offset elements ...
-roll = 284
-circumference = 25*2*np.pi
-s = TwissDict[0]['s']
-s[roll:] -= circumference
-s[roll] = np.nan
-i2plot = range(len(s))
-for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
-
-
-f, ax = plt.subplots()
-for t in TurnList:
-	ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('horizontal CO (mm)')
-ax.set_xlim(-15,15)
-savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
-
-
-i2plot = range(len(s))
-for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
+# Plotting
+#-----------------------------------------------------------------------
+if not rank:
+	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
+	PTC_Twiss.PrintOrbitExtrema('All_Twiss')
+	TwissDict = PTC_Twiss.ReturnTwissDict()
+	TurnList = PTC_Twiss.ReturnTurnList()
+	
+	# ~ # horizontal closed orbit
+	# ~ colors = cm.rainbow(np.linspace(0, 1, len(CO_x)))
+	# ~ CO_x = np.array(CO_x)
+	# ~ s = np.cumsum([n.getLength() for n in Lattice.getNodes()])
+	# ~ f, ax = plt.subplots()
+	# ~ roll = 284
+	# ~ circumference = 25*2*np.pi
+	# ~ s[roll:] -= circumference
+	# ~ s[roll] = np.nan
+	# ~ i2plot = range(len(s))
+	# ~ for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i)
+	# ~ for i, c in enumerate(colors):
+		# ~ # ax.plot(np.roll(s[i2plot],roll), 1e3*np.roll(CO_x[i,i2plot].T, roll, axis=0), color=c);
+		# ~ ax.plot(s[i2plot], 1e3*CO_x[i,i2plot].T, color=c);
+	# ~ # ax.plot(1e3*CO_x[:,i2plot].T);
+	# ~ ax.set_xlim(-15,15)
+	# ~ ax.set_xlabel('s (m)')
+	# ~ ax.set_ylabel('horizontal CO (mm)')	
+	# ~ savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+	# ~ plt.savefig(savename, dpi=400)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_x (m)')
-ax.set_ylim(bottom=0)
-savename = str('png/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	# ~ # vertical beta function
+	# ~ i2plot = range(len(s))
+	# ~ for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
+	# ~ BETA_y = np.array(BETA_y)
+
+	# ~ f, ax = plt.subplots()
+	# ~ for i, c in enumerate(colors):
+		# ~ ax.plot(s[i2plot], BETA_y[i,i2plot].T, color=c)
+	# ~ ax.set_xlabel('s (m)')
+	# ~ ax.set_ylabel('vertical beta function CO (mm)')
+	# ~ plt.savefig('png/betay_evolution.png', dpi=400)
+
+	# ~ f, ax = plt.subplots()
+	# ~ for i, c in enumerate(colors):
+		# ~ ax.plot(s[i2plot], 100*(BETA_y[i,i2plot].T-BETA_y[-1,i2plot].T)/BETA_y[-1,i2plot].T, color=c)
+	# ~ ax.set_xlabel('s (m)')
+	# ~ ax.set_ylabel('relative vertical beta beating (%)')
+	# ~ plt.savefig('png/betay_beating_evolution.png', dpi=400)
+
+	# ~ plt.close('all')
+
+	colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
+	
+	# some gymnastics to avoid plotting offset elements ...
+	circumference = 157.08
+	s = TwissDict[0]['s']
+	roll = int(len(s)/2)
+	s[roll:] -= circumference
+	s[roll] = np.nan
+	i2plot = range(len(s))
+	for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
+
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('horizontal CO (mm)')
+	ax.set_xlim(-15,15)
+	savename = str('Plots/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_y (m)')
-ax.set_ylim(bottom=0)
-savename = str('png/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	i2plot = range(len(s))
+	for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
-	beta_y = np.array(TwissDict[t]['beta_y'])
-	ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_y (m)')
-savename = str('png/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_x (m)')
+	ax.set_ylim(bottom=0)
+	savename = str('Plots/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
-	beta_x = np.array(TwissDict[t]['beta_x'])
-	ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_y (m)')
-savename = str('png/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	ax.set_ylim(bottom=0)
+	savename = str('Plots/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
 
 
-plt.close('all')
+	f, ax = plt.subplots()
+	for t in TurnList:
+		beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
+		beta_y = np.array(TwissDict[t]['beta_y'])
+		ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	savename = str('Plots/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+
+	f, ax = plt.subplots()
+	for t in TurnList:
+		beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
+		beta_x = np.array(TwissDict[t]['beta_x'])
+		ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	savename = str('Plots/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+
+	plt.close('all')

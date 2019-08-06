@@ -14,4 +14,7 @@ if [ ! -n "$2" ]
     exit $E_BADARGS
 fi
 
+export FI_PROVIDER=sockets
+. setup_environment.sh
+
 mpirun -np $2 ${ORBIT_ROOT}/bin/pyORBIT $1
