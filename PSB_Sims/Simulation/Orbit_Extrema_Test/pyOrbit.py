@@ -77,7 +77,6 @@ mpi_mkdir_p('output')
 lattice_folder = 'lattice'
 mpi_mkdir_p(lattice_folder)
 
-
 #----------------------------------------------
 # Dictionary for simulation status (for resume)
 #----------------------------------------------
@@ -101,7 +100,7 @@ else:
 #----------------------------------------------
 # Simulation Parameters
 #----------------------------------------------
-sts['turns_max'] = 10
+sts['turns_max'] = 1000
 # ~ sts['turns_max'] = 1000
 sts['turns_print'] = xrange(-1, sts['turns_max'], 2000000)
 sts['turns_injection'] = np.arange(1)
@@ -268,11 +267,10 @@ twiss_dict = {'betax': Lattice.betax0, 'betay': Lattice.betay0, 'etax': Lattice.
 # Tracking
 #----------------------------------------------------
 print '\n\n now start tracking ...'
-# ~ CO_x = []
-# ~ BETA_y = []
 
 for turn in range(sts['turn']+1, sts['turns_max']):
-	if not rank:	
+	
+	if not rank:
 		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
 		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
 
@@ -294,13 +292,9 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	updateParamsPTC(Lattice,bunch) # to update bunch energy and twiss functions
 	tunes.assignTwiss(*[Twiss_at_parentnode_entrance()[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
 	tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance()[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
-	# ~ CO_x.append([n.getParamsDict()['orbitx'] for n in Lattice.getNodes()])
-	# ~ BETA_y.append([n.getParamsDict()['betay'] for n in Lattice.getNodes()])
 	
 	output.update()
 	sts['turn'] = turn
-
-
 
 	if turn in sts['turns_print']:
 		output.save_to_matfile(output_file)
@@ -329,6 +323,7 @@ if not rank:
 	circumference = 157.08
 	s = TwissDict[0]['s']
 	roll = int(len(s)/2)
+	# ~ roll = 284
 	s[roll:] -= circumference
 	s[roll] = np.nan
 	i2plot = range(len(s))
