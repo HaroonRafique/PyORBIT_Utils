@@ -71,6 +71,7 @@ rank = orbit_mpi.MPI_Comm_rank(comm)
 # Create folder structure
 #----------------------------------------------`
 from lib.mpi_helpers import mpi_mkdir_p
+mpi_mkdir_p('All_Twiss')
 mpi_mkdir_p('input')
 mpi_mkdir_p('output')
 lattice_folder = 'lattice'
@@ -100,7 +101,7 @@ else:
 #----------------------------------------------
 # Simulation Parameters
 #----------------------------------------------
-sts['turns_max'] = 500
+sts['turns_max'] = 10
 # ~ sts['turns_max'] = 1000
 sts['turns_print'] = xrange(-1, sts['turns_max'], 2000000)
 sts['turns_injection'] = np.arange(1)
@@ -271,6 +272,9 @@ print '\n\n now start tracking ...'
 # ~ BETA_y = []
 
 for turn in range(sts['turn']+1, sts['turns_max']):
+	if not rank:	
+		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
+		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
 
 	if turn in sts['turns_injection']:
 		Particle_distribution_file = 'Distribution_at_injection_full/single_particle.dat'	# final distribution with the correct angle
@@ -296,9 +300,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	output.update()
 	sts['turn'] = turn
 
-	if not rank:	
-		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
-		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
+
 
 	if turn in sts['turns_print']:
 		output.save_to_matfile(output_file)
@@ -324,9 +326,9 @@ if not rank:
 
 
 	# some gymnastics to avoid plotting offset elements ...
-	roll = 284
-	circumference = 25*2*np.pi
+	circumference = 157.08
 	s = TwissDict[0]['s']
+	roll = int(len(s)/2)
 	s[roll:] -= circumference
 	s[roll] = np.nan
 	i2plot = range(len(s))
