@@ -77,7 +77,6 @@ mpi_mkdir_p('output')
 lattice_folder = 'lattice'
 mpi_mkdir_p(lattice_folder)
 
-
 #----------------------------------------------
 # Dictionary for simulation status (for resume)
 #----------------------------------------------
@@ -268,11 +267,10 @@ twiss_dict = {'betax': Lattice.betax0, 'betay': Lattice.betay0, 'etax': Lattice.
 # Tracking
 #----------------------------------------------------
 print '\n\n now start tracking ...'
-# ~ CO_x = []
-# ~ BETA_y = []
 
 for turn in range(sts['turn']+1, sts['turns_max']):
-	if not rank:	
+	
+	if not rank:
 		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
 		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
 
@@ -294,13 +292,9 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	updateParamsPTC(Lattice,bunch) # to update bunch energy and twiss functions
 	tunes.assignTwiss(*[Twiss_at_parentnode_entrance()[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
 	tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance()[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
-	# ~ CO_x.append([n.getParamsDict()['orbitx'] for n in Lattice.getNodes()])
-	# ~ BETA_y.append([n.getParamsDict()['betay'] for n in Lattice.getNodes()])
 	
 	output.update()
 	sts['turn'] = turn
-
-
 
 	if turn in sts['turns_print']:
 		output.save_to_matfile(output_file)
@@ -324,11 +318,12 @@ if not rank:
 
 	colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
-
 	# some gymnastics to avoid plotting offset elements ...
-	circumference = 157.08
+
+	circumference = 25*2*np.pi
 	s = TwissDict[0]['s']
-	roll = int(len(s)/2)
+	# ~ roll = int(len(s)/2)
+	roll = 284
 	s[roll:] -= circumference
 	s[roll] = np.nan
 	i2plot = range(len(s))
@@ -340,9 +335,26 @@ if not rank:
 		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('horizontal CO (mm)')
-	ax.set_xlim(-15,15)
-	savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+	# ~ ax.set_xlim(-15,15)
+	savename = str('png/closedOrbit_x_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
+	
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_y'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('vertical CO (mm)')
+	# ~ ax.set_xlim(-15,15)
+	savename = str('png/closedOrbit_y_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+	
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
+		ax.set_xlabel('s (m)')
+		ax.set_ylabel('horizontal CO (mm)')
+		savename = str('png/closedOrbit_x_evolution_turn_' + str(t) + '_.png')
+		plt.savefig(savename, dpi=400)
 
 
 	i2plot = range(len(s))

@@ -7,6 +7,10 @@ import numpy as np
 import scipy.io as sio
 import os
 
+# plotting 
+import matplotlib.pylab as plt
+import matplotlib.cm as cm
+
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
 from orbit.utils.consts import mass_proton, speed_of_light, pi
@@ -68,9 +72,9 @@ rank = orbit_mpi.MPI_Comm_rank(comm)
 from lib.mpi_helpers import mpi_mkdir_p
 mpi_mkdir_p('input')
 mpi_mkdir_p('output')
+mpi_mkdir_p('All_Twiss')
 lattice_folder = 'lattice'
 mpi_mkdir_p(lattice_folder)
-
 
 #----------------------------------------------
 # Dictionary for simulation status (for resume)
@@ -83,12 +87,20 @@ else:
 	with open(status_file) as fid:
 		sts = pickle.load(fid)
 
+# Lattice function dictionary to print closed orbit
+#-----------------------------------------------------------------------
+ptc_dictionary_file = 'input/ptc_dictionary.pkl'
+if not os.path.exists(ptc_dictionary_file):        
+	PTC_Twiss = PTCLatticeFunctionsDictionary()
+else:
+	with open(ptc_dictionary_file) as sid:
+		PTC_Twiss = pickle.load(sid)
 
 #----------------------------------------------
 # Simulation Parameters
 #----------------------------------------------
-sts['turns_max'] = 5000
-# ~ sts['turns_max'] = 1000
+# ~ sts['turns_max'] = 10
+sts['turns_max'] = 1000
 sts['turns_print'] = xrange(-1, sts['turns_max'], 2000000)
 sts['turns_injection'] = np.arange(1)
 
@@ -250,16 +262,16 @@ if os.path.exists(output_file):
 bunchProfiles = Bunch_Profile(50,50,50)
 twiss_dict = {'betax': Lattice.betax0, 'betay': Lattice.betay0, 'etax': Lattice.etax0, 'etay': Lattice.etay0}
 
-PTC_Twiss = PTCLatticeFunctionsDictionary()
-
 #----------------------------------------------------
 # Tracking
 #----------------------------------------------------
 print '\n\n now start tracking ...'
-# ~ CO_x = []
-# ~ BETA_y = []
 
 for turn in range(sts['turn']+1, sts['turns_max']):
+
+	if not rank:
+		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
+		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
 
 	if turn in sts['turns_injection']:
 		Particle_distribution_file = 'Distribution_at_injection_full/single_particle.dat'	# final distribution with the correct angle
@@ -279,15 +291,8 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	updateParamsPTC(Lattice,bunch) # to update bunch energy and twiss functions
 	tunes.assignTwiss(*[Twiss_at_parentnode_entrance()[k] for k in ['betax','alphax','etax','etapx','betay','alphay','etay','etapy']])
 	tunes.assignClosedOrbit(*[Twiss_at_parentnode_entrance()[k] for k in ['orbitx','orbitpx','orbity','orbitpy']])
-	# ~ CO_x.append([n.getParamsDict()['orbitx'] for n in Lattice.getNodes()])
-	# ~ BETA_y.append([n.getParamsDict()['betay'] for n in Lattice.getNodes()])
-	
 	output.update()
 	sts['turn'] = turn
-
-	if not rank:	
-		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
-		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
 
 	if turn in sts['turns_print']:
 		output.save_to_matfile(output_file)
@@ -302,80 +307,81 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 # make sure simulation terminates properly
 orbit_mpi.MPI_Barrier(comm)
 
-TwissDict = PTC_Twiss.ReturnTwissDict()
-TurnList = PTC_Twiss.ReturnTurnList()
+# Plotting
+#-----------------------------------------------------------------------
+if not rank:
+	PTC_Twiss.PrintOrbitExtrema('All_Twiss')
+	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
+	TwissDict = PTC_Twiss.ReturnTwissDict()
+	TurnList = PTC_Twiss.ReturnTurnList()
 
-# plotting 
-import matplotlib.pylab as plt
-import matplotlib.cm as cm
-
-colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
-
-
-# some gymnastics to avoid plotting offset elements ...
-roll = 284
-circumference = 25*2*np.pi
-s = TwissDict[0]['s']
-s[roll:] -= circumference
-s[roll] = np.nan
-i2plot = range(len(s))
-for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
+	colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('horizontal CO (mm)')
-ax.set_xlim(-15,15)
-savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	# some gymnastics to avoid plotting offset elements ...
+	circumference = 25*2*np.pi
+	s = TwissDict[0]['s']
+	# ~ roll = int(len(s)/2)
+	roll = 284
+	s[roll:] -= circumference
+	s[roll] = np.nan
+	i2plot = range(len(s))
+	for i in [2,3,6,7,569,570,573,574]: i2plot.remove(i) # avoid plotting elements with offset
 
 
-i2plot = range(len(s))
-for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('horizontal CO (mm)')
+	# ~ ax.set_xlim(-15,15)
+	savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_x (m)')
-ax.set_ylim(bottom=0)
-savename = str('png/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	i2plot = range(len(s))
+	for i in [134,135,235,236,305,306,358,359]: i2plot.remove(i)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_y (m)')
-ax.set_ylim(bottom=0)
-savename = str('png/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_x (m)')
+	ax.set_ylim(bottom=0)
+	savename = str('png/betax_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
-	beta_y = np.array(TwissDict[t]['beta_y'])
-	ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_y (m)')
-savename = str('png/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], np.array(TwissDict[t]['beta_x'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	ax.set_ylim(bottom=0)
+	savename = str('png/betay_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
 
 
-f, ax = plt.subplots()
-for t in TurnList:
-	beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
-	beta_x = np.array(TwissDict[t]['beta_x'])
-	ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
-ax.set_xlabel('s (m)')
-ax.set_ylabel('beta_y (m)')
-savename = str('png/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
-plt.savefig(savename, dpi=400)
+	f, ax = plt.subplots()
+	for t in TurnList:
+		beta_y_ref = np.array(TwissDict[TurnList[-1]]['beta_y'])
+		beta_y = np.array(TwissDict[t]['beta_y'])
+		ax.plot(s[i2plot], 100*((beta_y - beta_y_ref)/beta_y_ref)[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	savename = str('png/betay_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
 
 
-plt.close('all')
+	f, ax = plt.subplots()
+	for t in TurnList:
+		beta_x_ref = np.array(TwissDict[TurnList[-1]]['beta_x'])
+		beta_x = np.array(TwissDict[t]['beta_x'])
+		ax.plot(s[i2plot], 100*((beta_x - beta_x_ref)/beta_x_ref)[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('beta_y (m)')
+	savename = str('png/betax_beating_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+
+	plt.close('all')
