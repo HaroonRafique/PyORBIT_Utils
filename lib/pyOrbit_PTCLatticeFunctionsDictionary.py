@@ -21,21 +21,21 @@ class PTCLatticeFunctionsDictionary(object):
 		if PTCLatticeFunctionsDictionary:
 			print "PTCLatticeFunctionsDictionary::__init__: constructor with existing dictionary not yet implemented"
 		else:
-			self.twiss_dict = {}		# Top level dictionary : N : All data	
+			self.twiss_dict = {}		# Top level dictionary : N : All data
 			self.turn_list = [] 		# Record indices of stored turns
-						
+
 			print 'PTCLatticeFunctionsDictionary: Created initial twiss dictionary \'twiss_dict'
-			
+
 	def UpdatePTCTwiss(self, Lattice, turn, verbose=False):
 		self.update_flag = 1
-		
+
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
-										
+
 			# Create the turn dictionary
 			self.twiss_dict[int(turn)] = {}	# Second level : N-2 : Turn
 			
-			# Third level: twiss				
+			# Third level: twiss
 			self.twiss_dict[int(turn)]['beta_x'] = ([n.getParamsDict()['betax'] for n in Lattice.getNodes()])
 			self.twiss_dict[int(turn)]['beta_y'] = ([n.getParamsDict()['betay'] for n in Lattice.getNodes()])
 			self.twiss_dict[int(turn)]['alpha_x'] = ([n.getParamsDict()['alphax'] for n in Lattice.getNodes()])
@@ -49,8 +49,8 @@ class PTCLatticeFunctionsDictionary(object):
 			self.twiss_dict[int(turn)]['orbit_y'] = ([n.getParamsDict()['orbity'] for n in Lattice.getNodes()])
 			self.twiss_dict[int(turn)]['orbit_py'] = ([n.getParamsDict()['orbitpy'] for n in Lattice.getNodes()])
 			self.twiss_dict[int(turn)]['s'] = np.cumsum([n.getLength() for n in Lattice.getNodes()])
-							
-		self.turn_list.append(turn)		
+
+		self.turn_list.append(turn)
 		if verbose:
 			print "PTCLatticeFunctionsDictionary::update: Added turn %i" % (turn)
 				
@@ -58,26 +58,26 @@ class PTCLatticeFunctionsDictionary(object):
 	def PrintPTCTwissForTurn(self, turn, lattice_folder='.', filename=None):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
-			if filename is None:				
+			if filename is None:
 				filename = lattice_folder + '/PTC_Twiss_turn_' + str(turn) + '.dat'
-				
+
 			# Check that the particle exists
-			if n not in self.turn_list:
+			if turn not in self.turn_list:
 				print "PTCLatticeFunctionsDictionary::PrintPTCTwissForTurn: Turn not stored, use UpdatePTCTwiss function on this turn to store."
 			else:
 				# if file exists then overwrite
 				if os.path.exists(filename):
 					f = open(filename,"w")
-										
+
 				# if file doesn't exist create and add header
 				else:
 					f = open(filename,"w")
 					f.write("#ParticleID\tTurn\tx[m]\txp\ty[m]\typ\tz[m]\tdE[GeV]")
-				
+
 				f.write('# s\tbeta_x\tbeta_y\talpha_x\talpha_y\tD_x\tD_y\tD_px\tD_py\torbit_x\torbit_px\torbit_y\torbit_py')
-				
-				for i in range(0, len(self.twiss_dict[str(turn)]['s']), 1):
-					f.write("\n%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
+
+				for i in range(0, len(self.twiss_dict[int(turn)]['s']), 1):
+					f.write("\n%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
 					self.twiss_dict[int(turn)]['s'][i],			\
 					self.twiss_dict[int(turn)]['beta_x'][i],	\
 					self.twiss_dict[int(turn)]['beta_y'][i],	\
@@ -98,8 +98,42 @@ class PTCLatticeFunctionsDictionary(object):
 		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
 		if not rank:
 			for j in self.turn_list:
-				self.PrintPTCTwissForTurn(j, lattice_folder)				
+				self.PrintPTCTwissForTurn(j, lattice_folder)
+
+	def PrintOrbitExtrema(self, lattice_folder='.'):
+		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
+		if not rank:
+
+			filename = lattice_folder + '/Orbit_Extrema.dat'
+			f = open(filename, "w")
+			f.write('# Turn\tOrbit_Min_x\tOrbit_Max_x\tOrbit_Min_y\tOrbit_Max_y')
+			for turn in self.turn_list:
+				f.write("\n%i%f\t%f\t%f\t%f" % (turn,			\
+				np.min(self.twiss_dict[int(turn)]['orbit_x']),	\
+				np.max(self.twiss_dict[int(turn)]['orbit_x']),	\
+				np.min(self.twiss_dict[int(turn)]['orbit_y']),	\
+				np.max(self.twiss_dict[int(turn)]['orbit_y'])))
+			f.close()
 
 	def ReturnTwissDict(self): return self.twiss_dict
 	
 	def ReturnTurnList(self): return self.turn_list
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
