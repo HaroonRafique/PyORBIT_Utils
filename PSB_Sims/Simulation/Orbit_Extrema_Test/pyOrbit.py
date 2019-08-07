@@ -6,6 +6,7 @@ import timeit
 import numpy as np
 import scipy.io as sio
 import os
+import pickle
 
 # utils
 from orbit.utils.orbit_mpi_utils import bunch_orbit_to_pyorbit, bunch_pyorbit_to_orbit
@@ -63,7 +64,6 @@ readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
 import matplotlib.pylab as plt
 import matplotlib.cm as cm
 
-
 print "Start ..."
 comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
 rank = orbit_mpi.MPI_Comm_rank(comm)
@@ -81,7 +81,6 @@ mpi_mkdir_p(lattice_folder)
 #----------------------------------------------
 # Dictionary for simulation status (for resume)
 #----------------------------------------------
-import pickle
 status_file = 'input/simulation_status.pkl'
 if not os.path.exists(status_file):
 	sts = {'turn': -1, 'mainbunch_file': "input/mainbunch", 'lostbunch_file': "input/lostbunch"}
@@ -102,12 +101,14 @@ else:
 #-------------------------------------------------------
 # Particle output dictionary to print poincare sections
 #-------------------------------------------------------
-particle_dictionary_file = 'input/particle_dictionary.pkl'
-if not os.path.exists(particle_dictionary_file):        
-	ParticleDictionary = Particle_output_dictionary()
-else:
-	with open(particle_dictionary_file) as pid:
-		ParticleDictionary = pickle.load(pid)
+particle_dict = False
+if particle_dict:
+	particle_dictionary_file = 'input/particle_dictionary.pkl'
+	if not os.path.exists(particle_dictionary_file):        
+		ParticleDictionary = Particle_output_dictionary()
+	else:
+		with open(particle_dictionary_file) as pid:
+			ParticleDictionary = pickle.load(pid)
 
 #----------------------------------------------
 # Simulation Parameters
@@ -278,8 +279,9 @@ twiss_dict = {'betax': Lattice.betax0, 'betay': Lattice.betay0, 'etax': Lattice.
 #----------------------------------------------------------------
 # Add particles to particle dictionary to print Poincare section
 #----------------------------------------------------------------
-for i in range(0,10,1):
-	ParticleDictionary.AddNewParticle(i)
+if particle_dict:
+	for i in range(0,10,1):
+		ParticleDictionary.AddNewParticle(i)
 
 #----------------------------------------------------
 # Tracking
@@ -291,7 +293,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	if not rank:
 		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
 		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
-		ParticleDictionary.Update(bunch, turn)
+		if particle_dict: ParticleDictionary.Update(bunch, turn)
 
 	if turn in sts['turns_injection']:
 		Particle_distribution_file = 'Distribution_at_injection_full/single_particle.dat'	# final distribution with the correct angle
@@ -330,7 +332,7 @@ orbit_mpi.MPI_Barrier(comm)
 # Plotting
 #-----------------------------------------------------------------------
 if not rank:
-	ParticleDictionary.PrintAllParticles()
+	if particle_dict: ParticleDictionary.PrintAllParticles()
 	
 	PTC_Twiss.PrintOrbitExtrema('All_Twiss')
 	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
