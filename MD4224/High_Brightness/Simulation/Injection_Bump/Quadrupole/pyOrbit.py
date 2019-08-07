@@ -399,9 +399,9 @@ if not rank:
 	colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
 	# some gymnastics to avoid plotting offset elements ...
-	roll = 284
 	circumference = 25*2*np.pi
 	s = TwissDict[0]['s']
+	roll = int(len(s)/2)
 	s[roll:] -= circumference
 	s[roll] = np.nan
 	i2plot = range(len(s))
