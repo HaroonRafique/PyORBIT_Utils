@@ -50,6 +50,7 @@ from orbit.collimation import addTeapotCollimatorNode
 from collimator import Collimator
 
 # dictionary
+from lib.pyOrbit_ParticleOutputDictionary import *
 from lib.pyOrbit_PrintLatticeFunctionsFromPTC import *
 from lib.pyOrbit_PTCLatticeFunctionsDictionary import *
 from lib.output_dictionary import *
@@ -88,14 +89,25 @@ else:
 	with open(status_file) as fid:
 		sts = pickle.load(fid)
 
+#---------------------------------------------------
 # Lattice function dictionary to print closed orbit
-#-----------------------------------------------------------------------
+#---------------------------------------------------
 ptc_dictionary_file = 'input/ptc_dictionary.pkl'
 if not os.path.exists(ptc_dictionary_file):        
 	PTC_Twiss = PTCLatticeFunctionsDictionary()
 else:
 	with open(ptc_dictionary_file) as sid:
 		PTC_Twiss = pickle.load(sid)
+
+#-------------------------------------------------------
+# Particle output dictionary to print poincare sections
+#-------------------------------------------------------
+particle_dictionary_file = 'input/particle_dictionary.pkl'
+if not os.path.exists(particle_dictionary_file):        
+	ParticleDictionary = Particle_output_dictionary()
+else:
+	with open(particle_dictionary_file) as pid:
+		ParticleDictionary = pickle.load(pid)
 
 #----------------------------------------------
 # Simulation Parameters
@@ -263,6 +275,12 @@ if os.path.exists(output_file):
 bunchProfiles = Bunch_Profile(50,50,50)
 twiss_dict = {'betax': Lattice.betax0, 'betay': Lattice.betay0, 'etax': Lattice.etax0, 'etay': Lattice.etay0}
 
+#----------------------------------------------------------------
+# Add particles to particle dictionary to print Poincare section
+#----------------------------------------------------------------
+for i in range(0,10,1):
+	ParticleDictionary.AddNewParticle(i)
+
 #----------------------------------------------------
 # Tracking
 #----------------------------------------------------
@@ -273,6 +291,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	if not rank:
 		# ~ PrintLatticeFunctions(Lattice, turn, lattice_folder)   # This will print one PTC lattice function file for each turn
 		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
+		ParticleDictionary.Update(bunch, turn)
 
 	if turn in sts['turns_injection']:
 		Particle_distribution_file = 'Distribution_at_injection_full/single_particle.dat'	# final distribution with the correct angle
@@ -311,6 +330,8 @@ orbit_mpi.MPI_Barrier(comm)
 # Plotting
 #-----------------------------------------------------------------------
 if not rank:
+	ParticleDictionary.PrintAllParticles()
+	
 	PTC_Twiss.PrintOrbitExtrema('All_Twiss')
 	PTC_Twiss.PrintAllPTCTwiss('All_Twiss')
 	TwissDict = PTC_Twiss.ReturnTwissDict()
