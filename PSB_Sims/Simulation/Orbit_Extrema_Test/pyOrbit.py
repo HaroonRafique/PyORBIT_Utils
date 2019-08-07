@@ -100,7 +100,7 @@ else:
 #----------------------------------------------
 # Simulation Parameters
 #----------------------------------------------
-sts['turns_max'] = 1000
+sts['turns_max'] = 10
 # ~ sts['turns_max'] = 1000
 sts['turns_print'] = xrange(-1, sts['turns_max'], 2000000)
 sts['turns_injection'] = np.arange(1)
@@ -318,12 +318,11 @@ if not rank:
 
 	colors = cm.rainbow(np.linspace(0, 1, len(TurnList)))
 
-
 	# some gymnastics to avoid plotting offset elements ...
-	circumference = 157.08
+	circumference = 25*2*np.pi
 	s = TwissDict[0]['s']
-	roll = int(len(s)/2)
-	# ~ roll = 284
+	# ~ roll = int(len(s)/2)
+	roll = 284
 	s[roll:] -= circumference
 	s[roll] = np.nan
 	i2plot = range(len(s))
@@ -335,9 +334,26 @@ if not rank:
 		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('horizontal CO (mm)')
-	ax.set_xlim(-15,15)
-	savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
+	# ~ ax.set_xlim(-15,15)
+	savename = str('png/closedOrbit_x_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
+	
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_y'])[i2plot], color=colors[t])
+	ax.set_xlabel('s (m)')
+	ax.set_ylabel('vertical CO (mm)')
+	# ~ ax.set_xlim(-15,15)
+	savename = str('png/closedOrbit_y_evolution_' + str(sts['turns_max']) + '_turns.png')
+	plt.savefig(savename, dpi=400)
+	
+	f, ax = plt.subplots()
+	for t in TurnList:
+		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
+		ax.set_xlabel('s (m)')
+		ax.set_ylabel('horizontal CO (mm)')
+		savename = str('png/closedOrbit_x_evolution_turn_' + str(t) + '_.png')
+		plt.savefig(savename, dpi=400)
 
 
 	i2plot = range(len(s))

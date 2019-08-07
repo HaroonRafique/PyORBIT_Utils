@@ -1,8 +1,8 @@
 # script to setup the PyOrbit environment 
 # execute like: . setup_environment.sh
 
-#~ pyOrbit_dir=/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit
-pyOrbit_dir=/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit_20190307
+pyOrbit_dir=/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit
+#pyOrbit_dir=/afs/cern.ch/user/p/pyorbit/public/PyOrbit_env/py-orbit_20190307
 
 source ${pyOrbit_dir}/customEnvironment.sh
 echo "customEnvironment done"

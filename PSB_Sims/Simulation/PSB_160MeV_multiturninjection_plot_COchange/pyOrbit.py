@@ -319,10 +319,10 @@ if not rank:
 
 
 	# some gymnastics to avoid plotting offset elements ...
-	circumference = 157.08
+	circumference = 25*2*np.pi
 	s = TwissDict[0]['s']
-	roll = int(len(s)/2)
-	# ~ roll = 284
+	# ~ roll = int(len(s)/2)
+	roll = 284
 	s[roll:] -= circumference
 	s[roll] = np.nan
 	i2plot = range(len(s))
@@ -334,7 +334,7 @@ if not rank:
 		ax.plot(s[i2plot], 1e3*np.array(TwissDict[t]['orbit_x'])[i2plot], color=colors[t])
 	ax.set_xlabel('s (m)')
 	ax.set_ylabel('horizontal CO (mm)')
-	ax.set_xlim(-15,15)
+	# ~ ax.set_xlim(-15,15)
 	savename = str('png/closedOrbit_evolution_' + str(sts['turns_max']) + '_turns.png')
 	plt.savefig(savename, dpi=400)
 
