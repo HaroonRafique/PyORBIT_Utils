@@ -115,6 +115,10 @@ class PTCLatticeFunctionsDictionary(object):
 				np.max(self.twiss_dict[int(turn)]['orbit_y'])))
 			f.close()
 
+	def GetAverageParameter(self, name, turn): return np.mean(self.twiss_dict[int(turn)][str(name)])
+	def GetMinParameter(self, name, turn): return np.min(self.twiss_dict[int(turn)][str(name)])
+	def GetMaxParameter(self, name, turn): return np.max(self.twiss_dict[int(turn)][str(name)])
+
 	def ReturnTwissDict(self): return self.twiss_dict
 	
 	def ReturnTurnList(self): return self.turn_list
