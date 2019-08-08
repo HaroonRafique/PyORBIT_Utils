@@ -100,6 +100,21 @@ class PTCLatticeFunctionsDictionary(object):
 			for j in self.turn_list:
 				self.PrintPTCTwissForTurn(j, lattice_folder)
 
+	def PrintOrbitExtrema(self, lattice_folder='.'):
+		rank = orbit_mpi.MPI_Comm_rank(orbit_mpi.mpi_comm.MPI_COMM_WORLD)
+		if not rank:
+
+			filename = lattice_folder + '/Orbit_Extrema.dat'
+			f = open(filename, "w")
+			f.write('# Turn\tOrbit_Min_x\tOrbit_Max_x\tOrbit_Min_y\tOrbit_Max_y')
+			for turn in self.turn_list:
+				f.write("\n%i%f\t%f\t%f\t%f" % (turn,			\
+				np.min(self.twiss_dict[int(turn)]['orbit_x']),	\
+				np.max(self.twiss_dict[int(turn)]['orbit_x']),	\
+				np.min(self.twiss_dict[int(turn)]['orbit_y']),	\
+				np.max(self.twiss_dict[int(turn)]['orbit_y'])))
+			f.close()
+
 	def ReturnTwissDict(self): return self.twiss_dict
 	
 	def ReturnTurnList(self): return self.turn_list
