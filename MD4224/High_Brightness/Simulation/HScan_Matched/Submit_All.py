@@ -6,9 +6,9 @@ master_dir = os.getcwd()
 
 sbs_locations = []
 
-sbs_locations.append('/607_SbS')
-sbs_locations.append('/608_SbS')
-sbs_locations.append('/609_SbS')
+# ~ sbs_locations.append('/607_SbS')
+# ~ sbs_locations.append('/608_SbS')
+# ~ sbs_locations.append('/609_SbS')
 sbs_locations.append('/610_SbS')
 sbs_locations.append('/611_SbS')
 sbs_locations.append('/612_SbS')
