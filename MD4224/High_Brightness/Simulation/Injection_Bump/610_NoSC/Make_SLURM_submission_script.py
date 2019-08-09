@@ -18,17 +18,17 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 
 # Must be chosen
 
-# ~ queue = 'inf-long' #'inf-long', 'inf-short', 'batch-long', 'batch-short'
+# ~ queue = 'inf-long', 'inf-short', 'batch-long', 'batch-short'
 queue = 'batch-long'
 
-n_nodes = 4			
+n_nodes = 4
 
 jobname = 'i610_noSC'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
 # Optional - have to use with correct switches
-manual_time = '14-00:00' # manually set using format 'days-hours:minutes'
+manual_time = '14 00:00:00' # manually set using format 'days hours:minutes:seconds'
 manual_tasks = 40	# manually change ntasks
 
 # Defaults - can be changed
@@ -40,16 +40,16 @@ simulation_file = 'pyOrbit.py'
 #	AUTOMATICALLY FORMAT SCRIPT
 #-----------------------------------------------------------------------  
 
-n_tasks = 0		
+n_tasks = 0	
 if autotask:
-	if hyperthreading:	
+	if hyperthreading:
 		if 'batch' in queue: n_tasks = 32
 		elif 'inf' in queue: n_tasks = 40
 		else: 
 			print 'queue not recognised'
 			exit(0)
 
-	else:	
+	else:
 		if 'batch' in queue: n_tasks = 16
 		elif 'inf' in queue: n_tasks = 20
 		else: 
@@ -57,37 +57,38 @@ if autotask:
 			exit(0)
 else: n_tasks = manual_tasks
 
-time = '1-23:59'
+time = '1 23:59:00'
 if autotime:
-	if 'long' in queue: time = '14-00:00'
-	elif 'short' in queue: time = '1-23:59'
-	else: 	
+	if queue == 'batch-short': time = '2 00:00:00'
+	elif queue == 'inf-short': time = '5 00:00:00'
+	elif queue == ('inf-long' or 'batch-long'): time = '21 00:00:00'
+	else: 
 		print 'queue not recognised'
 		exit(0)
 else: time = manual_time
-	
+
 #-----------------------------------------------------------------------
 #	WRITE FILE
 #-----------------------------------------------------------------------  
 if os.path.exists(script_name):  
 	print 'SLURM submission script ' + script_name + ' already exists. Deleting'
 	os.remove(script_name)
-	
+
 print "Creating ", script_name
 
 f= open(script_name,"w")
 
 f.write('#!/bin/bash')
-f.write('\n#SBATCH -p ' + str(queue))
-f.write('\n#SBATCH --job-name ' + str(jobname))
-f.write('\n#SBATCH -N ' + str(n_nodes))
-f.write('\n#SBATCH --ntasks-per-node ' + str(n_tasks))
-f.write('\n#SBATCH --mem-per-cpu 3200M')
-f.write('\n#SBATCH -t ' + str(time))
-f.write('\n#SBATCH -o ' + str(output_file_name))
-f.write('\n#SBATCH -e ' + str(error_file_name))
+f.write('\n#SBATCH --partition=' + str(queue))
+f.write('\n#SBATCH --time=' + str(time))
+f.write('\n#SBATCH --nodes=' + str(n_nodes))
+# ~ f.write('\n#SBATCH --ntasks-per-node=' + str(n_tasks)) # Currently the cause of a bug - not needed (hopefull) - will optimise later
+f.write('\n#SBATCH --mem-per-cpu=3200M')
 if (exclusive): f.write('\n#SBATCH --exclusive')
+f.write('\n#SBATCH --output=' + str(output_file_name))
+f.write('\n#SBATCH --error=' + str(error_file_name))
 if not hyperthreading: f.write('\n#SBATCH --hint=nomultithread')
+f.write('\n#SBATCH --job-name=' + str(jobname))
 f.write('\n')
 f.write('\nBATCH_ROOT_DIR=' + str(root_dir))
 f.write('\nRUN_DIR=' + str(path_to_simulation))
