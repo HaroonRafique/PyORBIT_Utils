@@ -1,13 +1,13 @@
 #!/bin/bash
+#SBATCH --job-name=SBend
+#SBATCH --output=slurm.%N.%j.out
+#SBATCH --error=slurm.%N.%j.err
 #SBATCH --partition=inf-long
 #SBATCH --time=21 00:00:00
 #SBATCH --nodes=4
 #SBATCH --mem-per-cpu=3200M
 #SBATCH --exclusive
-#SBATCH --output=slurm.%N.%j.out
-#SBATCH --error=slurm.%N.%j.err
 #SBATCH --hint=nomultithread
-#SBATCH --job-name=SBend
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
 RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/Sbend

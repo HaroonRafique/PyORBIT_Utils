@@ -368,7 +368,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
-	readScriptPTC_noSTDOUT("ptc/update-twiss.ptc") # this is needed to correclty update the twiss functions in all lattice nodes in updateParamsPTC
+	readScriptPTC_noSTDOUT("PTC/update-twiss.ptc") # this is needed to correclty update the twiss functions in all lattice nodes in updateParamsPTC
 
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
