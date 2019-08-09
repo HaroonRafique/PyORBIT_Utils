@@ -1,12 +1,11 @@
 #!/bin/bash
-#SBATCH -p inf-short
-#SBATCH --job-name TT_3
-#SBATCH -N 1
-#SBATCH --ntasks-per-node 20
-#SBATCH --mem-per-cpu 3200M
-#SBATCH -t 1-23:59
-#SBATCH -o slurm.%N.%j.out
-#SBATCH -e slurm.%N.%j.err
+#SBATCH --job-name=TT3
+#SBATCH --output=slurm.%N.%j.out
+#SBATCH --error=slurm.%N.%j.err
+#SBATCH --partition=inf-long
+#SBATCH --time=21-00:00:00
+#SBATCH --nodes=4
+#SBATCH --mem-per-cpu=3200M
 #SBATCH --exclusive
 #SBATCH --hint=nomultithread
 
