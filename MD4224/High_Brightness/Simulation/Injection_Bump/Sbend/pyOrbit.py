@@ -367,7 +367,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		print 'start time = ', start_time
 
 	Lattice.trackBunch(bunch, paramsDict)
-	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
+	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
 	readScriptPTC_noSTDOUT("ptc/update-twiss.ptc") # this is needed to correclty update the twiss functions in all lattice nodes in updateParamsPTC
 
 	if turn in sts['turns_update']:	sts['turn'] = turn
@@ -378,7 +378,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 		saveBunchAsMatfile(bunch, "input/mainbunch")
 		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
 		saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
-		output.save_to_matfile(output_file)		        
+		output.save_to_matfile(output_file)
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)

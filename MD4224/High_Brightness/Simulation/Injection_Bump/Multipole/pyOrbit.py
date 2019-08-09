@@ -6,6 +6,7 @@ import timeit
 import numpy as np
 import scipy.io as sio
 import os
+import pickle
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
@@ -75,7 +76,7 @@ mpi_mkdir_p('PTC_Twiss')
 
 # Dictionary for simulation status
 #-----------------------------------------------------------------------
-import pickle # HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
+# HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
 status_file = 'input/simulation_status.pkl'
 if not os.path.exists(status_file):
 	sts = {'turn': -1}
@@ -351,40 +352,39 @@ last_time = time.time()
 
 
 for turn in range(sts['turn']+1, sts['turns_max']):
-	
+
 	if not rank: 
 		PTC_Twiss.UpdatePTCTwiss(Lattice, turn)
 		#readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
 		#rename_command = 'mv TWISS_PTC_table.OUT TWISS_' + str(turn) + '.tfs'
 		#os.system(rename_command)
 		last_time = time.time()
-	
-	if turn == 0:		
+
+	if turn == 0:
 		output.addParameter('turn_time', lambda: time.strftime("%H:%M:%S"))
 		output.addParameter('turn_duration', lambda: (time.time() - last_time))
 		output.addParameter('cumulative_time', lambda: (time.time() - start_time))
 		start_time = time.time()
 		print 'start time = ', start_time
-		
+
 	Lattice.trackBunch(bunch, paramsDict)
-	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance	
-	
+	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
+	readScriptPTC_noSTDOUT("ptc/update-twiss.ptc") # this is needed to correclty update the twiss functions in all lattice nodes in updateParamsPTC
+
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
-	
+
 	if turn in sts['turns_print']:
 		saveBunchAsMatfile(bunch, "input/mainbunch")
 		saveBunchAsMatfile(bunch, "bunch_output/mainbunch_%s"%(str(turn).zfill(6)))
 		saveBunchAsMatfile(lostbunch, "lost/lostbunch_%s"%(str(turn).zfill(6)))
-		output.save_to_matfile(output_file)		        
+		output.save_to_matfile(output_file)
 		if not rank:
 			with open(status_file, 'w') as fid:
 				pickle.dump(sts, fid)
 			with open(ptc_dictionary_file, 'w') as sid:
 				pickle.dump(PTC_Twiss, sid)
-				
-				
 
 # make sure simulation terminates properly
 orbit_mpi.MPI_Barrier(comm)
