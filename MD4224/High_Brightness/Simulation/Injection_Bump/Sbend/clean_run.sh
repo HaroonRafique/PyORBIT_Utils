@@ -8,10 +8,10 @@ if [ -e ./logfile_* ]; then
 fi
 
 # slurm cleanup
-if [ -e ./slurm* ]; then
-    mkdir SLURM_Logfiles
-	mv slurm* SLURM_Logfiles
-fi
+#~ if [ -e ./slurm* ]; then
+    #~ mkdir SLURM_Logfiles
+	#~ mv slurm* SLURM_Logfiles
+#~ fi
 
 # Pickle and output files
 rm -r output

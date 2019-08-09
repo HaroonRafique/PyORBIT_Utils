@@ -1,17 +1,16 @@
 #!/bin/bash
-#SBATCH -p batch-short
-#SBATCH --job-name Sext_Error
-#SBATCH -N 1
-#SBATCH --ntasks-per-node 16
-#SBATCH --mem-per-cpu 3200M
-#SBATCH -t 1-23:59
-#SBATCH -o slurm.%N.%j.out
-#SBATCH -e slurm.%N.%j.err
+#SBATCH --partition=inf-long
+#SBATCH --time=21 00:00:00
+#SBATCH --nodes=4
+#SBATCH --mem-per-cpu=3200M
 #SBATCH --exclusive
+#SBATCH --output=slurm.%N.%j.out
+#SBATCH --error=slurm.%N.%j.err
 #SBATCH --hint=nomultithread
+#SBATCH --job-name=SBend
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/Sextupole_As_Error
+RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/Sbend
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
