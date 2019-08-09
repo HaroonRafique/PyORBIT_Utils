@@ -19,9 +19,9 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 # Must be chosen
 
 # ~ queue = 'inf-long', 'inf-short', 'batch-long', 'batch-short'
-queue = 'inf-short'
+queue = 'inf-long'
 
-n_nodes = 1
+n_nodes = 4
 
 jobname = 'PyORBIT'
 
