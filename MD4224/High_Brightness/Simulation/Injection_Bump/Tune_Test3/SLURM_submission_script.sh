@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH -p batch-short
+#SBATCH -p inf-short
 #SBATCH --job-name TT_3
 #SBATCH -N 1
-#SBATCH --ntasks-per-node 16
+#SBATCH --ntasks-per-node 20
 #SBATCH --mem-per-cpu 3200M
 #SBATCH -t 1-23:59
 #SBATCH -o slurm.%N.%j.out
