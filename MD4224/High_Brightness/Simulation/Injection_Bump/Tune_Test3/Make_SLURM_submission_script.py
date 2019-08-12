@@ -19,9 +19,9 @@ clean_all = True		# Clean simulation folder before running (False when resuming 
 # Must be chosen
 
 # ~ queue = 'inf-long', 'inf-short', 'batch-long', 'batch-short'
-queue = 'inf-long'
+queue = 'inf-short'
 
-n_nodes = 4
+n_nodes = 1
 
 jobname = 'TT3'
 
@@ -61,7 +61,7 @@ time = '1-23:59:00'
 if autotime:
 	if queue == 'batch-short': time = '2-00:00:00'
 	elif queue == 'inf-short': time = '5-00:00:00'
-	elif queue == ('inf-long' or 'batch-long'): time = '21-00:00:00'
+	elif queue == 'inf-long' or 'batch-long': time = '21-00:00:00'
 	else: 
 		print 'queue not recognised'
 		exit(0)

@@ -2,9 +2,9 @@
 #SBATCH --job-name=Quad
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
-#SBATCH --partition=batch-long
-#SBATCH --time=21-00:00:00
-#SBATCH --nodes=4
+#SBATCH --partition=inf-short
+#SBATCH --time=5-00:00:00
+#SBATCH --nodes=1
 #SBATCH --mem-per-cpu=3200M
 #SBATCH --exclusive
 #SBATCH --hint=nomultithread
