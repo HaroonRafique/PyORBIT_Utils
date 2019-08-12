@@ -1,0 +1,13 @@
+#	Qy	beta_x_ptc	beta_x	beta_x_eff	beta_y_ptc	beta_y	beta_y_eff	alpha_x_ptc	alpha_x	alpha_x_eff	alpha_y_ptc	alpha_y	alpha_y_eff	D_x_ptc	D_x	D_y_ptc	D_y
+6.1	12.795	nan	nan	22.226	nan	nan	-0.006969	nan	nan	0.059026	nan	nan	2.542529021	nan	0.0	nan
+6.11	12.792	nan	nan	22.216	nan	nan	-0.007001	nan	nan	0.05864	nan	nan	2.54230112	nan	0.0	nan
+6.12	12.78866016	nan	nan	22.20287682	nan	nan	-0.007032	nan	nan	0.058305	nan	nan	2.542073286	nan	0.0	nan
+6.13	12.78549301	nan	nan	22.18837837	nan	nan	-0.007063	nan	nan	0.0580095	nan	nan	2.541845521	nan	0.0	nan
+6.14	12.78232607	nan	nan	22.17243442	nan	nan	-0.007095	nan	nan	0.057745	nan	nan	2.541617825	nan	0.0	nan
+6.15	12.77915936	nan	nan	22.15534784	nan	nan	-0.007126	nan	nan	0.057507	nan	nan	2.541390199	nan	0.0	nan
+6.16	12.77599288	nan	nan	22.13734538	nan	nan	-0.007157	nan	nan	0.057291	nan	nan	2.541162643	nan	0.0	nan
+6.17	12.77282664	nan	nan	22.11859993	nan	nan	-0.007188	nan	nan	0.057093	nan	nan	2.540935158	nan	0.0	nan
+6.18	12.76966065	nan	nan	22.09924535	nan	nan	-0.00722	nan	nan	0.056912	nan	nan	2.540707745	nan	0.0	nan
+6.19	12.76649491	nan	nan	22.07938659	nan	nan	-0.007251	nan	nan	0.056746	nan	nan	2.540480403	nan	0.0	nan
+6.2	12.76332945	nan	nan	22.05910677	nan	nan	-0.007282	nan	nan	0.056592	nan	nan	2.540253134	nan	0.0	nan
+6.21	12.76016425	nan	nan	22.03847225	nan	nan	-0.007314	nan	nan	0.056449	nan	nan	2.540025937	nan	0.0	nan
