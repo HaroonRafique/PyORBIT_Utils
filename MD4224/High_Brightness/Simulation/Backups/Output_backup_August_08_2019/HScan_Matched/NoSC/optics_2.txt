@@ -1,0 +1,34 @@
+#	Qy
+[]
+#	beta_x_ptc
+[]
+#	beta_x
+[]
+#	beta_x_eff
+[]
+#	beta_y_ptc
+[]
+#	beta_y
+[]
+#	beta_y_eff
+[]
+#	alpha_x_ptc
+[]
+#	alpha_x
+[]
+#	alpha_x_eff
+[]
+#	alpha_y_ptc
+[]
+#	alpha_y
+[]
+#	alpha_y_eff
+[]
+#	D_x_ptc
+[]
+#	D_x
+[]
+#	D_y_ptc
+[]
+#	D_y
+[]
