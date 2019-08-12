@@ -76,7 +76,7 @@ mpi_mkdir_p('PTC_Twiss')
 
 # Dictionary for simulation status
 #-----------------------------------------------------------------------
- # HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
+# HAVE TO CLEAN THIS FILE BEFORE RUNNING A NEW SIMULATION
 status_file = 'input/simulation_status.pkl'
 if not os.path.exists(status_file):
 	sts = {'turn': -1}
@@ -339,21 +339,19 @@ output.addParameter('eff_epsn_x', lambda: bunchtwissanalysis.getEffectiveEmittan
 output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittance(1))
 output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
 output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
-output.addParameter('orbit_x_min', lambda: PTC_Twiss.GetMinParameter(turn, 'orbit_x'))
-output.addParameter('orbit_x_max', lambda: PTC_Twiss.GetMaxParameter(turn, 'orbit_x'))
-output.addParameter('orbit_y_min', lambda: PTC_Twiss.GetMinParameter(turn, 'orbit_y'))
-output.addParameter('orbit_y_max', lambda: PTC_Twiss.GetMaxParameter(turn, 'orbit_y'))
+output.addParameter('orbit_x_min', lambda: PTC_Twiss.GetMinParameter('orbit_x', turn))
+output.addParameter('orbit_x_max', lambda: PTC_Twiss.GetMaxParameter('orbit_x', turn))
+output.addParameter('orbit_y_min', lambda: PTC_Twiss.GetMinParameter('orbit_y', turn))
+output.addParameter('orbit_y_max', lambda: PTC_Twiss.GetMaxParameter('orbit_y', turn))
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
-	
 
 # Track
 #-----------------------------------------------------------------------
 print '\nTracking on MPI process: ', rank
 start_time = time.time()
 last_time = time.time()
-
 
 for turn in range(sts['turn']+1, sts['turns_max']):
 
@@ -386,6 +384,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 				pickle.dump(sts, fid)
 			with open(ptc_dictionary_file, 'w') as sid:
 				pickle.dump(PTC_Twiss, sid)
+
 
 # make sure simulation terminates properly
 orbit_mpi.MPI_Barrier(comm)
