@@ -66,7 +66,7 @@ def Read_Single_Column_TFS_Return_Data(file_in, fudge=1.):
 
 # Read TFS table to obtain our dipole kick or quadrupole gradient
 # We ignore the time column
-def Read_Double_Column_TFS_Return_Data(file_in, fudge=2.):
+def Read_Double_Column_TFS_Return_Data(file_in, fudge=1.):
 	fi = open(file_in, 'r')
 	contents = fi.readlines()
 	
