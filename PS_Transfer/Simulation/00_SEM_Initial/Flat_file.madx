@@ -5,12 +5,12 @@ TITLE, "Flat file generation for PTC-PyORBIT";
  * First we call the files describing the machine, in this case we use 
  * the CERN proton synchrotron (PS).
  **********************************************************************/
-call,  file = './../../Lattice_LowChroma/PS_new.ele';
-!call,  file = './../../Lattice_LowChroma/PS_new.seq';
-call,  file = './../../Lattice_LowChroma/PS_optimised.seq';
-call,  file = './../../Lattice_LowChroma/PS_new.str';
-call,  file = './../../Lattice_LowChroma/PS_2013.aper';
-call,  file = './../../Lattice_LowChroma/macros.ptc';
+call,  file = './../Lattice_LowChroma/PS_new.ele';
+!call,  file = './../Lattice_LowChroma/PS_new.seq';
+call,  file = './../Lattice_LowChroma/PS_optimised.seq';
+call,  file = './../Lattice_LowChroma/PS_new.str';
+call,  file = './../Lattice_LowChroma/PS_2013.aper';
+call,  file = './../Lattice_LowChroma/macros.ptc';
 
 /***********************************************************************
  * RFV can be used to manually seet the RF cavity voltage.
@@ -33,7 +33,7 @@ PR.BWSV64     :  MONITOR  , L = 0.0;
 
 seqedit, sequence=PS;
 	flatten;
-	install, element=PR.BWSV64, at=0.4, from=PS64$START;
+	install, element=PR.SEM, at=1, from=PS52$START;
 	flatten;
 endedit;
 
@@ -41,7 +41,7 @@ use, sequence=PS;
 
 seqedit, sequence=PS;
 	flatten;
-	cycle , start=PR.BWSV64;
+	cycle , start=PR.SEM;
 	flatten;
 endedit;
 
@@ -141,7 +141,7 @@ value,qy0,qy1,qy2/2;
  * Using model=2, exact=true is recommended.
  **********************************************************************/
 tune_x = 0.21;
-tune_y = 0.10;
+tune_y = 0.24;
  
 ptc_twiss_tune_macro_false_split: macro={
   ptc_create_universe;

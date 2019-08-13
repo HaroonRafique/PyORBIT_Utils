@@ -65,8 +65,7 @@ parameters = {
 	'turns_update': turns_update,
 	'turns_print': turns_print,
 	'rf_voltage': rf_voltage,
-	'circumference':circumference,
-	'input_distn_dir':input_distn_dir
+	'circumference':circumference
 }
 
 tunespread = {

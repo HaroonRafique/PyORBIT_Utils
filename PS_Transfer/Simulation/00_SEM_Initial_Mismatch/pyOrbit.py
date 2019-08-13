@@ -48,6 +48,34 @@ from lib.pyOrbit_Tunespread_Calculator import *
 from lib.suppress_stdout import suppress_STDOUT
 readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
 
+# Function to check that a file isn't empty (common PTC file bug)
+def is_non_zero_file(fpath):  
+	print 'Checking file ', fpath
+	print 'File exists = ', os.path.isfile(fpath)
+	print 'Size > 3 bytes = ', os.path.getsize(fpath)
+	return os.path.isfile(fpath) and os.path.getsize(fpath) > 3
+		# ~ return True
+	# ~ else:
+		# ~ return False
+
+# Function to check and read PTC file
+def CheckAndReadPTCFile(f):
+	if is_non_zero_file(f): 
+		readScriptPTC_noSTDOUT(f)
+	else:
+		print 'ERROR: PTC file ', f, ' is empty or does not exist, exiting'
+		exit(0)
+
+# Function to open TWISS_PTC_table.OUT and return fractional tunes
+def GetTunesFromPTC():
+	readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
+	with open('TWISS_PTC_table.OUT') as f:
+		first_line = f.readline()
+		Qx = (float(first_line.split()[2]))
+		Qy = (float(first_line.split()[3]))
+	os.system('rm TWISS_PTC_table.OUT')
+	return Qx, Qy
+
 # MPI stuff
 #-----------------------------------------------------------------------
 comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
@@ -101,9 +129,9 @@ PTC_File = "PTC-PyORBIT_flat_file.flt"
 Lattice = PTC_Lattice("PS")
 Lattice.readPTC(PTC_File)
 
-readScriptPTC_noSTDOUT('PTC/fringe.ptc')
-readScriptPTC_noSTDOUT('PTC/time.ptc')
-readScriptPTC_noSTDOUT('PTC/ramp_cavities.ptc')
+CheckAndReadPTCFile('PTC/fringe.ptc')
+CheckAndReadPTCFile('PTC/time.ptc')
+CheckAndReadPTCFile('PTC/ramp_cavities.ptc')
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
