@@ -212,10 +212,13 @@ xmax := table(summ, xcomax);
 Qx := table(summ, Q1);
 Qy := table(summ, Q2);
 
-BSW40 := BSW40_K0;
-BSW42 := BSW42_K0;
-BSW43 := BSW43_K0;
-BSW44 := BSW44_K0;
+sbend_length = 0.2;
+
+! Have to normalise with length
+BSW40 := BSW40_K0 / sbend_length;
+BSW42 := BSW42_K0 / sbend_length;
+BSW43 := BSW43_K0 / sbend_length;
+BSW44 := BSW44_K0 / sbend_length;
 BSStren : = BSS;
 
 BUMP_40 := 28.E-6/(BRHO); != 3.919331935e-06
