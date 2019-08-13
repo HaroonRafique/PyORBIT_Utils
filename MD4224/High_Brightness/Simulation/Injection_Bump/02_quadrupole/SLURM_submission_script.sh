@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=Quad
+#SBATCH --job-name=02_quadrupole
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
 #SBATCH --partition=inf-short
@@ -10,7 +10,7 @@
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/Quadrupole
+RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/02_quadrupole
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file

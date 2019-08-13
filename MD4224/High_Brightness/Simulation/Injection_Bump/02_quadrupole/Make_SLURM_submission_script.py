@@ -23,7 +23,7 @@ queue = 'inf-short'
 
 n_nodes = 1
 
-jobname = 'Quad'
+jobname = '02_quadrupole'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
