@@ -58,15 +58,21 @@ readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
 
 # Function to check that a file isn't empty (common PTC file bug)
 def is_non_zero_file(fpath):  
-	return os.path.isfile(fpath) and os.path.getsize(fpath) > 0
+	print 'Checking file ', fpath
+	print 'File exists = ', os.path.isfile(fpath)
+	print 'Size > 3 bytes = ', os.path.getsize(fpath)
+	return os.path.isfile(fpath) and os.path.getsize(fpath) > 3
+		# ~ return True
+	# ~ else:
+		# ~ return False
 
 # Function to check and read PTC file
 def CheckAndReadPTCFile(f):
 	if is_non_zero_file(f): 
+		readScriptPTC_noSTDOUT(f)
+	else:
 		print 'ERROR: PTC file ', f, ' is empty or does not exist, exiting'
 		exit(0)
-	else:
-		readScriptPTC_noSTDOUT(f)
 
 # Function to open TWISS_PTC_table.OUT and return fractional tunes
 def GetTunesFromPTC():
@@ -387,7 +393,8 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
 	readScriptPTC_noSTDOUT("PTC/update-twiss.ptc") # this is needed to correclty update the twiss functions in all lattice nodes in updateParamsPTC
-
+	updateParamsPTC(Lattice,bunch) # to update bunch energy and twiss functions
+	
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()

@@ -13,8 +13,10 @@ def write_PTCtable(filename, multipole_orders, time, normal_components, skew_com
 	multipole_orders = np.atleast_1d(multipole_orders)
 	factors = 1./factorial(multipole_orders-1) # the factorial factor is needed to be consistent with MADX
 	# ~ factors = np.atleast_1d(1.)# the factorial factor is needed to be consistent with MADX
-	normal_components = (factors.T * np.atleast_2d(normal_components).T)
-	skew_components   = (factors.T * np.atleast_2d(skew_components).T)
+	# ~ normal_components = (factors.T * np.atleast_2d(normal_components).T)
+	normal_components = (factors.T * np.atleast_2d(normal_components))
+	# ~ skew_components   = (factors.T * np.atleast_2d(skew_components).T)
+	skew_components   = (factors.T * np.atleast_2d(skew_components))
 	arr = np.empty((normal_components.shape[0], 1+normal_components.shape[1]*2), dtype=normal_components.dtype)
 	arr[:,0] = time
 	arr[:,1::2] = normal_components
@@ -67,18 +69,18 @@ def Read_Single_Column_TFS_Return_Data(file_in, fudge=1.):
 def Read_Double_Column_TFS_Return_Data(file_in, fudge=1.):
 	fi = open(file_in, 'r')
 	contents = fi.readlines()
-
-	data = np.empty(shape=0)
-	print data
+	
+	x=[]
+	data =np.ndarray(shape=(2,2))
+	data = np.delete(data, 1, 0)
 	for l in contents:
 		if ('@' in l) or ('$' in l) or ('*' in l):
 			pass
 		else:
-			# ~ data.append(float(l.split()[1]))
-			x = np.ndarray([float(l.split()[1])*fudge, float(l.split()[2])*fudge])
-			print x
-			np.concatenate(data, x)
-
+			x = [float(l.split()[1])*fudge, float(l.split()[2])*fudge]
+			data = np.vstack([data, x])
+	
+	data = np.delete(data, 0, 0)
 	return data
 	
 
@@ -89,6 +91,9 @@ def Create_Timing(ramp_stop_time, simulation_stop_time, data):
 	
 	# create sequence for time
 	d_len = len(data)
+	d_shape = data_2.shape[1]
+	# ~ print 'Create_Timing: data len, shape:', d_len, d_shape
+	# ~ print 'data_in:', data_2
 	time = np.linspace(0, ramp_stop_time, d_len)
 	
 	# Calculate interval to complete data until the end of the simulation
@@ -102,9 +107,16 @@ def Create_Timing(ramp_stop_time, simulation_stop_time, data):
 			pass
 		else:
 			time = np.append(time, (ramp_stop_time + (i*interval)))
-			data_2.append(0.0)
+			if d_shape == 1:
+				data_2.append(0.0)
+			elif d_shape == 2:
+				x = [0.0, 0.0]
+				data_2 = np.vstack([data_2, x])
 				
-	return time, data_2
+	result = np.column_stack([time, data_2])
+	# ~ print 'data_out:', data_2
+				
+	return result
 
 # Simple Test
 # ~ Create_PTC_Table('TEST', 2, [0,1,2], [11.32161, 12.1321564, 13.555555855555555], [0,0,0])
@@ -122,36 +134,40 @@ def Create_Timing(ramp_stop_time, simulation_stop_time, data):
 print '\n Reading ../MADX/BSEXT40.tfs'
 B_40 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT40.tfs')
 print B_40
+# ~ print 'B_40 = ', B_40
 print '\n Create timing for ../MADX/BSEXT40.tfs'
 B_40_final = Create_Timing(1.1435E-3, 5.0314E-3, B_40)
-# ~ print B_40_final
+# ~ print 'B_40_final = ', B_40_final
 print '\n Create table ../Tables/BSEXT40.dat'
-# ~ Create_PTC_Table('../Tables/BSEXT40.dat', 3, B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
-write_PTCtable('../Tables/BSEXT40.dat', (1,3), B_40_final[0], B_40_final[1], np.zeros(len(B_40_final[0])))
+# ~ print B_40_final[0]
+print B_40_final
+# ~ print B_40_final[:,0]
+# ~ print B_40_final[:,1]
+# ~ print B_40_final[:,2]
+# ~ print B_40_final[:,[1,2]]*0
+# write_PTCtable(file, multipoles, time column, normal components, skew components
+write_PTCtable('../Tables/BSEXT40.dat', (1,3), B_40_final[:,0],  B_40_final[:,[1,2]], B_40_final[:,[1,2]]*0)
 
 print '\n Reading ../MADX/BSEXT42.tfs'
 B_42 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT42.tfs')
 print '\n Create timing for ../MADX/BSEXT42.tfs'
 B_42_final = Create_Timing(1.1435E-3, 5.0314E-3, B_42)
 print '\n Create table ../Tables/BSEXT42.dat'
-# ~ Create_PTC_Table('../Tables/BSEXT42.dat', 3, B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
-write_PTCtable('../Tables/BSEXT42.dat', (1,3), B_42_final[0], B_42_final[1], np.zeros(len(B_42_final[0])))
+write_PTCtable('../Tables/BSEXT42.dat', (1,3), B_42_final[:,0], B_42_final[:,[1,2]], B_42_final[:,[1,2]]*0)
 
 print '\n Reading ../MADX/BSEXT43.tfs'
 B_43 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT43.tfs')
 print '\n Create timing for ../MADX/BSEXT43.tfs'
 B_43_final = Create_Timing(1.1435E-3, 5.0314E-3, B_43)
 print '\n Create table ../Tables/BSEXT43.dat'
-# ~ Create_PTC_Table('../Tables/BSEXT43.dat', 3, B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
-write_PTCtable('../Tables/BSEXT43.dat', (1,3), B_43_final[0], B_43_final[1], np.zeros(len(B_43_final[0])))
+write_PTCtable('../Tables/BSEXT43.dat', (1,3), B_43_final[:,0], B_43_final[:,[1,2]], B_43_final[:,[1,2]]*0)
 
 print '\n Reading ../MADX/BSEXT44.tfs'
 B_44 = Read_Double_Column_TFS_Return_Data('../MADX/BSEXT44.tfs')
 print '\n Create timing for ../MADX/BSEXT44.tfs'
 B_44_final = Create_Timing(1.1435E-3, 5.0314E-3, B_44)
 print '\n Create table ../Tables/BSEXT44.dat'
-# ~ Create_PTC_Table('../Tables/BSEXT44.dat', 3, B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
-write_PTCtable('../Tables/BSEXT44.dat', (1,3), B_44_final[0], B_44_final[1], np.zeros(len(B_44_final[0])))
+write_PTCtable('../Tables/BSEXT44.dat', (1,3), B_44_final[:,0], B_44_final[:,[1,2]], B_44_final[:,[1,2]]*0)
 
 
 
