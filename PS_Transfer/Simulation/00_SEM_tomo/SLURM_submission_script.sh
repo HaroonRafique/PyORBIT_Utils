@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=PS_SEM
+#SBATCH --job-name=PS_SEM_tomo
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
 #SBATCH --partition=batch-long
@@ -10,7 +10,7 @@
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/PS_Transfer/Simulation/00_SEM_Initial
+RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/PS_Transfer/Simulation/00_SEM_tomo
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
