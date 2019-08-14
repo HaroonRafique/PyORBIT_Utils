@@ -108,7 +108,7 @@ class PTCLatticeFunctionsDictionary(object):
 			f = open(filename, "w")
 			f.write('# Turn\tOrbit_Min_x\tOrbit_Max_x\tOrbit_Min_y\tOrbit_Max_y')
 			for turn in self.turn_list:
-				f.write("\n%i%f\t%f\t%f\t%f" % (turn,			\
+				f.write("\n%i\t%f\t%f\t%f\t%f" % (turn,			\
 				np.min(self.twiss_dict[int(turn)]['orbit_x']),	\
 				np.max(self.twiss_dict[int(turn)]['orbit_x']),	\
 				np.min(self.twiss_dict[int(turn)]['orbit_y']),	\
