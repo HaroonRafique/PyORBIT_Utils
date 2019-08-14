@@ -174,23 +174,6 @@ if sts['turn'] < 0:
 	if s['CreateDistn']:
 # Create the initial distribution 
 
-	parameters['alphax0'] = Lattice.alphax0
-	parameters['betax0']  = Lattice.betax0
-	parameters['alphay0'] = Lattice.alphay0
-	parameters['betay0']  = Lattice.betay0
-	parameters['etax0']   = Lattice.etax0
-	parameters['etapx0']  = Lattice.etapx0
-	parameters['etay0']   = Lattice.etay0
-	parameters['etapy0']  = Lattice.etapy0
-	parameters['x0']      = Lattice.orbitx0
-	parameters['xp0']     = Lattice.orbitpx0
-	parameters['y0']      = Lattice.orbity0
-	parameters['yp0']     = Lattice.orbitpy0
-	parameters['gamma_transition'] = Lattice.gammaT
-	parameters['circumference']    = Lattice.getLength()
-	parameters['length'] = Lattice.getLength()/Lattice.nHarm
-	
-
 		twiss_dict = dict()
 		twiss_dict['alpha_x'] 			= Lattice.alphax0
 		twiss_dict['alpha_y'] 			= Lattice.alphay0
@@ -210,7 +193,7 @@ if sts['turn'] < 0:
 		twiss_dict['length'] 			= Lattice.getLength()/Lattice.nHarm
 
 		print '\ngenerate_initial_distribution on MPI process: ', rank
-		Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, TwissDict, matfile=1, mismatch=s['MismatchFactor'], output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+		Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, matfile=1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
 		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
 		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
