@@ -421,8 +421,6 @@ def generate_initial_distribution_dispersion_mismatch(parameters, Lattice, misma
 	twissY = TwissContainer(alpha = parameters['alphay0'], beta = parameters['betay0'], emittance = parameters['epsn_y'] / parameters['gamma'] / parameters['beta'])
 	dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
 	dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
-	# ~ dispersionx = {'etax0': parameters['etax0'], 'etapx0': parameters['etapx0']}
-	# ~ dispersiony = {'etay0': parameters['etay0'], 'etapy0': parameters['etapy0']}
 	closedOrbitx = {'x0': parameters['x0'], 'xp0': parameters['xp0']} 
 	closedOrbity = {'y0': parameters['y0'], 'yp0': parameters['yp0']} 
 
@@ -454,16 +452,16 @@ def generate_initial_distribution_dispersion_mismatch(parameters, Lattice, misma
 				yp[i] += closedOrbity['yp0']
 				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
 				x[i] += dpp * dispersionx['etax0']
-				xp[i] += dpp * dispersionx['etapx0']	
+				xp[i] += dpp * dispersionx['etapx0']
 				y[i] += dpp * dispersiony['etay0']
-				yp[i] += dpp * dispersiony['etapy0']	
+				yp[i] += dpp * dispersiony['etapy0']
 				
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.
 					xp[i] *= 1000.
 					y[i] *= 1000.
 					yp[i] *= 1000.
-					dE[i] /= 1.e9		
+					dE[i] /= 1.e9
 					csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 				#csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
 		if summary_file:

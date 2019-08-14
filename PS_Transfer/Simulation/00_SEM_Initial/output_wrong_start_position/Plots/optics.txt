@@ -1,0 +1,2 @@
+#	Qy	beta_x_ptc	beta_x	beta_x_eff	beta_y_ptc	beta_y	beta_y_eff	alpha_x_ptc	alpha_x	alpha_x_eff	alpha_y_ptc	alpha_y	alpha_y_eff	D_x_ptc	D_x	D_y_ptc	D_y
+6.24	12.409	nan	nan	22.202	nan	nan	-0.00055	nan	nan	0.0457	nan	nan	2.65	nan	0.0	nan
