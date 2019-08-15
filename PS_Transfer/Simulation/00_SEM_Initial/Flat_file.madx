@@ -6,8 +6,8 @@ TITLE, "Flat file generation for PTC-PyORBIT";
  * the CERN proton synchrotron (PS).
  **********************************************************************/
 call,  file = './../Lattice_LowChroma/PS_new.ele';
-!call,  file = './../Lattice_LowChroma/PS_new.seq';
-call,  file = './../Lattice_LowChroma/PS_optimised.seq';
+call,  file = './../Lattice_LowChroma/PS_new.seq';
+!call,  file = './../Lattice_LowChroma/PS_optimised.seq';
 call,  file = './../Lattice_LowChroma/PS_new.str';
 call,  file = './../Lattice_LowChroma/PS_2013.aper';
 call,  file = './../Lattice_LowChroma/macros.ptc';
@@ -33,7 +33,7 @@ PR.SEM     :  MONITOR  , L = 0.0;
 
 seqedit, sequence=PS;
 	flatten;
-	install, element=PR.SEM, at=1, from=PS52$START;
+	install, element=PR.SEM, at=0.0, from=PS52$START;
 	flatten;
 endedit;
 
