@@ -33,7 +33,7 @@ PR.SEM     :  MONITOR  , L = 0.0;
 
 seqedit, sequence=PS;
 	flatten;
-	install, element=PR.SEM, at=1, from=PS52$START;
+	install, element=PR.SEM, at=0.0, from=PS52$START;
 	flatten;
 endedit;
 
