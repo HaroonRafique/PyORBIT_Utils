@@ -10,7 +10,7 @@
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/01_fullbunch_SC
+RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/01_fullbunch_sc
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
