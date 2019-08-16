@@ -461,7 +461,7 @@ def generate_initial_distribution_dispersion_mismatch(parameters, Lattice, misma
 					xp[i] *= 1000.
 					y[i] *= 1000.
 					yp[i] *= 1000.
-					dE[i] /= 1.e9
+					dE[i] /= 1.e6
 					csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 				#csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
 		if summary_file:

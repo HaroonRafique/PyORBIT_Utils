@@ -461,7 +461,7 @@ def generate_initial_distribution_dispersion_mismatch(parameters, Lattice, misma
 					xp[i] *= 1000.
 					y[i] *= 1000.
 					yp[i] *= 1000.
-					dE[i] /= 1.e9
+					dE[i] /= 1.e6
 					csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 				#csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
 		if summary_file:
@@ -527,16 +527,16 @@ def generate_initial_distribution(parameters, Lattice,output_file = 'Input/Parti
 				yp[i] += closedOrbity['yp0']
 				dpp = dE[i] / (parameters['energy']) / parameters['beta']**2
 				x[i] += dpp * dispersionx['etax0']
-				xp[i] += dpp * dispersionx['etapx0']	
+				xp[i] += dpp * dispersionx['etapx0']
 				y[i] += dpp * dispersiony['etay0']
-				yp[i] += dpp * dispersiony['etapy0']	
+				yp[i] += dpp * dispersiony['etapy0']
 				
 				if outputFormat == 'Orbit':
 					x[i] *= 1000.
 					xp[i] *= 1000.
 					y[i] *= 1000.
 					yp[i] *= 1000.
-					dE[i] /= 1.e9		
+					dE[i] /= 1.e9
 					csv_writer.writerow([x[i], xp[i], y[i], yp[i], phi[i], dE[i]])
 				#csv_writer.writerow([x[i], xp[i], y[i], yp[i], z[i], dE[i]])
 		if summary_file:
