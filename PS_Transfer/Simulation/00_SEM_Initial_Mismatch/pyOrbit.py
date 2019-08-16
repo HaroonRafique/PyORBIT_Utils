@@ -176,11 +176,13 @@ if sts['turn'] < 0:
 
 		print '\ngenerate_initial_distribution on MPI process: ', rank
 		if s['Mismatch']:
+			print '\n\n\t\tGENERATE_INITIAL_DISTRIBUTION_MISMATCH'
 			Particle_distribution_file = generate_initial_distribution_dispersion_mismatch(p, Lattice, mismatch=s['MismatchFactor'], output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 		else:
+			print '\n\n\t\tGENERATE_INITIAL_DISTRIBUTION'
 			Particle_distribution_file = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+		print '\nbunch_orbit_to_pyorbit on MPI process: ', rank
 		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 
 	else:

@@ -176,11 +176,13 @@ if sts['turn'] < 0:
 
 		print '\ngenerate_initial_distribution on MPI process: ', rank
 		if s['Mismatch']:
+			print '\n\n\t\tGENERATE_INITIAL_DISTRIBUTION_MISMATCH'
 			Particle_distribution_file = generate_initial_distribution_dispersion_mismatch(p, Lattice, mismatch=s['MismatchFactor'], output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 		else:
+			print '\n\n\t\tGENERATE_INITIAL_DISTRIBUTION'
 			Particle_distribution_file = generate_initial_distribution(p, Lattice, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
 
-		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+		print '\nbunch_orbit_to_pyorbit on MPI process: ', rank
 		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 
 	else:
@@ -265,30 +267,30 @@ output = Output_dictionary()
 output.addParameter('turn', lambda: turn)
 output.addParameter('intensity', lambda: bunchtwissanalysis.getGlobalMacrosize())
 output.addParameter('n_mp', lambda: bunchtwissanalysis.getGlobalCount())
-# ~ output.addParameter('gamma', lambda: bunch.getSyncParticle().gamma())
-# ~ output.addParameter('mean_x', lambda: bunchtwissanalysis.getAverage(0))
-# ~ output.addParameter('mean_xp', lambda: bunchtwissanalysis.getAverage(1))
-# ~ output.addParameter('mean_y', lambda: bunchtwissanalysis.getAverage(2))
-# ~ output.addParameter('mean_yp', lambda: bunchtwissanalysis.getAverage(3))
-# ~ output.addParameter('mean_z', lambda: bunchtwissanalysis.getAverage(4))
-# ~ output.addParameter('mean_dE', lambda: bunchtwissanalysis.getAverage(5))
-# ~ output.addParameter('epsn_x', lambda: bunchtwissanalysis.getEmittanceNormalized(0))
-# ~ output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(1))
-# ~ output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
+output.addParameter('gamma', lambda: bunch.getSyncParticle().gamma())
+output.addParameter('mean_x', lambda: bunchtwissanalysis.getAverage(0))
+output.addParameter('mean_xp', lambda: bunchtwissanalysis.getAverage(1))
+output.addParameter('mean_y', lambda: bunchtwissanalysis.getAverage(2))
+output.addParameter('mean_yp', lambda: bunchtwissanalysis.getAverage(3))
+output.addParameter('mean_z', lambda: bunchtwissanalysis.getAverage(4))
+output.addParameter('mean_dE', lambda: bunchtwissanalysis.getAverage(5))
+output.addParameter('epsn_x', lambda: bunchtwissanalysis.getEmittanceNormalized(0))
+output.addParameter('epsn_y', lambda: bunchtwissanalysis.getEmittanceNormalized(1))
+output.addParameter('eps_z', lambda: get_eps_z(bunch, bunchtwissanalysis))
 output.addParameter('bunchlength', lambda: get_bunch_length(bunch, bunchtwissanalysis))
 output.addParameter('dpp_rms', lambda: get_dpp(bunch, bunchtwissanalysis))
-# ~ output.addParameter('beta_x', lambda: bunchtwissanalysis.getBeta(0))
-# ~ output.addParameter('beta_y', lambda: bunchtwissanalysis.getBeta(1))
-# ~ output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
-# ~ output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
-# ~ output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
-# ~ output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
-# ~ output.addParameter('eff_beta_x', lambda: bunchtwissanalysis.getEffectiveBeta(0))
-# ~ output.addParameter('eff_beta_y', lambda: bunchtwissanalysis.getEffectiveBeta(1))
-# ~ output.addParameter('eff_epsn_x', lambda: bunchtwissanalysis.getEffectiveEmittance(0))
-# ~ output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittance(1))
-# ~ output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
-# ~ output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
+output.addParameter('beta_x', lambda: bunchtwissanalysis.getBeta(0))
+output.addParameter('beta_y', lambda: bunchtwissanalysis.getBeta(1))
+output.addParameter('alpha_x', lambda: bunchtwissanalysis.getAlpha(0))
+output.addParameter('alpha_y', lambda: bunchtwissanalysis.getAlpha(1))
+output.addParameter('D_x', lambda: bunchtwissanalysis.getDispersion(0))
+output.addParameter('D_y', lambda: bunchtwissanalysis.getDispersion(1))
+output.addParameter('eff_beta_x', lambda: bunchtwissanalysis.getEffectiveBeta(0))
+output.addParameter('eff_beta_y', lambda: bunchtwissanalysis.getEffectiveBeta(1))
+output.addParameter('eff_epsn_x', lambda: bunchtwissanalysis.getEffectiveEmittance(0))
+output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittance(1))
+output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
+output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
