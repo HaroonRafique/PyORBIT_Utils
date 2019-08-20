@@ -74,7 +74,7 @@ tunespread = {
 	'sig_z': sig_z,
 	'epsn_x': epsn_x,
 	'epsn_y': epsn_y,
-	'dpp_rms': dpp_rms,
+	'dpp_rms': dpp_rms
 }
 
 switches = {
