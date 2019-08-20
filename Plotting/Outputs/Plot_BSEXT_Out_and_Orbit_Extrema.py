@@ -160,7 +160,7 @@ for j in range(4):
 print '\n\tPlotting Qy'
 for j in range(4):
 	fig, ax1 = plt.subplots();
-	plt.title("PS Injection Bump Methods Comparison: Horizontal Tune Swing");
+	plt.title("PS Injection Bump Methods Comparison: Vertical Tune Swing");
 
 	for i in sorted(BO[labels[j]].keys()):
 		ax1.scatter(i, BO[labels[j]][i][3]-6, color='r', marker='x');
