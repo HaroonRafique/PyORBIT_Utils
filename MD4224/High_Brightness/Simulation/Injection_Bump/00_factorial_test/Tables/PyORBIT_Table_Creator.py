@@ -12,8 +12,7 @@ from scipy.misc import factorial
 def write_PTCtable(filename, multipole_orders, time, normal_components, skew_components):
 	multipole_orders = np.atleast_1d(multipole_orders)
 	# ~ factors = 1./factorial(multipole_orders-1) # the factorial factor is needed to be consistent with MADX
-	factors = 1. # the factorial factor is needed to be consistent with MADX
-	# ~ factors = np.atleast_1d(1.)# the factorial factor is needed to be consistent with MADX
+	factors = np.atleast_1d(1.)# the factorial factor is needed to be consistent with MADX
 	normal_components = (factors.T * np.atleast_2d(normal_components).T)
 	skew_components   = (factors.T * np.atleast_2d(skew_components).T)
 	arr = np.empty((normal_components.shape[0], 1+normal_components.shape[1]*2), dtype=normal_components.dtype)
