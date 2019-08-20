@@ -23,7 +23,7 @@ queue = 'inf-short'
 
 n_nodes = 1
 
-jobname = '01_multipole'
+jobname = '01_m_tab'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
