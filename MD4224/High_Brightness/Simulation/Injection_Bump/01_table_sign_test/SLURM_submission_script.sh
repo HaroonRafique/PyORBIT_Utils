@@ -1,16 +1,16 @@
 #!/bin/bash
-#SBATCH --job-name=01_multipole
+#SBATCH --job-name=01_m_tab
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
-#SBATCH --partition=inf-short
-#SBATCH --time=5-00:00:00
+#SBATCH --partition=batch-short
+#SBATCH --time=2-00:00:00
 #SBATCH --nodes=1
 #SBATCH --mem-per-cpu=3200M
 #SBATCH --exclusive
 #SBATCH --hint=nomultithread
 
 BATCH_ROOT_DIR=/hpcscratch/user/harafiqu
-RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/01_multipole
+RUN_DIR=/hpcscratch/user/harafiqu/PyORBIT_Utils/MD4224/High_Brightness/Simulation/Injection_Bump/01_table_sign_test
 OrigIwd=$(pwd)
 
 # Make an output folder in the root directory to hold SLURM info file
