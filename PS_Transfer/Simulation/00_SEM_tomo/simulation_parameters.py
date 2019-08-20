@@ -3,6 +3,7 @@ import numpy as np
 mismatch_factor=1.0
 
 tomo_file = 'PyORBIT_Tomo_file_MD4224_HB.mat'
+input_distn = '../Initial_Distn/mainbunch.mat'
 
 # PS Injection 1.4 GeV
 gamma = 2.49253731343
@@ -65,7 +66,8 @@ parameters = {
 	'turns_update': turns_update,
 	'turns_print': turns_print,
 	'rf_voltage': rf_voltage,
-	'circumference':circumference
+	'circumference': circumference,
+	'input_distn_dir': input_distn
 }
 
 tunespread = {
@@ -74,12 +76,12 @@ tunespread = {
 	'sig_z': sig_z,
 	'epsn_x': epsn_x,
 	'epsn_y': epsn_y,
-	'dpp_rms': dpp_rms,
+	'dpp_rms': dpp_rms
 }
 
 switches = {
 	'SliceBySlice': False,
-	'CreateDistn': True,
+	'CreateDistn': False,
 	'Mismatch': True,
 	'MismatchFactor': mismatch_factor,
 	'LongitudinalKick': True,
