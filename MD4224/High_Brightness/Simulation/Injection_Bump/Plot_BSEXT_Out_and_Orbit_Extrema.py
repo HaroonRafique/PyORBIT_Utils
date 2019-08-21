@@ -84,8 +84,11 @@ def add_input_file(po, directory, label):
 #######					No Space Charge							######
 #---------------------------------------------------------------------
 
-inputs = ['00_fullbunch', '01_fullbunch', '02_fullbunch', '03_fullbunch']
-labels = ['Split_HKICKER', 'MULTIPOLE', 'QUADRUPOLE_with_errors', 'SBEND_with_errors']
+# ~ inputs = ['00_fullbunch', '01_fullbunch', '02_fullbunch', '03_fullbunch']
+# ~ labels = ['Split_HKICKER', 'MULTIPOLE', 'QUADRUPOLE_with_errors', 'SBEND_with_errors']
+
+inputs = ['00_fullbunch', '00_table_sign_test', '00_factorial_test', '01_multipole', '01_table_sign_test']
+labels = ['Split_HKICKER', 'Split_HKICKER_-ve', 'Split_HKICKER_no_factorial', 'MULITPOLE', 'MULTIPOLE_-ve']
 
 ####################
 # READ INPUT FILES #
@@ -95,7 +98,7 @@ OE = dict()	# Orbit extrema
 BO = dict()	# BSEXT out
 PO = dict()	# PyORBIT output
 
-for i in range(4):
+for i in range(len(inputs)):
 	BO = BSEXT_Out_To_Dict(BO, inputs[i], labels[i])
 	OE = Orbit_Extrema_to_Dict(OE, inputs[i], labels[i])
 	PO = add_input_file(PO, inputs[i], labels[i])
@@ -106,7 +109,7 @@ for i in range(4):
 
 # Compare maximum orbits
 print '\n\tPlotting XMAX'
-for j in range(4):
+for j in range(len(inputs)):
 	fig, ax1 = plt.subplots();
 	plt.title("PS Injection Bump Methods Comparison: Maximum Horizontal Closed Orbit");
 
@@ -130,7 +133,7 @@ for j in range(4):
 
 # Plot tunes
 print '\n\tPlotting Qx'
-for j in range(4):
+for j in range(len(inputs)):
 	fig, ax1 = plt.subplots();
 	plt.title("PS Injection Bump Methods Comparison: Horizontal Tune Swing");
 
@@ -158,7 +161,7 @@ for j in range(4):
 
 # Plot tunes
 print '\n\tPlotting Qy'
-for j in range(4):
+for j in range(len(inputs)):
 	fig, ax1 = plt.subplots();
 	plt.title("PS Injection Bump Methods Comparison: Vertical Tune Swing");
 
@@ -206,11 +209,11 @@ for j in range(4):
 
 # ~ #########
 # ~ # PLOTS #
-# ~ #########
+# ~ #########c
 
 # ~ # Compare maximum orbits
 # ~ print 'Plotting XMAX SC'
-# ~ for j in range(4):
+# ~ for j in range(len(inputss)):
 	# ~ fig, ax1 = plt.subplots();
 	# ~ plt.title("PS Injection Bump Methods Comparison: Maximum Horizontal Closed Orbit");
 
