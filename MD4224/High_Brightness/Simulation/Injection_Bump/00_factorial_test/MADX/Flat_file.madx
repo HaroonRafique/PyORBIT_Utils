@@ -160,6 +160,7 @@ ptc_twiss_tune_macro_false_split: macro={
   ptc_twiss, closed_orbit, table = ptc_twiss, icase=56, no=2, summary_table=ptc_twiss_summary;
   qx0=table(ptc_twiss_summary,Q1);
   qy0=table(ptc_twiss_summary,Q2);
+  xcomax0=table(ptc_twiss_summary,XCOMAX);
   value, qx0, qy0;
   ptc_end;
 };
@@ -239,7 +240,7 @@ K2_S44 := -BSStren*(BSW44_K0/BSW42_K0);
 !K2_S43 := 0;
 !K2_S44 := 0;
 
-create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, Qx, Qy, Qx0, Qy0, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
+create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, xcomax0, Qx, Qy, Qx0, Qy0, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
 
 create, table=TPI.BSM40.1, column=BSEXT_t, BSW40;
 
@@ -298,6 +299,7 @@ while(row<nrows){
  **********************************************************************/
  
 plot, table=mytable, haxis=BSEXT_t, vaxis=xmax;
+plot, table=mytable, haxis=BSEXT_t, vaxis=xcomax0;
 plot, table=mytable, haxis=BSEXT_t, vaxis=Qx0;
 plot, table=mytable, haxis=BSEXT_t, vaxis=Qy0;
 plot, table=mytable, haxis=BSEXT_t, vaxis=Qx;
