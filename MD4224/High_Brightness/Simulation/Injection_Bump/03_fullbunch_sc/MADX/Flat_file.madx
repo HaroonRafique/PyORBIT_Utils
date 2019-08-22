@@ -223,10 +223,10 @@ BSStren : = BSS;
 
 BUMP_40 := 28.E-6/(BRHO); != 3.919331935e-06
 
-K2_S40 := BSStren*(BSW40/BSW42);
-K2_S42 := BSStren*(BSW42/BSW42);
-K2_S43 := BSStren*(BSW43/BSW42);
-K2_S44 := BSStren*(BSW44/BSW42);
+K2_S40 := -BSStren*(BSW40/BSW42);
+K2_S42 := -BSStren*(BSW42/BSW42);
+K2_S43 := -BSStren*(BSW43/BSW42);
+K2_S44 := -BSStren*(BSW44/BSW42);
 
 create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, xcomax0, Qx, Qy, Qx0, Qy0, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
 
