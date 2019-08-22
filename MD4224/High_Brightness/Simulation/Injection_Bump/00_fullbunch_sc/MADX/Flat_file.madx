@@ -218,27 +218,12 @@ BSW42 := BSW42_K0;
 BSW43 := BSW43_K0;
 BSW44 := BSW44_K0;
 
-!BSW40 := 0;
-!BSW42 := 0;
-!BSW43 := 0;
-!BSW44 := 0;
-
 BUMP_40 := 28.E-6/(BRHO); != 3.919331935e-06
 
 K2_S40 := -BSStren*(BSW40_K0/BSW42_K0);
 K2_S42 := -BSStren*(BSW42_K0/BSW42_K0);
 K2_S43 := -BSStren*(BSW43_K0/BSW42_K0);
 K2_S44 := -BSStren*(BSW44_K0/BSW42_K0);
-
-!K2_S40 := -BSStren*(BSW40/BSW42);
-!K2_S42 := -BSStren*(BSW42/BSW42);
-!K2_S43 := -BSStren*(BSW43/BSW42);
-!K2_S44 := -BSStren*(BSW44/BSW42);
-
-!K2_S40 := 0;
-!K2_S42 := 0;
-!K2_S43 := 0;
-!K2_S44 := 0;
 
 create, table=mytable, column=BSEXT_t, BSStren, BSW40, BSW42, BSW43, BSW44, xmax, xcomax0, Qx, Qy, Qx0, Qy0, K2_S40, K2_S42, K2_S43, K2_S44, BUMP_40;
 
