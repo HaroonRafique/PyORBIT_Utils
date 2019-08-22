@@ -1260,26 +1260,26 @@ def plot_optics(sc, dd, filename):
 # Create dd dictionary
 dd = dict()
 
-dd = add_input_file(dd, './00_original_method/output/output.mat', '00_original')
-dd = add_input_file(dd, './01_multipole/output/output.mat', '01_multipole')
-dd = add_input_file(dd, './02_quadrupole/output/output.mat', '02_quadrupole')
-dd = add_input_file(dd, './03_sbend/output/output.mat', '03_sbend')
-main_label = 'Inj_Bump_Comparison'
-sc = 'NoSC'
+# ~ dd = add_input_file(dd, './00_original_method/output/output.mat', '00_original')
+# ~ dd = add_input_file(dd, './01_multipole/output/output.mat', '01_multipole')
+# ~ dd = add_input_file(dd, './02_quadrupole/output/output.mat', '02_quadrupole')
+# ~ dd = add_input_file(dd, './03_sbend/output/output.mat', '03_sbend')
+# ~ main_label = 'Inj_Bump_Comparison'
+# ~ sc = 'NoSC'
 
-# ~ dd = add_input_file(dd, './00_fullbunch_sc/output/output.mat', '00_fullbunch_sc')
-# ~ dd = add_input_file(dd, './01_fullbunch_sc/output/output.mat', '01_fullbunch_Sc')
-# ~ dd = add_input_file(dd, './02_fullbunch_sc/output/output.mat', '02_fullbunch_Sc')
-# ~ dd = add_input_file(dd, './03_fullbunch_sc/output/output.mat', '03_fullbunch_Sc')
+# ~ dd = add_input_file(dd, './00_fullbunch_sc/output/output.mat', '00_original_sc')
+# ~ dd = add_input_file(dd, './01_fullbunch_sc/output/output.mat', '01_multipole_sc')
+# ~ dd = add_input_file(dd, './02_fullbunch_sc/output/output.mat', '02_quadrupole_sc')
+# ~ dd = add_input_file(dd, './03_fullbunch_sc/output/output.mat', '03_sbend_sc')
 # ~ main_label = 'Inj_Bump_Comparison'
 # ~ sc = 'Slice-by-Slice'
 
-# ~ dd = add_input_file(dd, './00_fullbunch/output/output.mat', '00_fullbunch')
-# ~ dd = add_input_file(dd, './01_fullbunch/output/output.mat', '01_fullbunch')
-# ~ dd = add_input_file(dd, './02_fullbunch/output/output.mat', '02_fullbunch')
-# ~ dd = add_input_file(dd, './03_fullbunch/output/output.mat', '03_fullbunch')
-# ~ main_label = 'Inj_Bump_Comparison'
-# ~ sc = 'NoSC'
+dd = add_input_file(dd, './00_fullbunch/output/output.mat', '00_original')
+dd = add_input_file(dd, './01_fullbunch/output/output.mat', '01_multipole')
+dd = add_input_file(dd, './02_fullbunch/output/output.mat', '02_quadrupole')
+dd = add_input_file(dd, './03_fullbunch/output/output.mat', '03_sbend')
+main_label = 'Inj_Bump_Comparison'
+sc = 'NoSC'
 
 # ~ main_label = 'Inj_Bump_SPLIT_HKICKER'
 # ~ main_label = 'Inj_Bump_MULTIPOLE'

@@ -48,15 +48,148 @@ from lib.pyOrbit_Tunespread_Calculator import *
 from lib.suppress_stdout import suppress_STDOUT
 readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
 
+# FUNCTION DEFINITIONS
+#-----------------------------------------------------------------------
+def gaussian_3_parameters(x, A, mu, sig):
+	return A/np.sqrt(2*np.pi)/sig*np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
+
+def filtered(a):
+	try:
+		b=(scipy.signal.savgol_filter(a,15,1))
+	except:
+		b=a
+	return b
+
+def peakfinder (x_dat, y_dat, tolerance = 1, verbose=False):
+
+	# Find maximum
+	max_y = max(y_dat)
+	if verbose: print '\n\tMAX(y_dat) = ', max_y   
+
+	# Assume peak as centre
+	index = np.where(y_dat == max_y)[0][0]
+
+	# Check if centre is near 0.0
+	if abs(x_dat[index]) < tolerance:
+		if verbose: print '\tx_dat[index] = ', x_dat[index]
+
+	# Manually find 0 index
+	else:
+		if verbose: print '\tindex from y_dat peak not within tolerance of',tolerance,'mm. \n\ttry manual search'
+		
+		index = -1
+		final_index = -1
+		for i in xrange(len(x_dat)):
+			index = index + 1
+			if x_dat[i] < 0.0:
+				final_index = index
+				break
+				
+		index = final_index
+		if verbose: print '\tindex = ', index       
+	   
+	if verbose: print '\tindex of x_dat = ', x_dat[index],' is ', index
+		
+	# Take y=0 +/- 3 points and find mean 
+	mean_dat = [y_dat[index-3],  y_dat[index-2],  y_dat[index-1], y_dat[index],  y_dat[index+1],  y_dat[index+2],  y_dat[index+3]]
+	mean_7 = np.mean(mean_dat)
+	if verbose: print '\tMean of peak point +/- 3 points = ', mean_7   
+
+	if abs( abs(mean_7 - max_y) / mean_7 ) > 0.2:
+		print '\tWARNING: difference between mean and max_y > 20% = ', abs( abs(mean_7 - max_y) / mean_7 )
+		print '\t using peak value'
+		mean_7 = max_y
+	return mean_7
+
+def GetBunchSigmas(b, smooth=True):
+	window = 40
+
+	# MPI stuff to run on a single node
+	rank = 0
+	numprocs = 1
+
+	mpi_init = orbit_mpi.MPI_Initialized()
+	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+
+	if(mpi_init):
+		rank = orbit_mpi.MPI_Comm_rank(comm)
+		numprocs = orbit_mpi.MPI_Comm_size(comm)
+
+	nparts_arr_local = []
+	for i in range(numprocs):
+		nparts_arr_local.append(0)
+
+	nparts_arr_local[rank] = b.getSize()
+	data_type = mpi_datatype.MPI_INT
+	op = mpi_op.MPI_SUM
+
+	nparts_arr = orbit_mpi.MPI_Allreduce(nparts_arr_local,data_type,op,comm)
+
+	x = []
+	y = []
+
+	for i in range(b.getSize()):
+		x.append(b.x(i))
+		y.append(b.y(i))
+
+	x_, bins_x, p = plt.hist(x, bins = 1000, density=True, histtype=u'step', lw=0)
+	y_, bins_y, p = plt.hist(y, bins = 1000, density=True, histtype=u'step', lw=0)
+
+	posx = np.array(bins_x[:-1]) + (abs(bins_x[0]-bins_x[1])/2)
+	posy = np.array(bins_y[:-1]) + (abs(bins_y[0]-bins_y[1])/2)
+
+	data_x = []
+	data_y = []
+
+	if smooth:
+		data_x = filtered(x_)
+		data_y = filtered(y_)
+	else:
+		data_x = x_
+		data_y = y_
+
+	indx_max_x = np.argmax(data_x)
+	indx_max_y = np.argmax(data_y)
+
+	mu0_x = data_x(indx_max_x)
+	mu0_y = data_y(indx_may_y)
+
+	offs0_x = min(data_x)
+	ampl_x = max(data_x) - offs0_x
+	x1 = data_x[np.searchsorted(data_x[:window], offs0_x + ampl_x/2)]
+	x2 = data_x[np.searchsorted(-data_x[window:], -offs0_x + ampl_x/2)]
+	FWHM_x = x2-x1
+	sigma0_x = np.abs(2*FWHM_x/2.355)
+	ampl_x *= np.sqrt(2*np.pi)*sigma0_x
+	slope_x = 0
+
+	offs0_y = min(data_y)
+	ampl_y = max(data_y) - offs0_y
+	y1 = data_y[np.searchsorted(data_y[:window], offs0_y + ampl_y/2)]
+	y2 = data_y[np.searchsorted(-data_y[window:], -offs0_y + ampl_y/2)]
+	FWHM_y = y2-y1
+	sigma0_y = np.abs(2*FWHM_y/2.355)
+	ampl_y *= np.sqrt(2*np.pi)*sigma0_y
+	slope_y = 0
+
+	ampl_x = peakfinder(np.array(bins_x[:-1]), np.array(data_x))
+	ampl_y = peakfinder(np.array(bins_y[:-1]), np.array(data_y))
+
+	poptx, pcovx = curve_fit(gaussian_3_parameters, bins_x, data_x, p0 =[ampl_x, mu0_x, sigma0_x])
+	resultx = gaussian_3_parameters(bins_x, poptx[0], poptx[1], poptx[2])
+
+	popty, pcovy = curve_fit(gaussian_3_parameters, bins_y, data_y, p0 =[ampl_y, mu0_y, sigma0_y])
+	resultx = gaussian_3_parameters(bins_y, popty[0], popty[1], popty[2])
+
+	return poptx[2], popty[2]
+
+
 # Function to check that a file isn't empty (common PTC file bug)
 def is_non_zero_file(fpath):  
 	print 'Checking file ', fpath
 	print 'File exists = ', os.path.isfile(fpath)
 	print 'Size > 3 bytes = ', os.path.getsize(fpath)
 	return os.path.isfile(fpath) and os.path.getsize(fpath) > 3
-		# ~ return True
-	# ~ else:
-		# ~ return False
 
 # Function to check and read PTC file
 def CheckAndReadPTCFile(f):
@@ -304,6 +437,11 @@ output.addParameter('eff_epsn_x', lambda: bunchtwissanalysis.getEffectiveEmittan
 output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittance(1))
 output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
 output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
+output.addParameter('01', lambda: bunchtwissanalysis.getBunchMoment(0,1))
+output.addParameter('10', lambda: bunchtwissanalysis.getBunchMoment(2,0))
+output.addParameter('02', lambda: bunchtwissanalysis.getBunchMoment(0,2))
+output.addParameter('20', lambda: bunchtwissanalysis.getBunchMoment(2,0))
+output.addParameter('sigma_x', lambda: GetBunchSigmas(bunch)
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
@@ -326,7 +464,9 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
-
+	# ~ void computeBunchMoments(Bunch* bunch, int order, int dispersionflag, int emitnormflag);
+	bunchtwissanalysis.computeBunchMoments(bunch, 2, 1, 1)
+	
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
 	output.update()
