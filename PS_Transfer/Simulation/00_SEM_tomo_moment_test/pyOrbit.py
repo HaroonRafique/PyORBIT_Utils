@@ -5,7 +5,9 @@ import orbit_mpi
 import timeit
 import numpy as np
 import scipy.io as sio
+from scipy.optimize import curve_fit
 import os
+import matplotlib.pyplot as plt
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
@@ -151,8 +153,8 @@ def GetBunchSigmas(b, smooth=True):
 	indx_max_x = np.argmax(data_x)
 	indx_max_y = np.argmax(data_y)
 
-	mu0_x = data_x(indx_max_x)
-	mu0_y = data_y(indx_may_y)
+	mu0_x = data_x[indx_max_x]
+	mu0_y = data_y[indx_max_y]
 
 	offs0_x = min(data_x)
 	ampl_x = max(data_x) - offs0_x
@@ -175,10 +177,10 @@ def GetBunchSigmas(b, smooth=True):
 	ampl_x = peakfinder(np.array(bins_x[:-1]), np.array(data_x))
 	ampl_y = peakfinder(np.array(bins_y[:-1]), np.array(data_y))
 
-	poptx, pcovx = curve_fit(gaussian_3_parameters, bins_x, data_x, p0 =[ampl_x, mu0_x, sigma0_x])
+	poptx, pcovx = curve_fit(gaussian_3_parameters, posx, data_x, p0 =[ampl_x, mu0_x, sigma0_x])
 	resultx = gaussian_3_parameters(bins_x, poptx[0], poptx[1], poptx[2])
 
-	popty, pcovy = curve_fit(gaussian_3_parameters, bins_y, data_y, p0 =[ampl_y, mu0_y, sigma0_y])
+	popty, pcovy = curve_fit(gaussian_3_parameters, posy, data_y, p0 =[ampl_y, mu0_y, sigma0_y])
 	resultx = gaussian_3_parameters(bins_y, popty[0], popty[1], popty[2])
 
 	return poptx[2], popty[2]
@@ -300,11 +302,11 @@ if sts['turn'] < 0:
 	p['bunch_length'] = p['bunch_length']
 	kin_Energy = bunch.getSyncParticle().kinEnergy()
 
-	print '\nbunch_orbit_to_pyorbit on MPI process: ', rank
 	for i in p:
 		print '\t', i, '\t = \t', p[i]
 
 	if s['CreateDistn']:
+		print '\nCreating initial distribution'
 # Create the initial distribution 
 
 		twiss_dict = dict()
@@ -332,6 +334,7 @@ if sts['turn'] < 0:
 		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
 
 	else:
+		print '\Loading initial distribution from file: ', p['input_distn_dir']
 # OR load bunch from file
 #-----------------------------------------------------------------------
 		path_to_distn = p['input_distn_dir']
