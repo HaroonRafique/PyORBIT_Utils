@@ -2,7 +2,7 @@
 #SBATCH --job-name=SEM_tom_20
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
-#SBATCH --partition=batch-long
+#SBATCH --partition=inf-long
 #SBATCH --time=21-00:00:00
 #SBATCH --nodes=4
 #SBATCH --mem-per-cpu=3200M
