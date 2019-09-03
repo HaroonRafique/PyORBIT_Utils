@@ -72,9 +72,8 @@ class PTCLatticeFunctionsDictionary(object):
 				# if file doesn't exist create and add header
 				else:
 					f = open(filename,"w")
-					f.write("#ParticleID\tTurn\tx[m]\txp\ty[m]\typ\tz[m]\tdE[GeV]")
+					f.write('# s\tbeta_x\tbeta_y\talpha_x\talpha_y\tD_x\tD_y\tD_px\tD_py\torbit_x\torbit_px\torbit_y\torbit_py')
 
-				f.write('# s\tbeta_x\tbeta_y\talpha_x\talpha_y\tD_x\tD_y\tD_px\tD_py\torbit_x\torbit_px\torbit_y\torbit_py')
 
 				for i in range(0, len(self.twiss_dict[int(turn)]['s']), 1):
 					f.write("\n%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f" % ( 	\
