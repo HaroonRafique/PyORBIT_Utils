@@ -444,8 +444,8 @@ output.addParameter('01', lambda: bunchtwissanalysis.getBunchMoment(0,1))
 output.addParameter('10', lambda: bunchtwissanalysis.getBunchMoment(2,0))
 output.addParameter('02', lambda: bunchtwissanalysis.getBunchMoment(0,2))
 output.addParameter('20', lambda: bunchtwissanalysis.getBunchMoment(2,0))
-output.addParameter('sigma_x', lambda: GetBunchSigmas(bunch)[0])
-output.addParameter('sigma_y', lambda: GetBunchSigmas(bunch)[1])
+# ~ output.addParameter('sigma_x', lambda: GetBunchSigmas(bunch)[0])
+# ~ output.addParameter('sigma_y', lambda: GetBunchSigmas(bunch)[1])
 
 if os.path.exists(output_file):
 	output.import_from_matfile(output_file)
