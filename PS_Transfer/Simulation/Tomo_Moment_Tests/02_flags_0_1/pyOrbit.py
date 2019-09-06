@@ -7,7 +7,9 @@ import numpy as np
 import scipy.io as sio
 from scipy.optimize import curve_fit
 import os
-import matplotlib.pyplot as plt
+import matplotlib as mpl
+mpl.use('Agg')
+
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
@@ -134,8 +136,8 @@ def GetBunchSigmas(b, smooth=True):
 		x.append(b.x(i))
 		y.append(b.y(i))
 
-	x_, bins_x, p = plt.hist(x, bins = 1000, density=True, histtype=u'step', lw=0)
-	y_, bins_y, p = plt.hist(y, bins = 1000, density=True, histtype=u'step', lw=0)
+	x_, bins_x, p = mpl.pyplot.hist(x, bins = 1000, density=True, histtype=u'step', lw=0)
+	y_, bins_y, p = mpl.pyplot.hist(y, bins = 1000, density=True, histtype=u'step', lw=0)
 
 	posx = np.array(bins_x[:-1]) + (abs(bins_x[0]-bins_x[1])/2)
 	posy = np.array(bins_y[:-1]) + (abs(bins_y[0]-bins_y[1])/2)
@@ -471,7 +473,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
 	# ~ void computeBunchMoments(Bunch* bunch, int order, int dispersionflag, int emitnormflag);
-	bunchtwissanalysis.computeBunchMoments(bunch, 2, 0, 1)
+	bunchtwissanalysis.computeBunchMoments(bunch, 2, 1, 1)
 	
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
