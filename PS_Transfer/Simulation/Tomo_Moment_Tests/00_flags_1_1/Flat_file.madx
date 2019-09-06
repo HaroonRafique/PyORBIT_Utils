@@ -5,12 +5,11 @@ TITLE, "Flat file generation for PTC-PyORBIT";
  * First we call the files describing the machine, in this case we use 
  * the CERN proton synchrotron (PS).
  **********************************************************************/
-call,  file = './../Lattice_LowChroma/PS_new.ele';
-call,  file = './../Lattice_LowChroma/PS_new.seq';
-!call,  file = './../Lattice_LowChroma/PS_optimised.seq';
-call,  file = './../Lattice_LowChroma/PS_new.str';
-call,  file = './../Lattice_LowChroma/PS_2013.aper';
-call,  file = './../Lattice_LowChroma/macros.ptc';
+call,  file = '../../Lattice_LowChroma/PS_new.ele';
+call,  file = '../../Lattice_LowChroma/PS_new.seq';
+call,  file = '../../Lattice_LowChroma/PS_new.str';
+call,  file = '../../Lattice_LowChroma/PS_2013.aper';
+call,  file = '../../Lattice_LowChroma/macros.ptc';
 
 /***********************************************************************
  * RFV can be used to manually seet the RF cavity voltage.
