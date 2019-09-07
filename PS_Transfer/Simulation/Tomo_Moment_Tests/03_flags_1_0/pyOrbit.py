@@ -441,9 +441,11 @@ output.addParameter('eff_epsn_y', lambda: bunchtwissanalysis.getEffectiveEmittan
 output.addParameter('eff_alpha_x', lambda: bunchtwissanalysis.getEffectiveAlpha(0))
 output.addParameter('eff_alpha_y', lambda: bunchtwissanalysis.getEffectiveAlpha(1))
 output.addParameter('01', lambda: bunchtwissanalysis.getBunchMoment(0,1))
-output.addParameter('10', lambda: bunchtwissanalysis.getBunchMoment(2,0))
+output.addParameter('10', lambda: bunchtwissanalysis.getBunchMoment(1,0))
 output.addParameter('02', lambda: bunchtwissanalysis.getBunchMoment(0,2))
 output.addParameter('20', lambda: bunchtwissanalysis.getBunchMoment(2,0))
+output.addParameter('11', lambda: bunchtwissanalysis.getBunchMoment(1,1))
+output.addParameter('22', lambda: bunchtwissanalysis.getBunchMoment(2,2))
 # ~ output.addParameter('sigma_x', lambda: GetBunchSigmas(bunch)[0])
 # ~ output.addParameter('sigma_y', lambda: GetBunchSigmas(bunch)[1])
 
