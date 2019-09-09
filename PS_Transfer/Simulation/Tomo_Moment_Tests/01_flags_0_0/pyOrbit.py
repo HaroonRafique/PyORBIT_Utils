@@ -5,10 +5,12 @@ import orbit_mpi
 import timeit
 import numpy as np
 import scipy.io as sio
+from scipy.stats import moment
 from scipy.optimize import curve_fit
 import os
-import matplotlib as mpl
-mpl.use('Agg')
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 # Use switches in simulation_parameters.py in current folder
@@ -71,7 +73,8 @@ def peakfinder (x_dat, y_dat, tolerance = 1, verbose=False):
 	if verbose: print '\n\tMAX(y_dat) = ', max_y   
 
 	# Assume peak as centre
-	index = np.where(y_dat == max_y)[0][0]
+	print np.where(y_dat == max_y)
+	index = np.where(y_dat == max_y)[0]
 
 	# Check if centre is near 0.0
 	if abs(x_dat[index]) < tolerance:
@@ -129,6 +132,7 @@ def GetBunchSigmas(b, smooth=True):
 
 	nparts_arr = orbit_mpi.MPI_Allreduce(nparts_arr_local,data_type,op,comm)
 
+# Arrays to hold x and y data
 	x = []
 	y = []
 
@@ -136,56 +140,67 @@ def GetBunchSigmas(b, smooth=True):
 		x.append(b.x(i))
 		y.append(b.y(i))
 
-	x_, bins_x, p = mpl.pyplot.hist(x, bins = 1000, density=True, histtype=u'step', lw=0)
-	y_, bins_y, p = mpl.pyplot.hist(y, bins = 1000, density=True, histtype=u'step', lw=0)
+# Calculate moments of the bunch
+	return moment(x, 2), moment(y, 2)
 
-	posx = np.array(bins_x[:-1]) + (abs(bins_x[0]-bins_x[1])/2)
-	posy = np.array(bins_y[:-1]) + (abs(bins_y[0]-bins_y[1])/2)
 
-	data_x = []
-	data_y = []
 
-	if smooth:
-		data_x = filtered(x_)
-		data_y = filtered(y_)
-	else:
-		data_x = x_
-		data_y = y_
+	# ~ x_, bins_x, p = plt.hist(x, bins = 1000, density=True, histtype=u'step', lw=0)
+	# ~ y_, bins_y, p = plt.hist(y, bins = 1000, density=True, histtype=u'step', lw=0)
 
-	indx_max_x = np.argmax(data_x)
-	indx_max_y = np.argmax(data_y)
+	# ~ print x_
+	# ~ print y_
 
-	mu0_x = data_x[indx_max_x]
-	mu0_y = data_y[indx_max_y]
+	# ~ posx = np.array(bins_x[:-1]) + (abs(bins_x[0]-bins_x[1])/2)
+	# ~ posy = np.array(bins_y[:-1]) + (abs(bins_y[0]-bins_y[1])/2)
 
-	offs0_x = min(data_x)
-	ampl_x = max(data_x) - offs0_x
-	x1 = data_x[np.searchsorted(data_x[:window], offs0_x + ampl_x/2)]
-	x2 = data_x[np.searchsorted(-data_x[window:], -offs0_x + ampl_x/2)]
-	FWHM_x = x2-x1
-	sigma0_x = np.abs(2*FWHM_x/2.355)
-	ampl_x *= np.sqrt(2*np.pi)*sigma0_x
-	slope_x = 0
+	# ~ data_x = []
+	# ~ data_y = []
 
-	offs0_y = min(data_y)
-	ampl_y = max(data_y) - offs0_y
-	y1 = data_y[np.searchsorted(data_y[:window], offs0_y + ampl_y/2)]
-	y2 = data_y[np.searchsorted(-data_y[window:], -offs0_y + ampl_y/2)]
-	FWHM_y = y2-y1
-	sigma0_y = np.abs(2*FWHM_y/2.355)
-	ampl_y *= np.sqrt(2*np.pi)*sigma0_y
-	slope_y = 0
+	# ~ if smooth:
+		# ~ data_x = filtered(x_)
+		# ~ data_y = filtered(y_)
+	# ~ else:
+		# ~ data_x = x_
+		# ~ data_y = y_
 
-	ampl_x = peakfinder(np.array(bins_x[:-1]), np.array(data_x))
-	ampl_y = peakfinder(np.array(bins_y[:-1]), np.array(data_y))
+	# ~ indx_max_x = np.argmax(data_x)
+	# ~ indx_max_y = np.argmax(data_y)
 
-	poptx, pcovx = curve_fit(gaussian_3_parameters, posx, data_x, p0 =[ampl_x, mu0_x, sigma0_x])
-	resultx = gaussian_3_parameters(bins_x, poptx[0], poptx[1], poptx[2])
+	# ~ mu0_x = data_x[indx_max_x]
+	# ~ mu0_y = data_y[indx_max_y]
 
-	popty, pcovy = curve_fit(gaussian_3_parameters, posy, data_y, p0 =[ampl_y, mu0_y, sigma0_y])
-	resultx = gaussian_3_parameters(bins_y, popty[0], popty[1], popty[2])
+	# ~ offs0_x = min(data_x)
+	# ~ ampl_x = max(data_x) - offs0_x
+	# ~ x1 = data_x[np.searchsorted(data_x[:window], offs0_x + ampl_x/2)]
+	# ~ x2 = data_x[np.searchsorted(-data_x[window:], -offs0_x + ampl_x/2)]
+	# ~ FWHM_x = x2-x1
+	# ~ sigma0_x = np.abs(2*FWHM_x/2.355)
+	# ~ ampl_x *= np.sqrt(2*np.pi)*sigma0_x
+	# ~ slope_x = 0
 
-	return poptx[2], popty[2]
+	# ~ offs0_y = min(data_y)
+	# ~ ampl_y = max(data_y) - offs0_y
+	# ~ y1 = data_y[np.searchsorted(data_y[:window], offs0_y + ampl_y/2)]
+	# ~ y2 = data_y[np.searchsorted(-data_y[window:], -offs0_y + ampl_y/2)]
+	# ~ FWHM_y = y2-y1
+	# ~ sigma0_y = np.abs(2*FWHM_y/2.355)
+	# ~ ampl_y *= np.sqrt(2*np.pi)*sigma0_y
+	# ~ slope_y = 0
+
+	# ~ ampl_x = peakfinder(np.array(bins_x[:-1]), np.array(data_x))
+	# ~ ampl_y = peakfinder(np.array(bins_y[:-1]), np.array(data_y))
+	
+	# ~ print data_x
+	# ~ print data_y
+	
+	# ~ poptx, pcovx = curve_fit(gaussian_3_parameters, posx, data_x, p0 =[ampl_x, mu0_x, sigma0_x])
+	# ~ resultx = gaussian_3_parameters(bins_x, poptx[0], poptx[1], poptx[2])
+
+	# ~ popty, pcovy = curve_fit(gaussian_3_parameters, posy, data_y, p0 =[ampl_y, mu0_y, sigma0_y])
+	# ~ resultx = gaussian_3_parameters(bins_y, popty[0], popty[1], popty[2])
+
+	# ~ return poptx[2], popty[2]
 
 
 # Function to check that a file isn't empty (common PTC file bug)
