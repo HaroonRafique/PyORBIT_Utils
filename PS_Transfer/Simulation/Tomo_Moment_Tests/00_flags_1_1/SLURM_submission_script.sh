@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=PS_1_1
+#SBATCH --job-name=PST_00
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
 #SBATCH --partition=batch-long

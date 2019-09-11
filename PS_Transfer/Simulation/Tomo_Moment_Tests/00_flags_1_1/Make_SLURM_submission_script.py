@@ -23,7 +23,7 @@ queue = 'batch-long'
 
 n_nodes = 4
 
-jobname = 'PS_1_1'
+jobname = 'PST_00'
 
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
