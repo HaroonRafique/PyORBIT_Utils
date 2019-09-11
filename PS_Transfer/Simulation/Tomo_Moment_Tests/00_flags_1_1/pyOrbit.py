@@ -117,6 +117,7 @@ def GetBunchSigmas(b, smooth=True):
 
 	mpi_init = orbit_mpi.MPI_Initialized()
 	comm = orbit_mpi.mpi_comm.MPI_COMM_WORLD
+	orbit_mpi.MPI_Barrier(comm)
 
 	if(mpi_init):
 		rank = orbit_mpi.MPI_Comm_rank(comm)
