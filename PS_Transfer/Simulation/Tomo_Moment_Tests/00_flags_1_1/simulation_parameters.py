@@ -81,7 +81,7 @@ tunespread = {
 
 switches = {
 	'SliceBySlice': False,
-	'CreateDistn': False,
+	'CreateDistn': True,
 	'Mismatch': True,
 	'MismatchFactor': mismatch_factor,
 	'LongitudinalKick': True,
