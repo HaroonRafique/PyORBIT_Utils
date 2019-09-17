@@ -110,19 +110,19 @@ kd = 0.;
  ******************************************************************/
 use, sequence=PS;
 match,use_macro;
-        vary,name=PFKI1F;
-        vary,name=PFKI1D;
-        vary,name=PFKI2F;
-        vary,name=PFKI2D;
-        vary,name=PFKI3F;
-        vary,name=PFKI3D;
-        use_macro,name=ptc_chrom_macro;
-        constraint,expr= qx0= 1*MQx0;
+	vary,name=PFKI1F;
+	vary,name=PFKI1D;
+	vary,name=PFKI2F;
+	vary,name=PFKI2D;
+	vary,name=PFKI3F;
+	vary,name=PFKI3D;
+	use_macro,name=ptc_chrom_macro;
+	constraint,expr= qx0= 1*MQx0;
 	constraint,expr= qy0= 1*MQy0;
-        constraint,expr= qx1= 1*MQx1;	
-        constraint,expr= qy1= 1*MQy1;	
-        constraint,expr= qx2= 2*MQx2;
-        constraint,expr= qy2= 2*MQy2;		
+	constraint,expr= qx1= 1*MQx1;
+	constraint,expr= qy1= 1*MQy1;
+	constraint,expr= qx2= 2*MQx2;
+	constraint,expr= qy2= 2*MQy2;
 jacobian,calls=50000,bisec=3;
 ENDMATCH;
 
@@ -144,23 +144,23 @@ tune_x = 0.21;
 tune_y = 0.24;
  
 ptc_twiss_tune_macro_false_split: macro={
-  ptc_create_universe;
-  ptc_create_layout, time=true, model=2, exact=true, method=6, nst=3;
-  ptc_twiss, closed_orbit, table = ptc_twiss, icase=56, no=2, summary_table=ptc_twiss_summary;
-  qx0=table(ptc_twiss_summary,Q1);
-  qy0=table(ptc_twiss_summary,Q2);
-  value, qx0, qy0;
-  ptc_end;
+	ptc_create_universe;
+	ptc_create_layout, time=true, model=2, exact=true, method=6, nst=3;
+	ptc_twiss, closed_orbit, table = ptc_twiss, icase=56, no=2, summary_table=ptc_twiss_summary;
+	qx0=table(ptc_twiss_summary,Q1);
+	qy0=table(ptc_twiss_summary,Q2);
+	value, qx0, qy0;
+	ptc_end;
 };
 
 use, sequence=PS;
 match, use_macro;
-  vary,   name=iqf, step=1.0E-6 ;
-  vary,   name=iqd, step=1.0E-6 ;
-  USE_MACRO, name=ptc_twiss_tune_macro_false_split;
-  CONSTRAINT, expr=  table(ptc_twiss_summary,Q1)= tune_x;
-  CONSTRAINT, expr=  table(ptc_twiss_summary,Q2)= tune_y;
-  JACOBIAN,calls=10000,bisec=3,TOLERANCE=1.0E-21;
+	vary,   name=iqf, step=1.0E-6 ;
+	vary,   name=iqd, step=1.0E-6 ;
+	USE_MACRO, name=ptc_twiss_tune_macro_false_split;
+	CONSTRAINT, expr=  table(ptc_twiss_summary,Q1)= tune_x;
+	CONSTRAINT, expr=  table(ptc_twiss_summary,Q2)= tune_y;
+	JACOBIAN,calls=10000,bisec=3,TOLERANCE=1.0E-21;
 ENDMATCH;
 value, IQF, IQD;
 
