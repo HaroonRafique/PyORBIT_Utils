@@ -489,7 +489,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
 	# ~ void computeBunchMoments(Bunch* bunch, int order, int dispersionflag, int emitnormflag);
-	bunchtwissanalysis.computeBunchMoments(bunch, 2, 1, 1)
+	bunchtwissanalysis.computeBunchMoments(bunch, 2, 0, 0)
 	
 	if turn in sts['turns_update']:	sts['turn'] = turn
 

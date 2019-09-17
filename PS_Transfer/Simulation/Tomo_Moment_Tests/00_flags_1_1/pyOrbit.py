@@ -344,6 +344,9 @@ if sts['turn'] < 0:
 		twiss_dict['gamma_transition'] 	= Lattice.gammaT
 		twiss_dict['circumference']    	= Lattice.getLength()
 		twiss_dict['length'] 			= Lattice.getLength()/Lattice.nHarm
+		
+		print '\ntwiss_dict:'
+		print twiss_dict
 
 		print '\ngenerate_initial_distribution on MPI process: ', rank
 		Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, matfile=1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
@@ -489,7 +492,7 @@ for turn in range(sts['turn']+1, sts['turns_max']):
 	Lattice.trackBunch(bunch, paramsDict)
 	bunchtwissanalysis.analyzeBunch(bunch)  # analyze twiss and emittance
 	# ~ void computeBunchMoments(Bunch* bunch, int order, int dispersionflag, int emitnormflag);
-	bunchtwissanalysis.computeBunchMoments(bunch, 2, 1, 1)
+	bunchtwissanalysis.computeBunchMoments(bunch, 3, 1, 1)
 	
 	if turn in sts['turns_update']:	sts['turn'] = turn
 
