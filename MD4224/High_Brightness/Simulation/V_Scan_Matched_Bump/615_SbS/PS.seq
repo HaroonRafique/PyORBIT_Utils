@@ -1,7 +1,7 @@
 none = 0;
 twiss_tol = 1e-06;
 tune_x = 0.21;
-tune_y = 0.1;
+tune_y = 0.15;
 circ = 628.3185307;
 rev = 1;
 off = 0;
