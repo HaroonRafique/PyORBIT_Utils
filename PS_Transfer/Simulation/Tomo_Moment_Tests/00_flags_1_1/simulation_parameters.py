@@ -81,10 +81,10 @@ tunespread = {
 
 switches = {
 	'SliceBySlice': False,
-	'CreateDistn': True,
-	'Mismatch': True,
+	'CreateDistn': False,
+	'Mismatch': False,
 	'MismatchFactor': mismatch_factor,
-	'LongitudinalKick': True,
+	'LongitudinalKick': False,
 	'GridSizeX': grid_x,
 	'GridSizeY': grid_y,
 	'GridSizeZ': grid_z
