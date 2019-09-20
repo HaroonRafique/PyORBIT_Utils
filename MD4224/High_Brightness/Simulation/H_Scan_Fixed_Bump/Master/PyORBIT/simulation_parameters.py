@@ -1,7 +1,7 @@
 import numpy as np
 
 tomo_file = 'PyORBIT_Tomo_file_MD4224_HB.mat'
-input_distn_dir = '../../Input_Distns/0p5E6_H/mainbunch.mat'
+input_distn_dir = '../../../Input_Distns/0p5E6_H/mainbunch.mat'
 
 # PS Injection 1.4 GeV
 gamma = 2.49253731343
