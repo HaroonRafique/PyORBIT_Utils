@@ -28,7 +28,7 @@ jobname = 'HIB_09'
 path_to_simulation = os.path.dirname(os.path.realpath(__file__)) # This directory
 
 # Optional - have to use with correct switches
-manual_time = '14 00:00:00' # manually set using format 'days hours:minutes:seconds'
+manual_time = '14-00:00:00' # manually set using format 'days hours:minutes:seconds'
 manual_tasks = 40	# manually change ntasks
 
 # Defaults - can be changed
@@ -57,11 +57,11 @@ if autotask:
 			exit(0)
 else: n_tasks = manual_tasks
 
-time = '1 23:59:00'
+time = '1-23:59:00'
 if autotime:
-	if queue == 'batch-short': time = '2 00:00:00'
-	elif queue == 'inf-short': time = '5 00:00:00'
-	elif queue == ('inf-long' or 'batch-long'): time = '21 00:00:00'
+	if queue == 'batch-short': time = '2-00:00:00'
+	elif queue == 'inf-short': time = '5-00:00:00'
+	elif queue == 'inf-long' or 'batch-long': time = '21-00:00:00'
 	else: 
 		print 'queue not recognised'
 		exit(0)
@@ -79,16 +79,16 @@ print "Creating ", script_name
 f= open(script_name,"w")
 
 f.write('#!/bin/bash')
+f.write('\n#SBATCH --job-name=' + str(jobname))
+f.write('\n#SBATCH --output=' + str(output_file_name))
+f.write('\n#SBATCH --error=' + str(error_file_name))
 f.write('\n#SBATCH --partition=' + str(queue))
 f.write('\n#SBATCH --time=' + str(time))
 f.write('\n#SBATCH --nodes=' + str(n_nodes))
-# ~ f.write('\n#SBATCH --ntasks-per-node=' + str(n_tasks)) # Currently the cause of a bug - not needed (hopefully) - will optimise later
+# ~ f.write('\n#SBATCH --ntasks-per-node=' + str(n_tasks)) # Currently the cause of a bug - not needed (hopefull) - will optimise later
 f.write('\n#SBATCH --mem-per-cpu=3200M')
 if (exclusive): f.write('\n#SBATCH --exclusive')
-f.write('\n#SBATCH --output=' + str(output_file_name))
-f.write('\n#SBATCH --error=' + str(error_file_name))
 if not hyperthreading: f.write('\n#SBATCH --hint=nomultithread')
-f.write('\n#SBATCH --job-name=' + str(jobname))
 f.write('\n')
 f.write('\nBATCH_ROOT_DIR=' + str(root_dir))
 f.write('\nRUN_DIR=' + str(path_to_simulation))
