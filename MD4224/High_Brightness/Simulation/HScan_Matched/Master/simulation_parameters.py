@@ -33,7 +33,7 @@ turns_update = sorted(tu)
 macrosize = intensity/float(n_macroparticles)
 
 # Tune
-Qy = 6.24
+Qx = 6.10
 
 # Space Charge
 grid_x = 128
@@ -84,7 +84,7 @@ tunespread = {
 }
 
 switches = {
-	'Qy': Qy,
+	'Qx': Qx,
 	'SliceBySlice': True,
 	'CreateDistn': True,
 	'ImportFromTomo': True,

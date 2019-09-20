@@ -12,6 +12,10 @@ call,  file = './../../Lattice_LowChroma/PS_new.str';
 call,  file = './../../Lattice_LowChroma/PS_2013.aper';
 call,  file = './../../Lattice_LowChroma/macros.ptc';
 
+
+tune_x = 0.10;
+tune_y = 0.24;
+
 /***********************************************************************
  * RFV can be used to manually seet the RF cavity voltage.
  * This is overridden by a PTC RF table (called from PyORBIT).
@@ -140,9 +144,7 @@ value,qy0,qy1,qy2/2;
  *
  * Using model=2, exact=true is recommended.
  **********************************************************************/
-tune_x = 0.21;
-tune_y = 0.24;
- 
+
 ptc_twiss_tune_macro_false_split: macro={
 	ptc_create_universe;
 	ptc_create_layout, time=true, model=2, exact=true, method=6, nst=3;
