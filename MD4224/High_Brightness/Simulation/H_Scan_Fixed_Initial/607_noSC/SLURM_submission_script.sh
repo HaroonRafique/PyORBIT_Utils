@@ -1,10 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=HIB_07nS
+#SBATCH --job-name=HF_07_nS
 #SBATCH --output=slurm.%N.%j.out
 #SBATCH --error=slurm.%N.%j.err
-#SBATCH --partition=batch-long
-#SBATCH --time=21-00:00:00
 #SBATCH --nodes=4
+#SBATCH --ntasks-per-node=20
+#SBATCH --partition=inf-long
+#SBATCH --time=504:00:00
 #SBATCH --mem-per-cpu=3200M
 #SBATCH --exclusive
 #SBATCH --hint=nomultithread
