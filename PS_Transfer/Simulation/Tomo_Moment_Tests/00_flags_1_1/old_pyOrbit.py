@@ -1,4 +1,3 @@
-import os
 import math
 import sys
 import time
@@ -7,9 +6,11 @@ import timeit
 import numpy as np
 import scipy.io as sio
 from scipy.stats import moment
-# ~ import matplotlib
-# ~ matplotlib.use('Agg')
-# ~ import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+import os
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 # Use switches in simulation_parameters.py in current folder
 #-------------------------------------------------------------
@@ -54,32 +55,57 @@ readScriptPTC_noSTDOUT = suppress_STDOUT(readScriptPTC)
 
 # FUNCTION DEFINITIONS
 #-----------------------------------------------------------------------
+def gaussian_3_parameters(x, A, mu, sig):
+	return A/np.sqrt(2*np.pi)/sig*np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
 
-# Function to check that a file isn't empty (common PTC file bug)
-def is_non_zero_file(fpath):  
-	print 'Checking file ', fpath
-	print 'File exists = ', os.path.isfile(fpath)
-	print 'Size > 3 bytes = ', os.path.getsize(fpath)
-	return os.path.isfile(fpath) and os.path.getsize(fpath) > 3
+def filtered(a):
+	try:
+		b=(scipy.signal.savgol_filter(a,15,1))
+	except:
+		b=a
+	return b
 
-# Function to check and read PTC file
-def CheckAndReadPTCFile(f):
-	if is_non_zero_file(f): 
-		readScriptPTC_noSTDOUT(f)
+def peakfinder (x_dat, y_dat, tolerance = 1, verbose=False):
+
+	# Find maximum
+	max_y = max(y_dat)
+	if verbose: print '\n\tMAX(y_dat) = ', max_y   
+
+	# Assume peak as centre
+	print np.where(y_dat == max_y)
+	index = np.where(y_dat == max_y)[0]
+
+	# Check if centre is near 0.0
+	if abs(x_dat[index]) < tolerance:
+		if verbose: print '\tx_dat[index] = ', x_dat[index]
+
+	# Manually find 0 index
 	else:
-		print 'ERROR: PTC file ', f, ' is empty or does not exist, exiting'
-		exit(0)
+		if verbose: print '\tindex from y_dat peak not within tolerance of',tolerance,'mm. \n\ttry manual search'
+		
+		index = -1
+		final_index = -1
+		for i in xrange(len(x_dat)):
+			index = index + 1
+			if x_dat[i] < 0.0:
+				final_index = index
+				break
+				
+		index = final_index
+		if verbose: print '\tindex = ', index       
+	   
+	if verbose: print '\tindex of x_dat = ', x_dat[index],' is ', index
+		
+	# Take y=0 +/- 3 points and find mean 
+	mean_dat = [y_dat[index-3],  y_dat[index-2],  y_dat[index-1], y_dat[index],  y_dat[index+1],  y_dat[index+2],  y_dat[index+3]]
+	mean_7 = np.mean(mean_dat)
+	if verbose: print '\tMean of peak point +/- 3 points = ', mean_7   
 
-# Function to open TWISS_PTC_table.OUT and return fractional tunes
-def GetTunesFromPTC():
-	readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
-	with open('TWISS_PTC_table.OUT') as f:
-		first_line = f.readline()
-		Qx = (float(first_line.split()[2]))
-		Qy = (float(first_line.split()[3]))
-	os.system('rm TWISS_PTC_table.OUT')
-	return Qx, Qy
-
+	if abs( abs(mean_7 - max_y) / mean_7 ) > 0.2:
+		print '\tWARNING: difference between mean and max_y > 20% = ', abs( abs(mean_7 - max_y) / mean_7 )
+		print '\t using peak value'
+		mean_7 = max_y
+	return mean_7
 
 def GetBunchSigmas(b, smooth=True):
 	window = 40
@@ -116,6 +142,91 @@ def GetBunchSigmas(b, smooth=True):
 
 # Calculate moments of the bunch
 	return moment(x, 2), moment(y, 2)
+
+
+
+	# ~ x_, bins_x, p = plt.hist(x, bins = 1000, density=True, histtype=u'step', lw=0)
+	# ~ y_, bins_y, p = plt.hist(y, bins = 1000, density=True, histtype=u'step', lw=0)
+
+	# ~ print x_
+	# ~ print y_
+
+	# ~ posx = np.array(bins_x[:-1]) + (abs(bins_x[0]-bins_x[1])/2)
+	# ~ posy = np.array(bins_y[:-1]) + (abs(bins_y[0]-bins_y[1])/2)
+
+	# ~ data_x = []
+	# ~ data_y = []
+
+	# ~ if smooth:
+		# ~ data_x = filtered(x_)
+		# ~ data_y = filtered(y_)
+	# ~ else:
+		# ~ data_x = x_
+		# ~ data_y = y_
+
+	# ~ indx_max_x = np.argmax(data_x)
+	# ~ indx_max_y = np.argmax(data_y)
+
+	# ~ mu0_x = data_x[indx_max_x]
+	# ~ mu0_y = data_y[indx_max_y]
+
+	# ~ offs0_x = min(data_x)
+	# ~ ampl_x = max(data_x) - offs0_x
+	# ~ x1 = data_x[np.searchsorted(data_x[:window], offs0_x + ampl_x/2)]
+	# ~ x2 = data_x[np.searchsorted(-data_x[window:], -offs0_x + ampl_x/2)]
+	# ~ FWHM_x = x2-x1
+	# ~ sigma0_x = np.abs(2*FWHM_x/2.355)
+	# ~ ampl_x *= np.sqrt(2*np.pi)*sigma0_x
+	# ~ slope_x = 0
+
+	# ~ offs0_y = min(data_y)
+	# ~ ampl_y = max(data_y) - offs0_y
+	# ~ y1 = data_y[np.searchsorted(data_y[:window], offs0_y + ampl_y/2)]
+	# ~ y2 = data_y[np.searchsorted(-data_y[window:], -offs0_y + ampl_y/2)]
+	# ~ FWHM_y = y2-y1
+	# ~ sigma0_y = np.abs(2*FWHM_y/2.355)
+	# ~ ampl_y *= np.sqrt(2*np.pi)*sigma0_y
+	# ~ slope_y = 0
+
+	# ~ ampl_x = peakfinder(np.array(bins_x[:-1]), np.array(data_x))
+	# ~ ampl_y = peakfinder(np.array(bins_y[:-1]), np.array(data_y))
+	
+	# ~ print data_x
+	# ~ print data_y
+	
+	# ~ poptx, pcovx = curve_fit(gaussian_3_parameters, posx, data_x, p0 =[ampl_x, mu0_x, sigma0_x])
+	# ~ resultx = gaussian_3_parameters(bins_x, poptx[0], poptx[1], poptx[2])
+
+	# ~ popty, pcovy = curve_fit(gaussian_3_parameters, posy, data_y, p0 =[ampl_y, mu0_y, sigma0_y])
+	# ~ resultx = gaussian_3_parameters(bins_y, popty[0], popty[1], popty[2])
+
+	# ~ return poptx[2], popty[2]
+
+
+# Function to check that a file isn't empty (common PTC file bug)
+def is_non_zero_file(fpath):  
+	print 'Checking file ', fpath
+	print 'File exists = ', os.path.isfile(fpath)
+	print 'Size > 3 bytes = ', os.path.getsize(fpath)
+	return os.path.isfile(fpath) and os.path.getsize(fpath) > 3
+
+# Function to check and read PTC file
+def CheckAndReadPTCFile(f):
+	if is_non_zero_file(f): 
+		readScriptPTC_noSTDOUT(f)
+	else:
+		print 'ERROR: PTC file ', f, ' is empty or does not exist, exiting'
+		exit(0)
+
+# Function to open TWISS_PTC_table.OUT and return fractional tunes
+def GetTunesFromPTC():
+	readScriptPTC_noSTDOUT('PTC/twiss_script.ptc')
+	with open('TWISS_PTC_table.OUT') as f:
+		first_line = f.readline()
+		Qx = (float(first_line.split()[2]))
+		Qy = (float(first_line.split()[3]))
+	os.system('rm TWISS_PTC_table.OUT')
+	return Qx, Qy
 
 # MPI stuff
 #-----------------------------------------------------------------------
@@ -208,14 +319,46 @@ if sts['turn'] < 0:
 	p['bunch_length'] = p['bunch_length']
 	kin_Energy = bunch.getSyncParticle().kinEnergy()
 
-	print '\nbunch_orbit_to_pyorbit on MPI process: ', rank
 	for i in p:
 		print '\t', i, '\t = \t', p[i]
 
-# Load bunch from file
+	if s['CreateDistn']:
+		print '\nCreating initial distribution'
+# Create the initial distribution 
+
+		twiss_dict = dict()
+		twiss_dict['alpha_x'] 			= Lattice.alphax0
+		twiss_dict['alpha_y'] 			= Lattice.alphay0
+		twiss_dict['beta_x'] 			= Lattice.betax0
+		twiss_dict['beta_y'] 			= Lattice.betay0
+		twiss_dict['D_x'] 				= Lattice.etax0
+		if s['Mismatch']: twiss_dict['D_x'] *= s['MismatchFactor']
+		twiss_dict['D_y'] 				= Lattice.etay0
+		twiss_dict['D_xp'] 				= Lattice.etapx0
+		twiss_dict['D_yp'] 				= Lattice.etapy0
+		twiss_dict['x0'] 				= Lattice.orbitx0
+		twiss_dict['xp0'] 				= Lattice.orbitpx0
+		twiss_dict['y0'] 				= Lattice.orbity0
+		twiss_dict['yp0'] 				= Lattice.orbitpy0
+		twiss_dict['gamma_transition'] 	= Lattice.gammaT
+		twiss_dict['circumference']    	= Lattice.getLength()
+		twiss_dict['length'] 			= Lattice.getLength()/Lattice.nHarm
+		
+		print '\ntwiss_dict:'
+		print twiss_dict
+
+		print '\ngenerate_initial_distribution on MPI process: ', rank
+		Particle_distribution_file = generate_initial_distribution_from_tomo_manual_Twiss(p, twiss_dict, matfile=1, output_file='input/ParticleDistribution.in', summary_file='input/ParticleDistribution_summary.txt')
+
+		print '\bunch_orbit_to_pyorbit on MPI process: ', rank
+		bunch_orbit_to_pyorbit(paramsDict["length"], kin_Energy, Particle_distribution_file, bunch, p['n_macroparticles'] + 1) #read in only first N_mp particles.
+
+	else:
+		print '\Loading initial distribution from file: ', p['input_distn_dir']
+# OR load bunch from file
 #-----------------------------------------------------------------------
-	path_to_distn = p['input_distn_dir']
-	bunch = bunch_from_matfile(path_to_distn)
+		path_to_distn = p['input_distn_dir']
+		bunch = bunch_from_matfile(path_to_distn)
 
 # Add Macrosize to bunch
 #-----------------------------------------------------------------------
@@ -337,7 +480,7 @@ last_time = time.time()
 
 for turn in range(sts['turn']+1, sts['turns_max']):
 	if not rank:	last_time = time.time()
-
+	
 	if turn == 0:
 		output.addParameter('turn_time', lambda: time.strftime("%H:%M:%S"))
 		output.addParameter('turn_duration', lambda: (time.time() - last_time))
