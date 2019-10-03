@@ -1,6 +1,6 @@
 none = 0;
 twiss_tol = 1e-06;
-tune_x = 0.15;
+tune_x = 0.18;
 tune_y = 0.24;
 circ = 628.3185307;
 rev = 1;
