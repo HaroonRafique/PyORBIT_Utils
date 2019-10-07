@@ -16,6 +16,7 @@ call, file="New_Lattice/macros.ptc";
  **********************************************************************/
 beam, particle=proton, pc=2.14;
 BRHO      := BEAM->PC * 3.3356;
+RFV := 0.021;
  
 /*******************************************************************************
 **                        SBEND K1 and multipoles in MUs                      **
@@ -112,5 +113,5 @@ ptc_script, file="PTC/resplit.ptc";
 ptc_script, file="PTC/print_flat_file.ptc";
 select, flag=ptc_twiss, clear; 
 select, flag=ptc_twiss, column=name, betx, px, bety, py, disp3, disp3p, disp1, disp1p;
-ptc_twiss, icase=5, no=4, deltap_dependency, closed_orbit, , file=optimised_LEQ_final.tfs, table=ptc_twiss;
+ptc_twiss, icase=5, no=4, deltap_dependency, closed_orbit, file=optimised_LEQ_final.tfs, table=ptc_twiss;
 ptc_end;

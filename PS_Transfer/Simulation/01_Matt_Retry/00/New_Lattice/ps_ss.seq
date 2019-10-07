@@ -106,7 +106,7 @@ AARFB     : RFCAVITY    , L := 1;         ! RF CAVITY 40/80 MHZ
 ! TODO: verify length of 10 MHz cavities, see EDMS 1265845
 !ACC10     : RFCAVITY    , L := 2.39;      ! 10 MHz radio frequency cavity
 ! change length and voltage for PyORBIT sims
-ACC10     : RFCAVITY    , L := 1.0, VOLT:=VRF, LAG=0, HARMON=9, no_cavity_totalpath;	! 10 MHz radio frequency cavity
+ACC10     : RFCAVITY    , L := 1.0, VOLT:=RFV, LAG=0, HARMON=9, no_cavity_totalpath;	! 10 MHz radio frequency cavity
 !C10         :  RFCAVITY,  L=1.0, VOLT:=VRF, LAG=0, HARMON=9, no_cavity_totalpath;
 
 ! TODO: correct length of 20 MHz cavities to 1.0 m (in LDB also the responsible is incorrect, should be somebody from BE-RF)

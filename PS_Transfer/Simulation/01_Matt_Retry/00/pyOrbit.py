@@ -146,8 +146,11 @@ else:
 #-----------------------------------------------------------------------
 print '\nStart MADX on MPI process: ', rank
 if not rank:
-	# ~ os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
-	os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < optimised_flat_file.madx")
+	if os.path.exists('PTC-PyORBIT_flat_file.flt'):
+		pass
+	else:
+		# ~ os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < Flat_file.madx")
+		os.system("/afs/cern.ch/eng/sl/MAD-X/pro/releases/5.02.00/madx-linux64 < optimised_flat_file.madx")
 orbit_mpi.MPI_Barrier(comm)
 
 # Print Tunespread data
@@ -172,8 +175,11 @@ Lattice = PTC_Lattice("PS")
 Lattice.readPTC(PTC_File)
 
 CheckAndReadPTCFile('PTC/fringe.ptc')
+print '\n\tHello1'
 CheckAndReadPTCFile('PTC/time.ptc')
+print '\n\tHello2'
 CheckAndReadPTCFile('PTC/ramp_cavities.ptc')
+print '\n\tHello3'
 
 # Create a dictionary of parameters
 #-----------------------------------------------------------------------
