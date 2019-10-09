@@ -191,7 +191,7 @@ if sts['turn'] < 0:
 	else:
 # OR load bunch from file
 #-----------------------------------------------------------------------
-		print '\n\t\tLoad distribution from ',path_to_distn,' on MPI process: ', rank
+		print '\n\t\tLoad distribution from ', p['input_distn_dir'] ,' on MPI process: ', rank
 		path_to_distn = p['input_distn_dir']
 		bunch = bunch_from_matfile(path_to_distn)
 
