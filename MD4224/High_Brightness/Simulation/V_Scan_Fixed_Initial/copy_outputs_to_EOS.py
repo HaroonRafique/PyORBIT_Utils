@@ -36,6 +36,8 @@ sbs_locations.append('/611_SbS')
 # ~ sbs_locations.append('/623_SbS')
 # ~ sbs_locations.append('/624_SbS')
 
+
+
 for loc in sbs_locations:
 	# Create a full path to output folder
 	out_dir = master_dir + loc + '/output'
