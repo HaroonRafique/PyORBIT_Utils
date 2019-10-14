@@ -5,9 +5,9 @@ import os
 case = 'V_Scan_Fixed_Initial'
 case_short = 'VF'
 
-cp output.mat /afs/cern.ch/user/h/harafiqu/EOS/SWAN_projects/PS/From_Scratch/Simulation_Output/V_Scan_Fixed_Initial/Outputs/610_SbS_VF_output.mat
-cp mainbunch_000874.mat /afs/cern.ch/user/h/harafiqu/EOS/SWAN_projects/PS/From_Scratch/Simulation_Output/V_Scan_Fixed_Initial/Bunch_Profiles/610_SbS_c172.mat
-cp mainbunch_002185.mat /afs/cern.ch/user/h/harafiqu/EOS/SWAN_projects/PS/From_Scratch/Simulation_Output/V_Scan_Fixed_Initial/Bunch_Profiles/610_SbS_c175.mat
+#cp output.mat /afs/cern.ch/user/h/harafiqu/EOS/SWAN_projects/PS/From_Scratch/Simulation_Output/V_Scan_Fixed_Initial/Outputs/610_SbS_VF_output.mat
+#cp mainbunch_000874.mat /afs/cern.ch/user/h/harafiqu/EOS/SWAN_projects/PS/From_Scratch/Simulation_Output/V_Scan_Fixed_Initial/Bunch_Profiles/610_SbS_c172.mat
+#cp mainbunch_002185.mat /afs/cern.ch/user/h/harafiqu/EOS/SWAN_projects/PS/From_Scratch/Simulation_Output/V_Scan_Fixed_Initial/Bunch_Profiles/610_SbS_c175.mat
 
 def make_output_copy_command(loc, case, case_short):
 	return 'cp output.mat /afs/cern.ch/user/h/harafiqu/EOS/SWAN_projects/PS/From_Scratch/Simulation_Output/'+ str(case) + '/Outputs/' + str(loc) + '_' + str(case_short) + '_output.mat'
