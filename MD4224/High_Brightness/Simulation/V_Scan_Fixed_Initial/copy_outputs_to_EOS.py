@@ -35,6 +35,8 @@ sbs_locations.append('/623_SbS')
 sbs_locations.append('/624_SbS')
 
 for loc in sbs_locations:
+	print '\nStarted loop for folder', loc
+	
 	# Create a full path to output folder
 	out_dir = master_dir + loc + '/output'
 	print '\n\tcd ', out_dir
@@ -57,5 +59,7 @@ for loc in sbs_locations:
 	os.system(comm_172)
 	print '\n\t' + str(comm_175)
 	os.system(comm_175)
+	
+	print '\nFinished loop for folder\n', loc
 
 print '\nFINISHED copy_outputs_to_EOS.py'
