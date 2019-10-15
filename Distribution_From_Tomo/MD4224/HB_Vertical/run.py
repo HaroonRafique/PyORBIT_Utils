@@ -20,7 +20,7 @@ import re
 from scipy.io import savemat
 import sys
 
-input_file_name='C200_001_001_003.dat'
+input_file_name='C200_001_001_002.dat'
 input_file_path=str('./'+input_file_name)
 
 # Run the executable using the input file
@@ -101,8 +101,12 @@ for x in range (0, dat.shape[0], 1):
 # ~ dat[105, 72]  =  0.0
 						
 # plot to check
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(4, 4), dpi= 200, facecolor='w', edgecolor='k')
+#fig=plt.figure();
+    
 ax.pcolor(tAxis, EAxis, dat)
+ax.set_xlim(-140, 140)
+ax.set_ylim(-7.5, 7.5)
 ax.set(xlabel='dt [ns]', ylabel='dE [MeV]', title='Longitudinal distribution from tomo data')
 ax.grid(True)
 plot_name = input_file_name + '.png'
