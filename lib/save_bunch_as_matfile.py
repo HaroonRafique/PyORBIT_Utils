@@ -22,7 +22,7 @@ def saveBunchAsMatfile(bunch, filename=None):
 	# and have the number of macroparticles on each CPU
 	n_parts_arr = [0]*size
 	n_parts_arr[rank] = b.getSize()
-	n_parts_arr = orbit_mpi.MPI_Allreduce(n_parts_arr,mpi_datatype.MPI_INT,mpi_op.MPI_SUM,comm)	
+	n_parts_arr = orbit_mpi.MPI_Allreduce(n_parts_arr,mpi_datatype.MPI_INT,mpi_op.MPI_SUM,comm)
 
 	mp_array = range(n_parts_arr[rank])
 	particles = {}
