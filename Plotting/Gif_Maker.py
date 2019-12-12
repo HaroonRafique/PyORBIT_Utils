@@ -16,6 +16,6 @@ print 'Creating GIF'
 images = []
 for filename in sorted(input_filenames):
     images.append(imageio.imread(filename))
-gif_savename = input_filenames[0][:10]
+gif_savename = input_filenames[0][:10] + '.gif'
 imageio.mimsave(gif_savename, images)
 print 'GIF Created'
