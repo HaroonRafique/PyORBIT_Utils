@@ -1,0 +1,113 @@
+# Everything in Python 2.7 to be compatible with PTC-PyORBIT
+
+import os
+import glob
+import imageio
+import imageio
+import pickle
+import pandas as pd
+import numpy as np
+import PyNAFF as pnf
+import scipy.io as sio 
+import matplotlib.cm as cm
+from math import log10, floor
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
+from scipy.optimize import curve_fit
+
+plt.rcParams['figure.figsize'] = [5.0, 4.5]
+plt.rcParams['figure.dpi'] = 200
+plt.rcParams['savefig.dpi'] = 200
+
+plt.rcParams['axes.titlesize'] = 20
+plt.rcParams['axes.labelsize'] = 14
+
+plt.rcParams['xtick.labelsize'] = 10
+plt.rcParams['ytick.labelsize'] = 10
+
+plt.rcParams['font.size'] = 10
+plt.rcParams['legend.fontsize'] = 14
+
+plt.rcParams['lines.linewidth'] = 1
+plt.rcParams['lines.markersize'] = 5
+
+
+########################################################################
+# GIF From PNG files
+########################################################################
+def GIF_from_PNG(input_folder):
+    input_filenames = []
+    os.chdir(input_folder)
+
+    for file in glob.glob('*.png'):
+        print 'Found file: ', file
+        print 'Found file: ', file.split('/')[-1]
+        input_filenames.append(file.split('/')[-1])
+        
+    print 'Creating GIF'
+    images = []
+    for filename in sorted(input_filenames):
+        images.append(imageio.imread(filename))
+    gif_savename = input_filenames[0][:10] + '.gif'
+    imageio.mimsave(gif_savename, images)
+    print 'GIF Created'
+    return 1
+
+########################################################################
+# Round number to n significant figures
+########################################################################
+def round_sig(x, sig=3):
+    return round(x, sig-int(floor(log10(abs(x))))-1)
+
+########################################################################
+# Replace points in a string with the letter p - useful for filenames
+########################################################################
+def replace_point_with_p(input_str):
+    return input_str.replace(".", "p")
+
+
+########################################################################
+# Read PTC Twiss and return dictionary of columns/values
+########################################################################
+def Read_PTC_Twiss_Return_Dict(filename, verbose=True):
+    # Dictionary for output
+    d = dict()
+    keywords = ''
+    
+    # First we open and count header lines
+    fin0=open(filename,'r').readlines()
+    headerlines = 0
+    for l in fin0:
+        headerlines = headerlines + 1
+        if '* NAME' in l:
+            keywords = l
+            break
+    headerlines = headerlines + 1
+    
+    if verbose: print '\nRead_PTC_Twiss_Return_Dict found Keywords: \n',keywords
+    dict_keys = []
+    for key in keywords.split():
+        dict_keys.append(key)
+    dict_keys.remove('*')
+    if verbose: print '\nRead_PTC_Twiss_Return_Dict Dict Keys: \n',dict_keys
+    
+    for key in dict_keys:
+        d[key]=[]
+        
+    if verbose: print '\nRead_PTC_Twiss_Return_Dict empty dictionary \n', d
+    
+    # Strip header
+    fin1=open(filename,'r').readlines()[headerlines:]   
+    
+    for l in fin1:
+        i = -1        
+        for value in l.split():
+            i = i+1
+            if 'NAME' in dict_keys[i]:
+                d[dict_keys[i]].append(str(value))
+            else:
+                d[dict_keys[i]].append(float(value))    
+                
+    return dict_keys, d
