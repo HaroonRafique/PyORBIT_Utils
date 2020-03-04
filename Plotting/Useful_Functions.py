@@ -74,33 +74,51 @@ def replace_point_with_p(input_str):
 def Read_PTC_Twiss_Return_Dict(filename, verbose=True):
     # Dictionary for output
     d = dict()
+    d['HEADER_FILENAME'] = filename
     keywords = ''
     
     # First we open and count header lines
     fin0=open(filename,'r').readlines()
     headerlines = 0
     for l in fin0:
+        # Store each header line
         headerlines = headerlines + 1
+        # Stop if we find the line starting '* NAME'
         if '* NAME' in l:
             keywords = l
             break
-    headerlines = headerlines + 1
+        # Store the headers as d['HEADER_<name>'] = <value>
+        else:
+            #try:
+            #    d[str('HEADER_'+l.split()[1])]=[float(l.split()[-1])]     
+            #except ValueError:
+            #    d[str('HEADER_'+l.split()[1])]=[str(l.split()[-1])]   
+            if '"' in l:
+                d[str('HEADER_'+l.split()[1])]=[str(l.split('"')[1])]
+            else:
+                d[str('HEADER_'+l.split()[1])]=[float(l.split()[-1])]                 
+    headerlines = headerlines + 1    
     
     if verbose: print '\nRead_PTC_Twiss_Return_Dict found Keywords: \n',keywords
+    
+    # Make a list of column keywords to return (as an aid to iterating)
     dict_keys = []
     for key in keywords.split():
         dict_keys.append(key)
     dict_keys.remove('*')
+    
     if verbose: print '\nRead_PTC_Twiss_Return_Dict Dict Keys: \n',dict_keys
     
+    # Initialise empty dictionary entries for column keywords 
     for key in dict_keys:
         d[key]=[]
         
-    if verbose: print '\nRead_PTC_Twiss_Return_Dict empty dictionary \n', d
+    if verbose: print '\nRead_PTC_Twiss_Return_Dict header only dictionary \n', d
     
     # Strip header
     fin1=open(filename,'r').readlines()[headerlines:]   
     
+    # Populate the dictionary line by line
     for l in fin1:
         i = -1        
         for value in l.split():
@@ -110,4 +128,5 @@ def Read_PTC_Twiss_Return_Dict(filename, verbose=True):
             else:
                 d[dict_keys[i]].append(float(value))    
                 
+    # Return list of column keywords 'dict_keys', and dictionary 'd'
     return dict_keys, d
