@@ -33,6 +33,56 @@ plt.rcParams['legend.fontsize'] = 14
 plt.rcParams['lines.linewidth'] = 1
 plt.rcParams['lines.markersize'] = 5
 
+########################################################################
+# Relativistic Lorentz Factors
+# PSB Params:
+# 50 MeV    gamma =  1.0533     beta = 0.314    SC_Tuneshift ~ 2.87 #obvs not
+# 160 MeV   gamma =  1.1706     beta = 0.5198   SC_Tuneshift ~ 1.4 #obvs not
+#
+# PS Params:
+# 1.4 GeV   gamma = 2.4921      beta = 0.91596  SC_Tuneshift ~ 0.176
+# 2.0 GeV   gamma = 3.1316      beta = 0.9476   SC_Tuneshift ~ 0.108
+#
+# SC tuneshift proportional to 1/beta*gamma^2 gives an idea of trend
+########################################################################
+def LorentzGamma(E_tot, E_rest):
+    return (E_tot / E_rest)
+    
+def LorentzGamma_from_beta(beta):
+    return (1./np.sqrt(1.-beta**2))    
+
+def LorentzBeta(Gamma):
+    return np.sqrt( 1. - (1./gamma**2) )
+
+def RelativisticMomentum(E_rest, gamma)    
+    return (gamma * E_rest * LorentzBeta(gamma))
+
+def z_to_time(z, beta): 
+    c = 299792458
+    return z / (c * beta)
+    
+def E_from_gamma(gamma, rest_mass=938.27208816E6):    # Valid for protons
+    return (gamma*rest_mass)
+
+########################################################################
+# Delta P over P from dE or vice versa
+# dp_ov_p = dE_ov_E/beta^2
+########################################################################
+def dpp_from_dE(dE, E, beta):
+    return (dE / (E * beta**2))
+    
+def dE_from_dpp(dpp, E, beta):
+    return (dpp * E * beta**2)
+
+########################################################################
+# Check if file exists
+########################################################################
+def check_if_file_exists(name):
+    ret_val = False
+    if os.path.isfile(name):
+        print name, ' already exists'
+        ret_val = True
+    return ret_val
 
 ########################################################################
 # GIF From PNG files
@@ -56,6 +106,35 @@ def GIF_from_PNG(input_folder):
     return 1
 
 ########################################################################
+# Sequence centred on 0, evenly distributed 
+########################################################################
+def seq_even_about_start(n_vals, start, stop):
+    n_mp = n_vals
+    interval = 2*(stop-start)/(n_mp-1) 
+
+    print('seq_even_about_start::interval = ', interval)
+
+    positive = np.arange(start, stop+interval, interval)
+    negative = np.arange((-1*stop), start, interval)
+
+    positions = np.concatenate((negative, positive), axis=None)
+    
+    return positions
+
+########################################################################
+# Sequence evenly distributed between start and stop 
+########################################################################
+def seq_start_to_end(n_vals, start, stop):
+    n_mp = n_vals
+    interval = (stop-start)/(n_mp-1) 
+
+    print('seq_even_about_start::interval = ', interval)
+
+    positions = np.arange(start, stop+interval, interval)
+    
+    return positions
+
+########################################################################
 # Round number to n significant figures
 ########################################################################
 def round_sig(x, sig=3):
@@ -67,6 +146,13 @@ def round_sig(x, sig=3):
 def replace_point_with_p(input_str):
     return input_str.replace(".", "p")
 
+# Note that size of programs is (n_sections, n_turns+1)
+print('Momentum : %.5e eV/c' %(ring.momentum[0,0]))
+print('Kinetic energy : %.5e eV' %(ring.kin_energy[0,0]))
+print('Total energy : %.5e eV' %(ring.energy[0,0]))
+print('beta : %.5f' %(ring.beta[0,0]))
+print('gamma : %.5f' %(ring.gamma[0,0]))
+print('Revolution period : %.5e s' %(ring.t_rev[0]))
 
 ########################################################################
 # Read PTC Twiss and return dictionary of columns/values
