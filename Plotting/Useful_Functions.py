@@ -34,7 +34,7 @@ plt.rcParams['lines.linewidth'] = 1
 plt.rcParams['lines.markersize'] = 5
 
 ########################################################################
-# Relativistic Lorentz Factors
+# Relativistic Lorentz Factors (valid for protons)
 # PSB Params:
 # 50 MeV    gamma =  1.0533     beta = 0.314    SC_Tuneshift ~ 2.87 #obvs not
 # 160 MeV   gamma =  1.1706     beta = 0.5198   SC_Tuneshift ~ 1.4 #obvs not
@@ -45,7 +45,7 @@ plt.rcParams['lines.markersize'] = 5
 #
 # SC tuneshift proportional to 1/beta*gamma^2 gives an idea of trend
 ########################################################################
-def LorentzGamma(E_tot, E_rest):
+def LorentzGamma(E_tot, E_rest=938.27208816E6):
     return (E_tot / E_rest)
     
 def LorentzGamma_from_beta(beta):
@@ -54,15 +54,15 @@ def LorentzGamma_from_beta(beta):
 def LorentzBeta(Gamma):
     return np.sqrt( 1. - (1./gamma**2) )
 
-def RelativisticMomentum(E_rest, gamma)    
+def RelativisticMomentum(gamma, E_rest=938.27208816E6):
     return (gamma * E_rest * LorentzBeta(gamma))
 
 def z_to_time(z, beta): 
     c = 299792458
     return z / (c * beta)
     
-def E_from_gamma(gamma, rest_mass=938.27208816E6):    # Valid for protons
-    return (gamma*rest_mass)
+def E_from_gamma(gamma, E_rest=938.27208816E6):
+    return (gamma*E_rest)
 
 ########################################################################
 # Delta P over P from dE or vice versa
