@@ -128,7 +128,7 @@ def seq_start_to_end(n_vals, start, stop):
     n_mp = n_vals
     interval = (stop-start)/(n_mp-1) 
 
-    print('seq_even_about_start::interval = ', interval)
+    print('seq_start_to_end::interval = ', interval)
 
     positions = np.arange(start, stop+interval, interval)
     
