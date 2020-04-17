@@ -135,6 +135,44 @@ def seq_start_to_end(n_vals, start, stop):
     return positions
 
 ########################################################################
+# Sequence evenly distributed between start and stop 
+# With checks to ensure the numbe of values is not exceeded due to 
+# rounding errors etc
+########################################################################
+def seq_start_to_end(n_vals, start, stop):
+    n_mp = n_vals
+    interval = (stop-start)/(n_mp-1)
+
+    print('seq_start_to_end::interval = ', interval)
+
+    positions = np.arange(start, stop+interval, interval)
+    
+    # First check - try rounding
+    if len(positions) != n_vals:
+        for i in sorted(range(10), reverse=True):
+            interval = round_sig((stop-start)/(n_mp-1),5) 
+            positions = np.arange(start, stop+interval, interval)
+            
+            if len(positions) == n_vals: break
+        print('seq_start_to_end::WARNING: output sequence length != input, rounding leads to ', len(positions))
+    
+    # Second check - 
+    if len(positions) != n_vals:
+        cut = (stop-start)/((n_mp-1)*1E4)
+        while len(positions) != n_vals:
+            # If our interval is too large
+            if len(positions) < n_vals:                
+                interval = (stop-start)/(n_mp-1) - cut
+                positions = np.arange(start, stop+interval, interval)                
+            else:                 
+                interval = (stop-start)/(n_mp-1) + cut
+                positions = np.arange(start, stop+interval, interval)
+            
+        print('seq_start_to_end::WARNING: output sequence length != input, cutting leads to ', len(positions))
+      
+    return positions
+
+########################################################################
 # Round number to n significant figures
 ########################################################################
 def round_sig(x, sig=3):
