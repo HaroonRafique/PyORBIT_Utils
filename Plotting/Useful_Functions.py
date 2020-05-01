@@ -254,3 +254,24 @@ def Read_PTC_Twiss_Return_Dict(filename, verbose=True):
                 
     # Return list of column keywords 'dict_keys', and dictionary 'd'
     return dict_keys, d
+
+########################################################################
+# Read PyORBIT bunch matfile
+########################################################################
+def add_bunch_file(dd, filename, label):
+	f = filename
+	p = sio.loadmat(f, squeeze_me=True,  struct_as_record=False)['particles']
+	dd[label] = p
+	print '\tAdded output data from ', filename, '\t dictionary key: ', label
+	return dd
+
+########################################################################
+# Read PyORBIT output matfile
+########################################################################
+def add_input_file(dd, filename, label):
+	f = filename
+	p = dict()
+	sio.loadmat(f, mdict=p)
+	dd[label] = p
+	print '\tAdded output data from ', filename, '\t dictionary key: ', label
+	return dd
