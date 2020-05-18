@@ -34,6 +34,12 @@ plt.rcParams['lines.linewidth'] = 1
 plt.rcParams['lines.markersize'] = 5
 
 ########################################################################
+# Install something via pip on SWAN/Jupyter notebook locally (kernel)
+########################################################################
+import sys
+!{sys.executable} -m pip install --user PyNAFF
+
+########################################################################
 # Relativistic Lorentz Factors (valid for protons)
 # PSB Params:
 # 50 MeV    gamma =  1.0533     beta = 0.314    SC_Tuneshift ~ 2.87 #obvs not
@@ -43,6 +49,32 @@ plt.rcParams['lines.markersize'] = 5
 # 1.4 GeV   gamma = 2.4921      beta = 0.91596  SC_Tuneshift ~ 0.176
 # 2.0 GeV   gamma = 3.1316      beta = 0.9476   SC_Tuneshift ~ 0.108
 #
+#1.4 GeV
+circumference = 2* np.pi * 100
+E_tot_1p4 = (1.4E9 + 938.27208816E6)
+gamma_1p4 = LorentzGamma(E_tot_1p4)
+beta_1p4 = LorentzBeta(gamma_1p4)
+turn_time = circumference / (beta_1p4 * 299792458)
+
+print '1.4 GeV: \n\tgamma = ', round_sig(gamma_1p4), '\n\tbeta = ', round_sig(beta_1p4)
+print '\tCircumference = ', round_sig(circumference,5), ' m'
+print '\tTurn time = ', round_sig(turn_time), ' s'
+print '\t875 turns = ', round_sig((turn_time*875)*1E3), ' ms'
+print '\t1000 turns = ', round_sig((turn_time*1000)*1E3), ' ms'
+
+#2.0 GeV
+circumference = 2* np.pi * 100
+E_tot_2 = (2.01E9 + 938.27208816E6)
+gamma_2 = LorentzGamma(E_tot_2)
+beta_2 = LorentzBeta(gamma_2)
+turn_time_2 = circumference / (beta_2 * 299792458)
+
+print '1.4 GeV: \n\tgamma = ', round_sig(gamma_2), '\n\tbeta = ', round_sig(beta_2)
+print '\tCircumference = ', round_sig(circumference,5), ' m'
+print '\tTurn time = ', round_sig(turn_time_2), ' s'
+print '\t875 turns = ', round_sig((turn_time_2*875)*1E3), ' ms'
+print '\t1000 turns = ', round_sig((turn_time_2*1000)*1E3), ' ms'
+
 # SC tuneshift proportional to 1/beta*gamma^2 gives an idea of trend
 ########################################################################
 def LorentzGamma(E_tot, E_rest=938.27208816E6):
@@ -51,7 +83,7 @@ def LorentzGamma(E_tot, E_rest=938.27208816E6):
 def LorentzGamma_from_beta(beta):
     return (1./np.sqrt(1.-beta**2))    
 
-def LorentzBeta(Gamma):
+def LorentzBeta(gamma):
     return np.sqrt( 1. - (1./gamma**2) )
 
 def RelativisticMomentum(gamma, E_rest=938.27208816E6):
