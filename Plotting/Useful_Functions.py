@@ -215,6 +215,12 @@ def round_sig(x, sig=3):
 ########################################################################
 def replace_point_with_p(input_str):
     return input_str.replace(".", "p")
+    
+def replace_point_with_p(input_str):
+    return str(input_str).replace(".", "p")
+
+def replace_p_with_point(input_str):
+    return int(float(input_str.replace("p", ".")))
 
 # Note that size of programs is (n_sections, n_turns+1)
 print('Momentum : %.5e eV/c' %(ring.momentum[0,0]))
